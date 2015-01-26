@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<template name="ccwidget_serverlist_display">
+		<!-- Header -->
+		<panel height="{headerheight=22}" y="-{headerheight=22}" align="center" blockinput="false" noclick="true">
+			<label x="6" align="left" valign="center" textvalign="center" font="{titlefont=chat_12}" color="{titlecolor=white}" shadow="true" blockinput="false" noclick="true">{title}</label>
+			<panel align="center" width="-2" blockinput="false" noclick="true">
+				<panel name="ccwidget_{id}_maximise2" onshow="SetVisible(!cc_{id}_Maximised);" color="#FFFFFF99" texture="/ui/elements/sort_up.tga" visible="1" x="-24" width="14" height="14" align="right" valign="center">
+					<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_expand.mp3'); If(cc_{id}_RememberPosition,SetSave('cc_{id}_Maximised',1),Set('cc_{id}_Maximised',1)); HideWidget('ccwidget_{id}_maximise2'); ShowWidget('ccwidget_{id}_restore2'); Call('ccwidget_{id}','SetX(0); SetY(0); SetWidth(-2); SetHeight(-1); BringToFront(); SetFocus(1);'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_blocker'); CreateInt('_temp','0'); Call('ccpushbutton_serverlistfilters_button_down','If(IsVisible(),Set(\'_temp\',1));'); If(_temp,Call('ccwidget_serverlist','SetX(160); SetWidth(-162);'));" onrightclick="SetFocus(1);" onfocus="ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');" onmouseover="Call('ccwidget_{id}{nick}_maximise2','SetColor(\'#FFFFFFFF\');');" onmouseout="Call('ccwidget_{id}{nick}_maximise2','SetColor(\'#FFFFFF99\');');"/>
+				</panel>
+				<panel name="ccwidget_{id}_restore2" onshow="SetVisible(cc_{id}_Maximised);" color="#FFFFFF99" texture="/ui/elements/sort_down.tga" visible="0" x="-24" width="14" height="14" align="right" valign="center">
+					<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_minimize.mp3'); If(cc_{id}_RememberPosition,SetSave('cc_{id}_Maximised',0),Set('cc_{id}_Maximised',0)); HideWidget('ccwidget_{id}_restore2'); ShowWidget('ccwidget_{id}_maximise2'); Call('ccwidget_{id}','SetX(cc_{id}_X-1); SetY(cc_{id}_Y-1); SetWidth(cc_{id}_Width); SetHeight(cc_{id}_Height+{headerheight=22}+(If({footer=1},{footerheight=28},0))); BringToFront(); SetFocus(1);'); Call('ccbar', 'BringToFront();'); HideWidget('ccwidget_{id}_blocker');" onrightclick="SetFocus(1);" onfocus="ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');" onmouseover="Call('ccwidget_{id}{nick}_restore2','SetColor(\'#FFFFFFFF\');');" onmouseout="Call('ccwidget_{id}{nick}_restore2','SetColor(\'#FFFFFF99\');');"/>
+				</panel>
+				<panel name="ccwidget_{id}_resizebutton2" onshow="SetVisible(!cc_{id}_Maximised);" color="#FFFFFF99" texture="/ui/elements/resize.tga" visible="1" x="-43" width="14" height="14" align="right" valign="center">
+					<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); ShowWidget('ccwidget_{id}{nick}_resize');" onrightclick="SetFocus(1);" onfocus="ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');" onmouseover="Call('ccwidget_{id}{nick}_resizebutton2','SetColor(\'#FFFFFFFF\');');" onmouseout="Call('ccwidget_{id}{nick}_resizebutton2','SetColor(\'#FFFFFF99\');');"/>
+				</panel>
+			</panel>
+		</panel>
+		<panel name="serverlist_filters" visible="0" x="-161" width="160" blockinput="false" noclick="true" watch="GameListPlayers UnofficialGameListPlayers" ontrigger="Call('ccbutton_serverlistrefresh_button','SetEnabled(0);'); SleepWidget(300);" onwake="Call('ccbutton_serverlistrefresh_button','SetEnabled(1);'); Set('cc_serverlist_updating',false);">
+			<frame texture="/ui/frames/rounded_left_bg_white.tga" borderthickness="8" color="#00000099" blockinput="false" noclick="true"/>
+			<frame texture="/ui/frames/roundframe_left.tga" color="{tooltipbordercolor=#A0A0A077}" borderthickness="8" blockinput="false" noclick="true"/>
+			<panel name="work_window" height="-63" align="center" color="invisible" float="bottom" padding="1" blockinput="false" noclick="true">
+				<panel height="28" blockinput="false" noclick="true">
+					<label x="6" width="-20" height="100%" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Show Full:</label>
+					<instance name="cccheckbox" parentid="{id}" cvar="filter_showfull" checked="true" width="20" height="20" x="-25" align="right" valign="center" oncheck="BrowserShowFull(true);" onuncheck="BrowserShowFull(false);" bordercolor="{bordercolor=#A0A0A077}"/>
+				</panel>
+				<panel height="28" blockinput="false" noclick="true">
+					<label x="6" width="-20" height="100%" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Show Empty:</label>
+					<instance name="cccheckbox" parentid="{id}" cvar="filter_showempty" checked="true" width="20" height="20" x="-25" align="right" valign="center" oncheck="BrowserShowEmpty(true);" onuncheck="BrowserShowEmpty(false);" bordercolor="{bordercolor=#A0A0A077}"/>
+				</panel>
+				<panel height="28" blockinput="false" noclick="true">
+					<label x="6" width="-20" height="100%" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Show Sandboxes:</label>
+					<instance name="cccheckbox" parentid="{id}" cvar="filter_showsandboxes" width="20" height="20" x="-25" align="right" valign="center" oncheck="BrowserShowSandbox(true);" onuncheck="BrowserShowSandbox(false);" bordercolor="{bordercolor=#A0A0A077}"/>
+				</panel>
+				<panel height="28" blockinput="false" noclick="true">
+					<label y="-1" x="6" width="-20" height="100%" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Max Ping:</label>
+					<instance name="cceditbox" parentid="{id}" cvar="filter_maxping" x="-10" y="4" align="right" height="22" width="80" bordercolor="{bordercolor=#A0A0A077}" onchange="If(this,BrowserSetMaxPing(this),BrowserSetMaxPing(-1));" onesc="EraseInputLine();"/>
+				</panel>
+				<panel height="28" blockinput="false" noclick="true"></panel>
+				<panel height="28" blockinput="false" noclick="true">
+					<label y="-1" x="6" width="-20" height="100%" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Map:</label>
+					<instance name="cceditbox" parentid="{id}" cvar="filter_map" x="-10" y="4" align="right" height="22" width="80" bordercolor="{bordercolor=#A0A0A077}" onchange="BrowserSetMapFilter(this);" onesc="EraseInputLine();"/>
+				</panel>
+				<panel height="28" blockinput="false" noclick="true">
+					<label x="6" width="-20" height="100%" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Different Version:</label>
+					<instance name="cccheckbox" parentid="{id}" cvar="filter_diffver" width="20" height="20" x="-25" align="right" valign="center" oncheck="BrowserShowDiffVersion(true);" onuncheck="BrowserShowDiffVersion(false);" bordercolor="{bordercolor=#A0A0A077}"/>
+				</panel>
+				<panel height="28" blockinput="false" noclick="true">
+					<label x="6" width="-20" height="100%" textvalign="center" align="left" font="chat_12" color="white" shadow="true">All Level Ranges:</label>
+					<instance name="cccheckbox" parentid="{id}" cvar="filter_showalllvls" width="20" height="20" x="-25" align="right" valign="center" oncheck="BrowserShowDiffLevelRange(true);" onuncheck="BrowserShowDiffLevelRange(false);" bordercolor="{bordercolor=#A0A0A077}"/>
+				</panel>
+				<panel height="28" blockinput="false" noclick="true">
+					<label x="6" width="-20" height="100%" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Unresponsive:</label>
+					<instance name="cccheckbox" parentid="{id}" cvar="filter_showunresponsive" width="20" height="20" x="-25" align="right" valign="center" oncheck="BrowserShowUnresponsive(true);" onuncheck="BrowserShowUnresponsive(false);" bordercolor="{bordercolor=#A0A0A077}"/>
+				</panel>
+				<panel height="35" blockinput="false" noclick="true">
+					<instance name="ccbutton" parentid="{id}" align="center" valign="center" width="80" height="20" label="Save" onclick="SetSave('filter_showfull'); SetSave('filter_showempty'); SetSave('filter_showsandboxes'); SetSave('filter_maxping'); SetSave('filter_map'); SetSave('filter_diffver'); SetSave('filter_showalllvls'); SetSave('filter_showunresponsive'); SetSave('filter_races');" bordercolor="{bordercolor=#A0A0A077}"/>
+				</panel>
+			</panel>
+			<panel height="28" y="116" blockinput="false" noclick="true">
+				<label y="-1" x="6" width="-20" height="100%" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Races:</label>
+				<instance name="cccombobox" parentid="{id}" x="-10" align="right" valign="center" width="80" height="22" maxlistheight="4" listbgheight="90" rendermode="grayscale" item1="" label1="Any" item2="HvB" label2="H Vs. B" item3="HvH" label3="H Vs. H" item4="BvB" label4="B Vs. B" cvar="filter_races" onselect="BrowserSetRaceFilter(this);" bordercolor="{bordercolor=#A0A0A077}"/>
+			</panel>
+		</panel>
+		<panel sticky="true" stickysizing="true" blockinput="false" noclick="true"
+      onload="
+        CreateBool('cc_serverlist_updating',false);
+        If(!filter_showfull,CreateBool('filter_showfull',true)); BrowserShowFull(filter_showfull); 
+        If(!filter_showempty,CreateBool('filter_showempty',true)); BrowserShowEmpty(filter_showempty); 
+        If(!filter_showsandboxes,CreateBool('filter_showsandboxes',true)); BrowserShowSandbox(filter_showsandboxes);
+        If(!StringLength(filter_maxping),CreateString('filter_maxping','')); BrowserSetMaxPing(If(StringLength(filter_maxping),filter_maxping,-1));
+        If(!StringLength(filter_map),CreateString('filter_map','')); BrowserSetMapFilter(filter_map);
+        If(!filter_diffver,CreateBool('filter_diffver',false)); BrowserShowDiffVersion(filter_diffver);
+        If(!filter_showalllvls,CreateBool('filter_showalllvls',false)); BrowserShowDiffLevelRange(filter_showalllvls);
+        If(!filter_showunresponsive,CreateBool('filter_showunresponsive',false)); BrowserShowUnresponsive(filter_showunresponsive);
+        If(!StringLength(filter_races),CreateString('filter_races','')); BrowserSetRaceFilter(filter_races);">
+			<panel name="serverlist_connecttonum" onwake="echo(_cc_browser_last_selected_server); ConnectToServerNum(_cc_browser_last_selected_server); HideWidget('ccwidget_connectpassword');" width="0" height="0" visible="false"/>
+			<panel name="serverlist_connecttoip" onwake="echo(_target_ip); Connect(_target_ip); Call('cceditbox_connecttoipip_textbox','EraseInputLine();'); HideWidget('ccwidget_connecttoip');" width="0" height="0" visible="false"/>
+			<panel name="ccwidget_serverlist_selected" height="10%" width="-2" color="1 .1 0 .5" visible="0"/>
+			<table name="serverlist_list" align="top" color="#00000077" rows="10" 
+        cols="3%,5%,7%,4%,17.5%,6%,6%,7%,5%,6%,10%,10%,11%,2%" expandable="true" 
+        rowheight="10%" font="chat_12" bordercolor="invisible" 
+        headings="S2,Ping,Location,,Server Name,MinLvl,MaxLvl,Players,Min,Race,Map,Next Map,Game Time," 
+        headingid="-2" headingcolor="#77777766" altrowcolor="#33333366" 
+        usescrollbar="true" scrolltexture="/ui/elements/vist_scroll.tga" 
+        rendermode="{rendermode}" handleheight="48" watch="GameList UnofficialGameList LocalGameList" 
+        textalign="center" textvalign="center" 
+        onshow="HideWidget('ccwidget_connectpassword'); HideWidget('ccwidget_connecttoip');"
+        onload="
+          CreateInt('_cc_browser_last_selected_server', -1); 
+          CreateInt('_cc_valid_server', 0); CreateInt('_reverse_sort', 0); 
+          CreateInt('_last_sorted', 0); SortByColNum(1);" 
+        onclick="
+          HideWidget('ccwidget_connectpassword'); HideWidget('ccwidget_connecttoip');
+          SetFocus(1); _cc_valid_server = (dataid != -1); If(_cc_valid_server, Set(_cc_valid_server, dataid != -2)));
+          If(_cc_valid_server, Set(_cc_valid_server, (dataid != 0)));
+          If(_cc_valid_server, Set(_cc_browser_last_selected_server, dataid));
+          If(_cc_valid_server, Call('ccwidget_serverlist_selected', 'SetVisible(true); SetY(\'' # GetCellPositionY(col, row) # '\');'));
+          If(dataid == -2 and _last_sorted == col, Set(_reverse_sort, 1)); If(dataid == -2 and _last_sorted != col, Set(_reverse_sort, 0));
+          If(_reverse_sort and dataid == -2 and col == 1, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col == 5, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col == 6, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col == 7, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col == 8, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col != 1 and col != 5 and col != 6 and col != 7 and col != 8, SortByColReverse(col));
+          If(_reverse_sort and dataid == -2, Set(_last_sorted, -1)); If(!_reverse_sort and dataid == -2 and col == 1, SortByColNum(col));
+          If(!_reverse_sort and dataid == -2 and col == 5, SortByColNum(col)); If(!_reverse_sort and dataid == -2 and col == 6, SortByColNum(col)); 
+          If(!_reverse_sort and dataid == -2 and col == 7, SortByColNum(col)); If(!_reverse_sort and dataid == -2 and col == 8, SortByColNum(col));
+          If(!_reverse_sort and dataid == -2 and col != 1 and col != 5 and col != 6 and col != 7 and col != 8, SortByCol(col));
+          If(!_reverse_sort and dataid == -2, Set(_last_sorted, col));"
+        ondoubleclick="
+          SetFocus(1); _cc_valid_server = (dataid != -1); 
+          If(_cc_valid_server, Set(_cc_valid_server, dataid != -2)));
+          If(_cc_valid_server, Set(_cc_valid_server, (dataid != 0)));
+          If(_cc_valid_server, Set(_cc_browser_last_selected_server, dataid));
+          If(_cc_valid_server, Call('ccwidget_serverlist_selected', 'SetVisible(true); SetY(\'' # GetCellPositionY(col, row) # '\');'));
+          If(_cc_valid_server and !IsServerNumPassworded(dataid), Split(Disconnect(), Call('serverlist_connecttonum', 'SleepWidget(10);')));
+          If(_cc_valid_server and IsServerNumPassworded(dataid), ShowWidget('ccwidget_connectpassword'));
+          If(dataid == -2 and _last_sorted == col, Set(_reverse_sort, 1));
+          If(dataid == -2 and _last_sorted != col, Set(_reverse_sort, 0));
+          If(_reverse_sort and dataid == -2 and col == 1, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col == 5, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col == 6, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col == 7, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col == 8, SortByColNumReverse(col));
+          If(_reverse_sort and dataid == -2 and col != 1 and col != 5 and col != 6 and col != 7 and col != 8, SortByColReverse(col));
+          If(_reverse_sort and dataid == -2, Set(_last_sorted, -1));
+          If(!_reverse_sort and dataid == -2 and col == 1, SortByColNum(col));
+          If(!_reverse_sort and dataid == -2 and col == 5, SortByColNum(col));
+          If(!_reverse_sort and dataid == -2 and col == 6, SortByColNum(col));
+          If(!_reverse_sort and dataid == -2 and col == 7, SortByColNum(col));
+          If(!_reverse_sort and dataid == -2 and col == 8, SortByColNum(col));
+          If(!_reverse_sort and dataid == -2 and col != 1 and col != 5 and col != 6 and col != 7 and col != 8, SortByCol(col));
+          If(!_reverse_sort and dataid == -2, Set(_last_sorted, col));"
+        onclear="HideWidget('ccwidget_serverlist_selected'); _cc_valid_server = 0; _cc_browser_last_selected_server = -1;" 
+        onfocus="If(StringLength('{id}'),Split(Call('ccwidget_{id}','BringToFront();'),Call('ccbar', 'BringToFront();'),ShowWidget('ccwidget_{id}_focus')));" 
+        onlosefocus="If(StringLength('{id}'),HideWidget('ccwidget_{id}_focus'));"/>
+		</panel>
+		<panel align="center" valign="center" height="105" width="300" blockinput="false" noclick="true">
+			<instance name="ccwidget" parentid="{id}" id="connecttoip" title="Connect to IP" height="55" width="300" x="0" y="0" bordercolor="{bordercolor=#A0A0A077}" canmove="false" canresize="false"/>
+			<instance name="ccwidget" parentid="{id}" id="connectpassword" title="Connect Password" height="28" width="300" x="0" y="0" bordercolor="{bordercolor=#A0A0A077}" canmove="false" canresize="false"/>
+		</panel>
+		<!-- Footer -->
+		<panel height="{footerheight=28}" y="{footerheight=28}" visible="{footer=1}" valign="bottom" blockinput="false" noclick="true">
+			<instance parentid="{id}" align="left" valign="center" x="3" name="ccpushbutton" id="filters" label="Filters" ondown="ShowWidget('serverlist_filters'); If(cc_{id}_Maximised,Call('ccwidget_serverlist','SetX(160); SetWidth(-162);'));" onup="HideWidget('serverlist_filters'); If(cc_{id}_Maximised,Call('ccwidget_serverlist','SetX(0); SetWidth(-2);'));" width="120" height="20" bordercolor="{bordercolor=#A0A0A077}"/>
+			<instance parentid="{id}" align="center" valign="center" name="ccbutton" id="refresh" label="Refresh" onclick="Set('cc_serverlist_updating',true); RefreshServerList(); SetEnabled(0);" width="120" height="20" bordercolor="{bordercolor=#A0A0A077}"/>
+			<instance parentid="{id}" x="-3" align="right" valign="center" name="ccbutton" label="Connect to IP" onclick="ShowWidget('ccwidget_connecttoip'); SetFocusName('cceditbox_connecttoipip_textbox');" width="120" height="20" bordercolor="{bordercolor=#A0A0A077}"/>
+		</panel>
+	</template>
+	<template name="ccwidget_connecttoip_display">
+		<!-- Focus Button -->
+		<button color="invisible" onshow="HideWidget('ccwidget_connectpassword');" onrightclick="SetFocus(1);" onclick="SetFocus(1);" onfocus="Call('ccwidget_{parentid}','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+		<!-- Header -->
+		<panel height="{headerheight=22}" y="-{headerheight=22}" align="center" blockinput="false" noclick="true">
+			<button color="invisible" onrightclick="SetFocus(1);" onclick="SetFocus(1);" onfocus="Call('ccwidget_{parentid}','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+			<label x="6" align="left" valign="center" textvalign="center" font="{titlefont=chat_12}" color="{titlecolor=white}" shadow="true" blockinput="false" noclick="true">{title}</label>
+			<panel align="center" width="-2" blockinput="false" noclick="true">
+				<button name="ccwidget_{id}_close2" x="-5" width="14" height="14" align="right" valign="center" color="#FFFFFF99" texture="/ui/elements/xbutton.tga" onrightclick="SetFocus(1);" onclick="PlaySound('/ui/sounds/close.mp3'); HideWidget('ccwidget_{id}'); SetFocusName('ccwidget_{parentid}');" onfocus="ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+			</panel>
+		</panel>
+		<label x="5" width="40" y="4" height="24" align="left" textvalign="center" textalign="left" font="chat_12" color="white" shadow="true" blockinput="false" noclick="true">IP:</label>
+		<instance name="cceditbox" parentid="{id}" id="ip" taborder="101" x="-5" width="-50" y="4" height="20" align="right" bordercolor="{bordercolor=#A0A0A077}" cvar="_target_ip" onshow="SetFocus(true);" onesc="EraseInputLine();" onenter="Disconnect(); EraseInputLine(); Call('serverlist_connecttoip','SleepWidget(10);');"/>
+		<label x="5" width="40" y="29" align="left" height="24" textvalign="center" textalign="left" font="chat_12" color="white" shadow="true" blockinput="false" noclick="true">Pass:</label>
+		<instance name="cceditbox" parentid="{id}" id="pass" taborder="102" x="-5" width="-50" y="29" height="20" align="right" bordercolor="{bordercolor=#A0A0A077}" passwordchar="*" onchange="If(StringLength(this) gt 0, Set('cl_password', this));" onesc="EraseInputLine();" onenter="Disconnect(); Call('serverlist_connecttoip','SleepWidget(10);');"/>
+		<!-- Footer -->
+		<panel height="{footerheight=28}" y="{footerheight=28}" visible="{footer=1}" valign="bottom" blockinput="false" noclick="true">
+			<button color="invisible" onrightclick="SetFocus(1);" onclick="SetFocus(1);" onfocus="Call('ccwidget_{parentid}','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+			<instance parentid="{id}" align="center" y="4" width="100" height="20" name="ccbutton" label="Connect" onclick="Disconnect(); Call('serverlist_connecttoip','SleepWidget(10);');" bordercolor="{bordercolor=#A0A0A077}" />
+		</panel>
+	</template>
+	<template name="ccwidget_connectpassword_display">
+		<!-- Focus Button -->
+		<button color="invisible" onshow="HideWidget('ccwidget_connecttoip');" onrightclick="SetFocus(1);" onclick="SetFocus(1);" onfocus="Call('ccwidget_{parentid}','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+		<!-- Header -->
+		<panel height="{headerheight=22}" y="-{headerheight=22}" align="center" blockinput="false" noclick="true">
+			<button color="invisible" onrightclick="SetFocus(1);" onclick="SetFocus(1);" onfocus="Call('ccwidget_{parentid}','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+			<label x="6" align="left" valign="center" textvalign="center" font="{titlefont=chat_12}" color="{titlecolor=white}" shadow="true" blockinput="false" noclick="true">{title}</label>
+			<panel align="center" width="-2" blockinput="false" noclick="true">
+				<button name="ccwidget_{id}_close2" x="-5" width="14" height="14" align="right" valign="center" color="#FFFFFF99" texture="/ui/elements/xbutton.tga" onrightclick="SetFocus(1);" onclick="PlaySound('/ui/sounds/close.mp3'); HideWidget('ccwidget_{id}'); SetFocusName('ccwidget_{parentid}');" onfocus="ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+			</panel>
+		</panel>
+		<label x="5" width="40" y="4" height="24" align="left" textvalign="center" textalign="left" font="chat_12" color="white" shadow="true" blockinput="false" noclick="true">Pass:</label>
+		<instance name="cceditbox" parentid="{id}" id="pass" taborder="101" x="-5" width="-50" y="4" height="20" align="right" bordercolor="{bordercolor=#A0A0A077}" passwordchar="*" onshow="SetFocus(true);" onchange="If(StringLength(this) gt 0, Set('cl_password', this));" onesc="EraseInputLine();" onenter="Disconnect(); Call('serverlist_connecttonum','SleepWidget(10);');"/>
+		<!-- Footer -->
+		<panel height="{footerheight=28}" y="{footerheight=28}" visible="{footer=1}" valign="bottom" blockinput="false" noclick="true">
+			<button color="invisible" onrightclick="SetFocus(1);" onclick="SetFocus(1);" onfocus="Call('ccwidget_{parentid}','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+			<instance parentid="{id}" align="center" y="4" width="100" height="20" name="ccbutton" label="Connect" onclick="Disconnect(); Call('serverlist_connecttonum','SleepWidget(10);');" bordercolor="{bordercolor=#A0A0A077}" />
+		</panel>
+	</template>
+	<instance name="ccwidget" id="serverlist" title="Server List" height="300" width="754" rendermode="grayscale" canresize="0"/>
+</include>

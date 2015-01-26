@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="skull02_recover04.max" file="replays.model" type="K2">
+	<anim name="start" clip="replays.clip" startframe="0" numframes="90" loop="false" />
+	<anim name="idle" clip="replays.clip" startframe="90" numframes="0" loopbackframe="90" loop="true" />
+	
+	<anim name="hover" clip="replays.clip" startframe="91" numframes="2" loopbackframe="92" loop="true" />
+	<anim name="mouseout" clip="replays.clip" startframe="93" numframes="1" loopbackframe="93" loop="true" />
+	<anim name="return" clip="replays.clip" startframe="0" numframes="90" loop="false" fps="45" />		
+	<anim name="login" clip="replays.clip" startframe="200" numframes="10" loopbackframe="209" loop="true" fps="17"/>	
+	<anim name="loginback" clip="replays.clip" startframe="210" numframes="10" loop="false" fps="15"/>	
+	<anim name="out" clip="replays.clip" startframe="100" numframes="50" loopbackframe="149" loop="true" fps="50"/>		
+</model>

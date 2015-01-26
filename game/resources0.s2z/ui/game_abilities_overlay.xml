@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_abilities_overlay">	
+	<style name="vert_bar" valign="center"  color="#FFFFFF66"/>
+	
+	<style name="scores_row1" color="#00000000"/>
+	<style name="scores_row2" color="#00000011"/>	
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>
+
+	
+	
+	<template name="abilities">
+		<panel height="80"  color="invisible"  sticky="true" stickytoinvis="false" watch="InventoryIsAbility{index}" ontrigger="SetVisible(param);">
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="0 0 0 .4" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5" y="5" height="32" width="-10" > 
+				<image height="32" width="32" watch="InventoryEntity{index}" ontrigger="SetTexture(*(param # '_iconpath'));" texture="/ui/elements/empty_logo.tga"/>
+				<panel width="-32" color="invisible" align="right"> 
+					<label width="50%" x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow" watch="InventoryName{index}" ontrigger="SetText(param);" shadow="true">Stone Bombardment</label>
+					
+					<label width="50%" x="40" y="2"  height="12"  valign="top" align="center" textalign="center" font="chat_10" color="yellow" watch="InventoryPrerequisite{index}" ontrigger="SetText('^wRequires:^* ' # param);" shadow="true">Requires: ^yArmory^*</label>
+					
+					<label width="50%" x="4" y="-5" align="left" textalign="left" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryType{index}" ontrigger="SetText('^yAbility Type:^* ' # param);" shadow="true">^yAbility Type:^* Melee Weapon</label>
+					<image align="right" x="-30" height="16" width="16" texture="/ui/elements/mana_icon.tga"/>
+					<label width="30" x="0" y="2" height="10"  valign="top" align="right" textalign="center" font="chat_10" color="cyan" watch="InventoryManaCost{index}" ontrigger="SetText(param);" shadow="true"></label>
+					<label width="50%" x="-4" y="-5" align="right" textalign="right" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryCooldown{index}" ontrigger="SetText('^yCooldown:^* ' # param);" shadow="true">^yCooldown:^* {cooldown}s</label>					
+				</panel>
+				<panel height="50" y="34" color="invisible" >
+					<label width="100%" x="4"  valign="top" align="left" textalign="left" font="chat_9" wrap="true" color="white" watch="InventoryDescription{index}" ontrigger="SetText(param);" shadow="true">lots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeah lots</label>
+				</panel>
+			</panel>
+		</panel>
+	</template>
+
+	<template name="rangedammo">
+		<panel height="60"  color="invisible" sticky="true" stickytoinvis="false" watch="InventoryRangedAmmo{index}"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .4" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10"  color="invisible" valign="center"> 
+				<image height="42" width="42" valign="center" watch="InventoryEntity{index}" ontrigger="SetTexture(*(param # '_iconpath'));" texture="/ui/elements/empty_logo.tga"/>
+				 
+				<panel width="-46" color="invisible" align="right"> 
+					<label width="50%" x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow" watch="InventoryName{index}" ontrigger="SetText(param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" watch="InventoryType{index}" ontrigger="SetText('^yAbility Type:^* ' # param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="-5" align="left" textalign="left" valign="bottom" height="10"  font="chat_10" color="white"  watch="InventoryPrerequisite{index}" ontrigger="SetText('^wRequires:^* ' # param);" shadow="true">^yRequires:^* Armory</label>
+					
+					<label width="50%" x="-4" y="2" height="10"  valign="top" align="right" textalign="right" font="chat_10" color="cyan"  watch="InventoryRangedDamage{index}" ontrigger="SetText('Damage: ' # param);" shadow="true">Damage: 120-300</label>
+					<label width="50%" x="-4" y="-5" align="right" textalign="right" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryAmmo{index}" ontrigger="SetText('^yAmmo:^* ' # param);" shadow="true">^yAmmo:^* 30</label>					
+				</panel>
+			</panel>
+		</panel>
+	</template>	
+	
+	<template name="rangedmana">
+		<panel height="60"  color="invisible" sticky="true" stickytoinvis="false" watch="InventoryRangedMana{index}"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .4" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" width="42"  valign="center" watch="InventoryEntity{index}" ontrigger="SetTexture(*(param # '_iconpath'));" texture="/ui/elements/empty_logo.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label width="50%" x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow" watch="InventoryName{index}" ontrigger="SetText(param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" watch="InventoryType{index}" ontrigger="SetText('^yAbility Type:^* ' # param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="-5" align="left" textalign="left" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryPrerequisite{index}" ontrigger="SetText('^wRequires:^* ' # param);" shadow="true">^yRequires:^* Armory</label>
+					
+					<label width="50%" x="-4" y="2" height="10"  valign="top" align="right" textalign="right" font="chat_10" color="cyan" shadow="true">Damage: 120-300</label>
+					
+
+					<image align="right" x="-30" y="1" valign="bottom" height="16" width="16" texture="/ui/elements/mana_icon.tga"/>
+					<label width="30" x="0" y="-5" valign="bottom" height="10"   align="right" textalign="center" font="chat_10" color="cyan" watch="InventoryManaCost{index}" ontrigger="SetText(param);" shadow="true"></label>					
+				</panel>
+			</panel>
+		</panel>
+	</template>		
+	
+	
+	<template name="melee">
+		<panel height="60"  color="invisible" sticky="true" stickytoinvis="false" watch="InventoryMelee{index}"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .4" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" valign="center" width="42" watch="InventoryEntity{index}" ontrigger="SetTexture(*(param # '_iconpath'));" texture="/ui/elements/empty_logo.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label width="50%" x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow"  watch="InventoryName{index}" ontrigger="SetText(param);" shadow="true">Battle Axe</label>
+					<label width="50%" x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" watch="InventoryType{index}" ontrigger="SetText(param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="-5" align="left" textalign="left" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryPrerequisite{index}" ontrigger="SetText('^wRequires:^* ' # param);" shadow="true"></label>
+					
+					<label width="50%" x="-52" y="-4" height="10"  valign="top" align="right" textalign="right" font="chat_10" color="white"  shadow="true">^yQuick Atk Dmg:^*</label>
+					<label width="50%" x="-52" y="8" height="10"  valign="top" align="right" textalign="right" font="chat_10" color="white" shadow="true">^yQuick Atk Speed:^*</label>
+					
+					<label width="54" x="0" y="-4" height="10"  valign="top" align="right" textalign="center" font="chat_10" color="white" watch="InventoryQuickAttackDamage{index}" ontrigger="SetText(param);" shadow="true"></label>
+					<label width="54" x="0" y="8" height="10"  valign="top" align="right" textalign="center" font="chat_10" color="white" watch="InventoryQuickAttackSpeed{index}" ontrigger="SetText(param #' ms');" shadow="true"></label>					
+					
+				</panel>
+			</panel>
+		</panel>
+	</template>
+	
+	<panel texture="/ui/elements/score_grad.tga">
+		<panel color="invisible" align="center" valign="center" width="1024" height="768">
+
+			<panel y="4" x="10" width="52%" color="invisible">	
+				<panel height="20">
+					<frame  x="0" style="lobby_window_header_bg" height="100%"  texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+					<frame  x="0" texture="/ui/frames/roundframe_header.tga" height="100%"  color="#863838" borderthickness="8">
+						<label x="7" align="left" valign="center" textvalign="center" height="20" font="chat_12" color="white" shadow="true">Special Abilities</label>							
+					</frame>
+				</panel>
+
+				<panel y="36" align="left" float="bottom" stickytoinvis="false" color="invisible" padding="4" watch="Entity" ontrigger="If(!StringEquals(_lastentity, param), Split(Set(_curability, 0), Set(_abilitystart, 0), Set(_lastentity, param), RefreshInterface()));">
+					<instance name="abilities" manacost="99" cooldown="99" index="0"/>								
+					<instance name="abilities" manacost="99" cooldown="99" index="1"/>								
+					<instance name="abilities" manacost="99" cooldown="99" index="2"/>	
+					<instance name="abilities" manacost="99" cooldown="99" index="3"/>								
+					<instance name="abilities" manacost="99" cooldown="99" index="4"/>		
+					<instance name="abilities" manacost="99" cooldown="99" index="5"/>								
+					<instance name="abilities" manacost="99" cooldown="99" index="6"/>							
+					<instance name="abilities" manacost="99" cooldown="99" index="7"/>
+					<instance name="abilities" manacost="99" cooldown="99" index="8"/>
+				</panel>
+			</panel>
+
+			<panel x="-10" y="4"   height="300" align="right" width="44%" color="invisible">					
+				<panel height="20">
+					<frame  x="0" style="lobby_window_header_bg" height="100%" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+					<frame  x="0" texture="/ui/frames/roundframe_header.tga" height="100%"  color="#863838" borderthickness="8">
+						<label x="7" align="left" valign="center" textvalign="center" height="20" font="chat_12" color="white" shadow="true">Weapons</label>							
+					</frame>
+				</panel>
+				<panel y="18" float="bottom" padding="4" watch="Entity" ontrigger="SetVisible(!StringEquals(Entity,'Player_Observer'));">	
+					
+					<instance name="melee" manacost="99" cooldown="99" index="0"/>								
+					<instance name="melee" manacost="99" cooldown="99" index="1"/>								
+					<instance name="melee" manacost="99" cooldown="99" index="2"/>	
+					<instance name="melee" manacost="99" cooldown="99" index="3"/>								
+					<instance name="melee" manacost="99" cooldown="99" index="4"/>								
+					<instance name="melee" manacost="99" cooldown="99" index="5"/>								
+					<instance name="melee" manacost="99" cooldown="99" index="6"/>	
+					<instance name="melee" manacost="99" cooldown="99" index="7"/>	
+					<instance name="melee" manacost="99" cooldown="99" index="8"/>	
+					
+					<instance name="rangedammo" manacost="99" cooldown="99" index="0"/>								
+					<instance name="rangedammo" manacost="99" cooldown="99" index="1"/>								
+					<instance name="rangedammo" manacost="99" cooldown="99" index="2"/>	
+					<instance name="rangedammo" manacost="99" cooldown="99" index="3"/>								
+					<instance name="rangedammo" manacost="99" cooldown="99" index="4"/>								
+					<instance name="rangedammo" manacost="99" cooldown="99" index="5"/>								
+					<instance name="rangedammo" manacost="99" cooldown="99" index="6"/>							
+					<instance name="rangedammo" manacost="99" cooldown="99" index="7"/>							
+					<instance name="rangedammo" manacost="99" cooldown="99" index="8"/>							
+					
+					<instance name="rangedmana" manacost="99" cooldown="99" index="0"/>								
+					<instance name="rangedmana" manacost="99" cooldown="99" index="1"/>								
+					<instance name="rangedmana" manacost="99" cooldown="99" index="2"/>	
+					<instance name="rangedmana" manacost="99" cooldown="99" index="3"/>								
+					<instance name="rangedmana" manacost="99" cooldown="99" index="4"/>								
+					<instance name="rangedmana" manacost="99" cooldown="99" index="5"/>								
+					<instance name="rangedmana" manacost="99" cooldown="99" index="6"/>							
+					<instance name="rangedmana" manacost="99" cooldown="99" index="7"/>							
+					<instance name="rangedmana" manacost="99" cooldown="99" index="8"/>							
+				</panel>
+			</panel>
+
+		</panel>
+	</panel>
+</interface>

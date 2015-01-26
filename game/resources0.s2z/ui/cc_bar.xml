@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<template name="ccbarbuttonmenu_item">
+		<panel height="14" noclick="1" sticky="true">
+			<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); {cmd}" onfocus="ShowWidget('ccwidget_{id}_menu');" onlosefocus="HideWidget('ccwidget_{id}_menu');">
+				<widgetstate statename="up">
+					<label x="8" align="center" textalign="center" textvalign="center" color="#DDDDDDDD" font="chat_12" blockinput="false" noclick="true">{label}</label>
+				</widgetstate>
+				<widgetstate statename="down">
+					<label x="8" align="center" textalign="center" textvalign="center" color="#DDDDDDDD" font="chat_12" blockinput="false" noclick="true">{label}</label>
+				</widgetstate>
+				<widgetstate statename="over">
+					<label x="8" align="center" textalign="center" textvalign="center" color="white" font="chat_12" blockinput="false" noclick="true">{label}</label>
+				</widgetstate>
+				<widgetstate statename="disabled">
+					<label x="8" align="center" textalign="center" textvalign="center" color="#888888DD" font="chat_12" blockinput="false" noclick="true">{label}</label>
+				</widgetstate>
+			</button>
+		</panel>
+	</template>
+	<template name="ccbarbuttonmenu_toggle">
+		<panel height="14" noclick="1" sticky="true">>
+			<panel x="8" width="100%" height="18" align="center" valign="center" noclick="true">
+				<button color="invisible" enabled="{enabled}" numstates="2" cvar="{cvar}" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); {cmd}" onfocus="ShowWidget('ccwidget_{id}_menu');" onlosefocus="HideWidget('ccwidget_{id}_menu');">
+					<widgetstate statename="up" float="right" padding="4">
+						<label width="-18" height="100%" textvalign="center" font="chat_12" color="#DDDDDDDD" shadow="true">{label}</label>
+					</widgetstate>
+					<widgetstate statename="over" float="right" padding="4">
+						<label width="-18" height="100%" textvalign="center" font="chat_12" color="white" shadow="true">{label}</label>
+					</widgetstate>
+					<widgetstate statename="down" float="right" padding="4">
+						<label width="-18" height="100%" textvalign="center" font="chat_12" color="#DDDDDDDD" shadow="true">{label}</label>
+					</widgetstate>
+					<widgetstate statename="disabled" float="right" padding="4">
+						<label width="-18" height="100%" textvalign="center" font="chat_12" color="#888888DD" shadow="true">{label}</label>
+					</widgetstate>
+					<widgetstate statename="up2" float="right" padding="4">
+						<panel width="18">
+							<panel width="-2" height="-2" align="center" valign="center">
+								<image color="green" texture="/ui/elements/check.tga" visible="true"/>
+							</panel>
+						</panel>
+						<label width="-18" height="100%" textvalign="center" font="chat_12" color="#DDDDDDDD" shadow="true">{label}</label>
+					</widgetstate>
+					<widgetstate statename="over2" float="right" padding="4">
+						<panel width="18">
+							<panel width="-2" height="-2" align="center" valign="center">
+								<image color="green" texture="/ui/elements/check.tga" visible="true"/>
+							</panel>
+						</panel>
+						<label width="-18" height="100%" textvalign="center" font="chat_12" color="white" shadow="true">{label}</label>
+					</widgetstate>
+					<widgetstate statename="down2" float="right" padding="4">
+						<panel width="18">
+							<panel width="-2" height="-2" align="center" valign="center">
+								<image color="green" texture="/ui/elements/check.tga" visible="true"/>
+							</panel>
+						</panel>
+						<label width="-18" height="100%" textvalign="center" font="chat_12" color="#DDDDDDDD" shadow="true">{label}</label>
+					</widgetstate>
+					<widgetstate statename="disabled2" float="right" padding="4">
+						<panel width="18">
+							<panel width="-2" height="-2" align="center" valign="center">
+								<image color="green" texture="/ui/elements/check.tga" visible="true"/>
+							</panel>
+						</panel>
+						<label width="-18" height="100%" textvalign="center" font="chat_12" color="#888888DD" shadow="true">{label}</label>
+					</widgetstate>
+				</button>
+			</panel>
+		</panel>
+	</template>
+	<template name="ccbarbutton">
+		<panel width="120" height="30" sticky="true">
+			<panel name="ccwidget_{id}_menu" y="26" height="100" visible="0" noclick="1" onlosefocus="HideWidget();" onshow="If(cc_optionBarBottom,SetY(-96),SetY(26));">
+				<frame color="#00000099" bordercolor="{bordercolor=#A0A0A077}" borderthickness="1" noclick="1"/>
+				<panel y="-2" height="-8" valign="center" float="bottom" padding="4">
+					<instance name="ccbarbuttonmenu_item" id="{id}" label="Switch To" cmd="SetFocusName('ccwidget_{id}');"/>
+					<instance name="ccbarbuttonmenu_item" id="{id}" label="Resize" cmd="SetFocusName('ccwidget_{id}'); ShowWidget('ccwidget_{id}_resize');"/>
+					<instance name="ccbarbuttonmenu_toggle" id="{id}" label="Remember" cvar="cc_{id}_RememberPosition" cmd="SetSave('cc_{id}_RememberPosition'); Set('cc_{id}_RememberPosition_Temp',cc_{id}_RememberPosition); ShowWidget('ccwidget_{id}_menu'); SetFocusName('ccwidget_{id}_menu');" enabled="{rememberposition=true}"/>
+					<instance name="ccbarbuttonmenu_item" id="{id}" label="Reset Position" cmd="Set('cc_{id}_X',(vid_width / 2) - (cc_{id}_Width / 2)+1); Set('cc_{id}_Y',(vid_height / 2) - (cc_{id}_Height / 2)-60+1); Call('ccwidget_{id}','SetX(cc_{id}_X-1); SetY(cc_{id}_Y-1); BringToFront();'); Call('ccbar', 'BringToFront();');"/>
+					<instance name="ccbarbuttonmenu_item" id="{id}" label="Cancel" cmd=""/>
+				</panel>
+			</panel>
+			<instance name="ccpushbutton" id="ccwidget_{id}" bordercolor="{bordercolor=#A0A0A077}" width="120" height="30" label="{label}" font="Chat_14" onshow="Call('ccwidget_{id}','If(IsVisible(),Split(HideWidget(\'ccpushbutton_ccwidget_{id}_button\'),ShowWidget(\'ccpushbutton_ccwidget_{id}_button_down\')));');" ondown="SetFocusName('ccwidget_{id}'); ShowWidget('ccwidget_{id}');" onup="HideWidget('ccwidget_{id}');" onmouseover="Call('ccwidget_{id}_menu','If(!IsVisible(),ShowWidget(\'ccwidget_{id}_hint\'));'); PlaySound('/shared/sounds/ui/button_over_small.mp3'); If(IsVisible('ccwidget_{id}'),Call('ccwidget_{id}_highlight','SetVisible(true);'));" onmouseout="HideWidget('ccwidget_{id}_hint'); Call('ccwidget_{id}_highlight','SetVisible(false);');" onrightclick="HideWidget('ccwidget_{id}_hint'); Call('ccwidget_{id}_menu','If(!IsVisible(),Split(ShowWidget(),SetFocus(1)),HideWidget());');" sticky="true" state="{state=0}"/>
+			<panel name="ccwidget_{id}_hint" x="-12" y="120%" width="148" height="60%" visible="false" onshow="If(cc_optionBarBottom,SetY(-24),SetY(36));">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="#666666"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#666666" borderthickness="8"/>
+				<label font="chat_12" color="yellow" textalign="center" textvalign="center">Right click for options</label>
+			</panel>
+		</panel>
+	</template>
+	<panel name="ccbar" color="#00000099" valign="top" height="70" onshow="If(cc_optionBarBottom,SetAbsoluteY(vid_height - 70),SetAbsoluteY(0));">
+		<button color="invisible"/>
+		<panel name="ccbarbuttons" width="-15" height="30" align="center" valign="center" float="right" padding="15" blockinput="false" noclick="true">
+			<instance name="ccbarbutton" id="serverlist" label="Servers"/>
+			<instance name="ccbarbutton" id="community" label="Community" bordercolor="#5E2D1F77" state="1"/>
+			<instance name="ccbarbutton" id="message" label="Message" bordercolor="#007E7E77" rememberposition="0" resetposition="0"/>
+			<instance name="ccbarbutton" id="statistics" label="Statistics" bordercolor="#991A1A77"/>
+			<!--<instance name="ccbarbutton" id="config" label="Options" bordercolor="#7E7E0077"/>-->
+		</panel>
+		<instance name="ccbutton" id="close" visible="1" bordercolor="#A0A0A077" image="true" texture="/ui/elements/xbutton" texturecolor="#CC2222" imageheight="-10" imagewidth="-10" x="-20" width="30" height="30" align="right" valign="center" label="" font="Chat_14" onclick=" ShowCCPanel();" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3');"/>
+	</panel>
+</include>

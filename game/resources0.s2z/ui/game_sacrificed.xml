@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_sacrificed">
+<include file="/ui/inc_button.xml"/>
+
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+
+	<!-- Styles -->	
+	
+	<style name="vist_bg_2" color="#362500"/>
+	<style name="vist_frame_2"  color="#863838" />
+
+	<style name="vist_bg_3" color="#362500"/>
+	
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="0 0 0 .5"/><!--color="#2E1F0055"/>-->
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>
+	
+	<include file="demo_nag.xml"/>	
+	
+	<!-- Templates -->
+	<template name="hellbourne_unit">	
+		<panel width="90%" align="center" height="74" color="invisible">
+			<frame name="{unit}_hellbourne_button_over" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="1 .5 0 .4" visible="0" />
+			<panel group="hellbourne_selected" name="{unit}_hellbourne_button_selected" visible="0">
+				<frame name="{unit}_hellbourne_button_over" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="1 .5 0 .5" visible="1" />
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+			</panel>
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="1 .5 0 .2"/>
+			<image x="4" valign="center" height="64" width="64" texture="/hellbourne/units/{unit}/icon.tga"/>
+			<label x="15" y="8" width="100%" font="chat_22" color="yellow" shadow="true" textalign="center">{unit}</label>
+			<label x="15" y="38" width="100%" font="chat_18" color="cyan" shadow="true" onshow="SetText('Soul Cost: ' # Player_{unit}_Soulcost);" textalign="center">Soul Cost: {souls}</label>
+			<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+			<button color="invisible" name="select{unit}" onmouseover="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); SetPlayerDetailsTarget('{unit}'); ShowWidget('{unit}_hellbourne_button_over');" onmouseout="HideWidget('{unit}_hellbourne_button_over'); SetPlayerDetailsTarget(_hellbourne_unit);"  onclick="cmd('Set _hellbourne_unit {unit}'); SetPlayerDetailsTarget('{unit}'); PlaySound('{sound=/shared/sounds/ui/button_click.mp3}'); HideWidget('{unit}_hellbourne_button_over'); showonly('{unit}_hellbourne_button_selected'); PlayVoiceTip('/ui/vtip/units/hellbourne/{unit}.mp3');"/>
+		</panel>
+	</template>
+	
+	<template name="hellbourne_unit_gray">	
+		<panel width="90%" align="center" visible="0" height="74" color="invisible" watch="SoulCount" ontrigger="SetVisible(Player_{unit}_Soulcost > param);" >			
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color=".5 .5 .5 1"/>
+			<frame name="{unit}_hellbourne_button_over_gray" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color=".7 .7 .7 1" visible="0" />
+			<image x="4" valign="center" height="64" width="64" texture="/hellbourne/units/{unit}/icon.tga"/>
+			<label x="15" y="4" width="100%" font="chat_22" color="yellow" shadow="true" textalign="center">{unit}</label>
+			<label x="15" y="30" width="100%" font="chat_18" color="red" shadow="true" onshow="SetText('Soul Cost: ' # Player_{unit}_Soulcost);" textalign="center">Soul Cost: {souls}</label>
+			<label x="15" y="52" width="100%" font="chat_12" color=".8 .8 .8 1" shadow="true" watch="SoulCount" ontrigger="SetText('You need ' # FtoA((Player_{unit}_Soulcost - param), 0) # ' more souls');"  textalign="center">Soul Cost: {souls}</label>
+			<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+			<button color="invisible" onmouseover="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); SetPlayerDetailsTarget('{unit}'); ShowWidget('{unit}_hellbourne_button_over_gray');" onmouseout="HideWidget('{unit}_hellbourne_button_over_gray'); SetPlayerDetailsTarget(_hellbourne_unit);"  onclick="PlaySound('{sound=/shared/sounds/ui/place_error.mp3}'); HideWidget('{unit}_hellbourne_button_over_gray');"/>
+			<button width="32" height="16" x="234" y="2" texture="/ui/elements/voice_up.tga" color="invisible" onmouseover="ShowWidget('{unit}_hellbourne_button_over_gray'); SetPlayerDetailsTarget('{unit}'); PlaySound('/ui/vtip/units/hellbourne/{unit}.mp3',1,1);" onmouseout="stopsound(1); HideWidget('{unit}_hellbourne_button_over_gray'); SetPlayerDetailsTarget(_hellbourne_unit);" onclick="PlaySound('{sound=/shared/sounds/ui/place_error.mp3}'); HideWidget('{unit}_hellbourne_button_over_gray');"/>
+			<image width="32" height="16" x="234" y="2" texture="/ui/elements/voice_up.tga" noclick="true" />				
+		</panel>				
+	</template>
+	
+	<template name="hellbourne_unit_limit">	
+		<panel widh="90%" align="center" height="74" color="invisible" watch="DemoAccount" ontrigger="SetVisible(!AccessToUseUnit('Player_Revenant'));">
+			<frame x="5%" width="90%" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color=".1 .1 .1 .4"/>
+			<image x="5%" valign="center" height="64" width="64" texture="/ui/elements/lock.tga"/>
+			<button color="invisible" onmouseover="ShowWidget('free_account_sacrificed'); PlaySound('/shared/sounds/ui/button_over_small2.mp3');" onmouseout="HideWidget('free_account_sacrificed');"/>
+			<panel name="{unit}_limit_explanation" x="10%" width="60%" height="87%" align="center" valign="center" noclick="true">
+				<frame texture="/ui/frames/roundframe.tga"  color="1 .5 0 .2" borderthickness="8" onmouseover="ShowWidget('free_account_sacrificed');" onmouseout="HideWidget('free_account_sacrificed');"/>
+				<frame color="#000000cc" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" onmouseover="ShowWidget('free_account_sacrificed');" onmouseout="HideWidget('free_account_sacrificed');"/>
+				<label y="-60%" width="90%" height="100" textvalign="center" textalign="center" valign="top" align="center" wrap="true" font="chat_12" color="white" shadow="false" blockinput="false" noclick="true">You have already played as the {unit}</label>						
+				<instance
+					name="round_button2"
+					align="center" valign="bottom"
+					y="-7%"
+					width="110"
+					height="20"
+					font="chat_12"
+					onmouseover="ShowWidget('free_account_sacrificed');"
+					onmouseout="HideWidget('free_account_sacrificed');"
+					label="Upgrade Now"
+					onclick="TogglePurchase();"
+				/>
+			</panel>
+		</panel>	
+	</template>
+	
+	<template name="abilities">
+		<panel height="90"  color="invisible"  sticky="true" stickytoinvis="false" watch="InventoryAbility{index}"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="0 0 0 .4" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5" y="5" height="32" width="-10" > 
+				<image height="32" width="32" watch="InventoryEntity{index}" ontrigger="SetTexture(*(param # '_iconpath'));" texture="/ui/elements/empty_logo.tga"/>
+				<panel width="-32" color="invisible" align="right"> 
+					<label width="50%" x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow" watch="InventoryName{index}" ontrigger="SetText(param);" shadow="true">Stone Bombardment</label>
+					
+					<label width="50%" x="40" y="2"  height="12"  valign="top" align="center" textalign="center" font="chat_10" color="yellow" watch="InventoryPrerequisite{index}" ontrigger="SetText('^wRequires:^* ' # param);" shadow="true">Requires: ^yArmory^*</label>
+					
+					<label width="50%" x="4" y="-5" align="left" textalign="left" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryType{index}" ontrigger="SetText('^yAbility Type:^* ' # param);" shadow="true">^yAbility Type:^* Melee Weapon</label>
+					<image align="right" x="-30" height="16" width="16" texture="/ui/elements/mana_icon.tga"/>
+					<label width="30" x="0" y="2" height="10"  valign="top" align="right" textalign="center" font="chat_10" color="cyan" watch="InventoryManaCost{index}" ontrigger="SetText(param);" shadow="true"></label>
+					<label width="50%" x="-4" y="-5" align="right" textalign="right" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryCooldown{index}" ontrigger="SetText('^yCooldown:^* ' # param);" shadow="true">^yCooldown:^* {cooldown}s</label>					
+				</panel>
+				<panel height="50" y="34" color="invisible" >
+					<label width="100%" x="4"  valign="top" align="left" textalign="left" font="chat_9" wrap="true" color="white" watch="InventoryDescription{index}" ontrigger="SetText(param);" shadow="true">lots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeahlots of text yeah lots</label>
+				</panel>
+			</panel>
+		</panel>
+	</template>
+	
+	<template name="rangedammo">
+		<panel height="60"  color="invisible" sticky="true" stickytoinvis="false" watch="InventoryRangedAmmo{index}"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .4" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10"  color="invisible" valign="center"> 
+				<image height="42" width="42" valign="center" watch="InventoryEntity{index}" ontrigger="SetTexture(*(param # '_iconpath'));" texture="/ui/elements/empty_logo.tga"/>
+				 
+				<panel width="-46" color="invisible" align="right"> 
+					<label width="50%" x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow" watch="InventoryName{index}" ontrigger="SetText(param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" watch="InventoryType{index}" ontrigger="SetText('^yAbility Type:^* ' # param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="-5" align="left" textalign="left" valign="bottom" height="10"  font="chat_10" color="white"  watch="InventoryPrerequisite{index}" ontrigger="SetText('^wRequires:^* ' # param);" shadow="true">^yRequires:^* Armory</label>
+					
+					<label width="50%" x="-4" y="2" height="10"  valign="top" align="right" textalign="right" font="chat_10" color="cyan"  watch="InventoryRangedDamage{index}" ontrigger="SetText('Damage: ' # param);" shadow="true">Damage: 120-300</label>
+					<label width="50%" x="-4" y="-5" align="right" textalign="right" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryAmmo{index}" ontrigger="SetText('^yAmmo:^* ' # param);" shadow="true">^yAmmo:^* 30</label>					
+				</panel>
+			</panel>
+		</panel>
+	</template>	
+	
+	<template name="rangedmana">
+		<panel height="60"  color="invisible" sticky="true" stickytoinvis="false" watch="InventoryRangedMana{index}"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .4" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" width="42"  valign="center" watch="InventoryEntity{index}" ontrigger="SetTexture(*(param # '_iconpath'));" texture="/ui/elements/empty_logo.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label width="50%" x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow" watch="InventoryName{index}" ontrigger="SetText(param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" watch="InventoryType{index}" ontrigger="SetText('^yAbility Type:^* ' # param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="-5" align="left" textalign="left" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryPrerequisite{index}" ontrigger="SetText('^wRequires:^* ' # param);" shadow="true">^yRequires:^* Armory</label>
+					
+					<label width="50%" x="-4" y="2" height="10"  valign="top" align="right" textalign="right" font="chat_10" color="cyan" shadow="true">Damage: 120-300</label>
+					
+
+					<image align="right" x="-30" y="1" valign="bottom" height="16" width="16" texture="/ui/elements/mana_icon.tga"/>
+					<label width="30" x="0" y="-5" valign="bottom" height="10"   align="right" textalign="center" font="chat_10" color="cyan" watch="InventoryManaCost{index}" ontrigger="SetText(param);" shadow="true"></label>					
+				</panel>
+			</panel>
+		</panel>
+	</template>		
+	
+	
+	<template name="melee">
+		<panel height="60"  color="invisible" sticky="true" stickytoinvis="false" watch="InventoryMelee{index}"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .4" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" valign="center" width="42" watch="InventoryEntity{index}" ontrigger="SetTexture(*(param # '_iconpath'));" texture="/ui/elements/empty_logo.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label width="50%" x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow"  watch="InventoryName{index}" ontrigger="SetText(param);" shadow="true">Battle Axe</label>
+					<label width="50%" x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" watch="InventoryType{index}" ontrigger="SetText(param);" shadow="true">Repeater</label>
+					<label width="50%" x="4" y="-5" align="left" textalign="left" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryPrerequisite{index}" ontrigger="SetText('^wRequires:^* ' # param);" shadow="true"></label>
+					
+					<label width="50%" x="-52" y="-4" height="10"  valign="top" align="right" textalign="right" font="chat_10" color="white"  shadow="true">^yQuick Atk Dmg:^*</label>
+					<label width="50%" x="-52" y="8" height="10"  valign="top" align="right" textalign="right" font="chat_10" color="white" shadow="true">^yQuick Atk Speed:^*</label>
+					
+					<label width="54" x="0" y="-4" height="10"  valign="top" align="right" textalign="center" font="chat_10" color="white" watch="InventoryQuickAttackDamage{index}" ontrigger="SetText(param);" shadow="true"></label>
+					<label width="54" x="0" y="8" height="10"  valign="top" align="right" textalign="center" font="chat_10" color="white" watch="InventoryQuickAttackSpeed{index}" ontrigger="SetText(param #' ms');" shadow="true"></label>					
+					
+					<label width="50%" x="-52" y="-11" align="right" textalign="right" valign="bottom" height="10"  font="chat_10" color="white" shadow="true">^yInterupt Dmg:^*</label>	
+					<label width="50%" x="-52" y="1" align="right" textalign="right" valign="bottom" height="10"  font="chat_10" color="white" shadow="true">^yInterupt Speed:^*</label>		
+					<label width="54" x="0" y="-11" align="right" textalign="center" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryStrongAttackDamage{index}" ontrigger="SetText(param);" shadow="true"></label>	
+					<label width="54" x="0" y="1" align="right" textalign="center" valign="bottom" height="10"  font="chat_10" color="white" watch="InventoryStrongAttackSpeed{index}" ontrigger="SetText(param #' ms');" shadow="true"></label>											
+				</panel>
+			</panel>
+		</panel>
+	</template>
+
+
+	<modelpanel  noclick="true" model="/ui/elements/models/hellbourne_flame_emitter.mdf" anim="idle" effect="/ui/elements/effects/hellbourne_screen.effect"  camerapos="0 100 0" cameraangles="0 0 180"  camerafov="90" />
+	
+	<panel onshow="cmd('set _hellbourne_unit observer'); SetPlayerDetailsTarget('observer');" align="center" valign="center" width="1024" height="668" color="invisible">
+		<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+		<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+	
+		<panel color="invisible" width="30%">						
+			<panel height="96.5%" width="96%" align="right"  valign="center" color="invisible">	
+				<image texture="/ui/elements/shrine_back_1.tga" />
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="0 0 0 .3"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+
+
+
+				<panel y="10"  width="90%" align="center" height="74" color="invisible">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+						<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>	
+						<label y="8" width="100%" font="chat_16" color="yellow" shadow="true" textalign="center">Choose A Unit</label>		
+						<label y="35" width="100%" font="chat_22" color="cyan" shadow="true" watch="SoulCount" ontrigger="SetText('Your Souls: ' # param);" textalign="center">Your Souls: 99</label>							
+					</panel>
+
+			
+				<panel y="105" float="bottom" padding="20" noclick="1">
+					<instance name="hellbourne_unit" souls="?" unit="Revenant" />
+					<instance name="hellbourne_unit" souls="?" unit="Devourer" />
+					<instance name="hellbourne_unit" souls="?" unit="Malphas" />					
+				</panel>	
+
+				<panel y="105" float="bottom" padding="20" noclick="1">
+					<instance name="hellbourne_unit_gray" souls="?" unit="Revenant" />
+					<instance name="hellbourne_unit_gray" souls="?" unit="Devourer" />
+					<instance name="hellbourne_unit_gray" souls="?" unit="Malphas" />					
+				</panel>
+				
+				<panel y="105" float="bottom" padding="20" noclick="1" watch="DemoAccount" ontrigger="SetVisible(param);">
+					<instance name="hellbourne_unit_limit" unit="Revenant" />
+					<instance name="hellbourne_unit_limit" unit="Devourer" />
+					<instance name="hellbourne_unit_limit" unit="Malphas" />					
+				</panel>
+	
+				<panel y="-10%" height="30%" width="80%" align="center" valign="bottom" watch="DemoAccount" ontrigger="SetVisible(param);" onmouseover="ShowWidget('free_account_sacrificed');" onmouseout="HideWidget('free_account_sacrificed');" passivechildren="true">
+					<panel texture="/ui/elements/background_bluestone.tga">
+						<frame valign="center" align="center" name="frame" borderthickness="32" texture="/ui/frames/border2.tga" float="bottom"/>
+						<image x="7%" y="7%" name="lock" align="right" width="64" height="64" sticky="true" texture="/ui/elements/lock.tga" valign="bottom"/>
+						<label y="15%" height="24" width="90%"  textalign="center" textvalign="top" align="center" font="chat_14" color="red" shadow="true" valign="top">Limited Access Notification!</label>
+						<label y="30%" height="70" width="90%"  textalign="center" textvalign="top" align="center" font="chat_11" color="white" wrap="true" shadow="true" valign="top">Free Accounts may only use each hellbourne unit one time per account, so choose wisely when deciding to use Hellbourne. Upgrade to a Prime Account to remove this restriction.</label>
+					</panel>
+				</panel>				
+
+				<instance
+					noclick="false"
+					name="round_button2"
+					watch="DemoAccount"
+					ontrigger="SetVisible(param);"
+					align="center" valign="bottom"
+					y="-13%"
+					onmouseover="ShowWidget('free_account_sacrificed');"
+					onmouseout="HideWidget('free_account_sacrificed');"
+					width="110"
+					height="20"
+					font="chat_12"
+					label="Upgrade Now"
+					onclick="TogglePurchase();"
+				/>
+				
+				<instance valign="bottom" name="round_button2" y="-10"  width="90%" height="32" align="center" font="gamesmall" label="Exit HellShrine" onclick="CancelSacrifice(); ClearPlayerDetailsTarget();"/>
+			</panel>
+		</panel>
+
+		
+		
+		<panel align="right" color="invisible" width="70%">
+					<panel y="10" valign="top" align="center" width="96%" height="128">					
+						<panel color="invisible">	
+							<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+							<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+						</panel>
+						<label width="-148" y="12" x="-30" font="chat_18" align="right" color="yellow" shadow="true" textalign="center" watch="Entity" ontrigger="SetText(*(param # '_name'));">Choose A Unit</label>
+						<panel x="-16" y="0" height="70%" valign="bottom" align="right" width="-148" color="invisible">
+							<label y="5" width="100%" height="100%" font="chat_11" color="white" wrap="true" shadow="true" textalign="center" watch="PlayerDescription" ontrigger="SetText(param);"></label>
+						</panel>
+						<panel watch="Entity" ontrigger="SetVisible(!StringEquals(Entity,'Player_Observer'));">
+							<image x="10" y="-10"  width="128" height="128" watch="Entity" ontrigger="SetTexture(*(param # '_CommanderPortraitPath'));" texture="/hellbourne/units/devourer/com_portrait.tga"/>
+						</panel>
+						
+						<panel color="invisible" width="80%" height="70%" align="center" valign="center"  watch="Entity" ontrigger="SetVisible(StringEquals(Entity,'Player_Observer'));" >
+							<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+							<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+							<label  align="center" y="-10" valign="center" textvalign="center" textalign="center" height="20" font="chat_16" color="white" shadow="true">Choose A Unit From The Left</label>
+							<label  align="center" y="10" valign="center" textvalign="center" textalign="center" height="20" font="chat_16" color="white" shadow="true">Or Exit the Hell Shrine</label>
+						</panel>
+					</panel>
+			<panel height="77.5%" color="invisible" valign="bottom">				
+				<panel  align="center" width="96%" height="98%">					
+					<image texture="/ui/elements/shrine_back_2.tga" />				
+					<panel color="invisible">							
+						<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>					
+						<panel y="4" x="4" width="55%" color="invisible">											
+							
+							<panel height="24">
+								<frame  x="0" style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+								<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+									<label x="7" align="left" valign="center" textvalign="center" height="20" font="chat_12" color="white" shadow="true">Special Abilities</label>							
+								</frame>
+							</panel>
+							<panel y="18" float="bottom" stickytoinvis="false" color="invisible" padding="4">								
+									<instance name="abilities" manacost="99" cooldown="99" index="0"/>								
+									<instance name="abilities" manacost="99" cooldown="99" index="1"/>								
+									<instance name="abilities" manacost="99" cooldown="99" index="2"/>	
+									<instance name="abilities" manacost="99" cooldown="99" index="3"/>								
+									<instance name="abilities" manacost="99" cooldown="99" index="4"/>								
+									<instance name="abilities" manacost="99" cooldown="99" index="5"/>								
+									<instance name="abilities" manacost="99" cooldown="99" index="6"/>	
+								</panel>								
+						</panel>						
+					</panel>
+				</panel>
+				
+				
+				<panel x="-18" align="right" width="41%" color="invisible">		
+					
+					<panel y="24" height="130" color="invisible" >						
+								
+							<panel y="-20" height="24">
+								<frame  x="0" style="lobby_window_header_bg" height="100%" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+								<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+									<label x="7" align="left" valign="center" textvalign="center" height="20" font="chat_12" color="white" shadow="true">Current Vitals</label>
+									<label x="-7" textalign="right" valign="center" textvalign="center" height="20" width="100%" font="chat_12" color="yellow" shadow="true" watch="BaseSpeed" ontrigger="SetText('Move speed: ^w' # Ceil(param));" >Move Speed: 240</label>
+								</frame>
+							</panel>
+								
+								
+								<frame style="lobby_window_footer_bg" height="100%" color="#00000077" borderthickness="6" noclick="true"></frame>
+								<frame style="lobby_window_footer" height="100%"  borderthickness="6" noclick="true"/>
+								
+								<panel color="invisible" float="right" padding="24">
+									<anchor y="6" x="15" />
+									
+									<!-- health -->
+									<panel width="48" align="left" height="48" color="blue">
+										<image name="health_icon"  width="48" height="48" style="icon" texture="/ui/elements/health_icon.tga"/>
+										<image width="48" height="48" style="icon"  rendermode="overylay" texture="/ui/elements/icon_bevel.tga" color="#FFFFFFAA"/>
+										<frame y="49" x="-2" width="52" height="70"  borderthickness="8" texture="/ui/frames/inset_round.tga" color="black">
+											<label y="0" x="0" width="48" textalign="center" font="gametiny" color="yellow">Value:</label>					
+										
+										
+											<label y="32" x="1" width="48" textalign="center" font="chat_10" color="yellow">Regen:</label>
+											
+											<panel watch="Entity" ontrigger="SetVisible(!StringEquals(Entity,'Player_Observer'));">
+												<label y="12" width="48" textalign="center" font="chat_10" watch="AdjustedMaxHealth" ontrigger="SetText(Ceil(param));"  color="white" />
+												<label y="22" width="48" textalign="center" font="chat_10" watch="MaxHealthBonus" ontrigger="SetVisible(param != 0); SetText(Ceil(param)); If(param lt 0, SetColor('#FF0000'), SetColor('#00FF00'));" color="#00FF00" visible="false" />
+
+												<label y="44" x="0" width="48" textalign="center" font="chat_10" watch="AdjustedHealthRegen" ontrigger="SetText(FtoA(param, 2));" color="white" />
+												<label y="54" width="48" textalign="center" font="chat_10" watch="HealthRegenBonus" ontrigger="SetVisible(param != 0); SetText(FtoA(param, 2)); If(param lt 0, SetColor('#FF0000'), SetColor('#00FF00'));" color="#00FF00" visible="false" />
+										    </panel>
+										
+										</frame>
+									</panel>
+
+									<!-- mana -->
+									<panel width="48" align="center" height="48" color="blue">
+										<image name="armor_icon"  width="48" height="48" style="icon" texture="/ui/elements/mana_icon.tga"/>
+										<image width="48" height="48" style="icon" rendermode="overylay" texture="/ui/elements/icon_bevel.tga" color="#FFFFFFAA"/>
+										<frame y="49" x="-2" width="52" height="70"  borderthickness="8" texture="/ui/frames/inset_round.tga" color="black">
+											<label y="0" x="0" width="48" textalign="center" font="chat_10" color="yellow">Value:</label>
+											<label y="32" x="1" width="48" textalign="center" font="chat_10" color="yellow">Regen:</label>
+											
+											<panel watch="Entity" ontrigger="SetVisible(!StringEquals(Entity,'Player_Observer'));">
+											<label y="12" width="48" textalign="center" font="chat_10" watch="AdjustedMaxMana" ontrigger="SetText(Ceil(param));" color="white"/>
+											<label y="22" width="48" textalign="center" font="chat_10" watch="MaxManaBonus" ontrigger="SetVisible(param != 0); SetText(Ceil(param)); If(param lt 0, SetColor('#FF0000'), SetColor('#00FF00'));" color="lime" visible="false"/>
+											<label y="44" x="0" width="48" textalign="center" font="chat_10" watch="AdjustedManaRegen" ontrigger="SetText(FtoA(param, 2));" color="white"/>
+											<label y="54" width="48" textalign="center"  font="chat_10" watch="ManaRegenBonus" ontrigger="SetVisible(param != 0); SetText(FtoA(param, 2)); If(param lt 0, SetColor('#FF0000'), SetColor('#00FF00'));" color="#00FF00" visible="false"/>
+											</panel>
+										</frame>
+									</panel>
+
+									<!-- stam -->
+									<panel width="48" align="center" height="48" color="blue">
+										<image name="armor_icon"  width="48" height="48" style="icon" texture="/ui/elements/stamina_icon.tga"/>
+										<image width="48" height="48" style="icon"  rendermode="overylay" texture="/ui/elements/icon_bevel.tga" color="#FFFFFFAA"/>
+										<frame y="49" x="-2" width="52" height="70"  borderthickness="8" texture="/ui/frames/inset_round.tga" color="black">
+											<label y="0" x="0" width="48" textalign="center" font="chat_10" color="yellow">Value:</label>
+											<label y="32" x="1" width="48" textalign="center" font="chat_10" color="yellow">Regen:</label>
+											<panel watch="Entity" ontrigger="SetVisible(!StringEquals(Entity,'Player_Observer'));">			
+												<label  y="12" width="48" textalign="center" font="chat_10" watch="AdjustedMaxStamina" ontrigger="SetText(Ceil(param));"  color="white" />
+												<label  y="22" width="48" textalign="center" font="chat_10" watch="MaxStaminaBonus" ontrigger="SetVisible(param != 0); SetText(Ceil(param)); If(param lt 0, SetColor('#FF0000'), SetColor('#00FF00'));"  color="#00FF00" visible="false" />
+												<label y="44" x="0"  width="48" textalign="center" font="chat_10" watch="AdjustedStaminaRegen" ontrigger="SetText(FtoA(param, 2));" color="white" />
+												<label  y="54" width="48" textalign="center"  font="chat_10" watch="StaminaRegenBonus" ontrigger="SetVisible(param != 0); SetText(FtoA(param, 2)); If(param lt 0, SetColor('#FF0000'), SetColor('#00FF00'));"  color="#00FF00" visible="false" />
+											</panel>
+										</frame>
+									</panel>
+
+									<!-- Armor -->
+									<panel width="48" align="center" height="48" color="blue">
+										<image name="armor_icon"  width="48" height="48" style="icon" texture="/ui/elements/armor_icon2.tga"/>
+										<image width="48" height="48" style="icon"  rendermode="overylay" texture="/ui/elements/icon_bevel.tga" color="#FFFFFFAA"/>
+										<frame y="49" x="-2" width="52" height="70"  borderthickness="8" texture="/ui/frames/inset_round.tga" color="black">
+											<label y="0" x="0" width="48" textalign="center" font="chat_10" color="yellow">Armor:</label>
+											<label y="32" x="1" width="48" textalign="center" font="chat_10" color="yellow">Percent:</label>
+											<panel watch="Entity" ontrigger="SetVisible(!StringEquals(Entity,'Player_Observer'));">											
+												<label y="12" width="48" textalign="center"  font="chat_10" watch="AdjustedArmor" ontrigger="SetText(FtoA(param, 1));"  color="white" />
+												<label y="22" width="48" textalign="center"  font="chat_10" watch="ArmorBonus" ontrigger="SetVisible(param != 0); SetText(FtoA(param, 1)); If(param lt 0, SetColor('#FF0000'), SetColor('#00FF00'));" color="#00FF00" visible="false" />
+										
+												<label y="44" x="0"  width="48" textalign="center" font="chat_10" watch="AdjustedArmorReduction" ontrigger="SetText(FtoP(param, 1) # '%');" color="white" />
+												<label y="54" width="48" textalign="center" font="chat_10" precision="2" watch="ArmorReductionBonus" ontrigger="SetVisible(param != 0); SetText(FtoP(param, 1) # '%'); If(param lt 0, SetColor('#FF0000'), SetColor('#00FF00'));" color="#00FF00" visible="false" />
+											</panel>
+										</frame>
+									</panel>							
+								</panel>
+							</panel>
+						
+				</panel>	
+
+				<panel x="-18" y="156"   height="300" align="right" width="41%" color="invisible">					
+					<panel height="24">
+						<frame  x="0" style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+						<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+							<label x="7" align="left" valign="center" textvalign="center" height="20" font="chat_12" color="white" shadow="true">Weapons</label>							
+						</frame>
+					</panel>
+					<panel y="18" float="bottom" padding="4">	
+						
+						<instance name="melee" manacost="99" cooldown="99" index="0"/>								
+						<instance name="melee" manacost="99" cooldown="99" index="1"/>								
+						<instance name="melee" manacost="99" cooldown="99" index="2"/>	
+						<instance name="melee" manacost="99" cooldown="99" index="3"/>								
+						<instance name="melee" manacost="99" cooldown="99" index="4"/>								
+						<instance name="melee" manacost="99" cooldown="99" index="5"/>								
+						<instance name="melee" manacost="99" cooldown="99" index="6"/>	
+						
+						<instance name="rangedammo" manacost="99" cooldown="99" index="0"/>								
+						<instance name="rangedammo" manacost="99" cooldown="99" index="1"/>								
+						<instance name="rangedammo" manacost="99" cooldown="99" index="2"/>	
+						<instance name="rangedammo" manacost="99" cooldown="99" index="3"/>								
+						<instance name="rangedammo" manacost="99" cooldown="99" index="4"/>								
+						<instance name="rangedammo" manacost="99" cooldown="99" index="5"/>								
+						<instance name="rangedammo" manacost="99" cooldown="99" index="6"/>							
+						
+						<instance name="rangedmana" manacost="99" cooldown="99" index="0"/>								
+						<instance name="rangedmana" manacost="99" cooldown="99" index="1"/>								
+						<instance name="rangedmana" manacost="99" cooldown="99" index="2"/>	
+						<instance name="rangedmana" manacost="99" cooldown="99" index="3"/>								
+						<instance name="rangedmana" manacost="99" cooldown="99" index="4"/>								
+						<instance name="rangedmana" manacost="99" cooldown="99" index="5"/>								
+						<instance name="rangedmana" manacost="99" cooldown="99" index="6"/>							
+					</panel>
+				</panel>
+				
+				<panel  valign="bottom" x="-30" y="-20"  width="40%" height="62" align="right" visible="1" onframe="If(!StringEquals(_hellbourne_unit, 'observer'), Showwidget('hellbourne_spawn_button'),hidewidget('hellbourne_spawn_button'));">
+					<panel name="hellbourne_spawn_button" visible="0">
+						<button
+							onmouseover="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); {onmouseover}"
+							onmouseout="{onmouseout}"
+							onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); Sacrifice(_hellbourne_unit); ClearPlayerDetailsTarget();"
+							color="invisible"
+						>
+							<widgetstate statename="up">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+								<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="chat_16" color="black" shadow="true" shadowcolor="gray">Spawn As %_hellbourne_unit%</label>
+							</widgetstate>
+							<widgetstate statename="over">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="chat_16" color="white" shadow="true" shadowcolor="#7F6E00">Spawn As %_hellbourne_unit%</label>
+							</widgetstate>
+							<widgetstate statename="down" x="1" y="1">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="chat_16" color="#3f0001" shadow="true" shadowcolor="#7F6E00">Spawn As %_hellbourne_unit%</label>
+							</widgetstate>
+							<widgetstate statename="disabled">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#666666"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#666666" borderthickness="8"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="chat_16" color="#333333" shadow="true" shadowcolor="black">Spawn As %_hellbourne_unit%</label>
+							</widgetstate>
+						</button>						
+																
+						
+						
+						
+						
+						
+					</panel>
+				</panel>
+			</panel>
+			
+
+			
+			
+			
+			
+		</panel>
+	</panel>
+	
+		<panel name="free_account_sacrificed" noclick="true" align="center" valign="center" x="35" y="20"   height="560" width="400" visible="false"> 
+			<instance name="demo_nag" showpurchase="false"/>
+		</panel>
+	
+</interface>

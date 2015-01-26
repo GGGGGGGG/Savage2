@@ -1,0 +1,1906 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_browser" onshow="PlayMusic('/music/destinations.ogg',true); RequestVaultInfo();">
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+	
+	<style name="vist_bg_2" color="#362500"/>
+	<style name="vist_frame_2"  color="#863838" />
+
+	<style name="vist_bg_3" color="#362500"/>
+
+
+	<!-- Window styles -->
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="dyn_14" color="white" shadow="true"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F00AA"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>	
+
+
+	<include file="/ui/inc_button.xml"/>
+	
+	<template name="vault_slot_empty">
+		<panel width="7.0h" height="7.0h" align="center" color="invisible">
+			<panel color="black" align="center" valign="center"/>
+			
+			<image texture="/ui/elements/runebuilder_icon.tga"/>
+			
+			<frame borderthickness="1" bordercolor="#5f1703" color="invisible" />
+			
+			<button
+				onmouseover="showwidget('fillslot_tip{slot}');"
+				onmouseout="hidewidget('fillslot_tip{slot}');"
+				onclick="playsound('/shared/sounds/ui/button_click.mp3'); SetHostInterface('runebuilder');"
+				color="invisible"			
+			/>
+			
+		</panel>
+	</template>
+	
+	<template name="persistant_vault_slot">
+		<panel width="7.0h" height="7.0h" align="center" noclick="true">
+				<image name="PersistantVault{slot}"
+				texture="/ui/elements/vault2.tga"
+				watch="PersistentVaultBrowserIcon{slot}"
+				ontrigger="SetTexture(param);"
+
+				/>
+				<button
+				onmouseover="showwidget('fillslot_tip{slot}');"
+				onmouseout="hidewidget('fillslot_tip{slot}');"
+					onclick="playsound('/shared/sounds/ui/button_click.mp3'); SetHostInterface('runebuilder');"
+					color="invisible"			
+				/>
+				
+				
+		</panel>
+
+	</template>
+	
+	<template name="qconnect_checkbox_state">
+		<widgetstate statename="{state}" float="right" padding="4">
+			<panel width="{size}">
+				<panel width="-2" height="-2" align="center" valign="center">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="white"/>
+					<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="4"/>
+					<image color="green" texture="/ui/elements/check.tga" visible="{checked}"/>
+				</panel>
+			</panel>
+			<label width="-{size}" height="100%" textvalign="center" font="{font}" color="{color}" shadow="true">{label}</label>
+		</widgetstate>
+	</template>	
+	<template name="qconnect_checkbox">
+		<panel width="100%" height="{height=18}" align="{align=center}" valign="{valign=center}" noclick="true">
+			<button color="invisible" numstates="2" cvar="{cvar}" onclick="PlaySound('/shared/sounds/ui/button_click.mp3');">
+				<instance name="qconnect_checkbox_state" state="up" size="{height=18}" label="{label}" font="{font=chat_12}"	color="white" checked="false"/>
+				<instance name="qconnect_checkbox_state" state="over" size="{height=18}" label="{label}" font="{font=chat_12}" color="yellow" checked="false"/>
+				<instance name="qconnect_checkbox_state" state="down" size="{height=18}" label="{label}" font="{font=chat_12}" color="green" checked="false"/>
+				<instance name="qconnect_checkbox_state" state="up2" size="{height=18}" label="{label}" font="{font=chat_12}" color="white" checked="true"/>
+				<instance name="qconnect_checkbox_state" state="over2" size="{height=18}" label="{label}" font="{font=chat_12}" color="yellow" checked="true"/>
+				<instance name="qconnect_checkbox_state" state="down2" size="{height=18}" label="{label}" font="{font=chat_12}" color="green" checked="true"/>
+			</button>
+		</panel>
+	</template>
+	
+	<template name="achievement">
+		<panel height="9.0h" align="left" noclick="1" color="invisible">
+			<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="#211817"/>
+			<frame  texture="/ui/frames/roundframe.tga" borderthickness="8" color="black"/>						
+			<frame  texture="/ui/frames/rounded_header_bg_white.tga" height="2.0h" borderthickness="8" color="#600f0f"/>
+			<frame  texture="/ui/frames/roundframe_header.tga" height="2.0h" borderthickness="8" color="black"/>						
+			<label x="0.6h" height="2.0h" textvalign="center" font="dyn_8" color="white" shadow="true">Journeyman and Sapling Assassins</label>						
+			<panel y="2.2h" width="-1.6h" height="-2.6h" align="center" color="invisible">						
+				<label y="0.3h" height="100%" width="-11.7h" font="dyn_9" color="#e6e2e1" shadow="1" wrap="1">Earned by repairing your teams structures</label>								
+				<image x="-5.8h" width="5.3h" height="5.3h" align="right" valign="center" texture="/ui/elements/achievements/1_1.tga"/>
+				<image width="5.3h" height="5.3h" align="right" valign="center" texture="/ui/elements/achievements/1_0.tga"/>
+			</panel>						
+		</panel>
+	</template>
+	
+	<template name="browser_tip">
+		<panel name="{tip_id}" x="{x=0}" y="{y=0}" width="{width}" height="{height}" align="{align}" color="invisible" visible="0" noclick="1" onshow="{onshow}">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="0 0 0 .8"/>
+			<frame texture="/ui/frames/roundframe.tga" borderthickness="8" color="#ad5700" />
+			
+			<label height="3.2h" width="-2.0h" align="center" textvalign="bottom" font="dyn_14" color="#FFCC00" content="{title}"/>
+			
+			<label y="3.6h" height="-3.0h" width="-2.0h" align="center" textvalign="top" font="dyn_12" color="white" wrap="1" content="{tip}"/>
+			
+		</panel>
+	</template>
+	
+	<template name="persistent_item_tip">
+		<panel name="{tip_id}" x="{x=0}" y="{y=0}" width="{width}" height="{height}" align="{align}" color="invisible" visible="0" noclick="1">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="0 0 0 .8"/>
+			<frame texture="/ui/frames/roundframe.tga" borderthickness="8" color="#ad5700" />
+			
+			<label height="3.2h" width="-2.0h" align="center" textvalign="bottom" font="dyn_14" color="#FFCC00" watch="PersistentVaultBrowserName{slot}" ontrigger="SetText(param);" />
+			
+			<label y="3.6h" height="-3.0h" width="-2.0h" align="center" textvalign="top" font="dyn_12" color="white" wrap="1" watch="PersistentVaultBrowserDescription{slot}" ontrigger="SetText(param);"/>
+			
+		</panel>
+	</template>
+	
+	<template name="combobox_item">
+		<label x="4" font="dyn_12" color="white" textvalign="center" shadow="true" shadowoffset="1" content="{label}" value="{value}"/>
+	</template>
+
+	<template name="options_combobox_state">
+		<widgetstate statename="{state}">
+			<panel>
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="{color}"/>
+				<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+				<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_{image}.tga" />
+			</panel>
+		</widgetstate>
+	</template>
+	
+	<panel texture="/ui/elements/parchment.tga"  height="100%" width="100%" align="center" onhide="Set('_lastmatchserver', -1); Set('_matchid', -1);"/>
+	
+	<panel name="margin_container" color="invisible" height="100%" width="100%" align="center" float="bottom" padding="1.0h">
+		
+		<panel name="upper_half_frame" width="-1.0h" height="46.0h" align="center" color="invisible">
+			<frame texture="/ui/frames/rounded_footer_bg_white.tga" style="lobby_window_bg" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_footer.tga" style="lobby_window" borderthickness="12"/>
+			
+			<panel name="upper_half" y="0.6h" height="-1.2h" width="-2.0h" align="center" color="invisible">	 
+				
+				<!-- User Info -->
+				<panel height="12.2h" width="20.0h" color="invisible">
+					<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg"/>
+					<frame  texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>
+					<frame  texture="/ui/frames/rounded_header_bg_white.tga" height="3.0h" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame  texture="/ui/frames/roundframe_header.tga" height="3.0h" style="lobby_window_header" borderthickness="12"/>
+					
+					<label width="-2.4h" align="center" height="3.0h" textvalign="center" font="dyn_14" color="white" shadow="true">Your Account</label>
+					
+					<panel y="2.0h" height="5.0h" width="-2.0h" align="center" color="invisible">
+						<panel color="invisible" watch="DemoAccountBrowser" ontrigger="SetVisible(param);">
+							<label height="100%" textvalign="center" textalign="top" align="center" font="dyn_12" color="white" shadow="true">Type: ^rBasic</label>
+							<label y="4.0h" textvalign="top" textalign="left" font="dyn_12" color="white" shadow="true" watch="ClientLevel" ontrigger="SetText('Level: ^r' # param # If(param lt 25,'^r / 25',''));">Level: ^r1</label>
+							<image onmouseover="showwidget('accttypebasic_tip');" onmouseout="hidewidget('accttypebasic_tip');" width="2.2h" height="2.2h" align="right" valign="center" texture="/ui/elements/tip_mark.tga"/>
+							<image y="2.6h" onmouseover="showwidget('level_tip'#If(ClientLevel lt 25,'','_pro'));" onmouseout="hidewidget('level_tip'#If(ClientLevel lt 25,'','_pro'));" width="2.2h" height="2.2h" align="right" valign="center" texture="/ui/elements/tip_mark.tga"/>
+						</panel>
+						<panel color="invisible" watch="DemoAccountBrowser" ontrigger="SetVisible(!param);">
+							<label height="100%" textvalign="center" textalign="top" align="center" font="dyn_12" color="white" shadow="true">Type: ^rPrime</label>
+							<label y="4.0h" textvalign="top" textalign="left" font="dyn_12" color="white" shadow="true" watch="ClientLevel" ontrigger="SetText('Level: ^r' # param);">Level: ^r1</label>
+							<image onmouseover="showwidget('accttype_tip');" onmouseout="hidewidget('accttype_tip');" width="2.2h" height="2.2h" align="right" valign="center" texture="/ui/elements/tip_mark.tga"/>
+							<image y="2.6h" onmouseover="showwidget('level_tip_pro');" onmouseout="hidewidget('level_tip_pro');" width="2.2h" height="2.2h" align="right" valign="center" texture="/ui/elements/tip_mark.tga"/>
+						</panel>
+					</panel>
+					
+					<instance name="round_button2" align="center" valign="bottom" y="-1.0h" width="-2.0h" height="2.4h" onclick="PlaySound('/shared/sounds/ui/button_quit.mp3'); SetHostInterface('main');" font="dyn_12" label="Return to Main Menu" />
+				
+				</panel>
+				
+				<!-- Filters -->
+				<panel name="filter_panel" height="-12.7h" width="20.0h" valign="bottom" align="left" color="invisible">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg"/>
+					<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>
+					<frame texture="/ui/frames/rounded_header_bg_white.tga" height="3.0h" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame texture="/ui/frames/roundframe_header.tga" height="3.0h" style="lobby_window_header" borderthickness="12"/>
+					
+					<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="2.4h" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="2.4h" style="lobby_window_header" borderthickness="12"/>
+
+					<label width="-2.4h" align="center" height="3.0h" textvalign="center" font="dyn_14" color="white" shadow="true">Browser Filters</label>
+						
+					<panel name="work_window" y="3.0h" height="-5.4h" width="-4" align="center" color="#FF330022" float="bottom" padding="0.1h">	
+						
+						<panel height="2.8h" color="#00000099">
+							<label width="-5.0h" height="100%" textvalign="center" textalign="right" align="left" font="dyn_12" color="white" shadow="true">Show Full:</label>
+							<panel name="full_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h">
+								<frame  texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame  texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<image x="-1" y="-1" width="2.0h" height="2.0h" align="center" valign="center" color="black" texture="/ui/elements/check.tga"/>			
+								<image width="2.0h" height="2.0h" align="center" valign="center" color="green" texture="/ui/elements/check.tga"/>								
+								<button width="-0.5h" height="-0.5h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('full_check'); ShowWidget('full_no_check'); BrowserShowFull(false);"/>
+							</panel>
+							<panel name="full_no_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h" visible="false">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<button width="2.0h" height="2.0h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('full_no_check'); ShowWidget('full_check'); BrowserShowFull(true);"/>
+							</panel>
+						</panel>
+						<panel height="2.8h" color="#00000077">
+							<label width="-5.0h" height="100%" textvalign="center" textalign="right" align="left" font="dyn_12" color="white" shadow="true">Show Empty:</label>
+							<panel name="empty_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h">
+								<frame  texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame  texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<image x="-1" y="-1" width="2.0h" height="2.0h" align="center" valign="center" color="black" texture="/ui/elements/check.tga"/>			
+								<image width="2.0h" height="2.0h" align="center" valign="center" color="green" texture="/ui/elements/check.tga"/>								
+								<button width="-0.5h" height="-0.5h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('empty_check'); ShowWidget('empty_no_check'); BrowserShowEmpty(false);"/>
+							</panel>
+							<panel name="empty_no_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h" visible="false">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<button width="2.0h" height="2.0h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('empty_no_check'); ShowWidget('empty_check'); BrowserShowEmpty(true);"/>
+							</panel>
+						</panel>
+						<panel height="2.8h" color="#00000099">
+							<label width="-5.0h" height="100%" textvalign="center" textalign="right" align="left" font="dyn_12" color="white" shadow="true">Show Sandboxes:</label>
+							<panel name="sandbox_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h">
+								<frame  texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame  texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<image x="-1" y="-1" width="2.0h" height="2.0h" align="center" valign="center" color="black" texture="/ui/elements/check.tga"/>			
+								<image width="2.0h" height="2.0h" align="center" valign="center" color="green" texture="/ui/elements/check.tga"/>							
+								<button width="-0.5h" height="-0.5h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('sandbox_check'); ShowWidget('sandbox_no_check'); BrowserShowSandbox(false);"/>
+							</panel>
+							<panel name="sandbox_no_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<button width="-0.5h" height="-0.5h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('sandbox_no_check'); ShowWidget('sandbox_check'); BrowserShowSandbox(true);"/>
+							</panel>
+						</panel>
+						<panel height="2.8h" color="#00000077">
+							<label width="-10.5h" height="100%" textvalign="center" textalign="right" align="left" font="dyn_12" color="white" shadow="true">Max Ping:</label>
+							<panel x="-0.5h" valign="center" align="right" height="2.5h" width="9.0h">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8">
+									<image align="left" x="0.1h" valign="center" height="2.1h" width="2.1h" color="black" texture="/ui/elements/sort_down.tga"/>
+									<label name="max_ping_label" y="-1" x="8%" width="82%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">None</label> <!-- header label -->														
+									<button color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); showwidget('max_ping_list'); SetFocusName('max_ping_list');"/>
+								</frame>
+							</panel>
+						</panel>
+						<panel height="2.8h" color="#00000099">				
+							<label width="-10.5h" height="100%" textvalign="center" textalign="right" align="left" font="dyn_12" color="white" shadow="true">Races:</label>
+							<panel x="-0.5h" valign="center" align="right" height="2.5h" width="9.0h">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8">
+									<image align="left" x="0.1h" valign="center" height="2.1h" width="2.1h" color="black" texture="/ui/elements/sort_down.tga"/>
+									<label name="race_filter_label" y="-1" x="4%" width="82%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">Any</label> <!-- header label -->														
+									<button color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); showwidget('races_list'); SetFocusName('races_list');"/>
+								</frame>
+							</panel>				
+						</panel>
+						<panel height="2.8h" color="#00000077">				
+							<label width="-10.5h" height="100%" textvalign="center" textalign="right" align="left" font="dyn_12" color="white" shadow="true">Map:</label>
+							<panel x="-0.5h" valign="center" align="right" height="2.5h" width="9.0h">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" color="black"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#CC555577" borderthickness="6">
+									<textbox width="-1.4h" y="1" height="100%" maxlength="32" valign="center" align="center" color="invisible" font="dyn_12" onesc="EraseInputLine();" onchange="BrowserSetMapFilter(this);"/>
+								</frame>
+							</panel>				
+						</panel>
+						<panel height="2.8h" color="#00000099">
+							<label width="-5.0h" height="100%" textvalign="center" textalign="right" align="left" font="dyn_12" color="white" shadow="true">Different Version:</label>
+							<panel name="diffversion_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h" visible="false">
+								<frame  texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame  texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<image x="-1" y="-1" width="2.0h" height="2.0h" align="center" valign="center" color="black" texture="/ui/elements/check.tga"/>			
+								<image width="2.0h" height="2.0h" align="center" valign="center" color="green" texture="/ui/elements/check.tga"/>
+								<button width="-0.5h" height="-0.5h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('diffversion_check'); ShowWidget('diffversion_no_check'); BrowserShowDiffVersion(false);"/>
+							</panel>
+							<panel name="diffversion_no_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<button width="-0.5h" height="-0.5h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('diffversion_no_check'); ShowWidget('diffversion_check'); BrowserShowDiffVersion(true);"/>
+							</panel>
+						</panel>						
+						<panel height="2.8h" color="#00000077">
+							<label width="-5.0h" height="100%" textvalign="center" textalign="right" align="left" font="dyn_12" color="white" shadow="true">All Level Ranges:</label>
+							<panel name="difflevel_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h" visible="false">
+								<frame  texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame  texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<image x="-1" y="-1" width="2.0h" height="2.0h" align="center" valign="center" color="black" texture="/ui/elements/check.tga"/>			
+								<image width="2.0h" height="2.0h" align="center" valign="center" color="green" texture="/ui/elements/check.tga"/>
+								<button width="-0.5h" height="-0.5h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('difflevel_check'); ShowWidget('difflevel_no_check'); BrowserShowDiffLevelRange(false);"/>
+							</panel>
+							<panel name="difflevel_no_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<button width="-0.5h" height="-0.5h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('difflevel_no_check'); ShowWidget('difflevel_check'); BrowserShowDiffLevelRange(true);"/>
+							</panel>
+						</panel>
+						
+						
+						<panel height="2.8h" color="#00000099">
+							<label width="-5.0h" height="100%" textvalign="center" textalign="right" align="left" font="dyn_12" color="white" shadow="true">Unresponsive:</label>
+							<panel name="unresp_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h" visible="false">
+								<frame  texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame  texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<image x="-1" y="-1" width="2.0h" height="2.0h" align="center" valign="center" color="black" texture="/ui/elements/check.tga"/>			
+								<image width="2.0h" height="2.0h" align="center" valign="center" color="green" texture="/ui/elements/check.tga"/>
+								<button width="16" height="16" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('unresp_check'); ShowWidget('unresp_no_check'); BrowserShowUnresponsive(false);"/>
+							</panel>
+							<panel name="unresp_no_check" x="-0.8h" align="right" valign="center" height="2.5h" width="2.5h">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFFFFF"/>
+								<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="8"/>
+								<button width="-0.5h" height="-0.5h" align="center" valign="center" color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); HideWidget('unresp_no_check'); ShowWidget('unresp_check'); BrowserShowUnresponsive(true);"/>
+							</panel>
+						</panel>
+						
+						
+
+						<panel name="max_ping_list" y="9.1h" x="-0.5h" align="right" width="9.0h" height="18.0h" color="invisible" visible="false" onload="CreateInt('_hide_ping_dropdown', 0);" onlosefocus="Set('_hide_ping_dropdown', 1);" onframe="If(_hide_ping_dropdown != 2, Set('_hide_ping_dropdown', _hide_ping_dropdown + 1), HideWidget('max_ping_list')); If(_hide_ping_dropdown == 2, Set('_hide_ping_dropdown', 0));">											
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" color="#FFFFFF"/>
+							<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="6" float="bottom" padding="0">
+
+								<button y="0" color="invisible" onclick="playsound('/shared/sounds/ui/button_rightclick.mp3'); hidewidget('max_ping_list');"/>
+
+								<panel y="3" height="2.4h" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">None</label> 																				
+									<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); HideWidget('max_ping_list'); Call('max_ping_label', 'SetText(\'None\');'); BrowserSetMaxPing('-1');"/>		
+								</panel>
+
+								<panel height="1" align="center" color="black" width="100%"/>						
+
+								<panel height="2.4h" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">50 m/s</label> 																											
+									<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); hidewidget('max_ping_list'); Call('max_ping_label', 'SetText(\'50 m/s\');'); BrowserSetMaxPing('50');"/>
+								</panel>
+
+								<panel height="1" align="center" color="black" width="100%"/>						
+
+								<panel height="2.4h" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">100 m/s</label> 																											
+									<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); HideWidget('max_ping_list'); Call('max_ping_label', 'SetText(\'100 m/s\');'); BrowserSetMaxPing('100');"/>
+								</panel>
+
+								<panel height="1" align="center" color="black" width="100%"/>
+
+								<panel height="2.4h" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">150 m/s</label> 							
+									<button color="invisible" onclick="playsound('/shared/sounds/ui/button_rightclick.mp3'); hidewidget('max_ping_list'); Call('max_ping_label', 'SetText(\'150 m/s\');'); BrowserSetMaxPing('150');"/>
+								</panel>
+
+								<panel height="1" align="center" color="black" width="100%"/>
+
+								<panel height="2.4h" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">200 m/s</label> 							
+									<button color="invisible" onclick="playsound('/shared/sounds/ui/button_rightclick.mp3'); hidewidget('max_ping_list'); Call('max_ping_label', 'SetText(\'200 m/s\');'); BrowserSetMaxPing('200');"/>
+								</panel>
+
+								<panel height="1" align="center" color="black" width="100%"/>
+								<panel height="2.2h" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">250 m/s</label> 						
+									<button color="invisible" onclick="playsound('/shared/sounds/ui/button_rightclick.mp3'); hidewidget('max_ping_list'); Call('max_ping_label', 'SetText(\'250 m/s\');'); BrowserSetMaxPing('250');"/>
+								</panel>
+
+								<panel height="1" align="center" color="black" width="100%"/>			
+
+								<panel height="2.4h" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">300 m/s</label> 			
+									<button color="invisible" onclick="playsound('/shared/sounds/ui/button_rightclick.mp3'); hidewidget('max_ping_list'); Call('max_ping_label', 'SetText(\'300 m/s\');'); BrowserSetMaxPing('300');"/>
+								</panel>
+							</frame>
+						</panel>
+
+						<panel name="races_list" y="12.1h" x="-0.5h" align="right" width="9.0h" height="11.6h" color="invisible" visible="false" onload="CreateInt('_hide_races_dropdown', 0);" onlosefocus="Set('_hide_races_dropdown', 1);" onframe="If(_hide_races_dropdown != 2, Set('_hide_races_dropdown', _hide_races_dropdown + 1), HideWidget('max_races_list')); If(_hide_races_dropdown == 2, Set('_hide_races_dropdown', 0));">					
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" color="#FFFFFF"></frame> <!-- frame bg -->		 		
+							<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="6" float="bottom" padding="0">
+
+								<button y="0" color="invisible" onclick="HideWidget('races_list');"/>
+
+								<panel y="3" height="20" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">Any</label> 																				
+									<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); HideWidget('races_list'); Call('race_filter_label', 'SetText(\'Any\');'); BrowserSetRaceFilter('');"/>
+								</panel>
+
+								<panel height="1" align="center" color="black" width="100%"></panel>						
+
+								<panel height="20" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">H vs. H</label> 																											
+									<button color="invisible" onclick="playsound('/shared/sounds/ui/button_rightclick.mp3'); hidewidget('races_list'); Call('race_filter_label', 'SetText(\'H vs. H\');'); BrowserSetRaceFilter('HvH');"/>							
+								</panel>
+
+								<panel height="1" align="center" color="black" width="100%"></panel>						
+
+								<panel height="20" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">B vs. B</label> 																											
+									<button color="invisible" onclick="playsound('/shared/sounds/ui/button_rightclick.mp3'); hidewidget('races_list'); Call('race_filter_label', 'SetText(\'B vs. B\');'); BrowserSetRaceFilter('BvB');"/>							
+								</panel>
+
+								<panel height="1" align="center" color="black" width="100%"></panel>
+
+								<panel height="20" color="invisible">
+									<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="dyn_12" color="black" shadow="false">H vs. B</label>
+									<button color="invisible" onclick="playsound('/shared/sounds/ui/button_rightclick.mp3'); hidewidget('races_list'); Call('race_filter_label', 'SetText(\'H vs. B\');'); BrowserSetRaceFilter('HvB');"/>
+								</panel>					
+							</frame>				
+						</panel>
+					</panel>
+
+					<!-- demo filter blocker
+					<panel name="demo_attribute_cover" watch="DemoAccount" ontrigger="SetVisible(param);" visible="0">
+						<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#00ccFF88"/>
+						<frame x="0" texture="/ui/frames/roundframe.tga" borderthickness="12" color="yellow"/>
+						
+						<button onmouseover="ShowWidget('demo_attribute_tip');" onmouseout="HideWidget('demo_attribute_tip');" color="invisible"/>
+						
+						<panel width="-20" y="30" valign="center" align="center" height="220">
+							<frame color="#000000cc" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+							<frame color="yellow"  texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+							<panel name="purchase_button" align="center" valign="bottom" y="-10" width="-20" height="24" visible="true">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+								<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+								<instance  name="round_button2" width="100%" height="24" font="dyn_12" onclick="SetHostInterface('purchase');" label="Activate Account"/>
+							</panel>	
+							<label y="-0" width="90%" height="140" textvalign="center" textalign="center" valign="top" align="center" wrap="true" font="dyn_12" color="white" shadow="false">Activate your account now to access filters and many more added features.</label>						
+						</panel>
+						<label  y="88" height="56" textalign="center" textvalign="center" align="left" font="dyn_11" color="yellow" shadow="true">Dissabled Demo Mode</label>
+						<image align="center" y="20" width="92" height="92" texture="/ui/elements/lock.tga"/>
+					</panel>-->
+          	
+				</panel>
+				<!-- END Filters -->
+
+				<!-- Browser List -->
+				<panel name="game_browser" width="-20.5h" align="right" color="invisible" watch="GameListPlayers UnofficialGameListPlayers" ontrigger="Call('game_browser_refresh_button','SetEnabled(0);'); SleepWidget(300);" onwake="Call('game_browser_refresh_button','SetEnabled(1);'); Set('cc_serverlist_updating',false);">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg"/>
+					<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>
+					<frame texture="/ui/frames/rounded_header_bg_white.tga" height="3.0h" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame texture="/ui/frames/roundframe_header.tga" height="3.0h" style="lobby_window_header" borderthickness="12"/>
+					
+					<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="4.4h" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="4.4h" style="lobby_window_header" borderthickness="12">
+												
+						<instance name="round_button2" x="-2.0h" width="16.0h" height="2.6h" align="right" valign="center" onclick="playsound('/shared/sounds/ui/button_click.mp3'); Disconnect(); if(!IsServerNumPassworded(_browser_last_selected_server), ConnectToServerNum(_browser_last_selected_server), ShowWidget('connect_password'));"  font="dyn_14" label="Connect" /> 
+						<instance name="round_button2" x="-19.0h" width="16.0h" height="2.6h" align="right" valign="center" onclick="playsound('/shared/sounds/ui/button_click.mp3'); showwidget('connect_to_ip');"  font="dyn_14" label="Connect to IP" /> 
+						
+						<instance name="round_button2" button_name="game_browser_refresh_button" x="2.0h" width="16.0h" height="2.6h" align="left" valign="center" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); Set('cc_serverlist_updating',true); RefreshServerList(); _browser_last_selected_server = -1; SetEnabled(0);"  font="dyn_14" label="Refresh List" /> 
+						
+					</frame>
+
+					<label width="-2.4h" height="3.0h" textvalign="center" align="center" font="dyn_14" color="white" shadow="true" onload="CreateInt('_GameListPlayers',0); CreateInt('_UnofficialGameListPlayers',0);" watch="GameListPlayers" ontrigger="Set('_GameListPlayers',param0); SetText('Game Browser - ^r' # Round(_GameListPlayers + _UnofficialGameListPlayers) # '^* Players on ^r' # param1 # ' ^*Servers');" watch0="UnofficialGameListPlayers" ontrigger0="SetText('Game Browser - ^r' # Round(_GameListPlayers + _UnofficialGameListPlayers) # '^* Players on ^r' # param1 # ' ^*Servers');">Game Browser - ^r0^* Players on ^r0^* Servers</label>			
+					
+					<!-- Auto Connect -->
+					<panel y="3.6h" width="-2.0h" height="4.0h" align="center" color="invisible">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+						<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="8"/>						
+						<label x="1.0h" height="100%" textvalign="center" textalign="left" align="left" font="dyn_14" color="white" shadow="true">Quick Connect:</label>						
+						<instance
+							name="round_button2"
+							x="17.0h"
+							width="35.0h"
+							height="2.4h"
+							align="left"
+							watch="ClientLevel"
+							onload="CreateInt('_PlayerLevel', 0);"
+							ontrigger="_PlayerLevel = param;"
+							valign="center"
+							onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); QuickConnect(cl_QuickConnectOfficialOnly, _PlayerLevel);"
+							font="dyn_14"
+							label="Quick Connect to Best Server"
+						/>
+						<panel x="54.0h" width="36.0h" color="invisible">
+							<instance name="qconnect_checkbox" height="2.4h" align="left" valign="center" cvar="cl_QuickConnectOfficialOnly" label="Only Connect To Official S2 Games Servers" font="dyn_11"/>
+						</panel>						
+						<image onmouseover="showwidget('quickconnect_tip');" onmouseout="hidewidget('quickconnect_tip');" x="-1.0h" width="2.6h" height="2.6h" align="right" valign="center" texture="/ui/elements/tip_mark.tga"/>
+					</panel>
+					
+					<panel name="server_list_window" y="-4.5h" height="-13.0h" width="-0.5h" align="center" valign="bottom" color="invisible" onshow="RefreshServerList(); _browser_last_selected_server = -1;">
+						
+						<panel color=".2 .1 0 1"/>
+						
+						<frame height="3.0h" color="#FF7F0099" borderthickness="2" bordercolor="#80400099">
+							<image x="0.5h" height="2.6h" width="2.6h" align="left" valign="center" texture="/ui/elements/s2clan.tga"/>
+							<label x="3.6h" height="100%" align="left" valign="center" textvalign="center" color="white" font="dyn_12" shadow="false">This icon represents an Official S2 Games server where your stats will be recorded.</label>
+						</frame>
+						
+						<panel y="3.0h" height="-2.6h" color="invisible">
+							<panel name="server_list_selected" height="7.7%" width="-1.0h" color="1 .1 0 .3" visible="false"/>
+							
+							<table
+								name="server_list"
+								width="100%"
+								align="top"
+								color="invisible"
+								rows="12"
+								expandable="true"
+								rowheight="7.7%"
+								cols="3%,5%,10.5%,2.5%,16.5%,6%,6%,7%,5%,6%,10%,10%,11%"
+								font="dyn_12"
+								bordercolor="invisible"
+								headings="S2,Ping,Location,,Server Name,MinLvl,MaxLvl,Players,Min,Race,Map,Next Map,Game Time"
+								headingid="-2"
+								headingcolor="#00000044"
+								height="100%"
+								altrowcolor="#ffffff22"
+								usescrollbar="true"
+								scrolltexture="/ui/elements/vist_scroll.tga"
+								handleheight="6.0h"
+								watch="GameList UnofficialGameList"
+								onload="CreateInt('_browser_last_selected_server', -1); CreateInt('_valid_server', 0); CreateInt('_reverse_sort', 0); CreateInt('_last_sorted', 0); SortByColNum(1);"
+								onclick="
+									_valid_server = (dataid != -1);
+									If(_valid_server, Set(_valid_server, dataid != -2)));
+									If(_valid_server, Set(_valid_server, (dataid != 0)));
+									If(_valid_server, Set(_browser_last_selected_server, dataid));
+									If(_valid_server, Call('server_list_selected', 'SetVisible(true); SetY(\'' # GetCellPositionY(col, row) # '\');'));
+									If(dataid == -2 and _last_sorted == col, Set(_reverse_sort, 1));
+									If(dataid == -2 and _last_sorted != col, Set(_reverse_sort, 0));
+									If(_reverse_sort and dataid == -2 and col == 1, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col == 5, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col == 6, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col == 7, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col == 8, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col != 1 and col != 5 and col != 6 and col != 7 and col != 8, SortByColReverse(col));
+									If(_reverse_sort and dataid == -2, Set(_last_sorted, -1));
+									If(!_reverse_sort and dataid == -2 and col == 1, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col == 5, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col == 6, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col == 7, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col == 8, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col != 1 and col != 5 and col != 6 and col != 7 and col != 8, SortByCol(col));
+									If(!_reverse_sort and dataid == -2, Set(_last_sorted, col));"
+								ondoubleclick="
+									_valid_server = (dataid != -1);
+									If(_valid_server, Set(_valid_server, dataid != -2)));
+									If(_valid_server, Set(_valid_server, (dataid != 0)));
+									If(_valid_server, Set(_browser_last_selected_server, dataid));
+									If(_valid_server, Call('server_list_selected', 'SetVisible(true); SetY(\'' # GetCellPositionY(col, row) # '\');'));
+									If(_valid_server, Disconnect());
+									If(_valid_server and !IsServerNumPassworded(dataid), ConnectToServerNum(dataid));
+									If(_valid_server and IsServerNumPassworded(dataid), ShowWidget('connect_password'));
+									If(dataid == -2 and _last_sorted == col, Set(_reverse_sort, 1));
+									If(dataid == -2 and _last_sorted != col, Set(_reverse_sort, 0));
+									If(_reverse_sort and dataid == -2 and col == 1, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col == 5, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col == 6, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col == 7, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col == 8, SortByColNumReverse(col));
+									If(_reverse_sort and dataid == -2 and col != 1 and col != 5 and col != 6 and col != 7 and col != 8, SortByColReverse(col));
+									If(_reverse_sort and dataid == -2, Set(_last_sorted, -1));
+									If(!_reverse_sort and dataid == -2 and col == 1, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col == 5, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col == 6, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col == 7, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col == 8, SortByColNum(col));
+									If(!_reverse_sort and dataid == -2 and col != 1 and col != 5 and col != 6 and col != 7 and col != 8, SortByCol(col));
+									If(!_reverse_sort and dataid == -2, Set(_last_sorted, col));"
+								onclear="
+									HideWidget('server_list_selected');
+									_valid_server = 0;
+									_browser_last_selected_server = -1;"
+								textalign="center"
+								textvalign="center"
+							/>
+						</panel>
+					</panel>	
+											
+				</panel>
+				<!-- END Browser List -->
+				
+				<!-- Top Tooltips -->
+				
+				<instance name="browser_tip" tip_id="quickconnect_tip" x="-5.0h" y="4.0h" width="40.0h" height="15.9h" align="right" title="Quick Connect" tip="Clicking the quick connect button will automatically find the server with an open slot and the lowest ping. Quick Connect will also avoid empty servers, unless no other servers are available. By default, only official S2 Games Servers are selected."/>
+				<instance name="browser_tip" tip_id="level_tip" onshow="HideWidget('level_tip_pro');" x="21.0h" y="6.0h" width="45.0h" height="18.2h" align="left" title="Account Level" tip="Your account level is determined by the experience you accumulate over time by playing official games. Upon achieving level 25, your account is converted to Prime status for free, with all of the related benefits. This account level also determines which servers you can join, but has no relation to the levels in-game, and has no bearing on your in-game unit."/>
+				<instance name="browser_tip" tip_id="level_tip_pro" onshow="HideWidget('level_tip');" x="21.0h" y="6.0h" width="45.0h" height="16.2h" align="left" title="Account Level" tip="Your account level is determined by the experience you accumulate over time by playing official games. This level reflects your player experience, and may be used to determine which servers you can join. This account level has no relation to the in-game levels, and has no bearing on your in-game unit."/>
+				
+				<!-- If Acct Prime -->
+				<instance name="browser_tip" tip_id="accttype_tip" x="21.0h" y="2.6h" width="26.0h" height="10.6h" align="left" title="Account Type" tip="You have a Prime Account. Thank you for supporting independent gaming!"/>
+				<!-- Else -->
+				<panel name="accttypebasic_tip" x="21h" y="2.6h" width="42.0h" height="38.0h" align="left" noclick="1" visible="0">
+          <frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="0 0 0 .8"/>
+          <frame texture="/ui/frames/roundframe.tga" borderthickness="8" color="#ad5700" />
+					
+          <label height="3.2h" width="-2.0h" align="center" textvalign="bottom" font="dyn_14" color="#FFCC00" content="Account Type"/>
+
+					<label y="3.6h" x="1.0h" height="12.0h" width="-3.0h" textvalign="top" font="dyn_12" color="white" wrap="1">Your account is currently a basic (free) account.  You're missing out on several key features that could greatly improve your Savage 2 experience:</label>
+
+					<panel y="11.0h" height="2h" align="left" float="right" width="100%" x="1h">
+						<image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label x="2h" width="-1.5h" textalign="left" textvalign="top" font="dyn_12" shadow="true" wrap="true" color="white" >Player stats (including achievements) access</label>
+					</panel> 
+	
+					<panel y="13.0h" height="2h" align="left" float="right" width="100%" x="1h">
+						<image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label x="2h" width="-1.5h" textalign="left" textvalign="top" font="dyn_12" shadow="true" wrap="true" color="white" >Two extra inventory slots</label>
+					</panel> 
+	
+					<panel y="15.0h" height="2h" align="left" float="right" width="100%" x="1h">
+						<image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label x="2h" width="-1.5h" textalign="left" textvalign="top" font="dyn_12" shadow="true" wrap="true" color="white" >Unlimited Hellbourne Units</label>
+					</panel> 
+	
+					<panel y="17.0h" height="2h" align="left" float="right" width="100%" x="1h">
+            <image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label x="2h" width="-1.5h" textalign="left" textvalign="top" font="dyn_12" shadow="true" wrap="true" color="white" >Create and manage clans</label>
+					</panel> 		
+	
+					<panel y="19.0h" height="2h" align="left" float="right" width="100%" x="1h">
+            <image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+            <label x="2h" width="-1.5h" textalign="left" textvalign="top" font="dyn_12" shadow="true" wrap="true" color="white" >Access to replays of every match ever played</label>
+					</panel> 
+	
+					<panel y="21.0h" height="2h" align="left" float="right" width="100%" x="1h">
+            <image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+            <label x="2h" width="-1.5h" textalign="left" textvalign="top" font="dyn_12" shadow="true" wrap="true" color="white" >Support independent gaming!</label>
+					</panel> 
+										
+          <label y="24.0h" x="1.0h" height="8.0h" width="-7.0h" textvalign="top" font="dyn_12" color="white" wrap="1">Your account is automatically converted to Prime status ^yfor free, ^wwith all of the above benefits, upon achieving ^gaccount level 25.</label>
+
+					<label y="31.0h" x="1.0h" height="8.0h" width="-7.0h" textvalign="top" font="dyn_12" color="white" shadow="true" wrap="1">You can also upgrade to Prime immediately, accompanied by two random 60-day runes, all for a ^yone-time^w fee of only ^g$9.99!</label>
+					
+					
+				</panel>
+				
+				<!-- END Top Tooltips -->
+				
+				
+				
+				
+				
+			</panel>	
+		</panel>
+		
+		
+		<panel name="lower_half_frame" width="-1.0h" height="53.0h" align="center" onshow="ChatUpdateUserList(); ChatUpdateBuddyList(); ChatUpdateClanList();" color="invisible">
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" color="#7C1A1955"  borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" color="#863838" borderthickness="12"/>
+
+			<panel name="lower_half" y="1.0h" width="-2.0h" align="center" height="-2.0h" color="invisible">
+				
+				<!-- Buddy List
+				<panel name="buddy_list" width="180" align="right" visible="0">
+				
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg"/>
+					<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>
+					<frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window_header" borderthickness="12"/>
+					<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" style="lobby_window_header" borderthickness="12">
+
+
+						<instance name="round_button2" width="80%" height="24" align="center" valign="center" onclick="playsound('/shared/sounds/ui/button_click.mp3'); ShowWidget('add_buddy_panel');" font="dyn_14" label="Add Buddy" />					
+					</frame>
+
+					<label width="-20" height="24" textvalign="center" align="center" font="dyn_14" color="white" shadow="true">Buddy / Clans</label>
+
+					<panel name="buddy_clan_button" y="27" height="20"  width="-4" align="center" color="blue">
+						<panel width="49.5%" color="red" align="left">
+							<frame name="buddy_button_red" texture="/ui/frames/rounded_bg_red.tga" borderthickness="1" color="white"/>
+							<frame name="buddy_button_white" visible="false" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="1" color="#AAAAAA"/>
+							<frame  texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="1"/>
+							<label width="100%" height="100%" textalign="center" textvalign="center" align="center" font="dyn_12" color="white" shadow="true">Buddy List</label> 
+							<button color="invisible" onclick="hidewidget('clan_list'); showwidget('buddy_listbox'); hidewidget('buddy_button_white'); showwidget('buddy_button_red'); showwidget('clan_button_white'); hidewidget('clan_button_red'); playsound('/shared/sounds/ui/button_click.mp3');"></button>
+						</panel>
+						<panel name="vert_divider" width="1%" color="#7C1A19" align="center"></panel>
+						<panel width="49.5%" color="orange" align="right">
+							<frame name="clan_button_red" visible="false" texture="/ui/frames/rounded_bg_red.tga" borderthickness="1" color="white"/>
+							<frame name="clan_button_white" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="1" color="#AAAAAA"/>
+							<frame  texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="1"/>
+							<label width="100%" height="100%" textalign="center" textvalign="center" align="center" font="dyn_12" color="white" shadow="true">Clan List</label> 
+							<button color="invisible" onclick="showwidget('clan_list'); hidewidget('buddy_listbox'); showwidget('buddy_button_white'); hidewidget('buddy_button_red'); hidewidget('clan_button_white'); showwidget('clan_button_red'); playsound('/shared/sounds/ui/button_click.mp3');"></button>
+						</panel>
+					</panel>
+
+					<panel name="buddy_clan_window" y="47" height="-83" width="-4" align="center" color="#00000077">
+						<listbox
+							name="buddy_listbox"
+							wrap="row"
+							width="96%" height="100%"
+							align="center" valign="center"
+							color="invisible"
+							itemwidth="96%" itemheight="16"
+							font="gametweener"
+							highlightcolor="maroon" highlightbordercolor="invisible"
+							highlight="under"
+							scrolltexture="/ui/elements/vist_scroll.tga"
+							handleheight="64"
+							hoverselect="false"
+							watch="ChatBuddyEvent"
+							ontrigger="(*param);"
+							onselect="Set('ui_lastSelectedUser', Substring(this,1,-1)); SetFocusName('chatbox');"
+							ondoubleclick="Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');');
+														SetFocusName('chatbox');"
+							onrightclick="
+								Set('ui_lastSelectedUser', Substring(this,1,-1));
+								if(Substring(this,0,1) == '0', Set('ui_tooltipTarget', ''));
+								if(Substring(this,0,1) == '1', Set('ui_tooltipTarget', 'buddylist_rtclick_online'));
+								if(Substring(this,0,1) == '2', Set('ui_tooltipTarget', ''));
+								if(Substring(this,0,1) == '3', Set('ui_tooltipTarget', 'buddylist_rtclick_game'));
+								if(Substring(this,0,1) == '4', Set('ui_tooltipTarget', ''));
+								if(Substring(this,0,1) == '5', Set('ui_tooltipTarget', 'buddylist_rtclick_offline'));
+								Call(ui_tooltipTarget, 'SetVisible(true);');
+								Call(ui_tooltipTarget, 'SetX(\'' # param0 # '\');');
+								Call(ui_tooltipTarget, 'SetY(\'' # param1 # '\');');
+								Call(ui_tooltipTarget # '_choices', 'ListBoxCmd(\'SelectNone\');');
+								If(StringLength(ui_tooltipTarget),PlaySound('/shared/sounds/ui/button_rightclick.mp3'));
+								If(StringLength(ui_tooltipTarget),SetFocusName(ui_tooltipTarget),SetFocus(1));"
+						/>
+						<panel name="clan_list" visible="0" onshow="if(!IsInClan(),ShowOnly('clan_list_none')); if(IsInClan(), Split(if(IsClanOfficer(),ShowOnly('clan_list_officer')), if(IsClanLeader(),ShowOnly('clan_list_leader')), if(!IsClanOfficer and !IsClanLeader(),ShowOnly('clan_list_member'))));">
+							<panel name="clan_list_none" color="invisible" group="clan_group" visible="1" blockinput="false" noclick="true">
+								<panel width="-16" y="30" align="center" float="bottom" >
+									<label width="-40" align="center" textalign="center" wrap="1" font="dyn_14" color="red" shadow="true">You are not currently in a clan.</label>
+									<label y="64" height="120" align="left" textalign="left" wrap="1" font="dyn_12" color="white" shadow="true">If you are interested in joining a clan, change your status below. Your status will be viewable by clan leaders.</label>
+								</panel>
+								
+								<panel width="-20" y="180" height="22" align="center" color="invisible">
+									<label width="96" height="100%" textalign="left" textvalign="center" font="dyn_12" color="yellow" shadow="true">Status</label>
+									<combobox
+										name="no_clan_state"
+										x="44"
+										width="115"
+										height="20"
+										valign="center"
+										color="invisible"
+										itemwidth="130"
+										itemheight="20"
+										maxlistheight="6"
+										cvar="cc_lookingForClan"
+										exteriorscrollbars="false"
+										scrolltexture="/ui/elements/vist_scroll.tga"
+										handleheight="48"
+										scrollbaroffset="0"
+										highlight="under"
+										onload=""
+										onselect="SetFocus(1);"
+									>
+										<instance name="options_combobox_state" state="up" color="#2E1F00" image="up"/>
+										<instance name="options_combobox_state" state="over" color="#504009" image="over"/>
+										<instance name="options_combobox_state" state="down" color="#504009" image="over"/>
+										<widgetstate statename="listbg">
+											<panel height="117">
+												<frame texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="4" color="#504009"/>
+												<image height="-6" texture="/ui/elements/list_parchment.tga" />
+												<frame texture="/ui/frames/roundframe_footer.tga" borderthickness="4" color="#5E2D1F"/>
+											</panel>
+										</widgetstate>
+										<widgetstate statename="itembg">
+											<panel width="115">
+												<image texture="/ui/elements/list_gradient.tga" rendermode="overlay" color="#909090" />
+												<frame texture="/ui/frames/roundframe_square.tga" borderthickness="10" color="#5E2D1F"/>
+											</panel>
+										</widgetstate>
+										<widgetstate statename="itemhighlight">
+											<panel width="115">
+												<panel x="1" y="1" width="-2" height="-2" color="#404000" rendermode="additive" />
+											</panel>
+										</widgetstate>
+										
+										<listitem value="false"><label color="white" font="gametiny">Not Interested</label></listitem>
+										<listitem value="true"><label color="white" font="gametiny">Looking For Clan</label></listitem>
+									</combobox>
+								</panel>
+							</panel>
+							<panel name="clan_list_member" color="invisible" group="clan_group" visible="1" blockinput="false" noclick="true">
+								<listbox
+									name="clan_listbox_member"
+									wrap="row"
+									width="96%" height="100%"
+									align="center" valign="center"
+									color="invisible"
+									itemwidth="96%" itemheight="16"
+									font="gametweener"
+									highlightcolor="maroon"
+									highlightbordercolor="invisible"
+									highlight="under"
+									scrolltexture="/ui/elements/vist_scroll.tga"
+									handleheight="32"
+									hoverselect="false"
+									watch="ChatClanEvent"
+									ontrigger="(*param);"
+									onselect="Set('ui_lastSelectedUser', Substring(this,2,-1)); SetFocusName('chatbox');"
+									ondoubleclick="Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');');
+																SetFocusName('chatbox');"
+									onrightclick="
+										Set('ui_lastSelectedUser', Substring(this,2,-1));
+										if(Substring(this,0,2) == '00', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '01', Set('ui_tooltipTarget', 'clanlist_rtclick_member_online'));
+										if(Substring(this,0,2) == '02', Set('ui_tooltipTarget', 'clanlist_rtclick_member_online'));
+										if(Substring(this,0,2) == '03', Set('ui_tooltipTarget', 'clanlist_rtclick_member_online'));
+										if(Substring(this,0,2) == '04', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '05', Set('ui_tooltipTarget', 'clanlist_rtclick_member_game'));
+										if(Substring(this,0,2) == '06', Set('ui_tooltipTarget', 'clanlist_rtclick_member_game'));
+										if(Substring(this,0,2) == '07', Set('ui_tooltipTarget', 'clanlist_rtclick_member_game'));
+										if(Substring(this,0,2) == '08', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '09', Set('ui_tooltipTarget', 'clanlist_rtclick_member_offline'));
+										if(Substring(this,0,2) == '10', Set('ui_tooltipTarget', 'clanlist_rtclick_member_offline'));
+										if(Substring(this,0,2) == '11', Set('ui_tooltipTarget', 'clanlist_rtclick_member_offline'));
+										if(StringEquals(Substring(this,2,-1), GetAccountName()), Set('ui_tooltipTarget', ''));
+										Call(ui_tooltipTarget, 'SetVisible(true);');
+										Call(ui_tooltipTarget, 'SetX(\'' # param0 # '\');');
+										Call(ui_tooltipTarget, 'SetY(\'' # param1 # '\');');
+										Call(ui_tooltipTarget # '_choices', 'ListBoxCmd(\'SelectNone\');');
+										If(StringLength(ui_tooltipTarget),PlaySound('/shared/sounds/ui/button_rightclick.mp3'));
+										If(StringLength(ui_tooltipTarget),SetFocusName(ui_tooltipTarget),SetFocus(1));"
+								/>
+							</panel>
+							<panel name="clan_list_officer" color="invisible" group="clan_group" visible="1" blockinput="false" noclick="true">
+								<listbox
+									name="clan_listbox_officer"
+									wrap="row"
+									width="96%" height="100%"
+									align="center" valign="center"
+									color="invisible"
+									itemwidth="96%" itemheight="16"
+									font="gametweener"
+									highlightcolor="maroon"
+									highlightbordercolor="invisible"
+									highlight="under"
+									scrolltexture="/ui/elements/vist_scroll.tga"
+									handleheight="32"
+									hoverselect="false"
+									watch="ChatClanEvent"
+									ontrigger="(*param);"
+									onselect="Set('ui_lastSelectedUser', Substring(this,2,-1)); SetFocusName('chatbox');"
+									ondoubleclick="Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');');
+																SSetFocusName('chatbox');"
+									onrightclick="
+										Set('ui_lastSelectedUser', Substring(this,2,-1));
+										if(Substring(this,0,2) == '00', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '01', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_online'));
+										if(Substring(this,0,2) == '02', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_online'));
+										if(Substring(this,0,2) == '03', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_online_member'));
+										if(Substring(this,0,2) == '04', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '05', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_game'));
+										if(Substring(this,0,2) == '06', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_game'));
+										if(Substring(this,0,2) == '07', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_game_member'));
+										if(Substring(this,0,2) == '08', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '09', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_offline'));
+										if(Substring(this,0,2) == '10', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_offline'));
+										if(Substring(this,0,2) == '11', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_offline_member'));
+										if(StringEquals(Substring(this,2,-1), GetAccountName()), Set('ui_tooltipTarget', ''));
+										Call(ui_tooltipTarget, 'SetVisible(true);');
+										Call(ui_tooltipTarget, 'SetX(\'' # param0 # '\');');
+										Call(ui_tooltipTarget, 'SetY(\'' # param1 # '\');');
+										Call(ui_tooltipTarget # '_choices', 'ListBoxCmd(\'SelectNone\');');
+										If(StringLength(ui_tooltipTarget),PlaySound('/shared/sounds/ui/button_rightclick.mp3'));
+										If(StringLength(ui_tooltipTarget),SetFocusName(ui_tooltipTarget),SetFocus(1));"
+								/>
+							</panel>
+							<panel name="clan_list_leader" color="invisible" group="clan_group" visible="1" blockinput="false" noclick="true">
+								<listbox
+									name="clan_listbox_leader"
+									wrap="row"
+									width="96%" height="100%"
+									align="center" valign="center"
+									color="invisible"
+									itemwidth="96%" itemheight="16"
+									font="gametweener"
+									highlightcolor="maroon"
+									highlightbordercolor="invisible"
+									highlight="under"
+									scrolltexture="/ui/elements/vist_scroll.tga"
+									handleheight="32"
+									hoverselect="false"
+									watch="ChatClanEvent"
+									ontrigger="(*param);"
+									onselect="Set('ui_lastSelectedUser', Substring(this,2,-1)); SetFocusName('chatbox');"
+									ondoubleclick="Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');');
+																SetFocusName('chatbox');"
+									onrightclick="
+										Set('ui_lastSelectedUser', Substring(this,2,-1));
+										if(Substring(this,0,2) == '00', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '01', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '02', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_online_officer'));
+										if(Substring(this,0,2) == '03', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_online_member'));
+										if(Substring(this,0,2) == '04', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '05', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '06', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_game_officer'));
+										if(Substring(this,0,2) == '07', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_game_member'));
+										if(Substring(this,0,2) == '08', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '09', Set('ui_tooltipTarget', ''));
+										if(Substring(this,0,2) == '10', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_offline_officer'));
+										if(Substring(this,0,2) == '11', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_offline_member'));
+										if(StringEquals(Substring(this,2,-1), GetAccountName()), Set('ui_tooltipTarget', ''));
+										Call(ui_tooltipTarget, 'SetVisible(true);');
+										Call(ui_tooltipTarget, 'SetX(\'' # param0 # '\');');
+										Call(ui_tooltipTarget, 'SetY(\'' # param1 # '\');');
+										Call(ui_tooltipTarget # '_choices', 'ListBoxCmd(\'SelectNone\');');
+										If(StringLength(ui_tooltipTarget),PlaySound('/shared/sounds/ui/button_rightclick.mp3'));
+										If(StringLength(ui_tooltipTarget),SetFocusName(ui_tooltipTarget),SetFocus(1));"
+								/>
+							</panel>
+						</panel>
+						
+					<panel name="buddylist_rtclick_online" width="128" height="58" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF" />
+						<listbox name="buddylist_rtclick_online_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="NCSendMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatRemoveBuddy"><label x="3" color="white" font="gametiny">Remove Friend</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="buddylist_rtclick_game" width="128" height="76" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF" />
+						<listbox name="buddylist_rtclick_game_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatJoinGame"><label x="3" color="white" font="gametiny">Join Game</label></listitem>
+							<listitem value="NCSendMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatRemoveBuddy"><label x="3" color="white" font="gametiny">Remove Friend</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="buddylist_rtclick_offline" width="148" height="40" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF" />
+						<listbox name="buddylist_rtclick_offline_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatRemoveBuddy"><label x="3" color="white" font="gametiny">Remove Friend</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_member_online" width="148" height="58" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_member_online_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_member_game" width="148" height="76" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_member_game_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatJoinGame"><label x="3" color="white" font="gametiny">Join Game</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_member_offline" width="148" height="40" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_member_offline_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_officer_online" width="148" height="58" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_officer_online_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_officer_game" width="148" height="76" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_officer_game_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatJoinGame"><label x="3" color="white" font="gametiny">Join Game</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_officer_offline" width="148" height="40" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_officer_offline_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_officer_online_member" width="148" height="76" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_officer_online_member_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatRemoveClanMember"><label x="3" color="white" font="gametiny">Remove From Clan</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_officer_game_member" width="148" height="94" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_officer_game_member_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatJoinGame"><label x="3" color="white" font="gametiny">Join Game</label></listitem>
+							<listitem value="ChatRemoveClanMember"><label x="3" color="white" font="gametiny">Remove From Clan</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_officer_offline_member" width="148" height="58" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_officer_offline_member_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatRemoveClanMember"><label x="3" color="white" font="gametiny">Remove From Clan</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_leader_online_officer" width="148" height="94" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_leader_online_officer_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatDemoteClanMember"><label x="3" color="white" font="gametiny">Demote</label></listitem>
+							<listitem value="ChatRemoveClanMember"><label x="3" color="white" font="gametiny">Remove From Clan</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_leader_game_officer" width="148" height="112" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_leader_game_officer_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatJoinGame"><label x="3" color="white" font="gametiny">Join Game</label></listitem>
+							<listitem value="ChatDemoteClanMember"><label x="3" color="white" font="gametiny">Demote</label></listitem>
+							<listitem value="ChatRemoveClanMember"><label x="3" color="white" font="gametiny">Remove From Clan</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_leader_offline_officer" width="148" height="76" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_leader_offline_officer_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatDemoteClanMember"><label x="3" color="white" font="gametiny">Demote</label></listitem>
+							<listitem value="ChatRemoveClanMember"><label x="3" color="white" font="gametiny">Remove From Clan</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_leader_online_member" width="148" height="94" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_leader_online_member_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatPromoteClanMember"><label x="3" color="white" font="gametiny">Promote</label></listitem>
+							<listitem value="ChatRemoveClanMember"><label x="3" color="white" font="gametiny">Remove From Clan</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_leader_game_member" width="148" height="112" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_leader_game_member_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatOpenMessage"><label x="3" color="white" font="gametiny">Send Message</label></listitem>
+							<listitem value="ChatJoinGame"><label x="3" color="white" font="gametiny">Join Game</label></listitem>
+							<listitem value="ChatPromoteClanMember"><label x="3" color="white" font="gametiny">Promote</label></listitem>
+							<listitem value="ChatRemoveClanMember"><label x="3" color="white" font="gametiny">Remove From Clan</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					
+					<panel name="clanlist_rtclick_leader_offline_member" width="148" height="76" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);">
+						<frame noclick="true" borderthickness="8" texture="/ui/frames/rounded_bg_red.tga" color="#FFFFFFFF"/>
+						<listbox name="clanlist_rtclick_leader_offline_member_choices" width="-9" height="-8" wrap="row" highlight="under" align="center" valign="center" itemwidth="-4" itemheight="16" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); If(StringEquals(Substring(this,0,2),'NC'),If(StringEquals(this,'NCSendMessage'),Split(Call('chatbox', 'SetInputLine(\'/w \' # ui_lastSelectedUser # \' \');'),SetFocusName('chatbox')),If(StringEquals(this,'NCMessageClan'),Split(Call('chatbox', 'SetInputLine(\'/c m \');'),SetFocusName('chatbox')))),(*this)(ui_lastSelectedUser)); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="#00000000">
+							<listitem value="ChatPromoteClanMember"><label x="3" color="white" font="gametiny">Promote</label></listitem>
+							<listitem value="ChatRemoveClanMember"><label x="3" color="white" font="gametiny">Remove From Clan</label></listitem>
+							<listitem value="NCMessageClan"><label x="3" color="white" font="gametiny">Message Entire Clan</label></listitem>
+							<listitem value="BrowserGetStats"><label x="3" color="white" font="gametiny">View Stats</label></listitem>
+						</listbox>
+					</panel>
+					</panel>
+					
+					<panel name="demo_attribute_cover"  watch="DemoAccount" ontrigger="SetVisible(param);" visible="0">
+						<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#00ccFF88"/>
+						<frame x="0" texture="/ui/frames/roundframe.tga" borderthickness="12" color="yellow"/>
+						
+						<button onmouseover="ShowWidget('demo_attribute_tip');" onmouseout="HideWidget('demo_attribute_tip');" color="invisible"/>
+						
+						<panel width="-20" y="30" valign="center" align="center" height="220">
+							<frame color="#000000cc" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+							<frame color="yellow"  texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+							<panel name="purchase_button" align="center" valign="bottom" y="-10" width="-20" height="24" visible="true">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+								<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+								<instance  name="round_button2" width="100%" height="24" font="dyn_12" onclick="SetHostInterface('purchase');" label="Activate Account"/>
+							</panel>	
+							<label y="-0" width="90%" height="140" textvalign="center" textalign="center" valign="top" align="center" wrap="true" font="dyn_12" color="white" shadow="false">Activate your account now to access the buddy list and gain use of Savages advanced clan system.</label>						
+						</panel>
+						<label  y="88" height="56" textalign="center" textvalign="center" align="left" font="dyn_11" color="yellow" shadow="true">Dissabled Demo Mode</label>
+						<image align="center" y="20" width="92" height="92" texture="/ui/elements/lock.tga"/>
+					</panel>					
+					
+				</panel>
+				
+        -->
+		
+				<!-- Vault -->
+				<panel name="vault_panel" width="11.5h" align="right" color="invisible">
+					<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg" color="0 0 0 .8" />
+					<frame  texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>					
+					<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="3.0h" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="3.0h" style="lobby_window_header" borderthickness="12">
+
+					</frame> <!-- frame footer -->
+					
+					<instance name="round_button2" y="-0.5h" width="-2.0h" height="2.0h" align="center" valign="bottom" font="dyn_9" label="Rune Builder" onclick="playsound('/shared/sounds/ui/button_click.mp3'); SetHostInterface('runebuilder');" />
+					
+					
+					<panel y="9.8h" float="bottom" padding="0.5h" noclick="1">
+						<instance name="persistant_vault_slot" slot="1" />
+						<instance name="persistant_vault_slot" slot="2" />
+						<instance name="persistant_vault_slot" slot="3" />
+						<instance name="persistant_vault_slot" slot="4" />
+						<instance name="persistant_vault_slot" slot="5" />
+					</panel>
+					
+					<label y="7.1h" height="2.4h" textvalign="center" textalign="center" align="left" font="dyn_8" color="white" shadow="true">Whats This?</label>
+					
+					<image onmouseover="showwidget('itemvault_tip');" onmouseout="hidewidget('itemvault_tip');" y="-1.4h" width="11.6h" height="11.6h" align="center" texture="/ui/elements/gb_vault_icon.tga"/>
+				
+				</panel>
+				
+				<!-- Achievements -->
+				<panel name="achieve_panel" x="-12.5h" width="26.0h" align="right" color="invisible">				
+					<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg"/>
+					<frame  texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>
+					<frame  texture="/ui/frames/rounded_header_bg_white.tga" height="3.2h" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame  texture="/ui/frames/roundframe_header.tga" height="3.2h" style="lobby_window_header" borderthickness="12"/>
+					
+
+						
+						<panel x="3%" y="3.2h" width="94%" color="invisible" float="bottom">
+							
+							<!-- These need to be in a scroll box -->
+							<label y="1%" font="dyn_9" color="#ffc944" shadow="1">Achievements Overview</label>
+
+							<label y="5%" width="100%" height="100%" font="dyn_9" color="#e6e2e1" shadow="1" align="left" wrap="1">Achievements are earned while you play Savage 2. Each time you earn a new achievement, you are rewarded with a scratch-off ticket, which is used to create a Persistent Item that you can place in your Item Vault. To claim your item, visit the Savage 2 website and log into the account management area.</label>
+							
+							<panel y="30%" height="20%" align="left" noclick="1" color="invisible">
+								<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="#211817"/>
+								<frame  texture="/ui/frames/roundframe.tga" borderthickness="8" color="black"/>						
+								<frame  texture="/ui/frames/rounded_header_bg_white.tga" height="20%" borderthickness="8" color="#600f0f"/>
+								<frame  texture="/ui/frames/roundframe_header.tga" height="20%" borderthickness="8" color="black"/>						
+								<label x="3%" height="20%" textvalign="center" font="dyn_8" color="white" shadow="true">Levels of achievements</label>						
+								<panel y="20%" width="90%" height="80%" align="center" color="invisible">						
+									<label y="3%" height="100%" width="25%" font="dyn_9" color="#e6e2e1" shadow="1" align="left" textalign="center">Unmet</label>
+									<label y="3%" height="100%" width="25%" font="dyn_9" color="#e6e2e1" shadow="1" align="center" textalign="center">Silver</label>
+									<label y="3%" height="100%" width="25%" font="dyn_9" color="#e6e2e1" shadow="1" align="right" textalign="center">Gold</label>
+									<image width="5.3h" height="5.3h" align="left" y="25%" texture="/ui/elements/achievements/1_0.tga" onmouseover="showwidget('achievement_tip0');" onmouseout="hidewidget('achievement_tip0');"/>
+									<image width="5.3h" height="5.3h" align="center" y="25%" texture="/ui/elements/achievements/1_1.tga" onmouseover="showwidget('achievement_tip1');" onmouseout="hidewidget('achievement_tip1');"/>
+									<image width="5.3h" height="5.3h" align="right" y="25%" texture="/ui/elements/achievements/1_2.tga" onmouseover="showwidget('achievement_tip2');" onmouseout="hidewidget('achievement_tip2');"/>
+								</panel>
+							</panel>
+							
+							<label y="51%" height="100%" font="dyn_9" color="#ffc944" shadow="1">Types of Achievements</label>
+							
+							<label y="55%" font="dyn_9" color="#e6e2e1" shadow="1" align="left">Match &amp; Lifetime</label>
+							
+							<label y="58%" font="dyn_9" color="#e6e2e1" shadow="1" align="left">Action Player &amp; Commander</label>
+				
+							<label y="63%" font="dyn_9" color="#ffc944" shadow="1">Viewing Achievements</label>
+							
+							<label y="67%" width="100%" height="5.5h" font="dyn_9" color="#e6e2e1" shadow="1" align="left" wrap="1">You can view your achievement progress at your player stats page on our website (www.savage2.com).  You can also view other players' stats and progress.</label>							
+							
+							<label y="80%" height="1.8h" font="dyn_9" color="#ffc944" shadow="1">Prime Account Notice</label>
+							
+							<label y="84%" width="100%" height="4h" font="dyn_9" color="#e6e2e1" shadow="1" align="left" wrap="1">Only players with Prime accounts are able to complete achievements and view player stats.</label>
+							
+						</panel>
+					
+					<label x="3.0%" height="3.0h" textvalign="center" font="dyn_12" color="white" shadow="true">Achievements</label>
+					<image onmouseover="showwidget('achievement_tip_matchlifetime');" onmouseout="hidewidget('achievement_tip_matchlifetime');" y="61.25%" x="43%" width="1.5h" height="1.5h" texture="/ui/elements/tip_mark.tga"/>
+					<image onmouseover="showwidget('achievement_tip_apcomm');" onmouseout="hidewidget('achievement_tip_apcomm');" y="64%" x="68%" width="1.5h" height="1.5h" texture="/ui/elements/tip_mark.tga"/>
+				
+				</panel>
+				
+				<!-- premium account pitch -->
+				<panel width="26.0h" x="-12.5h"  align="right" padding="10" texture="/ui/elements/background_bluestone.tga" watch="DemoAccountBrowser" ontrigger="SetVisible(param);">
+					<frame valign="center" align="center" name="frame" borderthickness="32" texture="/ui/frames/border2.tga" float="bottom" />
+					<image y="5%" x="6%"  width="7h" height="7h" texture="/ui/elements/star_price.tga" valign="top"/>
+					<image x="13%" y="2%" name="logo" align="center" width="20h" height="10h" sticky="true" texture="/ui/elements/logo.tga" valign="top"/>			
+
+					<panel x="6%" float="bottom" padding="4" color="invisible">
+						<label y="22%" noclick="true" x="3%" height="24" width="100%"  textalign="left" textvalign="center" align="left" font="dyn_12" color="yellow" shadow="true" valign="top">Why wait until level 25?</label>
+						<label y="28%" font="dyn_10" x="3%" width="82%" height="30%" color="white" shadow="true" wrap="true" valign="top">Upgrade your account now and claim two random 60-day runes, together with the various perks that Prime Members normaly receive! Get all of the above for a one time fee of only $9.99! </label>
+						<label y="49%" noclick="true" x="3%" height="24" width="100%"  textalign="left" textvalign="center" align="left" font="dyn_12" color="yellow" shadow="true" valign="top">Prime Account Features:</label>
+
+						<panel noclick="true" height="2h" align="left" float="right" width="85%" valign="center" y="7%">
+							<image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label x="2.0h" width="-2.0h" textalign="left" textvalign="top" font="dyn_10" shadow="true" wrap="true" color="white" >Player stats access</label>
+						</panel> 
+
+						<panel noclick="true" height="2h" align="left" float="right" width="85%" valign="center" y="13%">
+							<image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label x="2.0h" width="-2.0h" textalign="left" textvalign="top" font="dyn_10" shadow="true" wrap="true" color="white" >Two extra inventory slots</label>
+						</panel> 
+
+						<panel noclick="true" height="2h" align="left" float="right" width="85%" valign="center" y="19%">
+							<image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label x="2.0h" width="-2.0h" textalign="left" textvalign="top" font="dyn_10" shadow="true" wrap="true" color="white" >Unlimited Hellbourne Units</label>
+						</panel> 
+
+						<panel noclick="true" height="2h" align="left" float="right" width="85%" valign="center" y="25%">
+							<image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label x="2.0h" width="-2.0h" textalign="left" textvalign="top" font="dyn_10" shadow="true" wrap="true" color="white" >Create and manage clans</label>
+						</panel> 		
+
+						<panel noclick="true" height="2h" align="left" float="right" width="80%" valign="center" y="31%">
+							<image width="1.5h" height="1.5h" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label x="2.0h" width="-2.0h" textalign="left" textvalign="top" font="dyn_10" shadow="true" wrap="true" color="white" >Access to replays of every match ever played</label>
+						</panel> 
+
+						<panel height="3h" y="-5%" align="center" valign="bottom">
+							<instance name="round_button2" width="20h" height="3h" x="-5%" align="center" valign="center" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); SetHostInterface('purchase');"  font="dyn_14" label="Upgrade Now!" /> 
+						</panel>
+					</panel>
+				</panel>
+				
+				<!-- Chat Panel -->
+				<panel name="chat_panel" width="-39.5h" align="left" color="invisible">
+					<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg"/>
+					<frame  texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>
+					<frame  texture="/ui/frames/rounded_header_bg_white.tga" height="3.2h" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame  texture="/ui/frames/roundframe_header.tga" height="3.2h" style="lobby_window_header" borderthickness="12"/>
+					
+					<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="4.0h" style="lobby_window_header_bg" borderthickness="12"/>
+					<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="4.0h" style="lobby_window_header" borderthickness="12">
+
+						
+						<panel x="0.8h" width="-24.0h" height="3.0h" align="left" valign="center" color="invisible">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="black"/>
+							<frame texture="/ui/frames/roundframe.tga" color="orange" borderthickness="8"/>
+							<textbox name="chatbox" width="-2.0h" height="100%" y="0.6h" textalign="left" textvalign="center" valign="center" align="center" font="dyn_11" textcolor="orange" shadow="false" color="invisible" onshow="SetFocus(true);" maxlength="250" onenter="PlaySound('/shared/sounds/ui/chat_send.mp3'); ChatSendMessage(this); SetFocus(true); EraseInputLine();" onesc="EraseInputLine();"/>
+						</panel>
+
+						<instance name="round_button2" x="-1.40h" width="20.0h" height="2.4h" align="right" valign="center" onclick="playsound('/shared/sounds/ui/button_click.mp3'); Call('chatbox', 'If(StringLength(this) and (!StringEquals(SubString(this,0,4),_customclient_chat_color_prefix) or (StringLength(this) gt 4)), ChatSendMessage(this));'); Call('chatbox', 'EraseInputLine(); SetInputLine(_customclient_chat_color_prefix); SetFocus(1);');" font="dyn_12" label="Send Message" />
+
+					</frame> <!-- frame footer -->
+
+					<label x="1.0h" height="3.0h" textvalign="center" font="dyn_14" color="white" shadow="true">Chat</label>
+					
+					<panel height="9.5h" width="-22h" align="right" x="-1h" color="invisible">
+						<label textalign="right" height="3h" textvalign="center" font="dyn_12" color="white" shadow="true">Visit our website! - ^yhttp://www.savage2.com</label>
+					</panel>
+					
+					
+					<panel name="browser_chat_buffer" y="3.6h" height="-8.0h" width="-1.0h" align="center" color="invisible">
+						<panel name="chat_window" width="-17.5h" align="left">
+							<frame  texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+							<frame  texture="/ui/frames/roundframe_header.tga" style="lobby_window" borderthickness="8"/>
+							<frame  texture="/ui/frames/rounded_header_bg_white.tga" height="2.4h" style="lobby_window_header_bg" borderthickness="8"/>
+							<frame  texture="/ui/frames/roundframe_header.tga" height="2.4h" style="lobby_window_header" borderthickness="8"/>
+
+							<label width="-20" height="2.4h" textvalign="center" align="center" font="dyn_12" color="#FFCC00" shadow="true" watch="ChatChanChange" ontrigger="SetText('Current Channel: ^999' # 'Global' # '^*');" onshow="ChatUpdateChannel();">Current Channel:</label>
+
+							<panel name="chat_buffer_panel" y="2.4h" height="-2.6h" width="-4" align="center" color="#00000077">
+								<image width="60%" height="30@" align="center"  valign="center" texture="/ui/elements/logo.tga" color="1 1 1 .25"/>					
+								<textbuffer name="browser_chat_buffer" scrolltexture="/ui/elements/vist_scroll.tga" handleheight="7.0h" width="-0.5h" height="100%" align="right" valign="center" textalign="left" font="dyn_11" wrap="true" anchorbottom="true" usesmileys="true" maxlines="1000" shadow="true" color="invisible" textcolor="white" watch="IRCChatTrigger" ontrigger="If(IsVisible(), TextBufferCmd(param));" onload="CreateInt(name # 'LastUpdate', 0);" onshow="TriggerChatEvents(*(name # 'LastUpdate'));" onhide="Set(name # 'LastUpdate', GetTime());"/>
+							</panel>				
+						</panel>
+						
+						<panel height="9.5h" width="17.0h" align="right" color="invisible">
+						
+							<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+							<frame  texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="8"/>
+							<frame  texture="/ui/frames/rounded_header_bg_white.tga" height="2.4h" style="lobby_window_header_bg" borderthickness="8"/>
+							<frame  texture="/ui/frames/roundframe_header.tga" height="2.4h" style="lobby_window_header" borderthickness="8"/>
+
+							<label x="0.5h" height="2.4h" textvalign="center" font="dyn_9" color="white" shadow="true">Community/Clan Panel</label>
+							
+							<image onmouseover="showwidget('ccpanel_tip');" onmouseout="hidewidget('ccpanel_tip');" x="-1.0h" y="-3.5h" width="1.75h" height="1.75h" align="right" valign="center" texture="/ui/elements/tip_mark.tga"/>
+							
+							<panel y="-0.5h" height="-3.2h" width="-1.2h" valign="bottom" align="center" color="invisible">
+								<label height="100%" textvalign="top" font="dyn_9" color="white" shadow="true"></label>
+								<label y="5%" width="100%" height="100%" font="dyn_9" color="#e6e2e1" textalign="center" shadow="1" align="left" wrap="1">Can also be opened with CTRL+TAB</label>
+								<instance name="round_button2" y="-0.5h" width="-2.0h" height="2.0h" align="center" valign="bottom" font="dyn_9" label="Open CC Panel" onclick="playsound('/shared/sounds/ui/button_click.mp3'); ShowCCPanel();" />
+								
+							
+							</panel>
+						
+						</panel>
+						
+						<panel name="user_list" height="-10.0h" valign="bottom" width="17.0h" align="right" color="invisible">
+							<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+							<frame texture="/ui/frames/roundframe_header.tga" style="lobby_window" borderthickness="8"/>
+
+							<listbox
+								name="user_listbox"
+								y="0.6h"
+								width="96%"
+								height="-1.0h"
+								align="center"
+								valign="top"
+								color="#00000000"
+								font="gametweener"
+								itemwidth="99%"
+								itemheight="1.8h"
+								highlightcolor="maroon"
+								highlightbordercolor="invisible"
+								highlight="under"
+								scrolltexture="/ui/elements/vist_scroll.tga"
+								handleheight="6.0h"
+								wrap="row"
+								hoverselect="true"
+								exteriorscrollbars="false"
+                onmouseout="ListBoxCmd('SelectNone');"
+								onload="CreateString('ui_targetwidget');"
+                onshow="Call('user_listbox_vscroll','SetHeight(30.4h);SetY(1.8h);');"
+                onframe="If(!HasListItem(''), Split(ListboxCmd('add '),ListBoxCmd('Sort')));"
+								watch="ChatUserEvent"
+								ontrigger="*param; SortListBox();" onselect="Set('ui_lastSelectedUser', Substring(this,1,-1));"
+								ondoubleclick="Set('ui_lastSelectedUser', Substring(this,1,-1)); Call('chatbox', 'SetInputLine(\'/w ' # Substring(this,1,-1) # ' \');'); SetFocusName('chatbox');" 
+                onrightclick="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); Call('userlist_tooltip', 'SetVisible(true);'); Call('userlist_tooltip', 'SetX(\'' # param0 # '\');'); Call('userlist_tooltip', 'SetY(\'' # param1 # '\');'); Call('userlist_tooltip', 'ListBoxCmd(\'SelectNone\');'); SetFocusName('userlist_tooltip');"
+							/>
+							<panel name="userlist_tooltip" width="124" height="68" visible="false" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true" onshow="BringToFront();">
+                <frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+                <frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+                <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+                <panel height="1" y="22" color="#5E2D1F"/>
+                <listbox name="userlist_tooltip_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); (*this)(ui_lastSelectedUser); If(StringEquals(this,'BrowserGetStats'),ShowWidget('statistics_browser'));" color="invisible">
+                  <listitem value=""></listitem> <!-- CC: Listfix -->
+                  <listitem value="ChatAddBuddy">
+                    <label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Add Buddy</label>
+                  </listitem>
+                  <listitem value="BrowserGetStats">
+                    <label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+                  </listitem>
+                </listbox>
+							</panel>	
+              
+							<frame texture="/ui/frames/rounded_header_bg_white.tga" height="2.4h" style="lobby_window_header_bg" borderthickness="8"/>
+							<frame texture="/ui/frames/roundframe_header.tga" height="2.4h" style="lobby_window_header" borderthickness="8"/>
+
+							<label width="-20" height="2.4h" textvalign="center" align="center" font="dyn_10" color="white" shadow="true" watch="ChatChanNumUsers" ontrigger="SetText('Users ' # param);"/>
+              
+						</panel>
+						
+					</panel>	
+				</panel>
+				<!-- END Chat Panel -->
+				
+				<!-- Bottom Tooltips -->
+				
+				<instance name="browser_tip" tip_id="itemvault_tip" x="-11.0h" y="-1.0h" width="48.0h" height="15.6h" align="right" title="Item Vault" tip="Your Item Vault contains the persistent items you can take into each game with you. There are five slots, however you can only take a maximum of two items onto the battlefield at any one time. You can earn items by completing Achievements, referring friends, or by using the Rune Builder."/>
+				
+				<instance name="browser_tip" tip_id="achievements_tip" x="-15.4h" y="-1.0h" width="37.0h" height="19.7h" align="right" title="Achievements" tip="Achievements are earned while you play Savage 2. Each time you earn a new achievement, you are rewarded with a scratch off ticket, which is used to create a Persistent Item that you can place in your Item Vault. To claim your item, visit the Savage 2 website and log into the account management area."/>
+				<instance name="browser_tip" tip_id="ccpanel_tip" x="-44.0h" y="3.0h" width="40.0h" height="12.5h" align="right" title="Clan &amp; Community Panel" tip="The CC panel is an overlay that allows you to easily manage your buddies, clanmates, private messages, and more.  It is available at all times, and can by opened by pressing CTRL+TAB."/>
+				<instance name="browser_tip" tip_id="achievement_tip0" x="-38.0h" y="20.0h" width="37.0h" height="12h" align="right" title="Unmet" tip="This is the default state for all achievements. By playing well and meeting certain requirements, you can unlock silver or gold status for the achievement."/>
+				<instance name="browser_tip" tip_id="achievement_tip1" x="-30.0h" y="20.0h" width="37.0h" height="14h" align="right" title="Silver" tip="The initial level of play has been met and you've reached silver status for the achievement. You are rewarded with a persistent item scratch-off ticket for reaching this state."/>
+				<instance name="browser_tip" tip_id="achievement_tip2" x="-22.0h" y="20.0h" width="37.0h" height="16h" align="right" title="Gold" tip="A second, higher level of play for this achievement has been met, and you have been awarded with a second persistent item scratch-off ticket for this achievement.  Gold status is significantly harder to achieve than silver status."/>
+				<instance name="browser_tip" tip_id="achievement_tip_matchlifetime" x="-28.5h" y="30.0h" width="37.0h" height="12h" align="right" title="Match &amp; Lifetime" tip="Match achievements are earned through outstanding play over the course of a match. Lifetime achievements accumulate over the life of your account."/>
+				<instance name="browser_tip" tip_id="achievement_tip_apcomm" x="-22.0h" y="32.0h" width="37.0h" height="10h" align="right" title="Action Player &amp; Commander" tip="Full sets of match and lifetime achievements are available for both action players and commanders."/>
+				
+				<instance name="persistent_item_tip" tip_id="fillslot_tip1" x="-11.0h" y="9.0h" width="36.0h" height="16.6h" align="right" slot="1"/>
+				<instance name="persistent_item_tip" tip_id="fillslot_tip2" x="-11.0h" y="16.0h" width="36.0h" height="16.6h" align="right" slot="2"/>
+				<instance name="persistent_item_tip" tip_id="fillslot_tip3" x="-11.0h" y="23.0h" width="36.0h" height="16.6h" align="right" slot="3"/>
+				<instance name="persistent_item_tip" tip_id="fillslot_tip4" x="-11.0h" y="30.0h" width="36.0h" height="16.6h" align="right" slot="4"/>
+				<instance name="persistent_item_tip" tip_id="fillslot_tip5" x="-11.0h" y="36.0h" width="36.0h" height="16.6h" align="right" slot="5"/>
+				
+			</panel>
+		</panel>			
+	</panel>		
+
+  <!-- Channel creation
+	<panel name="join_create_chat" color="#00000099" visible="0" blockinput="true">
+		<panel width="300" height="400" valign="center" align="center">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#560001"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="12"/>
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#7C1A19" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" height="26" color="#863838" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="26" color="#7C1A19" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="26" color="#863838" borderthickness="12">
+	
+				<instance name="round_button2" width="50%" height="20" align="center" valign="center" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); Call('channel_entry', 'IRCChannel(this);'); HideWidget('join_create_chat'); SetFocusName('chatbox');" font="dyn_14" label="Join / Create" />											
+
+				
+			</frame>
+			
+			<frame valign="bottom" align="center" y="-26" height="20" texture="/ui/frames/roundframe.tga" color="#AA555577" borderthickness="4">
+				<textbox name="channel_entry" color="#000000BB" x="3" y="1" width="-6" height="-2" font="gametweener" maxlength="40" onenter="IRCChannel(this); HideWidget('join_create_chat'); SetFocusName('chatbox');"/>
+			</frame>
+
+			<label width="-20" height="24" textvalign="center" align="center" font="dyn_14" color="white" shadow="true">Join or Create a Channel</label>
+			<button x="-12" y="7"  width="14" height="14" align="right" color="#FFFFFF99"  onclick="playsound('/shared/sounds/ui/button_close.mp3'); hidewidget('join_create_chat');" texture="/ui/elements/xbutton.tga"></button>
+			<panel name="channel_window" y="27" height="-73" width="-4" align="center" color="#00000077">
+				<listbox name="channel_list" color="invisible" valign="top" align="center" height="-24" font="gametweener" itemwidth="100%" itemheight="18" highlightcolor="#99222288" highlightbordercolor="#000000FF" wrap="row" highlight="under" hoverselect="false" textcolor="#CCCCCC" watch="ChatChanEvent" ontrigger="ListBoxCmd(param);" onclick="Call('channel_entry', 'SetInputLine(this);');" ondoubleclick="IRCChannel(this); HideWidget('join_create_chat'); SetFocusName('chatbox');"/>
+			</panel>			
+		</panel>
+	</panel> -->
+	
+	<panel name="add_buddy_panel" color="#00000099" visible="false" blockinput="true">
+		<panel width="300" height="87" valign="center" align="center">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#560001"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="12"/>
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#7C1A19" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" height="26" color="#863838" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#7C1A19" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#863838" borderthickness="12">
+					<instance name="round_button2" width="60%" height="24" align="center" valign="center" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); Call('buddy_entry', 'ChatAddBuddy(this);'); HideWidget('add_buddy_panel'); SetFocusName('chatbox');"  font="dyn_14" label="Add Buddy" /> 					
+			</frame>
+
+
+			<label width="-20" height="24" textvalign="center" align="center" font="dyn_14" color="white" shadow="true">Add a Buddy</label>
+			<button x="-12" y="7"  width="14" height="14" align="right" color="#FFFFFF99"  onclick="playsound('/shared/sounds/ui/button_close.mp3'); hidewidget('add_buddy_panel');" texture="/ui/elements/xbutton.tga"/>
+			<panel name="channel_window" y="27" height="-63" width="-4" align="center" color="#00000077">
+				<frame valign="bottom" y="-2" height="20" texture="/ui/frames/roundframe.tga" color="orange" borderthickness="4"/>
+				<textbox name="buddy_entry" color="#00000077" valign="bottom" y="-4" x="2" height="16" font="gametweener" maxlength="20" onenter="ChatAddBuddy(this); HideWidget('add_buddy_panel'); SetFocusName(chatbox);"/>
+			</panel>			
+		</panel>
+	</panel>
+
+	<!-- Specify IP -->
+	<panel name="connect_to_ip" color="#00000099" visible="false" blockinput="true" onload="CreateString('_target_ip');">
+		<panel width="320" height="142" y="35%" align="center">
+			<panel height="-61" y="26" width="-4" align="center" texture="/ui/elements/parchment.tga"/>
+			<frame texture="/ui/frames/rounded_bg_white.tga" color="#577C8144" borderthickness="12" style="lobby_window_bg"/>
+			<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" style="lobby_window_header_bg" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window_header" borderthickness="12"/>
+			<label width="-20" height="26" textvalign="center" align="center" font="dyn_11" color="white" shadow="true">Enter IP and Connect</label>
+			<button x="-12" y="7"  width="14" height="14" align="right" color="#FFFFFF99"  onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('connect_to_ip');" onhotkey="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('connect_to_ip');" hotkey="ESC" texture="/ui/elements/xbutton.tga"/>
+			<panel y="22" height="-63" width="-4" align="center" color="invisible" noclick="true">
+				<panel x="-10" y="20" width="100%" height="22" color="invisible" align="left">
+					<label x="-10" height="100%" width="46" textalign="right" textvalign="center" font="dyn_12" color="#FFDA00">IP:</label>
+					<panel width="272" align="right">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="white"/>
+						<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="8"/>
+						<textbox x="5" y="2" textvalign="center"  valign="center" taborder="4"  font="dyn_11" color="invisible" textcolor="black" shadow="true"  maxlength="34" onshow="SetFocus(true);" onchange="Set(_target_ip, this);" onesc="EraseInputLine(); SetFocusName('connect_to_ip');" onenter="SetFocusName('connect_to_ip_pass_box');"/>
+					</panel>
+				</panel>
+			</panel>
+			<panel y="52" height="-63" width="-4" align="center" color="invisible" noclick="true">
+				<panel x="-10" y="20" width="100%" height="22" color="invisible" align="left">
+					<label x="8" height="100%" width="86" textalign="right" textvalign="center" font="dyn_12" color="#FFDA00">Password:</label>
+					<panel width="216" align="right">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="white"/>
+						<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="8"/>
+						<textbox x="5" y="2" name="connect_to_ip_pass_box" passwordchar="*" textvalign="center"  valign="center" taborder="5"  font="dyn_12" color="invisible" textcolor="black" shadow="true"  onchange="Set('cl_password', this);" onesc="EraseInputLine(); SetFocusName('connect_to_ip');" onenter="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('connect_to_ip'); Disconnect(); Connect(_target_ip);"/>
+					</panel>
+				</panel>
+			</panel>
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" style="lobby_window_footer_bg" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" style="lobby_window_footer" borderthickness="12">
+				<panel width="60%" height="24" align="center" valign="center">
+					<instance name="round_button2" width="100%" height="100%" onclick="HideWidget('connect_to_ip'); Disconnect(); Connect(_target_ip);" font="gametweener" label="Connect" />
+				</panel>
+			</frame>
+		</panel>
+	</panel>
+
+	<!-- Specify Password -->
+	<panel name="connect_password" color="#00000099" visible="false" blockinput="true">
+		<panel width="320" height="110" y="35%" align="center">
+			<panel height="-61" y="26" width="-4" align="center" texture="/ui/elements/parchment.tga"/>
+			<frame texture="/ui/frames/rounded_bg_white.tga" color="#577C8144" borderthickness="12" style="lobby_window_bg"/>
+			<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" style="lobby_window_header_bg" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window_header" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" style="lobby_window_footer_bg" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" style="lobby_window_footer" borderthickness="12">
+				<panel width="60%" height="24" align="center" valign="center">
+					<instance name="round_button2" width="100%" height="100%" onclick="HideWidget('connect_password'); Disconnect(); ConnectToServerNum(_browser_last_selected_server);" font="gametweener" label="Connect" />
+				</panel>
+			</frame>
+			<label width="-20" height="26" textvalign="center" align="center" font="dyn_11" color="white" shadow="true">Password Required</label>
+			<button x="-12" y="7"  width="14" height="14" align="right" color="#FFFFFF99"  onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('connect_password');" texture="/ui/elements/xbutton.tga" onhotkey="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('connect_password');" hotkey="ESC"/>
+			<panel name="password_window" y="20" height="-63" width="-4" align="center" color="invisible">
+				<panel x="-10" y="20" width="100%" height="22" color="invisible" align="left">
+					<label x="8" height="100%" width="86" textalign="right" textvalign="center" font="dyn_12" color="#FFDA00">Password:</label>
+					<panel width="214" align="right">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="white"/>
+						<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="8"/>
+						<textbox x="5" y="4" onwake="SetFocus(true);" onshow="SetFocus(true); SleepWidget(1);" passwordchar="*" textvalign="center"  valign="center"  font="dyn_11" color="invisible" textcolor="black" shadow="true"  onchange="Set('cl_password', this);" onesc="EraseInputLine(); SetFocusName('connect_password');" onenter="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('connect_password'); Disconnect(); ConnectToServerNum(_browser_last_selected_server);"/>
+					</panel>
+				</panel>
+			</panel>
+		</panel>
+	</panel>
+
+	
+	<include file="/ui/player_statistics_browser.xml"/>	
+	
+	
+	<panel name="clanmatch" color="1 1 1 .5" visible="0" texture="/ui/elements/score_grad.tga" onload="CreateInt('_matchid', -1);" watch="ClanMatchID" ontrigger="If(param != _matchid, Split(SetVisible(true), Set('_matchid', param)));">
+		<panel width="360" height="230" align="center" valign="center">
+			<image height="-60" align="center" width="-4" y="24" texture="/ui/elements/parchment.tga"/>
+			<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#00000088"/>
+			<frame x="0" texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="12"/>
+			<frame x="0" style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga" height="24" borderthickness="12"/>
+			<frame x="0" texture="/ui/frames/roundframe_header.tga" height="24" color="#863838" borderthickness="12">
+				<panel align="center" valign="center" height="30" width="-20" color="invisible">
+					<label align="left" valign="center" textvalign="center" height="20"  width="200" font="dyn_12" color="white" shadow="true">Scheduled Clan Match</label>
+				</panel>
+			
+				<button valign="center" x="-11"  width="12" height="14" align="right" color="#FFFFFF99"  onclick="hidewidget('clanmatch');" texture="/ui/elements/xbutton.tga"/>			
+			</frame>	
+			
+			<image align="center" y="24" height="64" width="64" texture="/ui/elements/vs.tga"/>
+			
+			<panel x="10" y="42" width="135" height="28">
+				<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#00000088"/>
+				<frame x="0" texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="12"/>
+				<!-- image align="center" y="8" height="64" width="64" texture="/ui/elements/s2clan.tga"/ -->
+				<panel height="28" color="invisible" valign="bottom">
+					<label align="center" valign="center" textalign="center" textvalign="center" height="20"  width="100%" font="dyn_12" color="white" shadow="true" watch="ClanMatchClanName" ontrigger="SetText(param);">S2Games</label>
+				</panel>
+			</panel>
+			
+			<panel x="-10" y="42" align="right" width="135" height="28">
+				<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#00000088"/>
+				<frame x="0" texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="12"/>
+				<!-- image align="center" y="8" height="64" width="64" texture="/ui/elements/vclan.tga"/ -->
+				<panel height="28" color="invisible" valign="bottom">
+					<label align="center" valign="center" textalign="center" textvalign="center" height="20"  width="100%" font="dyn_12" color="white" shadow="true" watch="ClanMatchVsName" ontrigger="SetText(param);">Vendetta</label>
+				</panel>
+			</panel>
+			
+			<panel  y="85" align="center" width="-20" height="92">
+				<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#00000088"/>
+				<frame x="0" texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="12"/>
+				
+				<panel y="5" height="90%" width="98%" color="invisible" align="center" valign="center">
+					<label align="center" valign="top" textalign="center" textvalign="top" height="100%"  width="100%" font="dyn_12" color="white" wrap="true" shadow="true" watch="ClanMatchClanName ClanMatchVsName ClanMatchServerName" ontrigger="SetText('Your clan is participating in the clan match of ^y' # ClanMatchClanName # '^* vs ^y' # ClanMatchVsName # '^* on the server ^g' # ClanMatchServerName # '^*.');"/>
+					
+					<label y="40" align="center" valign="top" textalign="center" textvalign="top" height="100%"  width="100%" font="dyn_12" color="white" wrap="true" shadow="true">Time Remaining to Match</label>					
+				</panel>
+				<panel height="20" width="250" align="center" valign="bottom" y="-5">
+					<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000088"/>
+					<frame x="0" texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="6"/>
+					<label align="left" valign="center" textalign="center" textvalign="center" height="20"  width="250" font="dyn_12" color="red" shadow="true" onframe="SetText(GetReservationTimeRemaining(_lastmatchserver));">00Hrs : 04Min : 25Sec</label>
+				</panel>
+			</panel>			
+
+			<frame style="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="46" borderthickness="12"/>
+			<frame style="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="46" borderthickness="12">		
+			
+			<instance
+					name="round_button2"					
+					valign="center" 
+					align="center"
+					width="210" height="28"
+					font="dyn_12"
+					label="Join Scheduled Game Now"
+					onload="CreateInt('_lastmatchserver', -1);"
+					watch="ClanMatchServerID"
+					ontrigger="CreateInt('_lastmatchserver', param);"
+					onclick="HideWidget('clanmatch'); ConnectToServerNum(_lastmatchserver);"
+				/>
+				
+
+
+				
+			</frame>			
+		</panel>	
+	</panel>
+	
+
+	<!-- Create game -->
+	<panel name="create_game_panel" color="#00000099" visible="false" blockinput="true" onload="CreateString('_servername'); CreateString('_game_password'); CreateString('_game_mapname'); CreateString('sv_team1Race', 'Human');  CreateString('sv_team2Race', 'Beast');">
+		<panel width="375" height="400" align="center" valign="center">
+			<panel height="-44" y="14" width="-2" align="center" texture="/ui/elements/parchment.tga"/>
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg"/>
+			<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"/>
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" style="lobby_window_header_bg" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window_header" borderthickness="12"/>
+			
+			<label height="28" x="10" y="4" color="white" shadow="true" font="dyn_14">Create Game</label>
+			<button x="-12" y="7"  width="14" height="14" align="right" color="#FFFFFF99"  onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('create_game_panel');" texture="/ui/elements/xbutton.tga"/>
+			
+			<panel y="59" width="-10" align="center" float="bottom" padding="0">
+				
+				<panel y="10" color="invisible" height="304" >
+					
+					<image y="110" align="center" height="2" texture="/ui/elements/line_break_inset.tga" color="#FFFFFFcc"  />
+
+					<panel y="112" color="invisible" height="190" >
+						<label height="18" y="10" shadow="true" font="dyn_14" color="yellow" textalign="center">Choose Map:</label>
+
+						<frame align="center" height="130" y="35" width="95%" texture="/ui/frames/inset.tga" borderwidth="2">
+						<if os="linux">
+							<listbox
+								name="map_listbox"
+								x="-4"
+								width="-9" height="-4"
+								align="right" valign="center"
+								color="#00000088"
+								font="gametweener"
+								handleheight="32"
+								itemwidth="100%" itemheight="18"
+								hoverselect="false"
+								wrap="row"
+								highlightcolor="#FFaa0044" highlightbordercolor="invisible"
+								scrolltexture="/ui/elements/vist_scroll.tga"
+								onselect="Set(_game_mapname, this);"
+								onshow="
+									ListBoxCmd('Clear');
+									ForEachFile('!', '/maps', '*.s2z', true, 'ListBoxCmd(\'Add \' # Substring(file_filepath, 6, StringLength(file_filepath) - 10));');
+									ForEachFile('!', '@/maps', '*.s2z', true, 'ListBoxCmd(\'Add \' # Substring(file_filepath, 7, StringLength(file_filepath) - 11));');
+									ListBoxCmd('Sort');
+									ListBoxCmd('Select 0');
+									Set(_game_mapname, this);"
+							/>
+						</if>
+						<if os="apple">
+							<listbox
+								name="map_listbox"
+								x="-4"
+								width="-9" height="-4"
+								align="right" valign="center"
+								color="#00000088"
+								font="gametweener"
+								handleheight="32"
+								itemwidth="100%" itemheight="18"
+								hoverselect="false"
+								wrap="row"
+								highlightcolor="#FFaa0044" highlightbordercolor="invisible"
+								scrolltexture="/ui/elements/vist_scroll.tga"
+								onselect="Set(_game_mapname, this);"
+								onshow="
+									ListBoxCmd('Clear');
+									ForEachFile('!', '/maps', '*.s2z', true, 'ListBoxCmd(\'Add \' # Substring(file_filepath, 6, StringLength(file_filepath) - 10));');
+									ForEachFile('!', '@/maps', '*.s2z', true, 'ListBoxCmd(\'Add \' # Substring(file_filepath, 7, StringLength(file_filepath) - 11));');
+									ListBoxCmd('Sort');
+									ListBoxCmd('Select 0');
+									Set(_game_mapname, this);"
+							/>
+						</if>
+						<if os="windows">
+							<listbox
+								name="map_listbox"
+								x="-4"
+								width="-9" height="-4"
+								align="right" valign="center"
+								color="#00000088"
+								font="gametweener"
+								handleheight="32"
+								itemwidth="100%" itemheight="18"
+								hoverselect="false"
+								wrap="row"
+								highlightcolor="#FFaa0044" highlightbordercolor="invisible"
+								scrolltexture="/ui/elements/vist_scroll.tga"
+								onselect="Set(_game_mapname, this);"
+								onshow="
+									ListBoxCmd('Clear');
+									ForEachFile('!', '/maps', '*.s2z', true, 'ListBoxCmd(\'Add \' # Substring(file_filepath, 6, StringLength(file_filepath) - 10));');
+									ListBoxCmd('Sort');
+									ListBoxCmd('Select 0');
+									Set(_game_mapname, this);"
+							/>
+						</if>
+						</frame>					
+					</panel>
+					
+					<image y="302" align="center" height="2" texture="/ui/elements/line_break_inset.tga" color="#FFFFFFcc"/>
+
+					<label height="18" y="-38" shadow="true" font="dyn_14" color="yellow" textalign="center">Server Settings:</label>
+					
+					<label height="18" y="-14" font="dyn_12" shadow="true" color="white" width="30%" textalign="center">Server Name:</label>
+					
+					<frame height="18" y="-14" width="65%" x="30%" texture="/ui/frames/rounded_button_bg_white.tga" color="white" borderthickness="8">
+						<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="white"/>
+						<frame  texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="6"/>
+						<textbox  width="-10" height="-2" font="dyn_12" align="center" valign="center" textcolor="black" shadow="true" color="invisible" onchange="Set(_servername, this);" onshow="SetInputLine(svr_name); SetFocus(true);"/>
+					</frame>
+					
+					<label height="18" y="12" font="dyn_12" shadow="true" color="white" width="30%" textalign="center">Your Name:</label>
+					
+					<frame height="18" y="12" width="65%" x="30%" texture="/ui/frames/rounded_button_bg_white.tga" color="white" borderthickness="8">
+						<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="white"/>
+						<frame  texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="6"/>
+						<textbox  width="-10" height="-2" font="dyn_12" align="center" valign="center" textcolor="black" shadow="true" color="invisible" onchange="Set(net_name, this);" onshow="SetInputLine(net_name); SetFocus(true);"/>
+					</frame>
+					
+					<label  x="10" height="18" y="40" font="dyn_12" shadow="true" color="white" width="30%" textalign="center">Password:</label>
+					
+					<frame height="18" y="40" width="35%" x="30%" texture="/ui/frames/rounded_button_bg_white.tga" color="white" borderthickness="8">
+						<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="white"/>
+						<frame  texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="6"/>
+						<textbox  width="-10" height="-2" font="dyn_12" align="center" valign="center" textcolor="black" shadow="true"  color="invisible" passwordchar="*" onchange="Set(_game_password, this);" onshow="EraseInputLine();"/>
+					</frame> 
+					
+					<label x="16" height="18" y="68" font="dyn_12" shadow="true" color="white" width="30%" textalign="center">Factions:</label>
+
+					<combobox
+						height="20"
+						y="68"
+						width="27%"
+						x="30%"
+						color="invisible"
+						itemwidth="100%"
+						itemheight="20"
+						maxlistheight="2"
+						cvar="sv_team1Race"
+						exteriorscrollbars="true"
+						scrolltexture="/ui/elements/vist_scroll.tga"
+						handleheight="10"
+						scrollbaroffset="0"
+						highlight="under"
+					>
+						<widgetstate statename="up">
+							<panel>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#2E1F00"/>
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+								<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_up.tga" />
+							</panel>
+						</widgetstate>
+						<widgetstate statename="over">
+							<panel>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#504009"/>
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+								<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+							</panel>
+						</widgetstate>
+						<widgetstate statename="down">
+							<panel>
+								<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="4" color="#504009"/>
+								<frame texture="/ui/frames/roundframe_header.tga" borderthickness="4" color="#5E2D1F"/>
+
+								<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+							</panel>
+						</widgetstate>
+						<widgetstate statename="listbg">
+							<panel height="40">
+								<frame texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="4" color="#504009"/>
+								<image height="-6" texture="/ui/elements/list_parchment.tga" />
+								<frame texture="/ui/frames/roundframe_footer.tga" borderthickness="4" color="#5E2D1F"/>
+							</panel>
+						</widgetstate>
+						<widgetstate statename="itembg">
+							<panel width="100%">
+								<image texture="/ui/elements/list_gradient.tga" rendermode="overlay" color="#909090" />
+								<frame texture="/ui/frames/roundframe_square.tga" borderthickness="10" color="#5E2D1F"/>
+							</panel>
+						</widgetstate>
+						<widgetstate statename="itemhighlight">
+							<panel width="100%">
+								<panel x="1" y="1" width="-2" height="-2" color="#404000" rendermode="additive" />
+							</panel>
+						</widgetstate>
+						
+						<listitem value="Human"><label font="dyn_14" color="white">Human</label></listitem>
+						<listitem value="Beast"><label font="dyn_14" color="white">Beast</label></listitem>
+					</combobox>
+					
+					<label noclick="true" x="47%" height="18" y="70" font="dyn_12" shadow="true" color="white" width="30%" textalign="center">VS:</label>
+					
+					<combobox
+						height="20"
+						y="68"
+						width="27%"
+						x="68%"
+						color="invisible"
+						itemwidth="100%"
+						itemheight="20"
+						maxlistheight="2"
+						cvar="sv_team2Race"
+						exteriorscrollbars="true"
+						scrolltexture="/ui/elements/vist_scroll.tga"
+						handleheight="10"
+						scrollbaroffset="0"
+						highlight="under"
+					>
+						<widgetstate statename="up">
+							<panel>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#2E1F00"/>
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+								<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_up.tga" />
+							</panel>
+						</widgetstate>
+						<widgetstate statename="over">
+							<panel>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#504009"/>
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+								<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+							</panel>
+						</widgetstate>
+						<widgetstate statename="down">
+							<panel>
+								<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="4" color="#504009"/>
+								<frame texture="/ui/frames/roundframe_header.tga" borderthickness="4" color="#5E2D1F"/>
+
+								<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+							</panel>
+						</widgetstate>
+						<widgetstate statename="listbg">
+							<panel height="40">
+								<frame texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="4" color="#504009"/>
+								<image height="-6" texture="/ui/elements/list_parchment.tga" />
+								<frame texture="/ui/frames/roundframe_footer.tga" borderthickness="4" color="#5E2D1F"/>
+							</panel>
+						</widgetstate>
+						<widgetstate statename="itembg">
+							<panel width="100%">
+								<image texture="/ui/elements/list_gradient.tga" rendermode="overlay" color="#909090" />
+								<frame texture="/ui/frames/roundframe_square.tga" borderthickness="10" color="#5E2D1F"/>
+							</panel>
+						</widgetstate>
+						<widgetstate statename="itemhighlight">
+							<panel width="100%">
+								<panel x="1" y="1" width="-2" height="-2" color="#404000" rendermode="additive" />
+							</panel>
+						</widgetstate>
+
+						<listitem value="Beast"><label font="dyn_14" color="white">Beast</label></listitem>
+						<listitem value="Human"><label font="dyn_14" color="white">Human</label></listitem>
+					</combobox>
+				</panel>
+			</panel>
+
+			<!-- Footer -->
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="45" style="lobby_window_footer_bg"  borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="45" style="lobby_window_footer" borderthickness="12">
+				<!-- Create Game button -->
+				<frame x="-10" height="25" width="120" align="right" valign="center" texture="/ui/frames/rounded_button_bg_white.tga" color="white" borderthickness="8">
+					<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+					<label font="dyn_14" textalign="center" textvalign="center" valign="center" color="black">Create Game</label>
+					<button
+						color="invisible"
+						onclick="CreateString('svr_connectPass', _game_password);
+							CreateString('cl_password', _game_password);
+							if(StringLength(_game_mapname) > 0, Split(StartLocalGame(_game_mapname), HideWidget('create_game_panel'), HideWidget('local_browser_panel')));"
+					/>
+				</frame>
+			</frame>
+		</panel>
+	</panel>	
+	
+
+	<!-- Unlaimed Warning -->
+	<panel name="browser_unclaimed" color="invisible" noclick="true" onshow="Exec('~/webcache/vault_details.cfg'); Exec('~/webcache/friends/'#LowerString(GetAccountName())#'.cfg'); If(!ni_ticketNotificationOff, If(pitem_unclaimed gt 0, ShowWidget('browser_unclaimed_notification')));">
+    <panel name="browser_unclaimed_notification" color="#000000EE" visible="false">
+      
+      <panel name="browser_unclaimed_main" y="-100" width="380" height="126" align="center" valign="center" onshow="PlaySound('/shared/sounds/ui/tutorial/popup_show_1.mp3');">
+
+        <button color="invisible" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3');" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('browser_unclaimed_notification'); HideWidget('browser_unclaimed');">
+          <widgetstate statename="up">
+            <frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg" color="#211817"/>
+            <frame texture="/ui/frames/roundframe.tga" borderthickness="12" color="#662222"/>
+            <frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" style="lobby_window_header_bg" borderthickness="12" color="#600f0f"/>
+            <frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window_header" borderthickness="12" color="#662222">
+              <label width="-20" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Notification</label>
+            </frame>
+            <panel x="10" width="100" height="-26" align="left" valign="bottom" color="invisible">
+              <image width="-10" height="-10" align="center" valign="center" texture="/ui/elements/star_tickets.tga"/>
+            </panel>	
+            <panel width="-120" height="-26" align="right" valign="bottom" color="invisible">
+              <label y="20" height="20" font="chat_16" wrap="true" color="white" shadow="true" onshow="SetText('You have %pitem_unclaimed% unclaimed ticket'#If(pitem_unclaimed gt 1,'s!','!'));"/>
+              <label y="46" height="20" font="chat_12" wrap="true" color="white" shadow="true">Login at www.savage2.com to claim</label>
+              <label y="60" height="20" font="chat_12" wrap="true" color="white" shadow="true">persistant items for your vault!</label>
+            </panel>	
+            <image x="-8" y="5"  width="15" height="15" align="right" texture="/ui/elements/tip_button.tga" color="#FFFFFF99" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('browser_unclaimed_notification'); HideWidget('browser_unclaimed');"/>
+          </widgetstate>
+          <widgetstate statename="over">
+            <frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg" color="#312827"/>
+            <frame texture="/ui/frames/roundframe.tga" borderthickness="12" color="#773333"/>
+            <frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" style="lobby_window_header_bg" borderthickness="12" color="#701f1f"/>
+            <frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window_header" borderthickness="12" color="#773333">
+              <label width="-20" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Notification</label>
+            </frame>
+            <panel x="10" width="100" height="-26" align="left" valign="bottom" color="invisible">
+              <image width="-10" height="-10" align="center" valign="center" texture="/ui/elements/star_tickets.tga"/>
+            </panel>	
+            <panel width="-120" height="-26" align="right" valign="bottom" color="invisible">
+              <label y="20" height="20" font="chat_16" wrap="true" color="white" shadow="true" onshow="SetText('You have %pitem_unclaimed% unclaimed ticket'#If(pitem_unclaimed gt 1,'s!','!'));"/>
+              <label y="46" height="20" font="chat_12" wrap="true" color="white" shadow="true">Login at www.savage2.com to claim</label>
+              <label y="60" height="20" font="chat_12" wrap="true" color="white" shadow="true">persistant items for your vault!</label>
+            </panel>	
+            <image x="-8" y="5"  width="15" height="15" align="right" texture="/ui/elements/tip_button.tga" color="#FFFFFF99" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('browser_unclaimed_notification'); HideWidget('browser_unclaimed');"/>
+          </widgetstate>
+          <widgetstate statename="down" x="1" y="1">
+            <frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg" color="#211817"/>
+            <frame texture="/ui/frames/roundframe.tga" borderthickness="12" color="#662222"/>
+            <frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" style="lobby_window_header_bg" borderthickness="12" color="#600f0f"/>
+            <frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window_header" borderthickness="12" color="#662222">
+              <label width="-20" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Notification</label>
+            </frame>
+            <panel x="10" width="100" height="-26" align="left" valign="bottom" color="invisible">
+              <image width="-10" height="-10" align="center" valign="center" texture="/ui/elements/star_tickets.tga"/>
+            </panel>	
+            <panel width="-120" height="-26" align="right" valign="bottom" color="invisible">
+              <label y="20" height="20" font="chat_16" wrap="true" color="white" shadow="true" onshow="SetText('You have %pitem_unclaimed% unclaimed ticket'#If(pitem_unclaimed gt 1,'s!','!'));"/>
+              <label y="46" height="20" font="chat_12" wrap="true" color="white" shadow="true">Login at www.savage2.com to claim</label>
+              <label y="60" height="20" font="chat_12" wrap="true" color="white" shadow="true">persistant items for your vault!</label>
+            </panel>	
+            <image x="-8" y="5"  width="15" height="15" align="right" texture="/ui/elements/tip_button.tga" color="#FFFFFF99" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('browser_unclaimed_notification'); HideWidget('browser_unclaimed');"/>
+          </widgetstate>
+        </button>
+        <image x="-8" y="5"  width="15" height="15" align="right" texture="/ui/elements/tip_button.tga" color="#FFFFFF00" onmouseover="SetColor('#FFFFFFBB'); ShowWidget('browser_unclaimed_tip');" onmouseout="SetColor('#FFFFFF00'); HideWidget('browser_unclaimed_tip');" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('browser_unclaimed_notification'); HideWidget('browser_unclaimed');"/>
+      </panel>
+      
+      <panel name="browser_unclaimed_tip" y="40" width="380" height="126" align="center" valign="center" visible="false">
+
+        <frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg" color="#211817"/>
+        <frame texture="/ui/frames/roundframe.tga" borderthickness="12" color="#662222"/>
+        <label width="-20" height="-20" align="center" valign="center" font="chat_12" wrap="true" color="white" shadow="true" textalign="center">Scratch Tickets are awarded to players for completing game achievements, referring friends and participating in special events. You can use those tickets to get random persistent items for your item vault. Just login at the official site and use the &quot;Claim Persistent Items&quot; link at the right. The items you earn will become available at the game loadout for you to equip and use on the battlefield.</label>
+        
+      </panel>	
+      
+    </panel>
+	</panel>
+  
+	<include file="/ui/cc_panel.xml"/>
+	<include file="/ui/game_negotiating.xml"/>
+	
+</interface>

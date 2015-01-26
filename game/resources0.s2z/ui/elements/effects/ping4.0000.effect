@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="item_persistant_brain">
+
+	<definitions>
+
+		<particlesystem name="system0" space="entity">
+
+
+			<billboard 
+        delay="0"
+				life="8000"
+				material="/shared/effects/materials/shield_impact.material"
+        roll="0"
+        rollspeed="10"
+				startsize="0"
+				endsize="150"
+				lockup="true"
+				startcolor=".9 1 .2"
+				endcolor="0 0 0"
+        startalpha="0"
+        midalpha="1"
+        endalpha="0"
+        midalphapos=".7"
+			/>
+
+			<billboard 
+        delay="1600"
+				life="6800"
+				material="/shared/effects/materials/shield_impact.material" 
+        roll="70"
+        rollspeed="20"
+				startsize="0"
+				endsize="130"
+				lockup="true"
+				startcolor=".9 1 .1"
+				endcolor="0 0 0"
+        startalpha="0"
+        midalpha="1"
+        endalpha="0"
+        midalphapos=".7"
+			/>
+
+			<billboard 
+        delay="3200"
+				life="5600"
+				material="/shared/effects/materials/shield_impact.material" 
+        roll="100"
+        rollspeed="30"
+				startsize="0"
+				endsize="110"
+				lockup="true"
+				startcolor="1 1 .1"
+				endcolor="0 0 0"
+        startalpha="0"
+        midalpha="1"
+        endalpha="0"
+        midalphapos=".7"
+			/>
+
+			<billboard 
+        delay="4800"
+				life="4400"
+				material="/shared/effects/materials/shield_impact.material" 
+        roll="150"
+        rollspeed="40"
+				startsize="0"
+				endsize="90"
+				lockup="true"
+				startcolor="1 1 .2"
+				endcolor="0 0 0"
+        startalpha="0"
+        midalpha="1"
+        endalpha="0"
+        midalphapos=".7"
+			/>
+
+
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->

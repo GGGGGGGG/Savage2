@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<template name="ccwidget_message_display">
+		<!-- Header -->
+		<panel height="{headerheight=22}" y="-{headerheight=22}" align="center" blockinput="false" noclick="true">
+			<label x="6" align="left" valign="center" textvalign="center" font="{titlefont=chat_12}" color="{titlecolor=white}" shadow="true" blockinput="false" noclick="true">Private Messaging</label>
+		</panel>
+		<!-- <table name="testtable12" y="7" color="#00000077" rows="5" cols="100%,0%" height="90" width="-50" align="center" expandable="true" rowheight="18" font="chat_12" bordercolor="invisible" headings="" headingid="0" headingcolor="invisible" usescrollbar="false" handleheight="48" watch="ChatWhisperUpdate" ontrigger="If(!WidgetExists('ccwidget_whisper' # param0),Data(0,param0));" onload="SortByColNumReverse(0);" onclick="If(dataid,Split(Set('ui_lastSelectedUser', GetData(0,row)), Call('cceditbox_{id}{id}_textbox','SetInputLine(ui_lastSelectedUser);'), SetFocusName('cceditbox_messagemessage_textbox')));"
+ondoubleclick="If(dataid,Split(ChatOpenMessage(ui_lastSelectedUser), HideWidget('ccwidget_message')));" onclear="" textalign="center" textvalign="center"/> -->
+		<!-- <label width="-20" height="24" textvalign="center" textalign="center" align="center" font="chat_12" color="white" shadow="true" blockinput="false" noclick="true">Conversations:</label> -->
+		<listbox name="message_listbox" y="15" width="-40" height="-78" align="center" valign="top" color="#00000077" handleheight="32" itemwidth="100%" itemheight="18" wrap="row" hoverselect="false" highlight="under" highlightcolor="#FFFFFF38" highlightbordercolor="invisible" scrolltexture="/ui/elements/vist_scroll.tga" rendermode="grayscale" font="gametiny" onshow="If(!HasListItem(''),ListboxCmd('add ')); SortListBox();" watch="ChatWhisperUpdate" ontrigger="If(!ui_updatingChatBuffer and SubString(param1,1,1) != 7 and !WidgetExists('ccwidget_whisper' # param0),Split(EraseListItemByValue(param0),ListBoxCmd('add ' # param0),SortListBoxValue()));" onselect="Set('ui_lastSelectedUser', Substring(this,0,-1)); Call('cceditbox_messagemessage_textbox','SetInputLine(ui_lastSelectedUser);'); SetFocusName('cceditbox_messagemessage_textbox');" ondoubleclick="ChatOpenMessage(ui_lastSelectedUser); Call('ccwhisperbox_whisper'#ui_lastSelectedUser#'whisper'#ui_lastSelectedUser#'_textbox','SetFocus(1);');" onfocus="Call('ccwidget_message','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus'); SleepWidget(1);" onlosefocus="HideWidget('ccwidget_{id}_focus');" onwake="ShowWidget(); If(StringLength('{keepfocus}'),Call('{keepfocus}','SetFocus(1);'));"/>
+		<panel height="55" valign="bottom" noclick="true">
+			<label width="-20" height="24" textvalign="center" textalign="center" align="center" font="chat_12" color="white" shadow="true" blockinput="false" noclick="true">Nickname to Message:</label>
+			<instance name="cceditbox" parentid="{id}" id="message" y="28" width="-10" height="20" align="center" bordercolor="{bordercolor=#A0A0A077}" cvar="_target_nick" onshow="SetFocus(1);" onenter="ChatOpenMessage(_target_nick); EraseInputLine();" onesc="If(StringLength(this) gt 0, Split(EraseInputLine(),SleepWidget(10)));" onwake="SetFocus(1);"/>
+		</panel>
+		<!-- Footer -->
+		<panel height="{footerheight=28}" y="{footerheight=28}" visible="{footer=1}" valign="bottom" blockinput="false" noclick="true">
+			<instance parentid="{id}" y="4" height="20" width="100" align="center" name="ccbutton" label="Message" onclick="ChatOpenMessage(_target_nick); Call('cceditbox_{id}message_textbox','EraseInputLine();');" bordercolor="{bordercolor=#A0A0A077}"/>
+		</panel>
+	</template>
+	<instance name="ccwidget" id="message" title="Message" height="204" width="200" align="center" valign="center" y="-70" bordercolor="#007E7E77" canresize="false" rememberposition="0" keepfocus=""/>
+</include>

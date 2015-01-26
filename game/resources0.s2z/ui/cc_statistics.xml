@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<template name="browser_statistic">
+		<panel height="50" width="99%" color="invisible">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#560001AA"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#662222AA" borderthickness="4"/>
+			<panel width="50" align="left" color="invisible">
+				<panel x="3" width="44" height="44" color="red" valign="center"/>
+				<image x="4" valign="center" width="42" height="42" texture="{icon}"/>
+			</panel>
+			<panel width="-53" align="right" color="invisible">
+				<label width="100%" height="60%" valign="top" textvalign="center" align="left" font="chat_14" color="white" shadow="true">{label}</label>
+				<label width="100%" height="60%" valign="bottom" textvalign="center" align="center" font="chat_14" color="yellow" shadow="true" watch="BrowserStats{triggerindex}" ontrigger="SetText(param{statindex});">{stat}</label>
+			</panel>
+		</panel>
+	</template>
+	<template name="ccwidget_statistics_display">
+		<!-- Header -->
+		<panel height="{headerheight=22}" y="-{headerheight=22}" align="center" blockinput="false" noclick="true">
+			<label x="6" align="left" valign="center" textvalign="center" font="{titlefont=chat_12}" color="{titlecolor=white}" shadow="true" blockinput="false" noclick="true" watch="BrowserStats1" ontrigger="SetText('{title} - ^y' # param0 # ' ^*(SF:^y ' # param1 # '^*)');">{title}</label>
+		</panel>
+		<panel y="2" width="-4" height="-52" color="invisible" align="center" passivechildren="true" noclick="true" onload="BrowserGetStats();">
+			<panel y="1" width="50%" float="bottom" padding="5">
+				<instance name="browser_statistic" triggerindex="1" statindex="2" label="Player Rank" stat="-" icon="/ui/elements/stat_icons/player_rank.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="3" label="Karma Score" stat="-" icon="/ui/elements/stat_icons/karma_score.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="4" label="Player Exp" stat="-" icon="/ui/elements/stat_icons/player_experience.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="5" label="Match Record" stat="-" icon="/ui/elements/stat_icons/match_record.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="6" label="Player Damage" stat="-" icon="/ui/elements/stat_icons/player_damage.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="7" label="Total Kills" stat="-" icon="/ui/elements/stat_icons/total_kills.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="8" label="Total Assists" stat="-" icon="/ui/elements/stat_icons/total_assists.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="9" label="Souls Spent" stat="-" icon="/ui/elements/stat_icons/souls_spent.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="0" label="NPC Kills" stat="-" icon="/ui/elements/stat_icons/npc_kills.tga"/>
+			</panel>
+			<panel y="1" x="50%" width="50%" float="bottom" padding="5">
+				<instance name="browser_statistic" triggerindex="2" statindex="1" label="HP Healed" stat="-" icon="/ui/elements/stat_icons/hps_healed.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="2" label="Resurrections" stat="-" icon="/ui/elements/stat_icons/resurections.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="3" label="Building Damage" stat="-" icon="/ui/elements/stat_icons/total_building_damage.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="4" label="Buildings Razed" stat="-" icon="/ui/elements/stat_icons/razed.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="5" label="HP Repaired" stat="-" icon="/ui/elements/stat_icons/build.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="6" label="Total Deaths" stat="-" icon="/ui/elements/stat_icons/total_deaths.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="7" label="Kill:Death Ratio" stat="-" icon="/ui/elements/stat_icons/kill_death_ratio.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="8" label="Time Played" stat="-" icon="/ui/elements/stat_icons/hours_played.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="9" label="Total Gold" stat="-" icon="/ui/elements/stat_icons/total_gold.tga"/>
+			</panel>
+		</panel>
+		<panel align="center" valign="center" height="50" width="250" blockinput="false" noclick="true">
+			<instance name="ccwidget" parentid="{id}" id="statsstatus" title="Status" height="50" width="250" x="0" y="0" bordercolor="{bordercolor=#A0A0A077}" canmove="false" canresize="false" canclose="false"/>
+		</panel>
+		<!-- Footer -->
+		<panel height="{footerheight=28}" y="{footerheight=28}" visible="{footer=1}" valign="bottom" blockinput="false" noclick="true">
+			<instance name="cceditbox" parentid="{id}" id="statsname" x="3" width="-110" height="22" align="left" valign="center" bordercolor="{bordercolor=#A0A0A077}" onshow="SetFocus(true);" onenter="BrowserGetStats(this); ShowWidget('ccwidget_statsstatus'); EraseInputLine();" onesc="EraseInputLine();"/>
+			<instance name="ccbutton" parentid="{id}" x="-3" width="100" height="20" align="right" valign="center" onclick="Call('cceditbox_{id}statsname_textbox','BrowserGetStats(this); ShowWidget(\'ccwidget_statsstatus\');');" label="Fetch" bordercolor="{bordercolor=#A0A0A077}"/>
+		</panel>
+		<panel width="100%" height="100%" name="demo_stats_cover" watch="DemoAccountBrowser" ontrigger="SetVisible(param);">
+			<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#00ccFF88"/>
+			<frame x="0" texture="/ui/frames/roundframe.tga" borderthickness="12" color="yellow"/>
+			<panel width="-20" valign="center" align="center" height="450">
+				<frame color="#000000cc" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+				<frame color="yellow" texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+				<label y="15%" height="24" width="90%" textalign="center" textvalign="top" align="center" font="chat_14" color="red" shadow="true" valign="top">Prime Account Required!</label>
+				<label y="12%" width="90%" height="100" textvalign="center" textalign="center" valign="top" align="center" wrap="true" font="chat_12" color="white" shadow="false">Upgrade to a Prime Account now to view player stats, participate on the official ladder, and unlock the many other perks Prime Accounts receive. A Prime Account upgrade is a one time fee of only $9.99! The process is quick, secure, and all without leaving the game.</label>
+				<label y="51%" x="4%" height="24" width="90%" textalign="left" textvalign="center" align="left" font="chat_12" color="yellow" shadow="true" valign="top">Prime Account Features:</label>
+				<panel x="4%" height="15" align="left" float="right" width="85%" valign="center" y="9%">
+					<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"/>
+					<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Access to Player stats</label>
+				</panel>
+				<panel x="4%" height="15" align="left" float="right" width="85%" valign="center" y="14%">
+					<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center" />
+					<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Two extra inventory slots</label>
+				</panel>
+				<panel x="4%" height="15" align="left" float="right" width="85%" valign="center" y="19%">
+					<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center" />
+					<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Unlimited Hellbourne Units</label>
+				</panel>
+				<panel x="4%" height="15" align="left" float="right" width="85%" valign="center" y="24%">
+					<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center" />
+					<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Create and manage clans</label>
+				</panel>
+				<panel x="4%" height="5%" align="left" float="right" width="85%" valign="center" y="29%">
+					<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center" />
+					<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Support independent gaming!</label>
+				</panel>
+				<panel x="4%" height="5%" align="left" float="right" width="85%" valign="center" y="35%">
+					<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center" />
+					<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Access to replays of every match ever played</label>
+				</panel>
+				<panel height="45" y="-5" align="center" valign="bottom">
+					<instance name="round_button2" width="130" height="22" align="center" valign="center" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); SetHostInterface('purchase'); TogglePurchase(); ShowCCPanel();" font="chat_13" label="Upgrade Now!" />
+				</panel>
+			</panel>
+			<image align="center" y="-3%" width="92" height="92" texture="/ui/elements/lock.tga"/>
+		</panel>
+	</template>
+	<template name="ccwidget_statsstatus_display">
+		<!-- Focus Button -->
+		<button color="invisible" onrightclick="SetFocus(1);" onclick="SetFocus(1);" onfocus="Call('ccwidget_{parentid}','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+		<!-- Header -->
+		<panel height="{headerheight=22}" y="-{headerheight=22}" align="center" blockinput="false" noclick="true">
+			<button color="invisible" onrightclick="SetFocus(1);" onclick="SetFocus(1);" onfocus="Call('ccwidget_{parentid}','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+			<label x="6" align="left" valign="center" textvalign="center" font="{titlefont=chat_12}" color="{titlecolor=white}" shadow="true" blockinput="false" noclick="true">{title}</label>
+		</panel>
+		<panel width="250" height="130" align="center" valign="center" watch="BrowserStatsStatus" ontrigger=" if(param == 0, ShowWidget('ccwidget_{id}')); if(param == 1, HideWidget('ccwidget_{id}')); if(param == 1, SetFocusName('ccwidget_{parentid}')); If(param == 2, );">
+			<label width="-20" height="20" shadow="true" textalign="center" textvalign="center" align="center" valign="center" font="gametweener" color="green" shadowoffset="4" wrap="true" watch="BrowserStatsStatus" ontrigger="If(param == 0, SetText('Retrieving user statistics...')); If(param == 2, SetText('Error retrieving statistics.'));"/>
+		</panel>
+		<!-- Footer -->
+		<panel height="{footerheight=28}" y="{footerheight=28}" visible="{footer=1}" valign="bottom" blockinput="false" noclick="true">
+			<button color="invisible" onrightclick="SetFocus(1);" onclick="SetFocus(1);" onfocus="Call('ccwidget_{parentid}','BringToFront();'); Call('ccbar', 'BringToFront();'); ShowWidget('ccwidget_{id}_focus');" onlosefocus="HideWidget('ccwidget_{id}_focus');"/>
+			<instance parentid="{id}" id="Cancel" align="center" y="4" width="100" height="20" name="ccbutton" label="Cancel" onclick="HideWidget('ccwidget_{id}'); BrowserCancelStats(); SetFocusName('ccwidget_{parentid}');" bordercolor="{bordercolor=#A0A0A077}" watch="BrowserStatsStatus" ontrigger="
+If(param lt 2, Call('ccbutton_{id}Cancel_labelup','SetText(\'Cancel\');'),Call('ccbutton_{id}Cancel_labelup','SetText(\'Ok\');'));
+If(param lt 2, Call('ccbutton_{id}Cancel_labeldown','SetText(\'Cancel\');'),Call('ccbutton_{id}Cancel_labeldown','SetText(\'Ok\');'));
+If(param lt 2, Call('ccbutton_{id}Cancel_labelover','SetText(\'Cancel\');'),Call('ccbutton_{id}Cancel_labelover','SetText(\'Ok\');'));"/>
+		</panel>
+	</template>
+	<instance name="ccwidget" id="statistics" title="Statistics" height="496" width="364" bordercolor="#991A1A77"/>
+</include>

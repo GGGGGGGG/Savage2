@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="main" onshow="PlayMusic('/music/menu.ogg',false); Exec('/ui/scripts/Smileys.cfg'); Cmd('UnloadInterface game_replay_control');">
+	<!-- Includes -->
+	<include file="/ui/fonts.xml"/>
+	<include file="/ui/inc_button.xml"/>
+
+	<!-- Styles -->
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>	
+
+	<panel name="main_menu_backer" width="100%" height="100%" color="#000000FF" visible="true"/>
+	<panel texture="/ui/elements/hell_background.tga" color="1 1 1 .6"/>
+	<!--<panel  texture="/ui/elements/main_grad.tga"/>-->
+	
+	<panel>
+		<modelpanel
+			noclick="true"
+			model="/ui/elements/models/hellbourne_flame_emitter.mdf"
+			anim="idle"
+			effect="/ui/elements/effects/mainmenu_screen.effect"
+			camerapos="0 100 50"
+			cameraangles="0 0 180"
+			camerafov="90"
+		/>
+		<modelpanel visible="1"
+			fog="false"
+			fogcolor="0 0 0" fognear="400" fogfar="900" fogscale="1"
+			noclick="true"
+			name="malphas"
+			cameraangles="0.0 0.0 180.0"
+			camerapos="-8.0 500.0 5.0"
+			camerafovy="52.0"
+			model0="/ui/mainmenu/combined.mdf"
+			anim0="idle"
+			effect0="/hellbourne/units/malphas/effects/malphas2.effect"
+			shadows="true"
+			posteffects="true"
+			sunazimuth="140"
+			depthclear="false"
+		/>
+	</panel>
+
+	<panel align="center" width="133@" height="100%" onload="CreateInt('_menu_is_in', 1);" onshow="exec('/scripts/menu_fog.cfg'); If(!_menu_is_in, Exec('/scripts/menu_in.cfg'));">
+		<modelpanel visible="1"
+			fog="true"
+			fogcolor="0 0 0" fognear="500" fogfar="600" fogscale="1"
+			noclick="true"
+			name="skull"
+			cameraangles="0.0 0.0 180.0"
+			camerapos="-27.0 500.0 20.0"
+			camerafov="52.0"
+			camerafar="600.0"
+			model0="/ui/mainmenu/skull.mdf"
+			anim0="start"
+			effect0="/ui/mainmenu/lights.effect"
+			model1="/ui/mainmenu/login.mdf"
+			anim1="start"
+			model2="/ui/mainmenu/local.mdf"
+			anim2="start"
+			model3="/ui/mainmenu/tutorial.mdf"
+			anim3="start"
+			model4="/ui/mainmenu/practice.mdf"
+			anim4="start"
+			model5="/ui/mainmenu/replays.mdf"
+			anim5="start"
+			model6="/ui/mainmenu/options.mdf"
+			anim6="start"
+			model7="/ui/mainmenu/quit.mdf"
+			anim7="start"
+		/>
+
+		<modelpanel
+			fog="true"
+			fogcolor="0 0 0" fognear="600" fogfar="700" fogscale="1"
+			name="sword"
+			cameraangles="0.0 0.0 180.0"
+			camerapos="-27.0 500.0 20.0"
+			camerafov="52.0"
+			model0="/ui/mainmenu/sword.mdf"
+			anim0="start"
+			model1="/ui/mainmenu/logo.mdf"
+			anim1="start"
+		/>
+
+		<panel name="tut_played" x="40%" y="55.5%" width="25%" height="14.5%" color="invisible" visible="0">
+			<panel width="75%" height="85%" x="-5%" y="10%" color="invisible" align="center" float="bottom" padding="5%">
+				<panel y="17%" width="95%" height="60%" align="center" color="invisible">
+					<frame color="#2E1F00" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6"/>
+					<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga" borderthickness="6"/>
+					<label y="-35%" width="95%" height="100%" textalign="center" textvalign="center" align="center" font="dyn_10" wrap="true" color="1 .8 0 1" shadow="true">%tut_played_text%</label>
+				</panel>
+			</panel>
+
+			<instance name="round_button2"  x="22%" y="-10%" width="20%" height="10%" valign="bottom"
+				font="dyn_10" label="Yes"
+				onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); Exec('/scripts/menu_out.cfg'); hidewidget('mott'); hidewidget('tut_played'); Cmd(tut_played_cmd);"
+			/>
+			<instance name="round_button2"  x="-27%" y="-10%" width="20%" height="10%" align="right" valign="bottom"
+				font="dyn_10" label="No"
+				onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); Cmd(tut_played_deny);"
+			/>
+		</panel>
+    <panel width="0" height="0" onshow="If(tutorial_watchvideo,Split(Set(tutorial_watchvideo,0),StartReplay(':/game/replays/tutorial/tutorial_01/tutorial_01.s2r'),Exec (':/game/replays/tutorial/tutorial_01/tutorial_01.cfg')));"/>
+		
+		<panel name="first_play" onload="createInt('_accountCreated', 0);" x="40%" y="56.5%" width="22%" height="14.5%" color="invisible" visible="0">
+			<panel width="75%" height="60%" y="10%" color="invisible" align="center" float="bottom" padding="5%">
+				<panel y="17%" width="95%" height="60%" align="center" color="invisible">
+					<frame color="#2E1F00" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6"/>
+					<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga" borderthickness="6"/>
+					<label y="-26%" width="95%" height="100%" textalign="center" textvalign="center" align="center" font="dyn_10" wrap="true" color="1 .8 0 1" shadow="true">Do you already have a Savage 2 Account?</label>
+				</panel>
+			</panel>
+
+			<instance name="round_button2"  x="12%" y="-20%" width="35%" height="15%" valign="bottom"
+				font="dyn_10" label="No"
+				onclick="hidewidget('first_play'); showwidget('create_account'); exec('/scripts/menu_login_back.cfg');"
+			/>
+			<instance name="round_button2"  x="-12%" y="-20%" width="35%" height="15%" align="right" valign="bottom"
+				font="dyn_10" label="Yes"
+				onclick="SetSave('_accountCreated', 1); showwidget('checking_updates'); hidewidget('first_play');"
+			/>
+		</panel>
+
+		<panel name="quit_panel" x="40%" y="56.5%" width="22%" height="14.5%" color="invisible" visible="0">
+			<panel width="75%" height="60%" y="10%" color="invisible" align="center" float="bottom" padding="5%">
+				<panel y="17%" width="95%" height="30%" align="center" color="invisible">
+					<frame color="#2E1F00" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6"/>
+					<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga" borderthickness="6"/>
+					<label width="95%" height="100%" textalign="center" textvalign="center" align="center" font="dyn_10" wrap="true" color="1 .8 0 1" shadow="true">Quiting already, pansy?</label>
+				</panel>
+			</panel>
+
+			<instance name="round_button2"  x="12%" y="-20%" width="35%" height="15%" valign="bottom"
+				font="dyn_10" label="Cancel"
+				onclick="exec('/scripts/menu_login_back.cfg');"
+			/>
+			<instance name="round_button2"  x="-12%" y="-20%" width="35%" height="15%" align="right" valign="bottom"
+				font="dyn_10" label="Quit"
+				onclick="Cmd('quit');"
+			/>
+		</panel>
+
+		<panel name="loging_in" x="40%" y="56.5%" width="22%" height="14.5%"  color="invisible" visible="0">
+			<panel width="75%" height="60%" y="10%" color="invisible" align="center" float="bottom" padding="5%">
+				<panel y="17%" width="95%" height="30%" align="center" color="invisible">
+					<frame color="#2E1F00" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6"/>
+					<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga"  borderthickness="6"/>
+					<label width="90%" height="100%" textalign="center" textvalign="center" align="center" font="chat_12" wrap="true" color="1 .8 0 1" shadow="true">Loging in...</label>
+				</panel>
+			</panel>
+
+			<panel width="75%" height="60%" y="32%" color="invisible" align="center" float="bottom" padding="5%">
+				<panel  y="17%" width="95%" height="30%" align="center" color="invisible">
+					<frame color="0 .5 .1 .5" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6"/>
+					<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga"  borderthickness="6"/>
+					<label width="90%" height="100%" textalign="center" textvalign="center" align="center" font="chat_12" wrap="true" color="1 .8 0 1" shadow="true">No New Updates...</label>
+				</panel>
+			</panel>
+		</panel>
+
+		<panel name="checking_updates" x="40%" y="56.5%" width="22%" height="14.5%"  color="invisible" visible="0" watch="UpdateNeeded UpdateError" ontrigger="SetVisible(false); If(!UpdateNeeded and !UpdateError, ShowWidget('login_panel'))); If(UpdateError, Split(HideWidget('login_panel'), ShowWidget('update_failed')));" onshow="CheckForUpdates(); HideWidget('update_failed');">
+			<panel width="75%" height="60%" y="27%" color="invisible" align="center" float="bottom" padding="5%">
+				<panel y="17%" width="95%" height="30%" align="center" color="invisible">
+					<label width="90%" height="100%" textalign="center" textvalign="center" align="center" font="dyn_10" wrap="true" color="1 .8 0 1" shadow="true">Checking For Updates...</label>
+				</panel>
+			</panel>
+		</panel>
+		
+		<panel name="update_failed" x="40%" y="56.5%" width="22%" height="14.5%"  color="invisible" visible="0" watch="" ontrigger="SetVisible(param); If(!param, ShowWidget('login_panel'));">
+			<panel width="75%" height="60%" y="22%" color="invisible" align="center" float="bottom" padding="5%">
+				<panel y="17%" width="95%" height="30%" align="center" color="invisible">
+					<label width="90%" height="100%" textalign="center" textvalign="center" align="center" font="dyn_10" wrap="true" color="1 .8 0 1" shadow="true">Error checking for updates.</label>
+				</panel>
+			</panel>
+			
+			<instance name="round_button2"  y="-23%" width="45%" height="18" align="center" valign="bottom"
+					font="chat_13" label="Continue"
+					onclick="HideWidget('update_failed'); ShowWidget('login_panel');"
+			/>
+		</panel>
+
+		<panel name="downloading" x="40%" y="56.5%" width="22%" height="14.5%"  color="invisible" visible="0" watch0="UpdateNeeded" ontrigger0="SetVisible(param);" watch1="UpdateRestartNeeded" ontrigger1="If(param, Restart());" onload="CreateString('_update_curver', '0.0.0'); CreateString('_update_newver', '0.0.0');">
+			<panel width="90%" height="63%" y="10%" color="invisible" align="center" float="bottom" padding="1%">
+				<panel y="2" width="100%" height="14%" color="invisible">
+					<label width="100%" height="100%" textalign="center" textvalign="center" align="center" font="chat_12" wrap="true" color="0 1 0 1" shadow="true" watch="UpdateDetail" ontrigger="SetText('^w' # param);">^wChecking for updates...</label>
+				</panel>
+
+				<panel height="4%"/>
+
+				<panel width="100%" height="14%" color="invisible">
+					<label width="100%" height="100%" textalign="center" textvalign="center" align="center" font="chat_10" wrap="true" color="1 .8 0 1" shadow="true" watch1="UpdateLocalVersion" ontrigger1="Set('_update_curver', param); SetText('Your Ver: ^w' # _update_curver # '^*, New Ver: ^w' # _update_newver # '^*');" watch2="UpdateCurVersion" ontrigger2="Set('_update_newver', param); SetText('Your Ver: ^w' # _update_curver # '^*, New Ver: ^w' # _update_newver # '^*');">Your Ver: ^w2.00^*, New Ver: ^w2.00^*</label>
+				</panel>
+
+				<panel width="100%" height="14%" color="invisible">
+					<label width="100%" height="100%" textalign="center" textvalign="center" align="center" font="chat_10" wrap="true" color="1 .8 0 1" shadow="true" watch="UpdateTime" ontrigger="SetText('Time Left: ^w' # param);">Time Left: ^w??:??:??  </label>
+				</panel>
+
+				<panel width="100%" height="14%" color="invisible">
+					<label width="100%" height="100%" textalign="center" textvalign="center" align="center" font="chat_10" wrap="true" color="1 .8 0 1" shadow="true" watch="UpdateFilesLeft" ontrigger="SetText('Files Remaining: ^w' # param0 # '^*/^w' # param1);">Files Remaining: ^w???^*/^w???</label>
+				</panel>
+
+				<panel width="100%" height="14%" color="invisible">
+					<label width="100%" height="100%" textalign="center" textvalign="center" align="center" font="chat_10" wrap="true" color="1 .8 0 1" shadow="true" watch="UpdateSpeed" ontrigger="SetText('Download Speed: ^w' # param # '^*KB/sec');">Download Speed: ^w???^*KB/sec</label>
+				</panel>
+
+				<panel width="100%" height="14%" color="invisible">
+					<label width="100%" height="100%" textalign="center" textvalign="center" align="center" font="chat_10" wrap="true" color="1 .8 0 1" shadow="true" watch="UpdateProgress" ontrigger="SetText('Progress: ^w' # param0 # '^*MB/^w' # param1 # '^*MB');">Progress: ^w???^*MB/^w???^*MB</label>
+				</panel>
+			</panel>
+
+
+
+			<panel valign="bottom" y="-12%" width="70%" height="10%" align="center" color="invisible">
+				<frame texture="/ui/frames/inset.tga" align="center" valign="bottom"   borderthickness="2">
+					<panel width="98%" height="70%" align="center" valign="center" watch="UpdateSizePercent" ontrigger="SetVisible(param != 2);">
+						<panel align="center" valign="center" texture="/ui/elements/mana_neg.tga"/>
+						<panel align="left" valign="center"  texture="/ui/elements/mana_pos.tga" color="blue" watch="UpdateSizePercent" ontrigger="SetWidth((param * 100) # '%');"/>
+						<label textalign="center" textvalign="center" color="white" font="chat_10" shadow="1" content="79%% / 24ksec" watch="UpdateSizePercent" ontrigger="SetText(FtoP(param, 0) # '%');"/>
+					</panel>
+
+					<panel width="98%" height="70%" align="center" valign="center" watch="UpdatePercent" ontrigger="SetVisible(param != 2);">
+						<panel align="center" valign="center" texture="/ui/elements/mana_neg.tga"/>
+						<panel align="left" valign="center"  texture="/ui/elements/mana_pos.tga" color="green" watch="UpdatePercent" ontrigger="SetWidth((param * 100) # '%');"/>
+						<label textalign="center" textvalign="center" color="white" font="chat_10" shadow="1" content="79%% / 24ksec" watch="UpdatePercent" ontrigger="SetText(FtoP(param, 0) # '%');"/>
+					</panel>
+
+					<panel width="98%" height="70%" align="center" valign="center" watch="UpdateExtraction" ontrigger="SetVisible(param != 2);">
+						<panel align="center" valign="center" texture="/ui/elements/mana_neg.tga"/>
+						<panel align="left" valign="center"  texture="/ui/elements/mana_pos.tga" color="red" watch="UpdateExtraction" ontrigger="SetWidth((param * 100) # '%');"/>
+						<label textalign="center" textvalign="center" color="white" font="chat_10" shadow="1" content="79%% / 24ksec" watch="UpdateExtraction" ontrigger="SetText(FtoP(param, 0) # '%');"/>
+					</panel>
+				</frame>
+			</panel>
+			<panel x="110%" y="-280%" height="400%" width="140%" color="invisible">
+				<image y="5.8%" height="86%" width="99%" align="center" texture="/ui/elements/parchment.tga"/>
+				<frame height="100%" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color=".2 .1 0 .3" style="lobby_window_header_bg"/>
+				<frame height="100%" texture="/ui/frames/roundframe.tga" style="lobby_window_header" borderthickness="12"/>
+				<frame style="lobby_window_bg" texture="/ui/frames/rounded_header_bg_white.tga"  color=".3 .2 0 .3" height="5.8%" borderthickness="12"/>
+				<frame texture="/ui/frames/roundframe_header.tga" height="5.8%" style="lobby_window" borderthickness="12">
+					<label x="3%" height="100%" width="100%" font="dyn_10" textalign="left" textvalign="center" color="1 .8 0 1" shadow="true" >Change Log</label>
+				</frame>
+				<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="8%"  color=".2 .1 0 1" style="lobby_window_bg" borderthickness="12"/>
+				<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="8%" style="lobby_window" borderthickness="12">
+					<instance name="round_button2"  y="-23%" width="45%" height="60%" align="center" valign="bottom"
+							font="chat_13" label="Cancel Update"
+							onclick="Exec('/scripts/menu_login_back.cfg'); HideWidget('downloading'); CancelUpdate();"
+					/>
+				</frame>
+
+				<!--<instance name="round_button2" width="100%" height="100%" onclick="playsound('/shared/sounds/ui/button_click.mp3'); _changelog_visible = !_changelog_visible; Call('changelog_panel', 'SetVisible(_changelog_visible);');"  font="chat_13" label="Change Log"/> -->
+				<textbuffer y="5.8%" height="84%"   x="-17" align="right" width="-30" handleheight="48" scrolltexture="/ui/elements/vist_scroll.tga" exteriorscrollbars="true" textalign="left" font="dyn_10" textcolor="white" color="invisible" shadow="1" wrap="true" noclick="0" watch="UpdateChangelog" ontrigger="ReloadFile();" file=":/change_log.txt"/>
+			</panel>
+		</panel>
+
+		<panel name="login_panel" x="40%" y="56.5%" width="22%" height="14.5%"  color="invisible" visible="0">
+
+
+			<panel width="75%" height="60%" y="10%" color="invisible" align="center" float="bottom" padding="5%">
+				<panel y="6%" height="25%" color="invisible" float="right" padding="5%">
+					<label height="100%" x="2.3%" width="31%" font="dyn_10" textalign="right" textvalign="center" color="1 .8 0 1" shadow="true" >Login:</label>
+					<panel align="center"  valign="center" height="90%" color="invisible" width="66%">
+						<frame color="#2E1F00" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6"/>
+						<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga"  borderthickness="6"/>
+						<textbox
+								x="5%"
+								y="1%"
+								name="login_username_box"
+								valign="center"
+								taborder="1"
+								font="dyn_10"
+								color="invisible"
+								shadow="false"
+								textcolor="yellow"
+								maxlength="34"
+								onchange="SetUsername(this); Set('login_temp_username',this);"
+								onshow="If(login_rememberMe, Split(SetFocusName('passbox'), SetInputLine(login_username)), SetFocus('true'));"
+								onenter="SetFocusName('passbox');"
+							/>
+					</panel>
+				</panel>
+				<panel height="25%" color="invisible" float="right" padding="5%">
+					<label height="100%" width="33%" font="dyn_10" textalign="right" textvalign="center" color="1 .8 0 1" shadow="true" >Password:</label>
+					<panel valign="center" height="90%" color="invisible" width="66%">
+						<frame color="#2E1F00" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6"/>
+						<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga"  borderthickness="6"/>
+						<textbox
+							height="100%"
+							x="5%"
+							name="passbox"
+							textvalign="center"
+							valign="center"
+							taborder="2"
+							font="dyn_10"
+							color="invisible"
+							textcolor="yellow"
+							shadow="true"
+							maxlength="34"
+							passwordchar="*"
+							onshow="EraseInputLine();"
+							onchange="SetPassword(this); Set('login_temp_password',this);"
+							onenter="
+                Cmd('ShowWidget browser_unclaimed');
+                PlaySound('/shared/sounds/ui/button_click.mp3'); 
+                ShowWidget('login_status'); Hidewidget('login_panel');
+                Call('login_username_box', 'Set(\'login_username\',this);');"
+              onwake="Login();"
+						/>
+
+					</panel>
+				</panel>
+				<panel height="25%" color="invisible" float="right" padding="5%">
+					<label height="100%" width="60%" font="dyn_10" textalign="right" textvalign="center" color="1 .8 0 1"  shadow="true" >Remember Me:</label>
+					<panel color="black" width="11%">
+						<frame color="#2E1F00" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6"/>
+						<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga"  borderthickness="6"/>
+
+						<panel name="login_remember_nocheck" visible="true" onshow="SetVisible(!login_rememberMe);">
+							<button onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); Set('login_rememberme', 1); HideWidget('login_remember_nocheck'); ShowWidget('login_remember_check'); Call('login_username_box', 'Set(\'login_username\',this);'); SetFocusName('passbox');" color="invisible"/>
+						</panel>
+
+						<panel name="login_remember_check" visible="true" onshow="SetVisible(login_rememberMe);">
+							<image x="-1%" y="-1%" width="70%" height="70%" align="center" valign="center" color="black" texture="/ui/elements/check.tga"/>
+							<image width="70%" height="70%" align="center" valign="center" color="orange" texture="/ui/elements/check.tga"/>
+							<button onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); Set('login_rememberme', 0); ShowWidget('login_remember_nocheck'); HideWidget('login_remember_check'); SetFocusName('passbox');" color="invisible" />
+						</panel>
+					</panel>
+				</panel>
+			</panel>
+
+
+			<instance name="round_button2"  x="12%" y="-13%" width="35%" height="15%"  valign="bottom"
+					font="dyn_10" label="Cancel"
+					onclick="exec('/scripts/menu_login_back.cfg');"
+			/>
+
+			<instance name="round_button2" x="-12%" y="-13%" width="35%" height="15%" align="right" valign="bottom"
+					font="dyn_10" label="Login"
+					onclick="
+            Cmd('ShowWidget browser_unclaimed');
+            PlaySound('/shared/sounds/ui/button_click.mp3'); 
+            ShowWidget('login_status'); Hidewidget('login_panel'); 
+            Call('login_username_box', 'Set(\'login_username\',this);');"
+			/>
+		</panel>
+
+
+		<panel name="login_status" x="40%" y="56.5%" width="22%" height="14.5%" color="invisible" visible="0" 
+      onload="CreateString('login_temp_username',''); CreateString('login_temp_password','');"
+      onhide="Set('login_temp_username',''); Set('login_temp_password',''); Call('passbox','EraseInputLine();');"
+      onshow="
+        HTTPGetFile('http://masterserver.savage2.s2games.com/persist_test.php?f=get&amp;nickname='#login_temp_username,'~/webcache/vault_details.cfg');
+        HTTPGetFile('http://masterserver.savage2.s2games.com/persist_test.php?f=get&amp;nickname='#login_temp_username,'~/webcache/vault_details.cfg');
+        HTTPGetFile('http://masterserver.savage2.s2games.com/friend_info.php?nickname='#login_temp_username,'~/webcache/friends/'#LowerString(login_temp_username)#'.cfg');
+        HTTPGetFile('http://masterserver.savage2.s2games.com/friend_info.php?nickname='#login_temp_username,'~/webcache/friends/'#LowerString(login_temp_username)#'.cfg');
+        SleepWidget(500);" 
+      onwake="Login();
+       "
+    >
+			<label height="10%" y="22%" font="dyn_12" align="center" valign="top" textalign="center" color="1 .8 0 1" shadow="true" onshow="SetText('Logging in...'); HideWidget('login_okay');" watch="LoginStatus" ontrigger="If(param, Split(HideWidget('login_status'), HideWidget('login_panel'), Exec('/scripts/menu_login_back.cfg'), SetHostInterface('browser')), SetText('Login failure!'));">Logging in...</label>
+			<label x="1%" width="87%" height="20%" y="39%" font="dyn_10" align="center" valign="top" textalign="center" color="1 .8 0 1" shadow="true" wrap="true" onshow="SetText('Please wait');" watch="LoginStatus" ontrigger="SetText(param1);">Please wait</label>
+
+			<panel name="login_okay" visible="false" watch="LoginStatus" ontrigger="SetVisible(!param);">
+				<instance name="round_button2"  y="-13%" width="35%" height="15%" align="center" valign="bottom"
+						font="dyn_10" label="Okay"
+						onclick="HideWidget('login_status'); Showwidget('login_panel');"
+						onshow="SetFocus(true);"
+						onenter="HideWidget('login_status'); Showwidget('login_panel');"
+				/>
+			</panel>
+		</panel>
+
+		<panel x="25%" y="49%" width="11%" height="33%" float="bottom" padding="0.25%" color="invisible">
+			<button name="login_button"  width="100%" height="13%"  valign="top" color="invisible"  onmouseout="Call('skull', 'SetAnim(1, \'mouseout\');');"  	onmouseover="PlaySound('/shared/sounds/ui/main_menu/stone_slide.mp3'); Call('skull', 'SetAnim(1, \'hover\');');" onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); exec('/scripts/menu_login.cfg'); hidewidget('mott');"/>
+			<button name="local_button"  width="100%" height="13%"  valign="top" color="invisible" onmouseout="Call('skull', 'SetAnim(2, \'mouseout\');');" 	onmouseover="PlaySound('/shared/sounds/ui/main_menu/stone_slide.mp3'); Call('skull', 'SetAnim(2, \'hover\');');" onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); ShowWidget('local_browser_panel');  hidewidget('mott');"/>
+			<button name="tutorial_button"  width="100%" height="13%"  valign="top" color="invisible"  onmouseout="Call('skull', 'SetAnim(3, \'mouseout\');');" onmouseover="PlaySound('/shared/sounds/ui/main_menu/stone_slide.mp3'); Call('skull', 'SetAnim(3, \'hover\');');" onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); Exec('/scripts/menu_out.cfg'); ShowWidget('tut_browser');  hidewidget('mott');"/>
+			<button name="practice_button"  width="100%" height="13%"  valign="top" color="invisible"  onmouseout="Call('skull', 'SetAnim(4, \'mouseout\');');" onmouseover="PlaySound('/shared/sounds/ui/main_menu/stone_slide.mp3'); Call('skull', 'SetAnim(4, \'hover\');');" onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); Exec('/scripts/menu_out.cfg'); if(svr_minClients == 0, Set(svr_minClients, 1)); StartLocalGame('practice');  hidewidget('mott');"/>
+			<button name="replays_button"  width="100%" height="13%"  valign="top" color="invisible"  onmouseout="Call('skull', 'SetAnim(5, \'mouseout\');');"  onmouseover="PlaySound('/shared/sounds/ui/main_menu/stone_slide.mp3'); Call('skull', 'SetAnim(5, \'hover\');');" onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); Exec('/scripts/menu_out.cfg'); ShowWidget('replay_browser');  hidewidget('mott');"/>
+			<button name="options_button"  width="100%" height="13%"  valign="top" color="invisible"  onmouseout="Call('skull', 'SetAnim(6, \'mouseout\');');"  onmouseover="PlaySound('/shared/sounds/ui/main_menu/stone_slide.mp3'); Call('skull', 'SetAnim(6, \'hover\');');" onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); Exec('/scripts/menu_out.cfg'); Exec('/scripts/slide.cfg');  hidewidget('mott');"/>
+			<button name="quit_button"  width="100%" height="13%"  valign="top" color="invisible"  onmouseout="Call('skull', 'SetAnim(7, \'mouseout\');');"  	onmouseover="PlaySound('/shared/sounds/ui/main_menu/stone_slide.mp3'); Call('skull', 'SetAnim(7, \'hover\');');" onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); Exec('/scripts/menu_out.cfg'); exec('/scripts/menu_quit.cfg');  hidewidget('mott');"/>
+		</panel>
+	</panel>
+
+
+	<!-- Developer Menu-->
+	<panel x="748" y="168" width="200" height="16" color="navy" cangrab="true" onload="SetVisible(host_developerMenu);">
+		<label height="20" textalign="center" color="white" shadow="true" noclick="true">Developer Menu</label>
+		<button name="hide_button" x="-2" y="2" width="12" height="12" align="right" texture="/ui/elements/minus.tga" onclick="HideWidget('dev_panel'); ShowWidget('show_button'); SetVisible(false);"/>
+		<button name="show_button" x="-2" y="2" width="12" height="12" align="right" texture="/ui/elements/minus.tga" visible="false" onclick="ShowWidget('dev_panel'); ShowWidget('hide_button'); SetVisible(false);"/>
+		<panel name="dev_panel" y="16" height="186" color="silver" float="bottom" padding="4">
+			<instance name="round_button2" y="8" width="80%" height="24" align="center" font="gamesmall" label="Deadlock" onclick="StartLocalGame('deadlock');"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Hellpeak" onclick="StartLocalGame('hellpeak');"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Crossroads" onclick="StartLocalGame('crossroads');"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Duel Arena" onclick="StartLocalGame('duel_arena');"/>
+			<panel width="90%" height="1" align="center" color="#666666"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Editor" onclick="StartClient('editor');"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Viewer" onclick="StartClient('modelviewer');"/>
+		</panel>
+	</panel>
+
+
+	<image y="-3%" x="3%"  width="128" height="128" valign="bottom" texture="/ui/elements/esrb.tga"/>
+
+	<image y="-2.5%" x="-3%"  width="128" height="128" align="right" valign="bottom" texture="/ui/elements/s2logo.tga"/>
+
+	<panel  valign="bottom" align="center"  height="4%" width="17%" color="invisible" onload="if(StringLength(CheckForPromoCode()) gt 0 and !(*('Acct_Promo_' # StripChar('-',CheckForPromoCode()))), Split(Exec('/scripts/menu_login_back.cfg'), AcctSetPromo(CheckForPromoCode()), CreateInt('Acct_Promo_' # StripChar('-',CheckForPromoCode()), 0), SetSave('Acct_Promo_' # StripChar('-',CheckForPromoCode()), 1), showwidget('create_account')));">
+
+		<instance name="round_button2"  x="12%"  width="82%" height="60%"  valign="center"
+			font="dyn_10" label="Create New Account   "
+			onclick="Exec('/scripts/menu_login_back.cfg'); AcctSetPromo(CheckForPromoCode()); showwidget('create_account');"
+		/>
+
+		<image x="-14" align="right" valign="center" width="10%" height="50%" color="black" texture="/ui/elements/sort_up.tga" noclick="true"/>
+	</panel>
+
+
+
+	<!-- Options panel -->
+	<include file="/ui/game_options.xml"/>
+
+	<include file="/ui/mott.xml"/>
+	<include file="/ui/create_account.xml"/>
+
+	<!-- Local browser -->
+	<include file="/ui/main_local_browser.xml"/>
+
+	<!-- Replay browser -->
+	<include file="/ui/main_replay_browser.xml"/>
+	
+	<!-- Tutorial browser -->
+	<include file="/ui/main_tut_browser.xml"/>
+
+  
+</interface>
+

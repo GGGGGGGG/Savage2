@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<!-- Round button template -->
+	<template name="round_button2">
+		<button
+			group="{group}"
+			name="{button_name}"
+			x="{x}" y="{y}"
+			width="{width=100%}" height="{height=100%}"
+			align="{align}" valign="{valign}"
+			color="invisible"
+			visible="{visible=true}"
+			watch="{watch}"
+			enabled="{enabled=true}"
+			ontrigger="{ontrigger}"
+			onframe="{onframe}"
+			onmouseover="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); {onmouseover}"
+			onmouseout="{onmouseout}"
+			onclick="PlaySound('{sound=/shared/sounds/ui/button_click.mp3}'); {onclick}"
+			onload="{onload}"
+			onrightclick="{onrightclick}"
+			onenter="PlaySound('{sound=/shared/sounds/ui/button_click.mp3}'); {onenter}"
+			onshow="{onshow}"
+			hotkey="{hotkey}"
+			onhotkey="PlaySound('{sound=/shared/sounds/ui/button_click.mp3}'); {onhotkey}"
+			onfocus="{onfocus}"
+			onlosefocus="{onlosefocus}"
+			onwake="{onwake}"
+		>
+			<widgetstate statename="up">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="{bg=white}"/>
+				<frame texture="/ui/frames/roundframe.tga" color="{border_color=gray}" borderthickness="8"/>
+				<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="{font}" color="{text_color=black}" shadow="{shadow=true}" shadowcolor="gray" onshow="{label_onshow}">{label}</label>
+			</widgetstate>
+			<widgetstate statename="over">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="{highlight_bg=#FFE333}"/>
+				<frame texture="/ui/frames/roundframe.tga" color="{highlight_bg2=#7F6E00}" borderthickness="8"/>
+				<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="{font}" color="{text_color_highlight=white}" shadow="{shadow=true}" shadowcolor="#7F6E00" onshow="{label_onshow}">{label}</label>
+			</widgetstate>
+			<widgetstate statename="down" x="1" y="1">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="{highlight_bg=#FFE333}"/>
+				<frame texture="/ui/frames/roundframe.tga" color="{highlight_bg2=#7F6E00}" borderthickness="8"/>
+				<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="{font}" color="{text_color_pushed=#3f0001}" shadow="{shadow=true}" shadowcolor="#7F6E00" onshow="{label_onshow}">{label}</label>
+			</widgetstate>
+			<widgetstate statename="disabled">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="{disabled_bg=#666666}"/>
+				<frame texture="/ui/frames/roundframe.tga" color="{disabled_bg2=#666666}" borderthickness="8"/>
+				<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="{font}" color="{text_color_disabled=#333333}" shadow="{shadow=true}" shadowcolor="black" onshow="{label_onshow}">{label}</label>
+			</widgetstate>
+		</button>
+	</template>
+
+	<template name="round_button3">
+		<button
+			group="{group}"
+			name="{button_name}"
+			x="{x}" y="{y}"
+			width="{width=100%}" height="{height=100%}"
+			align="{align}" valign="{valign}"
+			color="invisible"
+			visible="{visible=true}"
+			watch="{watch}"
+			enabled="{enabled=true}"
+			ontrigger="{ontrigger}"
+			onframe="{onframe}"
+			onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); {onmouseover}"
+			onmouseout="{onmouseout}"
+			onclick="PlaySound('{sound=/shared/sounds/ui/button_click_2.mp3}'); {onclick}"
+			onload="{onload}"
+			onrightclick="{onrightclick}"
+			onenter="PlaySound('{sound='/shared/sounds/ui/button_click_2.mp3}'); {onenter}"
+			onshow="{onshow}"
+			hotkey="{hotkey}"
+			onhotkey="PlaySound('{sound=/shared/sounds/ui/button_click_2.mp3}'); {onhotkey}"
+			onfocus="{onfocus}"
+			onlosefocus="{onlosefocus}"
+			onwake="{onwake}"
+		>
+			<widgetstate statename="up">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="{bg}"/>
+				<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+				<image align="center" valign="center" width="88%" height="88%" onshow="{image_onshow}"/>
+			</widgetstate>
+			<widgetstate statename="over">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="{highlight_bg}"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+				<image align="center" valign="center" width="88%" height="88%" onshow="{image_onshow}"/>
+			</widgetstate>
+			<widgetstate statename="down" x="1" y="1">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="{highlight_bg}"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+				<image align="center" valign="center" width="88%" height="88%" onshow="{image_onshow}"/>
+			</widgetstate>
+			<widgetstate statename="disabled">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="{bg}"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#666666" borderthickness="8"/>
+				<image align="center" valign="center" width="88%" height="88%" onshow="{image_onshow}" rendermode="grayscale" color="#676045"/>
+			</widgetstate>
+		</button>
+	</template>
+	
+	<template name="player_voice_button">
+		<button
+			name="{id}"
+			group="{group}"
+			x="{x}" y="{y}"
+			width="{width=100%}" height="{height=100%}"
+			align="{align}" valign="{valign=center}"
+			color="invisible"
+			onload="VoiceUnmute(*(name # '_voice_client_num'));"
+			onmouseover="PlaySound('/shared/sounds/ui/button_over_02.wav'); {onmouseover}"
+			onmouseout="{onmouseout}"
+			onclick="PlaySound('/shared/sounds/ui/button_click_05.wav'); ToggleVoiceMute(*(name # '_voice_client_num')); if(IsVoiceMuted(*(name # '_voice_client_num')), SetButtonState(2), if(*(name # '_voice_talking'), SetButtonState(1), SetButtonState(0)));"
+			numstates="3"
+			visible="{visible=true}"
+			watch="VoiceChatTalking{teamindex}"
+			ontrigger="SetEnabled(param3 != GetLocalClientNum() and ((GetLocalTeam() == {team=-1})  and (param3 != -1) )); CreateInt(name # '_voice_client_num', param3); CreateBool(name # '_voice_talking', param0); if(IsVoiceMuted(param3) and (GetLocalTeam() == {team=-1}), SetButtonState(2), if(param0 and (GetLocalTeam() == {team=-1} ), SetButtonState(1), SetButtonState(0))); if(param3==-1,SetVisible('false'),SetVisible('true'));"
+			watch0="{watch}"
+			ontrigger0="{ontrigger}"
+		>
+<!--			ontrigger="SetEnabled(param3 != GetLocalClientNum() and ((GetLocalTeam() == {team=-1})  and (param3 != -1) or {alwaysvisible=false})); CreateInt(name # '_voice_client_num', param3); CreateBool(name # '_voice_talking', param0); if(IsVoiceMuted(param3) and (GetLocalTeam() == {team=-1}), SetButtonState(2), if(param0 and (GetLocalTeam() == {team=-1} or {alwaysvisible=false}), SetButtonState(1), SetButtonState(0))); if(param3==-1,SetVisible('false'),SetVisible('true'));"-->
+			<widgetstate statename="up">
+				<image texture="/ui/elements/chat_icon.tga" />
+			</widgetstate>
+
+			<widgetstate statename="over">
+				<image texture="/ui/elements/chat_icon.tga" />
+			</widgetstate>
+
+			<widgetstate statename="down" x="1" y="1">
+				<image texture="/ui/elements/chat_icon.tga" />
+			</widgetstate>
+
+			<widgetstate statename="disabled">
+				<image texture="/ui/elements/chat_icon_disabled.tga"/>
+			</widgetstate>
+
+			<widgetstate statename="up2">
+				<image texture="/ui/elements/chat_icon_talking.tga"/>
+			</widgetstate>
+
+			<widgetstate statename="over2">
+				<image texture="/ui/elements/chat_icon_talking.tga"/>
+			</widgetstate>
+
+			<widgetstate statename="down2" x="1" y="1">
+				<image texture="/ui/elements/chat_icon_talking.tga"/>
+			</widgetstate>
+			
+			<widgetstate statename="up3">
+				<image texture="/ui/elements/chat_icon_muted.tga"/>
+			</widgetstate>
+
+			<widgetstate statename="over3">
+				<image texture="/ui/elements/chat_icon_muted.tga"/>
+			</widgetstate>
+
+			<widgetstate statename="down3" x="1" y="1">
+				<image texture="/ui/elements/chat_icon_muted.tga"/>
+			</widgetstate>
+		</button>
+	</template>
+
+	<template name="voice_chat_panel">
+		<panel visible="false" sticky="true" stickytoinvis="false" height="2.0h" color="#00000055" noclick="true" watch="VoiceChatTalking{index}" ontrigger="SetVisible(param0);">
+			<instance name="player_voice_button"
+				width="70@" height="70%"
+				texture="/ui/elements/chat_icon.tga"
+				teamindex="{index}"
+				team="GetLocalTeam()"
+			/>
+			<label font="dyn_12" x="2.0h" width="-2.2h" shadow="true" watch="VoiceChatTalking{index}" ontrigger="SetColor(param1); SetText(param2);" noclick="true"/>
+		</panel>
+	</template>
+	
+	<template name="voice_chat_panel_sticky">
+		<panel visible="false" sticky="true" stickytoinvis="false" height="2.0h" color="0 0 0 0.33" noclick="true" 
+			watch="VoiceChatTalking{index}" 
+			onload="CreateInt('voice_time{index}');"
+			onshow="Set('voice_time{index}', GetTime());"
+			ontrigger="If(param0, Split(SetVisible(true), Set('voice_time{index}', GetTime())));"
+			onframe="If(GetTime() - voice_time{index} gt 5000, SetVisible(false));"
+		>
+			<instance name="player_voice_button"
+				width="70@" height="70%"
+				texture="/ui/elements/chat_icon.tga"
+				teamindex="{index}"
+				watch="VoiceChatTalking{index}"
+				ontrigger="SetVisible(param0);"
+			/>
+			<label font="dyn_12" x="2.0h" width="-2.2h" shadow="true" watch="VoiceChatTalking{index}" ontrigger="SetColor(param1); SetText(param2);" noclick="true"/>
+		</panel>
+	</template>
+</include>

@@ -1,0 +1,1077 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<include file="/ui/inc_button.xml"/>
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#0d1018" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#12191bAA"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#0d1018" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>
+
+	<!-- Config Button Template -->
+	<template name="config_button">
+		<button group="{group}" name="{button_name}" x="{x}" y="{y}" width="{width=100%}" height="{height=100%}" align="{align}" valign="{valign}" color="invisible" visible="{visible=true}" watch="{watch}" enabled="{enabled=true}" ontrigger="{ontrigger}" onmouseover="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); {onmouseover}" onmouseout="{onmouseout}" onclick="PlaySound('{sound=/shared/sounds/ui/button_click.mp3}'); {onclick} SetFocus(1);" onenter="PlaySound('{sound='/shared/sounds/ui/button_click.mp3}'); {onenter}" onshow="{onshow}" hotkey="{hotkey}" onhotkey="PlaySound('{sound=/shared/sounds/ui/button_click.mp3'}'); {onhotkey}" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');">
+			<widgetstate statename="up">
+				<image texture="/ui/elements/cc_config_gear.tga"/>
+			</widgetstate>
+			<widgetstate statename="over">
+				<image texture="/ui/elements/cc_config_circhl.tga" width="70" height="70" x="-5" y="-5" color="#FFFFFF55"/>
+				<image texture="/ui/elements/cc_config_gear_glow.tga" />
+			</widgetstate>
+			<widgetstate statename="down">
+				<image texture="/ui/elements/cc_config_circhl.tga" width="70" height="70" x="-5" y="-5" />
+				<image texture="/ui/elements/cc_config_gear_glow.tga" x="1" y="1" />
+			</widgetstate>
+			<widgetstate statename="disabled">
+				<image texture="/ui/elements/cc_config_gear.tga" />
+			</widgetstate>
+		</button>
+		<panel name="config_button_highlight" x="{x}" y="{y}" width="{width=100%}" height="{height=100%}" align="{align}" valign="{valign}" color="invisible" visible="0">
+			<image texture="/ui/elements/cc_config_circhl.tga" width="70" height="70" x="-5" y="-5" />
+			<image texture="/ui/elements/cc_config_gear_glow.tga" />
+		</panel>
+	</template>
+	
+	<!-- Tab Button Template -->
+	
+	<template name="tab_button">
+		<button group="{group}" name="{button_name}" x="{x}" y="{y}" width="{width=100%}" height="{height=100%}" align="{align}" valign="{valign}" color="invisible" visible="{visible=true}" watch="{watch}" enabled="{enabled=true}" ontrigger="{ontrigger}" onmouseover="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); {onmouseover}" onmouseout="{onmouseout}" onclick="PlaySound('{sound=/shared/sounds/ui/button_click.mp3}'); {onclick} SetFocus(1);" onrightclick="SetFocus(1);" onenter="PlaySound('{sound='/shared/sounds/ui/button_click.mp3}'); {onenter}" onshow="{onshow}" hotkey="{hotkey}" onhotkey="PlaySound('{sound=/shared/sounds/ui/button_click.mp3'}'); {onhotkey}" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');">
+			<widgetstate statename="up">
+				<image texture="/ui/elements/cc_tab_btn_grey_{cc_type}.tga"/>
+			</widgetstate>
+			<widgetstate statename="over">
+				<image texture="/ui/elements/cc_tab_btn_red_{cc_type}.tga" color="#FFFFFFAA"/>
+			</widgetstate>
+			<widgetstate statename="down" x="1" y="1">
+				<image texture="/ui/elements/cc_tab_btn_grey_{cc_type}.tga"/>
+			</widgetstate>
+			<widgetstate statename="disabled">
+				<image texture="/ui/elements/cc_tab_btn_grey_{cc_type}.tga"/>
+			</widgetstate>
+		</button>
+	</template>
+	
+	<!-- Tooltip Template -->
+	
+	<template name="txt_tooltip">
+		<!-- 3=44, 2=32, 1=20 -->
+		<panel name="{label}_tooltip" visible="0" y="{y}" x="{x}" height="{height}" width="{width}" align="{align}" valign="{valign}" color="invisible" noclick="1">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#585858" borderthickness="6"/>
+			<label x="5" y="4" width="92%" align="center" textalign="left" wrap="1" height="90%" font="chat_9" color="white" shadow="true">{tooltip}</label>
+		</panel>
+	</template>
+  
+	<template name="options_checkbox_state">
+		<widgetstate statename="{state}" float="right" padding="4">
+			<panel width="{size}">
+				<panel width="-2" height="-2" align="center" valign="center">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="white"/>
+					<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="4"/>
+					<image color="green" texture="/ui/elements/check.tga" visible="{checked}"/>
+				</panel>
+			</panel>
+			<label width="-{size}" height="100%" textvalign="center" font="{font=chat_12}" color="{color}" shadow="true">{label}</label>
+		</widgetstate>
+	</template>	
+	<template name="options_checkbox">
+		<panel width="100%" height="{height=18}" align="{align=center}" noclick="true">
+			<button enabled="{enabled=true}" color="invisible" numstates="2" cvar="{cvar}" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); {onclick} SetFocus(1);"
+				onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');"
+				onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"
+			>
+				<instance name="options_checkbox_state" state="up" size="{height=18}" label="{label}" font="{font=chat_12}"	color="white" checked="false"/>
+				<instance name="options_checkbox_state" state="over" size="{height=18}" label="{label}" font="{font=chat_12}" color="yellow" checked="false"/>
+				<instance name="options_checkbox_state" state="down" size="{height=18}" label="{label}" font="{font=chat_12}" color="green" checked="false"/>
+				<instance name="options_checkbox_state" state="disabled" size="{height=18}" label="{label}" font="{font=chat_12}" color="gray" checked="false"/>
+				<instance name="options_checkbox_state" state="up2" size="{height=18}" label="{label}" font="{font=chat_12}" color="white" checked="true"/>
+				<instance name="options_checkbox_state" state="over2" size="{height=18}" label="{label}" font="{font=chat_12}" color="yellow" checked="true"/>
+				<instance name="options_checkbox_state" state="down2" size="{height=18}" label="{label}" font="{font=chat_12}" color="green" checked="true"/>
+				<instance name="options_checkbox_state" state="disabled2" size="{height=18}" label="{label}" font="{font=chat_12}" color="gray" checked="true"/>
+			</button>
+		</panel>
+	</template>
+	
+	<template name="combobox_item">
+		<label x="4" font="chat_12" color="white" textvalign="center" shadow="true" shadowoffset="1" content="{label}" value="{value}"/>
+	</template>
+
+	<template name="options_combobox_state">
+		<widgetstate statename="{state}">
+			<panel>
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="{color}"/>
+				<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+				<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_{image}.tga" />
+			</panel>
+		</widgetstate>
+	</template>
+
+	<!-- CC Panel -->
+	<panel name="ccwidget_community" width="258" height="440" x="10" align="left" valign="top" cangrab="true"
+    onload="If(!cc_community_RememberPosition,Split(SetSave('cc_community_X',vid_width-258+1), SetSave('cc_community_Y',vid_height / 2 - 300+1), CreateInt('cc_community_RememberPosition',1))); If(!cc_community_X,CreateInt('cc_community_X',vid_width-258+1)); If(!cc_community_Y,CreateInt('cc_community_Y',vid_height / 2 - 300+1));"
+    onenddrag="If(cc_community_RememberPosition,Split(SetSave('cc_community_X',param0+1),SetSave('cc_community_Y',param1+1-70)),Split(Set('cc_community_X',param0+1),Set('cc_community_Y',param1+1-70)));"
+    onfocus="BringToFront(); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');"
+    onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"
+    onshow="
+    If(!cc_serverlist_updating,Split(Set('cc_serverlist_updating',true),RefreshServerList()));
+    If(WidgetExists('ccpushbutton_ccwidget_community_panel'),Split(HideWidget('ccpushbutton_ccwidget_community_button'),ShowWidget('ccpushbutton_ccwidget_community_button_down')));
+    If(cc_community_X-20+258 lt 0,Split(Set('cc_community_X',0),Set('cc_community_Y',0)));
+    If(cc_community_Y-20+440 lt 0,Split(Set('cc_community_X',0),Set('cc_community_Y',0)));
+    If(cc_community_X+20 gt vid_width,Split(Set('cc_community_X',0),Set('cc_community_Y',0)));
+    If(cc_community_Y+20 gt vid_height-90,Split(Set('cc_community_X',0),Set('cc_community_Y',0)));
+    If(!cc_community_X,Set('cc_community_X',vid_width-258+1));
+    If(!cc_community_Y,Set('cc_community_Y',vid_height / 2 - 300+1));
+    SetX(cc_community_X-1); SetY(cc_community_Y-1);"
+    onhide="If(WidgetExists('ccpushbutton_ccwidget_community_panel'),Split(HideWidget('ccpushbutton_ccwidget_community_button_down'),ShowWidget('ccpushbutton_ccwidget_community_button')));
+    If(cc_community_X-20+258 lt 0,Split(Set('cc_community_X',0),Set('cc_community_Y',0)));
+    If(cc_community_Y-20+440 lt 0,Split(Set('cc_community_X',0),Set('cc_community_Y',0)));
+    If(cc_community_X+20 gt vid_width,Split(Set('cc_community_X',0),Set('cc_community_Y',0)));
+    If(cc_community_Y+20 gt vid_height-90,Split(Set('cc_community_X',0),Set('cc_community_Y',0)));
+    If(!cc_community_X,Set('cc_community_X',vid_width-258+1));
+    If(!cc_community_Y,Set('cc_community_Y',vid_height / 2 - 300+1));
+    SetX(cc_community_X-1); SetY(cc_community_Y-1);">
+		<panel height="-42" y="20" width="-2" align="left" texture="/ui/elements/parchment.tga" color="#CCCCFFFF" blockinput="false" noclick="true"/>
+		<panel name="community_right_image" width="16" y="11" height="-25" align="right" texture="/ui/elements/cc_tab_lborder.tga" blockinput="false" noclick="true"/>
+		<!-- Tab Bar -->
+		<panel x="2" height="-32" width="64" y="10" align="left" texture="/ui/elements/cc_tab_bg.tga" blockinput="false" noclick="true"/>
+		<!-- Friends Button -->
+		<instance align="left" width="24" height="96" x="6" y="116" name="tab_button" button_name="tab_button_friends" cc_type="friends" watch="" ontrigger="" enabled="false" onclick="ShowOnly('friends_list'); showWidget('friends_listbox'); SetEnabled(false); Call('tab_button_clan', 'SetEnabled(true);');" onmouseover="" onmouseout=""/>
+		<!-- Clans Button -->
+		<instance align="left" width="24" height="96" x="6" y="220" name="tab_button" button_name="tab_button_clan" cc_type="clan" watch="" ontrigger="" onclick="ShowOnly('clan_list'); showWidget('clans_listbox_member'); showWidget('clans_listbox_officer'); showWidget('clans_listbox_leader'); SetEnabled(false); Call('tab_button_friends', 'SetEnabled(true);'); if(!IsInClan(),ShowOnly('clan_list_none')); if(IsInClan(), Split(if(IsClanOfficer(),ShowOnly('clan_list_officer')), if(IsClanLeader(),ShowOnly('clan_list_leader')), if(!IsClanOfficer and !IsClanLeader(),ShowOnly('clan_list_member'))));" onmouseover="" onmouseout=""/>
+		<panel height="32" width="32" y="15" align="left" texture="/ui/elements/cc_tab_topgrad.tga" blockinput="false" noclick="true"/>
+		<panel height="32" width="32" y="-16" align="left" valign="bottom" texture="/ui/elements/cc_tab_botgrad.tga" blockinput="false" noclick="true"/>
+		<frame y="40" height="-60" texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12" blockinput="true" noclick="true"/>
+		<!-- Friends List -->
+		<panel name="friends_list" group="cc_community_panels" height="332" width="202" y="76" x="36" noclick="1" blockinput="false" align="left" visible="1">
+			<frame texture="/ui/frames/rounded_bg_white.tga" color="#000000" borderthickness="8" style="lobby_window_bg" blockinput="false" noclick="true"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" blockinput="false" noclick="true"/>
+			<!-- Friends List Display -->
+			<panel name="friends_list_display" color="invisible" visible="1" blockinput="false" noclick="true">
+				<!-- Header -->
+        <panel height="40" blockinput="false" noclick="true" passivechildren="true">
+          <frame x="0" style="lobby_window_header_bg" height="100%" color="#000000" borderthickness="8" />
+          <frame x="0" texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8">
+            <label x="10" width="146" align="left" textvalign="center" font="chat_18" color="white" shadow="true">Friends List</label>
+            <image x="-5" y="6" align="right" valign="top" width="30" height="30" noclick="true" texture="/ui/elements/behemskull_tr.tga"/>
+          </frame>
+        </panel>
+				<!-- Footer -->
+				<panel height="28" valign="bottom" blockinput="false" noclick="true">
+					<frame style="lobby_window_footer_bg" height="100%" color="#000000" borderthickness="8" blockinput="false" noclick="true"></frame>
+					<frame texture="/ui/frames/roundframe_footer.tga" color="#5E2D1F" borderthickness="8" blockinput="false" noclick="true"></frame>
+					<panel width="140" height="20" y="4" color="invisible" align="center" >
+						<instance align="center" name="round_button2" font="chat_12" label="Add Friend" watch="" ontrigger="" onclick="ShowWidget('friends_add'); SetFocus(1); hideWidget('friends_listbox');" onrightclick="SetFocus(1);" onmouseover="" onmouseout="" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');"
+onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+					</panel>
+				</panel>
+				<!-- List -->
+				<panel width="-2" y="40" height="264" align="center" color="invisible" blockinput="false" noclick="true">
+					<listbox name="friends_listbox" x="2" y="2" width="-3" height="260" align="left" valign="top" color="#000000" handleheight="32" itemwidth="100%" itemheight="18" wrap="row" hoverselect="true" highlight="under" highlightcolor="#FFFFFF38" highlightbordercolor="invisible" rendermode="normal" scrolltexture="/ui/elements/vist_scroll.tga" font="gametiny" watch="ChatBuddyEvent" onselect="Set('ui_lastSelectedUser', Substring(this,1,-1)); ShowWidget('hover_tip'); if(!ChatUpdateHoverInfo(Substring(this,1,-1)), HideWidget('hover_tip'));" ondoubleclick="if((Substring(this,0,1) == '1'), ChatOpenMessage(ui_lastSelectedUser)); if(Substring(this,0,1) == '3', ChatOpenMessage(ui_lastSelectedUser));" 
+          onhover="
+            If(ChatUpdateHoverInfo(Substring(this,1,-1)), 
+              If(StringLength(this), Split(
+              ShowWidget('hover_tip'),
+              If(!(StringLength(*('cc_friendlist_'#Substring(this,1,-1))) gt 0) and (StringLength(ChatHoverClan) gt 0), Split(
+                Cmd('Set cc_friendlist_'#Substring(this,1,-1)#' ????'),
+                HTTPGetFile('http://masterserver.savage2.s2games.com/account_info.php?nickname='#Substring(this,1,-1),'~/webcache/friends/'#LowerString(Substring(this,1,-1))#'.cfg'),
+                HTTPGetFile('http://masterserver.savage2.s2games.com/account_info.php?nickname='#Substring(this,1,-1),'~/webcache/friends/'#LowerString(Substring(this,1,-1))#'.cfg')
+              )),
+              If(!(StringLength(*('cc_friendlist_'#Substring(this,1,-1))) gt 4),
+                Exec('~/webcache/friends/'#LowerString(Substring(this,1,-1))#'.cfg')
+              ))),
+            HideWidget('hover_tip'));
+            "
+          onmouseout="HideWidget('hover_tip'); ListBoxCmd('SelectNone');" onrightclick="Set('ui_lastSelectedUser', Substring(this,1,-1));
+          if(Substring(this,0,1) == '0', Set('ui_tooltipTarget', ''));
+          if(Substring(this,0,1) == '1', Set('ui_tooltipTarget', 'friendlist_rtclick_online'));
+          if(Substring(this,0,1) == '2', Set('ui_tooltipTarget', ''));
+          if(Substring(this,0,1) == '3', Set('ui_tooltipTarget', 'friendlist_rtclick_game'));
+          if(Substring(this,0,1) == '4', Set('ui_tooltipTarget', ''));
+          if(Substring(this,0,1) == '5', Set('ui_tooltipTarget', 'friendlist_rtclick_offline'));
+          if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetVisible(true);'));
+          if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetX(\'' # param0 # '\');'));
+          if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetY(\'' # param1 # '\');'));
+          if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget # '_choices', 'ListBoxCmd(\'SelectNone\');'));
+          If(StringLength(ui_tooltipTarget),PlaySound('/shared/sounds/ui/button_rightclick.mp3'));
+          If(StringLength(ui_tooltipTarget),SetFocusName(ui_tooltipTarget),SetFocus(1));"
+          onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');"
+          onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');">
+					</listbox>
+				</panel>
+				<panel name="friendlist_rtclick_online" x="6" y="6" width="124" height="86" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="friendlist_rtclick_online_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatRemoveBuddy">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove Friend</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="friendlist_rtclick_offline" x="6" y="6" width="124" height="68" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="friendlist_rtclick_offline_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-2" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatRemoveBuddy">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove Friend</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="friendlist_rtclick_game" x="6" y="6" width="124" height="104" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="friendlist_rtclick_game_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatJoinGame">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Join Game</label>
+						</listitem>
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatRemoveBuddy">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove Friend</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+			</panel>
+			<!-- END Friends List Display -->
+			<!-- Friend Invite -->
+			<panel name="friends_add" color="invisible" visible="0" blockinput="false" noclick="true" onframe="HideWidget('friends_listbox');">
+				<!-- Header -->
+        <panel height="40" blockinput="false" noclick="true" passivechildren="true">
+          <frame x="0" style="lobby_window_header_bg" height="100%" color="#000000" borderthickness="8" />
+          <frame x="0" texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8">
+            <label x="10" width="146" align="left" textvalign="center" font="chat_18" color="white" shadow="true">Add Friend</label>
+            <image x="-5" y="6" align="right" valign="top" width="30" height="30" noclick="true" texture="/ui/elements/behemskull_tr.tga"/>
+          </frame>
+        </panel>
+				<!-- Footer -->
+				<panel height="28" valign="bottom" noclick="true">
+					<frame style="lobby_window_footer_bg" height="100%" color="#000000" borderthickness="8" blockinput="false" noclick="true"/>
+					<frame texture="/ui/frames/roundframe_footer.tga" color="#5E2D1F" borderthickness="8" blockinput="false" noclick="true"/>
+					<panel width="140" height="20" y="4" color="invisible" align="center" noclick="true">
+						<instance align="center" name="round_button2" font="chat_12" label="Cancel" watch="" ontrigger="" onclick="hideWidget('friends_add'); SetFocus(1); showWidget('friends_listbox');" onrightclick="SetFocus(1);" onmouseover="" onmouseout="" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+					</panel>
+				</panel>
+				<!-- Find Options -->
+				<panel name="friend_invite_options" width="-2" y="40" height="266" align="center" color="#000000" noclick="true">
+					<panel y="10" height="52" width="-10" align="center" noclick="true">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#FFFFFF2a" blockinput="false" noclick="true"/>
+						<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="6" blockinput="false" noclick="true"/>
+						<panel y="4" width="-10" align="center" noclick="true">
+							<label height="20" align="left" textalign="left" wrap="1" font="chat_12" color="white" shadow="true" noclick="true">Enter a Nickname to befriend:</label>
+						</panel>
+						<frame x="5" y="26" height="18" width="120" texture="/ui/frames/rounded_button_bg_white.tga" color="#0d1018" borderthickness="8">
+							<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="white" blockinput="false" noclick="true"/>
+							<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="6" blockinput="false" noclick="true"/>
+							<textbox name="friend_add_entry" taborder="0" width="-10" height="-2" font="chat_11" align="center" valign="center" textcolor="black" shadow="true" color="invisible" onshow="SetInputLine(''); SleepWidget(1);" onwake="SetFocus(1);" onenter="ChatAddBuddy(this); Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);'); hideWidget('friends_add'); SetFocus(1); showWidget('friends_listbox');" onclick="Call('friend_add_entry', 'ChatAddBuddy(this);'); Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);'); hideWidget('friends_add'); SetFocus(1); showWidget('friends_listbox');" onrightclick="SetFocus(1);" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');" onesc="If(StringLength(this) gt 0, Split(EraseInputLine(),SleepWidget(10)), Split(hideWidget('friends_add'),SetFocus(1),showWidget('friends_listbox')));"/>
+						</frame>
+						<instance x="-5" y="24" width="54" height="20" align="right" name="round_button2" font="chat_12" label="Add" onclick="Call('friend_add_entry', 'ChatAddBuddy(this);'); Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);'); hideWidget('friends_add'); SetFocus(1); showWidget('friends_listbox');" onrightclick="SetFocus(1);" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+					</panel>
+					<panel y="72" height="180" width="-10" align="center" noclick="true">
+						<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="6" color="#2a2a2a" blockinput="false" noclick="true"/>
+						<frame texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="6" blockinput="false" noclick="true"/>
+            <panel width="-2" y="22" height="158" align="center" color="invisible" blockinput="false" noclick="true">
+              <listbox  
+                name="friends_listbox_add_current" 
+                x="2" y="-17" width="-3" height="170" align="left" valign="top" 
+                color="#00000000" handleheight="32" itemwidth="100%" itemheight="17" 
+                wrap="row" font="gametiny" hoverselect="true" 
+                highlight="under" highlightcolor="#FFFFFF38" highlightbordercolor="invisible" 
+                rendermode="normal" scrolltexture="/ui/elements/vist_scroll.tga" 
+                onshow="Call('friends_listbox_add_current_vscroll','SetHeight(-17);SetY(17);');"
+                onmouseout="ListBoxCmd('SelectNone');"
+                onframe="If(!HasListItem(''), Split(ListboxCmd('add '),ListBoxCmd('Sort')));"
+                watch="ChatUserEvent" onselect="Set('ui_lastSelectedUser', SubString(this,1,-1)); If(!StringEquals(ui_lastSelectedUser,GetAccountName()), Call('friend_add_entry', 'SetInputLine(\''#SubString(this,1,StringLength(this))#'\');')); SetFocusName('friend_add_entry');"
+                onrightclick="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); Call('friends_listbox_add_rtclick', 'SetVisible(true);'); Call('friends_listbox_add_rtclick', 'SetX(\'' # param0 # '\');'); Call('friends_listbox_add_rtclick', 'SetY(\'' # param1 # '\');'); Call('friends_listbox_add_rtclick_choices', 'ListBoxCmd(\'SelectNone\');'); SetFocusName('friends_listbox_add_rtclick');"
+                ondoubleclick="If(!StringEquals(ui_lastSelectedUser,GetAccountName()), ChatOpenMessage(ui_lastSelectedUser));" 
+                onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');"
+                onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"
+              />
+            </panel>
+						<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="6" color="#2a2a2a" blockinput="false" noclick="true" height="22"/>
+						<frame texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="6" height="22" blockinput="false" noclick="true"/>
+						<panel y="4" width="-10" align="center" noclick="true">
+							<label height="120" align="left" textalign="left" wrap="1" font="chat_12" color="white" shadow="true" noclick="true" onframe="if(ChatInGame(), SetText('Players in current game:'), SetText('Players in current channel:'));">Players in current game:</label>
+						</panel>
+            <panel name="friends_listbox_add_rtclick" x="6" y="6" width="124" height="68" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+              <frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+              <frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+              <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+              <panel height="1" y="22" color="#5E2D1F"/>
+              <listbox name="friends_listbox_add_rtclick_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-2" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+                <listitem value=""></listitem> <!-- CC: Listfix -->
+                <listitem value="ChatOpenMessage">
+                  <label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+                </listitem>
+                <listitem value="BrowserGetStats">
+                  <label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+                </listitem>
+              </listbox>
+            </panel>
+          </panel>
+				</panel>
+				<!-- END Find Options -->
+			</panel>
+			<!-- END Friend Invite -->
+			<image width="24" height="96" x="-30" y="40" texture="/ui/elements/cc_tab_btn_red_friends.tga"/>
+
+		</panel>
+		<!-- END Friends List -->
+    
+		<!-- Clan List -->
+		<panel name="clan_list" group="cc_community_panels" height="332" width="202" y="76" x="36" noclick="1" blockinput="false" align="left" visible="0">
+			<frame texture="/ui/frames/rounded_bg_white.tga" color="#000000" borderthickness="8" style="lobby_window_bg" blockinput="false" noclick="true"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" blockinput="false" noclick="true"/>
+			<!-- Clan (None) -->
+			<panel name="clan_list_none" color="invisible" group="clan_group" visible="1" blockinput="false" noclick="true">
+				<!-- Header -->
+				<panel height="40" blockinput="false" noclick="true" passivechildren="true">
+					<frame x="0" style="lobby_window_header_bg" height="100%" color="#000000" borderthickness="8" />
+					<frame x="0" texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8">
+						<label x="10" width="146" align="left" textvalign="center" font="chat_18" color="white" shadow="true">No Clan</label>
+            <webimage x="-7" y="-5" align="right" valign="bottom" width="30" height="30" noclick="true" texture="/ui/elements/tmp_avatar.tga" onshow="Cmd('Set cc_friendlist_ci #Choose(0,|#cc_friendlist_'#GetAccountName()#'|#)#'); If(StringEquals(cc_friendlist_ci,'None'), SetTexture('/ui/elements/vclan_transparent.tga'), SetTextureWeb(cc_friendlist_ci));"/>
+					</frame>
+				</panel>
+				<panel width="-16" y="48" height="-48" align="center" float="bottom" noclick="true">
+					<label width="-40" height="46" align="center" textalign="center" wrap="1" font="chat_14" color="red" shadow="true" noclick="true">You are not currently in a clan.</label>
+					<label y="44" height="70" align="left" textalign="left" wrap="1" font="chat_12" color="white" shadow="true" noclick="true">If you are interested in joining a clan, change your status below. Your status will be viewable by clan leaders.</label>
+				</panel>
+				<panel width="-20" y="178" height="22" align="center" color="invisible" noclick="true">
+					<label width="96" height="100%" textalign="left" textvalign="center" font="chat_12" color="yellow" shadow="true" noclick="true">Status</label>
+					<combobox name="no_clan_state" x="44" width="130" height="20" valign="center" color="invisible" itemwidth="130" itemheight="20" maxlistheight="6" cvar="cc_lookingForClan" exteriorscrollbars="false" rendermode="normal" scrolltexture="/ui/elements/vist_scroll.tga" handleheight="48" scrollbaroffset="0" highlight="under" onload="" onselect="SetFocus(1);" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');">
+						<instance name="options_combobox_state" state="up" color="#2E1F00" image="up"/>
+						<instance name="options_combobox_state" state="over" color="#504009" image="over"/>
+						<instance name="options_combobox_state" state="down" color="#504009" image="over"/>
+								<widgetstate statename="listbg">
+									<panel height="46">
+										<frame texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="4" color="#504009"/>
+										<image height="-6" texture="/ui/elements/list_parchment.tga" />
+										<frame texture="/ui/frames/roundframe_footer.tga" borderthickness="4" color="#5E2D1F"/>
+									</panel>
+								</widgetstate>
+								<widgetstate statename="itembg">
+									<panel width="130">
+										<image texture="/ui/elements/list_gradient.tga" rendermode="overlay" color="#909090" />
+										<frame texture="/ui/frames/roundframe_square.tga" borderthickness="10" color="#5E2D1F"/>
+									</panel>
+								</widgetstate>
+								<widgetstate statename="itemhighlight">
+									<panel width="130">
+										<panel x="1" y="1" width="-2" height="-2" color="#40400066" rendermode="additive" />
+									</panel>
+								</widgetstate>
+						<listitem value="false">
+							<label color="white" font="gametiny" x="4" y="2">Not Interested</label>
+						</listitem>
+						<listitem value="true">
+							<label color="white" font="gametiny" x="4" y="2">Looking For Clan</label>
+						</listitem>
+					</combobox>
+				</panel>
+			</panel>
+			<!-- END Clan (None) -->
+			<!-- Clan (Member) -->
+			<panel name="clan_list_member" color="invisible" group="clan_group" visible="0" blockinput="false" noclick="true">
+				<!-- Header -->
+				<panel height="40" blockinput="false" noclick="true" passivechildren="true">
+					<frame x="0" style="lobby_window_header_bg" height="100%" color="#000000" borderthickness="8" />
+					<frame x="0" texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8">
+						<label x="10" width="146" align="left" textvalign="center" font="chat_18" color="white" shadow="true">Clan Roster</label>
+            <webimage x="-7" y="-5" align="right" valign="bottom" width="30" height="30" noclick="true" texture="/ui/elements/tmp_avatar.tga" onshow="Cmd('Set cc_friendlist_ci #Choose(0,|#cc_friendlist_'#GetAccountName()#'|#)#'); SetTextureWeb(cc_friendlist_ci);"/>
+					</frame>
+				</panel>
+				<!-- List -->
+				<panel width="-2" y="40" height="264" align="center" color="invisible" blockinput="false" noclick="true">
+					<listbox name="clans_listbox_member" x="2" y="2" width="-3" height="260" align="left" valign="top" color="#000000" handleheight="32" itemwidth="100%" itemheight="18" wrap="row" font="gametiny" hoverselect="true" highlight="under" highlightcolor="#FFFFFF38" highlightbordercolor="invisible" rendermode="normal" scrolltexture="/ui/elements/vist_scroll.tga" watch="ChatClanEvent" onselect="Set('ui_lastSelectedUser', Substring(this,2,-1)); ShowWidget('hover_tip'); if(!ChatUpdateHoverInfo(Substring(this,2,-1)), HideWidget('hover_tip'));" onhover="ShowWidget('hover_tip'); if(!ChatUpdateHoverInfo(Substring(this,2,-1)), HideWidget('hover_tip'));" onmouseout="HideWidget('hover_tip'); ListBoxCmd('SelectNone');" ondoubleclick="if(Substring(this,0,2) == '01' or Substring(this,0,2) == '02' or Substring(this,0,2) == '03' or Substring(this,0,2) == '05' or Substring(this,0,2) == '06' or Substring(this,0,2) == '07', ChatOpenMessage(ui_lastSelectedUser));" onrightclick="Set('ui_lastSelectedUser', Substring(this,2,-1));
+						if(Substring(this,0,2) == '00', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '01', Set('ui_tooltipTarget', 'clanlist_rtclick_member_online'));
+						if(Substring(this,0,2) == '02', Set('ui_tooltipTarget', 'clanlist_rtclick_member_online'));
+						if(Substring(this,0,2) == '03', Set('ui_tooltipTarget', 'clanlist_rtclick_member_online'));
+						if(Substring(this,0,2) == '04', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '05', Set('ui_tooltipTarget', 'clanlist_rtclick_member_game'));
+						if(Substring(this,0,2) == '06', Set('ui_tooltipTarget', 'clanlist_rtclick_member_game'));
+						if(Substring(this,0,2) == '07', Set('ui_tooltipTarget', 'clanlist_rtclick_member_game'));
+						if(Substring(this,0,2) == '08', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '09', Set('ui_tooltipTarget', 'clanlist_rtclick_member_offline'));
+						if(Substring(this,0,2) == '10', Set('ui_tooltipTarget', 'clanlist_rtclick_member_offline'));
+						if(Substring(this,0,2) == '11', Set('ui_tooltipTarget', 'clanlist_rtclick_member_offline'));
+						if(StringEquals(Substring(this,2,-1), GetAccountName()), Set('ui_tooltipTarget', ''));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetVisible(true);'));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetX(\'' # param0 # '\');'));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetY(\'' # param1 # '\');'));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget # '_choices', 'ListBoxCmd(\'SelectNone\');'));
+						If(StringLength(ui_tooltipTarget),PlaySound('/shared/sounds/ui/button_rightclick.mp3'));
+						If(StringLength(ui_tooltipTarget),SetFocusName(ui_tooltipTarget),SetFocus(1));"
+						onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');"
+						onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');">
+					</listbox>
+				</panel>
+				<!-- Footer -->
+				<panel height="28" valign="bottom" nockick="true">
+					<frame style="lobby_window_footer_bg" height="100%" color="#000000" borderthickness="8" blockinput="false" nockick="true"></frame>
+					<frame texture="/ui/frames/roundframe_footer.tga" color="#5E2D1F" borderthickness="8" blockinput="false" nockick="true"></frame>
+					<panel width="140" height="20" y="4" color="invisible" align="center">
+						<instance align="center" name="round_button2" font="chat_12" label="Clan Chat" watch="" ontrigger="" onclick="ChatOpenClanMessage(); SetFocus(1);" onrightclick="SetFocus(1);" onmouseover="" onmouseout="" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+					</panel>
+				</panel>
+				<panel name="clanlist_rtclick_member_online" x="6" y="6" width="124" height="86" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_member_online_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_member_game" x="6" y="6" width="124" height="104" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_member_game_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatJoinGame">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Join Game</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_member_offline" x="6" y="6" width="124" height="68" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_member_offline_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+			</panel>
+			<!-- END Clan (Member) -->
+			<!-- Clan (Officer) -->
+			<panel name="clan_list_officer" color="invisible" group="clan_group" visible="0" blockinput="false" noclick="true">
+				<!-- Header -->
+				<panel height="40" blockinput="false" noclick="true" passivechildren="true">
+					<frame x="0" style="lobby_window_header_bg" height="100%" color="#000000" borderthickness="8" />
+					<frame x="0" texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8">
+						<label x="10" width="146" align="left" textvalign="center" font="chat_18" color="white" shadow="true">Clan Roster</label>
+            <webimage x="-7" y="-5" align="right" valign="bottom" width="30" height="30" noclick="true" texture="/ui/elements/tmp_avatar.tga" onshow="Cmd('Set cc_friendlist_ci #Choose(0,|#cc_friendlist_'#GetAccountName()#'|#)#'); SetTextureWeb(cc_friendlist_ci);"/>
+					</frame>
+				</panel>
+				<!-- List -->
+				<panel width="-2" y="40" height="264" align="center" color="invisible" blockinput="false" noclick="true">
+					<listbox name="clans_listbox_officer" x="2" y="2" width="-3" height="260" align="left" valign="top" color="#000000" handleheight="32" itemwidth="100%" itemheight="18" wrap="row" font="gametiny" hoverselect="true" highlight="under" highlightcolor="#FFFFFF38" highlightbordercolor="invisible" rendermode="normal" scrolltexture="/ui/elements/vist_scroll.tga" watch="ChatClanEvent" onselect="Set('ui_lastSelectedUser', Substring(this,2,-1));" onhover="ShowWidget('hover_tip'); if(!ChatUpdateHoverInfo(Substring(this,2,-1)), HideWidget('hover_tip'));" onmouseout="HideWidget('hover_tip'); ListBoxCmd('SelectNone');" ondoubleclick="if(Substring(this,0,2) == '01' or Substring(this,0,2) == '02' or Substring(this,0,2) == '03' or Substring(this,0,2) == '05' or Substring(this,0,2) == '06' or Substring(this,0,2) == '07', ChatOpenMessage(ui_lastSelectedUser));" onrightclick="Set('ui_lastSelectedUser', Substring(this,2,-1));
+						if(Substring(this,0,2) == '00', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '01', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_online'));
+						if(Substring(this,0,2) == '02', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_online'));
+						if(Substring(this,0,2) == '03', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_online_member'));
+						if(Substring(this,0,2) == '04', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '05', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_game'));
+						if(Substring(this,0,2) == '06', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_game'));
+						if(Substring(this,0,2) == '07', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_game_member'));
+						if(Substring(this,0,2) == '08', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '09', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_offline'));
+						if(Substring(this,0,2) == '10', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_offline'));
+						if(Substring(this,0,2) == '11', Set('ui_tooltipTarget', 'clanlist_rtclick_officer_offline_member'));
+						if(StringEquals(Substring(this,2,-1), GetAccountName()), Set('ui_tooltipTarget', ''));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetVisible(true);'));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetX(\'' # param0 # '\');'));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetY(\'' # param1 # '\');'));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget # '_choices', 'ListBoxCmd(\'SelectNone\');'));
+						If(StringLength(ui_tooltipTarget),PlaySound('/shared/sounds/ui/button_rightclick.mp3'));
+						If(StringLength(ui_tooltipTarget),SetFocusName(ui_tooltipTarget),SetFocus(1));"
+						onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');"
+						onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"
+						onwake="SleepWidget(10);">
+					</listbox>
+				</panel>
+				<!-- Footer -->
+				<panel height="28" valign="bottom" noclick="true">
+					<frame style="lobby_window_footer_bg" height="100%" color="#000000" borderthickness="8" blockinput="false" noclick="true"></frame>
+					<frame texture="/ui/frames/roundframe_footer.tga" color="#5E2D1F" borderthickness="8" blockinput="false" noclick="true"></frame>
+					<panel width="140" height="20" y="4" color="invisible" align="center" >
+						<instance align="center" name="round_button2" font="chat_12" label="Clan Chat" watch="" ontrigger="" onclick="ChatOpenClanMessage(); SetFocus(1);" onrightclick="SetFocus(1);" onmouseover="" onmouseout="" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+					</panel>
+				</panel>
+				<panel name="clanlist_rtclick_officer_online" x="6" y="6" width="124" height="86" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_officer_online_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_officer_game" x="6" y="6" width="124" height="104" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_officer_game_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatJoinGame">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Join Game</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_officer_offline" x="6" y="6" width="124" height="68" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_officer_game_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_officer_online_member" x="6" y="6" width="124" height="104" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_officer_online_member_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatRemoveClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove From Clan</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_officer_game_member" x="6" y="6" width="124" height="122" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_officer_game_member_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatJoinGame">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Join Game</label>
+						</listitem>
+						<listitem value="ChatRemoveClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove From Clan</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_officer_offline_member" x="6" y="6" width="124" height="86" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_officer_offline_member_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatRemoveClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove From Clan</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+			</panel>
+			<!-- END Clan (Officer) -->
+			<!-- Clan (Leader) -->
+			<panel name="clan_list_leader" color="invisible" group="clan_group" visible="0" blockinput="false" noclick="true">
+				<!-- Header -->
+				<panel height="40" blockinput="false" noclick="true" passivechildren="true">
+					<frame x="0" style="lobby_window_header_bg" height="100%" color="#000000" borderthickness="8" />
+					<frame x="0" texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8">
+						<label x="10" width="146" align="left" textvalign="center" font="chat_18" color="white" shadow="true">Clan Roster</label>
+            <webimage x="-7" y="-5" align="right" valign="bottom" width="30" height="30" noclick="true" texture="/ui/elements/tmp_avatar.tga" onshow="Cmd('Set cc_friendlist_ci #Choose(0,|#cc_friendlist_'#GetAccountName()#'|#)#'); SetTextureWeb(cc_friendlist_ci);"/>
+					</frame>
+				</panel>
+				<!-- List -->
+				<panel width="-2" y="40" height="264" align="center" color="invisible" blockinput="false" noclick="true">
+					<listbox name="clans_listbox_leader" x="2" y="2" width="-3" height="260" align="left" valign="top" color="#000000" handleheight="32" itemwidth="100%" itemheight="18" wrap="row" font="gametiny" hoverselect="true" highlight="under" highlightcolor="#FFFFFF38" highlightbordercolor="invisible" rendermode="normal" scrolltexture="/ui/elements/vist_scroll.tga" watch="ChatClanEvent" onselect="Set('ui_lastSelectedUser', Substring(this,2,-1));" onhover="ShowWidget('hover_tip'); if(!ChatUpdateHoverInfo(Substring(this,2,-1)), HideWidget('hover_tip'));" onmouseout="HideWidget('hover_tip'); ListBoxCmd('SelectNone');" ondoubleclick="if(Substring(this,0,2) == '01' or Substring(this,0,2) == '02' or Substring(this,0,2) == '03' or Substring(this,0,2) == '05' or Substring(this,0,2) == '06' or Substring(this,0,2) == '07', ChatOpenMessage(ui_lastSelectedUser));" onrightclick="Set('ui_lastSelectedUser', Substring(this,2,-1));
+						if(Substring(this,0,2) == '00', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '01', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '02', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_online_officer'));
+						if(Substring(this,0,2) == '03', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_online_member'));
+						if(Substring(this,0,2) == '04', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '05', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '06', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_game_officer'));
+						if(Substring(this,0,2) == '07', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_game_member'));
+						if(Substring(this,0,2) == '08', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '09', Set('ui_tooltipTarget', ''));
+						if(Substring(this,0,2) == '10', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_offline_officer'));
+						if(Substring(this,0,2) == '11', Set('ui_tooltipTarget', 'clanlist_rtclick_leader_offline_member'));
+						if(StringEquals(Substring(this,2,-1), GetAccountName()), Set('ui_tooltipTarget', ''));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetVisible(true);'));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetX(\'' # param0 # '\');'));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget, 'SetY(\'' # param1 # '\');'));
+						if(StringLength(ui_tooltipTarget) gt 0, Call(ui_tooltipTarget # '_choices', 'ListBoxCmd(\'SelectNone\');'));
+						If(StringLength(ui_tooltipTarget),PlaySound('/shared/sounds/ui/button_rightclick.mp3'));
+						If(StringLength(ui_tooltipTarget),SetFocusName(ui_tooltipTarget),SetFocus(1));"
+						onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');"
+						onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');">
+					</listbox>
+				</panel>
+				<!-- Footer -->
+				<panel height="28" valign="bottom" noclick="true">
+					<frame style="lobby_window_footer_bg" height="100%" color="#000000" borderthickness="8" noclick="true"></frame>
+					<frame texture="/ui/frames/roundframe_footer.tga" color="#5E2D1F" borderthickness="8" noclick="true"></frame>
+					<panel width="190" height="20" y="4" color="invisible" align="center" noclick="true">
+						<instance align="left" width="93" name="round_button2" font="chat_12" label="Clan Chat" watch="" ontrigger="" onclick="ChatOpenClanMessage(); SetFocus(1);" onrightclick="SetFocus(1);" onmouseover="" onmouseout="" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+						<instance align="right" width="93" name="round_button2" font="chat_12" label="Invite" watch="" ontrigger="" onclick="ShowWidget('clan_invite'); HideWidget('clan_list_leader'); SetFocus(1); hideWidget('clans_listbox_member'); hideWidget('clans_listbox_officer'); hideWidget('clans_listbox_leader');" onrightclick="SetFocus(1);" onmouseover="" onmouseout="" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+					</panel>
+				</panel>
+				<panel name="clanlist_rtclick_leader_online_officer" x="6" y="6" width="154" height="122" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_leader_online_officer_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatDemoteClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Demote</label>
+						</listitem>
+						<listitem value="ChatRemoveClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove From Clan</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_leader_game_officer" x="6" y="6" width="154" height="140" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_leader_game_officer_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatJoinGame">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Join Game</label>
+						</listitem>
+						<listitem value="ChatDemoteClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Demote</label>
+						</listitem>
+						<listitem value="ChatRemoveClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove From Clan</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_leader_offline_officer" x="6" y="6" width="154" height="104" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_leader_offline_officer_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatDemoteClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Demote</label>
+						</listitem>
+						<listitem value="ChatRemoveClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove From Clan</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_leader_online_member" x="6" y="6" width="154" height="122" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_leader_online_member_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatPromoteClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Promote</label>
+						</listitem>
+						<listitem value="ChatRemoveClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove From Clan</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_leader_game_member" x="6" y="6" width="154" height="140" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_leader_game_member_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatOpenMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+						</listitem>
+						<listitem value="ChatJoinGame">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Join Game</label>
+						</listitem>
+						<listitem value="ChatPromoteClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Promote</label>
+						</listitem>
+						<listitem value="ChatRemoveClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove From Clan</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+				<panel name="clanlist_rtclick_leader_offline_member" x="6" y="6" width="154" height="104" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+					<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+          <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+          <panel height="1" y="22" color="#5E2D1F"/>
+					<listbox name="clanlist_rtclick_leader_offline_member_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-4" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+						<listitem value=""></listitem> <!-- CC: Listfix -->
+						<listitem value="ChatPromoteClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Promote</label>
+						</listitem>
+						<listitem value="ChatRemoveClanMember">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Remove From Clan</label>
+						</listitem>
+						<listitem value="ChatOpenClanMessage">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Clan Chat</label>
+						</listitem>
+						<listitem value="BrowserGetStats">
+							<label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+						</listitem>
+					</listbox>
+				</panel>
+			</panel>
+			<!-- END Clan (Leader) -->
+			<!-- Clan Invite -->
+			<panel name="clan_invite" color="invisible" visible="0" noclick="true">
+				<!-- Header -->
+				<panel height="40" blockinput="false" noclick="true" passivechildren="true">
+					<frame x="0" style="lobby_window_header_bg" height="100%" color="#000000" borderthickness="8" />
+					<frame x="0" texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8">
+						<label x="10" width="146" align="left" textvalign="center" font="chat_18" color="white" shadow="true">Clan Invite</label>
+            <webimage x="-7" y="-5" align="right" valign="bottom" width="30" height="30" noclick="true" texture="/ui/elements/tmp_avatar.tga" onshow="Cmd('Set cc_friendlist_ci #Choose(0,|#cc_friendlist_'#GetAccountName()#'|#)#'); SetTextureWeb(cc_friendlist_ci);"/>
+					</frame>
+				</panel>
+				<!-- Footer -->
+				<panel height="28" valign="bottom" noclick="true">
+					<frame style="lobby_window_footer_bg" height="100%" color="#000000" borderthickness="8" blockinput="false" noclick="true"></frame>
+					<frame texture="/ui/frames/roundframe_footer.tga" color="#5E2D1F" borderthickness="8" blockinput="false" noclick="true"></frame>
+					<panel width="140" height="20" y="4" color="invisible" align="center" noclick="true">
+						<instance align="center" name="round_button2" font="chat_12" label="Cancel" watch="" ontrigger="" onclick="hideWidget('clan_invite'); showWidget('clan_list_leader'); SetFocus(1); showWidget('clans_listbox_member'); showWidget('clans_listbox_officer'); showWidget('clans_listbox_leader');" onrightclick="SetFocus(1);" onmouseover="" onmouseout="" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+					</panel>
+				</panel>
+				<!-- Find Options -->
+				<panel name="clan_invite_options" width="-2" y="40" height="266" align="center" color="#000000" noclick="true">
+					<panel y="10" height="52" width="-10" align="center" noclick="true">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#FFFFFF2a" blockinput="false" noclick="true"/>
+						<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="6" blockinput="false" noclick="true"/>
+						<panel y="4" width="-10" align="center" noclick="true">
+							<label height="60" align="left" textalign="left" wrap="1" font="chat_12" color="white" shadow="true" noclick="true">To invite players please visit www.savage2clans.com and administrate the clan roster.</label>
+						</panel>
+					</panel>
+					<panel y="72" height="180" width="-10" align="center" noclick="true">
+						<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="6" color="#2a2a2a" blockinput="false" noclick="true"/>
+						<frame texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="6" blockinput="false" noclick="true"/>
+            <panel width="-2" y="22" height="158" align="center" color="invisible" blockinput="false" noclick="true">
+              <listbox
+                name="clan_listbox_add_current" 
+                x="2" y="-17" width="-3" height="170" align="left" valign="top" 
+                color="#00000000" handleheight="32" itemwidth="100%" itemheight="17" 
+                wrap="row" font="gametiny" hoverselect="true" 
+                highlight="under" highlightcolor="#FFFFFF38" highlightbordercolor="invisible" 
+                rendermode="normal" scrolltexture="/ui/elements/vist_scroll.tga" 
+                onshow="Call('clan_listbox_add_current_vscroll','SetHeight(-17);SetY(17);');"
+                onmouseout="ListBoxCmd('SelectNone');"
+                onframe="HideWidget('clans_listbox_leader'); If(!HasListItem(''), Split(ListboxCmd('add '),ListBoxCmd('Sort')));"
+                watch="ChatLookingForClanEvent" onselect="Set('ui_lastSelectedUser', this);"
+                onrightclick="PlaySound('/shared/sounds/ui/button_rightclick.mp3'); Call('clan_listbox_add_rtclick', 'SetVisible(true);'); Call('clan_listbox_add_rtclick', 'SetX(\'' # param0 # '\');'); Call('clan_listbox_add_rtclick', 'SetY(\'' # param1 # '\');'); Call('clan_listbox_add_rtclick_choices', 'ListBoxCmd(\'SelectNone\');'); SetFocusName('clan_listbox_add_rtclick');"
+                ondoubleclick="ChatOpenMessage(ui_lastSelectedUser);" 
+                onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');"
+                onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"
+              />
+            </panel>
+						<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="6" color="#2a2a2a" blockinput="false" noclick="true" height="22"/>
+						<frame texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="6" height="22" blockinput="false" noclick="true"/>
+						<panel y="4" width="-10" align="center" noclick="true">
+							<label height="120" align="left" textalign="left" wrap="1" font="chat_12" color="white" shadow="true" noclick="true">Interested players online:</label>
+						</panel>
+            <panel name="clan_listbox_add_rtclick" x="6" y="6" width="124" height="68" visible="0" onlosefocus="ListBoxCmd('SelectNone'); SetVisible(false);" blockinput="true">
+              <frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" color="#21292e" noclick="1" />
+              <frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" noclick="1" />
+              <label x="8" width="100%" height="22" color="#FFFFFFFF" font="gametiny" textvalign="center">%ui_lastSelectedUser%</label>
+              <panel height="1" y="22" color="#5E2D1F"/>
+              <listbox name="clan_listbox_add_rtclick_choices" y="10" height="120%" font="gametiny" wrap="row" scrollbarsize="0" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" align="center" valign="top" itemwidth="-2" itemheight="18" hoverselect="true" onselect="If(StringLength(this), Split(PlaySound('/shared/sounds/ui/button_rightclick.mp3'),(*this)(ui_lastSelectedUser),If(StringEquals(this,'BrowserGetStats'),ShowWidget('ccwidget_statistics'))));" color="invisible">
+                <listitem value=""></listitem> <!-- CC: Listfix -->
+                <listitem value="ChatOpenMessage">
+                  <label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">Send Message</label>
+                </listitem>
+                <listitem value="BrowserGetStats">
+                  <label x="8" width="100%" color="#FFFFFF99" font="gametiny" onmouseover="SetColor('#FFFFFFFF');" onmouseout="SetColor('#FFFFFF99');">View Stats</label>
+                </listitem>
+              </listbox>
+            </panel>
+          </panel>
+				</panel>
+				<!-- END Find Options -->
+			</panel>
+			<!-- END Clan Invite -->
+			<image width="24" height="96" x="-30" y="144" texture="/ui/elements/cc_tab_btn_red_clan.tga"/>
+		</panel>
+		<!-- END Clan List -->
+		<!-- Options -->
+		<panel name="config" group="cc_community_panels" height="332" width="202" y="76" x="36" noclick="true" align="left" visible="0" color="invisible" onshow="ShowWidget('config_button_highlight');" onhide="HideWidget('config_button_highlight');">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg" blockinput="false" noclick="true"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8" blockinput="false" noclick="true"/>
+			<!-- Header -->
+      <panel height="40" blockinput="false" noclick="true" passivechildren="true">
+        <frame x="0" style="lobby_window_header_bg" height="100%" color="#000000" borderthickness="8" blockinput="false" noclick="true"/>
+        <frame x="0" texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8" blockinput="false" noclick="true">
+          <label x="10" width="146" align="left" textvalign="center" font="chat_18" color="white" shadow="true">Configuration</label>
+          <image x="-5" y="6" align="right" valign="top" width="28" height="28" noclick="true" texture="/ui/elements/armor_icon.tga"/>
+        </frame>
+      </panel>
+			<!-- Options: Tabs -->
+			<panel height="24" width="-10" y="42" align="center" color="#00000000">
+				<panel width="95" height="22" align="left">
+					<frame texture="/ui/frames/rounded_header_bg_white.tga" color="#2E1F00" borderthickness="8"/>
+					<frame name="notifications_tab_over" texture="/ui/frames/rounded_header_bg_white.tga" color="#21292e" borderthickness="8" visible="0"/>
+					<frame texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8"/>
+					<label width="-20" y="1" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Alerts</label>
+					<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); ShowOnly('tab_notifications'); Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);'); hideWidget('friends_add'); SetFocus(1); showWidget('friends_listbox');" onrightclick="SetFocus(1);" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+				</panel>
+				<panel width="95" height="22" align="right">
+					<frame texture="/ui/frames/rounded_header_bg_white.tga" color="#2E1F00" borderthickness="8"/>
+					<frame name="misc_tab_over" texture="/ui/frames/rounded_header_bg_white.tga" color="#2E1F00" borderthickness="8" visible="0"/>
+					<frame texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8"/>
+					<label width="-20" y="1" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Misc.</label>
+					<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); ShowOnly('tab_misc'); Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);'); hideWidget('friends_add'); SetFocus(1); showWidget('friends_listbox');" onrightclick="SetFocus(1);" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+				</panel>
+			</panel>
+			<!-- Options: Misc -->
+			<panel name="tab_misc" visible="0" height="-90" width="-2" y="60" align="center" color="#000000" group="tab_options" noclick="true">
+				<panel width="95" height="20" align="right" x="-4" y="-18">
+					<frame texture="/ui/frames/rounded_header_bg_white.tga" color="#A8513533" borderthickness="8" align="top" height="-1"/>
+					<frame texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8" align="top" height="-1"/>
+					<label width="-20" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Misc.</label>
+					<button color="invisible" onclick="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);'); HideWidget('friends_add'); SetFocus(1); ShowWidget('friends_listbox');" onrightclick="SetFocus(1);" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+				</panel>
+				<listbox name="options_listbox_misc" x="-4" y="10" width="-9" height="100" align="right" valign="top" color="#000000" handleheight="80" itemwidth="100%" itemheight="24" wrap="row" font="gametiny" hoverselect="false" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" rendermode="normal" scrolltexture="/ui/elements/vist_scroll.tga" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');">
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_optionOpenChat" label="Always open chat windows" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_optionBarBottom" label="Bar at Bottom" font="chat_11" onclick="HideWidget('cc_panel'); ShowWidget('cc_panel');"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="ni_ticketNotificationOff" label="No Ticket Notifications" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="ni_clanIconsDownloadOff" label="Don't Show Clan Icons" font="chat_11"/>
+					</listitem>
+				</listbox>
+				<panel height="1" color="#5E2D1F" onload="CreateString('cc_optionOpenChat',cc_optionOpenChat); CreateString('cc_optionBarBottom',cc_optionBarBottom); CreateString('ni_ticketNotificationOff',ni_ticketNotificationOff); CreateString('ni_clanIconsDownloadOff',ni_clanIconsDownloadOff); SetSave('cc_optionOpenChat'); SetSave('cc_optionBarBottom'); SetSave('ni_ticketNotificationOff'); SetSave('ni_clanIconsDownloadOff');"/>
+			</panel>
+			<!-- Options: Notifications -->
+			<panel name="tab_notifications" height="-90" width="-2" y="60" align="center" color="#000000" group="tab_options" noclick="true">
+				<panel width="95" height="20" align="left" x="4" y="-18">
+					<frame texture="/ui/frames/rounded_header_bg_white.tga" color="#A8513533" borderthickness="8" align="top" height="-1"/>
+					<frame texture="/ui/frames/roundframe_header.tga" color="#5E2D1F" borderthickness="8" align="top" height="-1"/>
+					<label width="-20" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Alerts</label>
+					<button color="invisible" onclick="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);'); hideWidget('friends_add'); SetFocus(1); showWidget('friends_listbox');" onrightclick="SetFocus(1);" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+				</panel>
+				<label height="40" y="6" width="95%" align="center" wrap="1" font="chat_12" color="white" shadow="true" noclick="true">Select which notifications you would like to view.</label>
+				<listbox name="options_listbox" x="-4" y="43" width="-9" height="-50" align="right" valign="top" color="#000000" handleheight="80" itemwidth="100%" itemheight="24" wrap="row" font="gametiny" hoverselect="false" highlight="under" highlightcolor="invisible" highlightbordercolor="invisible" rendermode="normal" scrolltexture="/ui/elements/vist_scroll.tga" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');">
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showConnectionNotification" label="Connection Notices" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showDisconnectionNotification" label="Disconnect Notices" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showJoinGameNotification" label="Join Game Notices" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showLeaveGameNotification" label="Leave Game Notices" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showBuddyAddedNotification" label="Friends List Additions" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showBuddyRemovedNotification" label="Friends List Removals" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showClanRankNotification" label="Clan Rank Changes" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showClanAddNotification" label="New Clan Members" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showClanRemoveNotification" label="Clan Departures" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="cc_showClanMessageNotification" label="Clan Messages" font="chat_11"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="" label="Clan Invites" font="chat_11" enabled="false"/>
+					</listitem>
+					<listitem value="">
+						<instance name="options_checkbox" align="left" cvar="" label="Clan Match Notices" font="chat_11" enabled="false"/>
+					</listitem>
+				</listbox>
+				<panel height="1" color="#5E2D1F"/>
+			</panel>
+			<!-- BL Footer -->
+			<panel height="28" valign="bottom" noclick="true">
+				<frame style="lobby_window_footer_bg" height="100%" color="#000000" borderthickness="8" blockinput="false" noclick="true"/>
+				<frame texture="/ui/frames/roundframe_footer.tga" color="#5E2D1F" borderthickness="8" blockinput="false" noclick="true"/>
+				<panel width="140" height="20" y="4" color="invisible" align="center" noclick="true">
+					<instance align="center" name="round_button2" font="chat_12" label="Save" watch="" ontrigger="" onclick="SetSave('cc_showConnectionNotification'); SetSave('cc_showDisconnectionNotification'); SetSave('cc_showJoinGameNotification'); SetSave('cc_showLeaveGameNotification'); SetSave('cc_showBuddyAddedNotification'); SetSave('cc_showBuddyRemovedNotification'); SetSave('cc_showClanMessageNotification'); SetSave('cc_showClanRankNotification'); SetSave('cc_showClanAddNotification'); SetSave('cc_showClanRemoveNotification'); SetSave('cc_optionOpenChat'); SetSave('cc_optionBarBottom'); SetSave('ni_ticketNotificationOff'); SetSave('ni_clanIconsDownloadOff'); SetFocus(1);" onrightclick="SetFocus(1);" onmouseover="" onmouseout="" onfocus="Call('ccwidget_community','BringToFront();'); Call('ccbar', 'BringToFront();'); Call('community_header_image','SetColor(1,1,1);'); Call('community_footer_image','SetColor(1,1,1);'); Call('community_right_image','SetColor(1,1,1);');" onlosefocus="Call('community_header_image','SetColor(0.7,0.7,0.7);'); Call('community_footer_image','SetColor(0.7,0.7,0.7);'); Call('community_right_image','SetColor(0.7,0.7,0.7);'); HideWidget('hover_tip');"/>
+				</panel>
+			</panel>
+		</panel>
+		<!-- END Options -->
+		<!-- Footer -->
+		<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="20" style="lobby_window_footer_bg" borderthickness="12" noclick="true"/>
+		<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="20" style="lobby_window_footer" borderthickness="12" noclick="true"/>
+		<!-- Config Button -->
+		<panel height="24" x="-2" align="left" valign="bottom" noclick="true">
+			<image name="community_footer_image" y="-10" height="144" width="278" texture="/ui/elements/cc_config_btn.tga" noclick="true" />
+			<instance align="center" width="60" height="60" x="2" y="8" name="config_button" watch="" ontrigger="" onclick="ShowOnly('config'); hideWidget('friends_listbox'); hideWidget('clans_listbox_member'); hideWidget('clans_listbox_officer'); hideWidget('clans_listbox_leader'); Call('tab_button_friends', 'SetEnabled(true);'); Call('tab_button_clan', 'SetEnabled(true);');" onmouseover="showWidget('config_tooltip');" onmouseout="hideWidget('config_tooltip');"/>
+			<instance name="txt_tooltip" label="config" x="3" y="80" height="20" width="76" align="center" valign="bottom" tooltip="Configuration"/>
+		</panel>
+		<!-- Header -->
+		<panel height="24" y="-34" x="-2" align="center" color="invisible" noclick="true">
+			<image name="community_header_image" height="176" width="352" align="left" texture="/ui/elements/cc_header.tga" noclick="true" />
+			<button x="-19" y="0" width="14" height="14" align="right" color="#FFFFFF99" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('ccwidget_community');" texture="/ui/elements/xbutton.tga"/>
+			<!-- Clan or Friends Image -->
+			<image height="89" width="89" x="89" y="31" align="left" texture="/ui/elements/cc_header_friends.tga" noclick="true" />
+		</panel>
+	</panel>
+	<!-- END CC Panel -->
+	<!-- Friends List Hover Info  -->
+  <panel name="hover_tip" x="-210" y="-30" height="108" width="206" valign="top" align="left" visible="0" onshow="SetX(cc_community_X-206-1); SetY(cc_community_Y+108-1); BringToFront();" onload="CreateString('cc_friendlist_','');">
+    <frame texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="8" style="lobby_window_bg"/>
+    <frame texture="/ui/frames/rounded_bg_white.tga" color="#58585833" borderthickness="8" style="lobby_window_bg"/>
+    <frame texture="/ui/frames/roundframe.tga" color="#585858" borderthickness="8"/>
+    <frame texture="/ui/frames/roundframe_header.tga" color="#585858" borderthickness="8" height="50"/>
+    <frame texture="/ui/frames/roundframe_footer.tga" color="#585858" borderthickness="8" valign="bottom" height="20"/>
+
+    <webimage x="7" y="7" width="36" height="36" texture="/ui/elements/tmp_avatar.tga" watch="ChatHoverClan" ontrigger="Cmd('Set cc_friendlist_ci #Choose(0,|#cc_friendlist_'#If(StringEquals(ChatHoverClan,'None'),ChatHoverName,GetAccountName())#'|#)#'); If(StringEquals(cc_friendlist_ci,'None') or ni_clanIconsDownloadOff, SetTexture('/ui/elements/vclan_transparent.tga'), SetTextureWeb(cc_friendlist_ci));"/>
+
+    <panel x="50" y="10" width="150" height="50">
+      <label x="0" y="0" width="120" font="chat_13" color="red" shadow="true" watch="ChatHoverName" ontrigger="SetText(param);">UnnamedNewbie</label>
+      <label x="2" y="16" width="130" font="chat_11" color="white" shadow="true" watch="ChatHoverName" ontrigger="Cmd('Set cc_friendlist_cn #Choose(-1,|#cc_friendlist_'#ChatHoverName#'|#)#'); SetText(If(StringEquals(ChatHoverClan,'None'),If(StringEquals(cc_friendlist_cn,'None'),'Clanless',cc_friendlist_cn),ChatHoverClan));">No Clan</label>
+    </panel>
+
+    <label x="8" y="55" width="180" font="chat_11" color="white" shadow="true" watch="ChatHoverServer" ontrigger="SetText('^yServer: ^*' # param);">^yServer: ^*Unknown</label>
+    <!-- label x="8" y="76" font="chat_11" color="white" shadow="true">^yTeam: ^*{team}</label -->
+    <label x="8" y="70" width="180" font="chat_11" color="white" shadow="true" watch="ChatHoverGameTime" ontrigger="SetText('^yGame Time: ^*' # param);">^yGame Time: ^*??:??:??</label>
+    
+    <label x="0" y="93" width="100%" font="chat_9" color="white" shadow="true" textalign="center">Right-click for options</label>
+
+  </panel>
+	<!-- END Friends List Hover Info -->
+</include>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="skull02_recover04.max" file="skull.model" type="K2">
+	<anim name="start" clip="skull.clip" startframe="0" numframes="91" loop="false" blendtime="1000">
+		<frameevent frame="40" cmd="PlaySound /shared/sounds/ui/main_menu/skull_movein.mp3 150"/>
+		<frameevent frame="60" cmd="PlaySound /shared/sounds/ui/main_menu/stone_move.mp3 150 0.5"/>
+		<frameevent frame="81" cmd="PlaySound /shared/sounds/ui/main_menu/button_click_small.mp3 150 1"/>
+	</anim>
+	<anim name="idle" clip="skull.clip" startframe="91" numframes="0" loopbackframe="91" loop="true" />
+
+	<anim name="login" clip="skull.clip" startframe="200" numframes="11" loop="true" loopbackframe="-1" fps="13"></anim>
+
+	<anim name="return" clip="skull.clip" startframe="0" numframes="91" loop="false" fps="45">
+		<frameevent frame="40" cmd="PlaySound /shared/sounds/ui/main_menu/skull_movein.mp3 150"/>
+		<frameevent frame="60" cmd="PlaySound /shared/sounds/ui/main_menu/stone_move.mp3 150 0.5"/>
+		<frameevent frame="81" cmd="PlaySound /shared/sounds/ui/main_menu/button_click_small.mp3 150 1"/>
+	</anim>
+
+	<anim name="loginback" clip="skull.clip" startframe="210" numframes="10" loop="false" fps="13"/>	
+	<anim name="out" clip="skull.clip" startframe="100" numframes="50" loopbackframe="149" loop="true" fps="50">	
+		<frameevent frame="2" cmd="PlaySound /shared/sounds/ui/main_menu/skull_moveout.mp3 150"/>
+	</anim>	
+</model>

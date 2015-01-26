@@ -1,0 +1,1 @@
+These tips are designed to trigger when a player first selects a ranged weapon.

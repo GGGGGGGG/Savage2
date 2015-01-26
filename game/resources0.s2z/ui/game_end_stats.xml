@@ -1,0 +1,968 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_end_stats">
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+
+	<!-- Styles -->
+	<style name="vist_bg_1" color="#56000155"/>
+	<style name="vist_frame_1" color="#662222"/>
+
+	<style name="vist_bg_2" color="#2E1F00AA"/>
+	<style name="vist_frame_2" color="#863838" />
+
+	<style name="vist_bg_3" color="#2E1F00"/>
+	<style name="vist_frame_3" color="#5E2D1F" />
+
+	<style name="vist_bg_4" color="#5E2D1E"/>
+	<style name="vist_frame_4" color="#331100"/>
+
+	<style name="award_bg" color="#2E1F0044"/>
+	<style name="award_frame" color="#863838"/>
+	
+	<style name="award_bg_2" color="#2E1F00"/>
+	<style name="award_frame_2" color="#863838"/>
+
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+
+	<style name="vertical_bar" color=""/>
+
+	<include file="/ui/inc_button.xml"/>
+
+	
+	<template name="karma_combobox_item">
+		<label x="4" y="-1" width="160" height="20" font="chat_12" color="white" textvalign="center" shadow="true" shadowoffset="1" content="{label}" />
+	</template>	
+	
+	
+	<template name="stat_kills_header">
+		<panel height="18" color="{color}" float="right" padding="0">
+			<panel width="42%" color="invisible">
+				<label width="80%" height="100%" textalign="left" textvalign="center" align="center" font="chat_12" color="yellow" shadow="true">Player Name</label>
+			</panel>
+			
+			<panel width="1" style="vertical_bar"/>
+
+			<panel width="17%" color="invisible">
+				<label width="80%" height="100%" textalign="left" textvalign="center" align="center" font="chat_12" color="yellow" shadow="true">Time</label>
+			</panel>	
+			
+			<panel width="1" style="vertical_bar"/>
+
+			<panel width="39%" color="invisible">
+				<label width="80%" height="100%" textalign="left" textvalign="center" align="center" font="chat_12" color="yellow" shadow="true">Method</label>
+			</panel>
+		</panel>
+	</template>
+	
+	<template name="stat_kills_list">
+		<panel height="16" color="{color}" float="right" padding="0">
+			<panel width="42%" color="invisible">
+				<label width="80%" height="100%" textalign="left" textvalign="center" align="center" font="chat_10" color="white" shadow="true">S2Maliken</label>
+				<label width="90%" height="100%" textalign="right" textvalign="center" align="center" font="chat_10" color="#00FFFF" shadow="true">(7)</label>
+			</panel>
+
+			<panel width="1" style="vertical_bar"/>
+
+			<panel width="17%" color="invisible">
+				<label width="80%" height="100%" textalign="left" textvalign="center" align="center" font="chat_10" color="white" shadow="true">2:04:45</label>
+			</panel>	
+			
+			<panel width="1" style="vertical_bar"/>
+
+			<panel width="39%" color="invisible">
+				<label width="80%" height="100%" textalign="left" textvalign="center" align="center" font="chat_10" color="white" shadow="true">Chriprel Death</label>
+			</panel>
+		</panel>
+	</template>	
+
+	<template name="award">
+		<panel width="31%" color="invisible">
+			<frame style="award_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8"/>
+			<frame style="award_frame" texture="/ui/frames/roundframe.tga"  borderthickness="8"/>
+			<frame style="award_bg_2" texture="/ui/frames/rounded_header_bg_white.tga" height="20" borderthickness="8"/>
+			<frame style="award_frame_2" texture="/ui/frames/roundframe_header.tga" height="20" borderthickness="8"/>
+			<label y="-2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_12" color="yellow" shadow="true">{award}</label>
+		
+			<panel x="8" y="8" width="45" height="66" valign="center" color="black">
+				<frame texture="/ui/frames/inset.tga" borderthickness="1"/>
+				<image align="center" valign="center" height="64" width="32" texture="{icon}"/>
+			</panel>
+			
+			<panel x="58" y="24" width="130" height="64" color="invisible">
+				<label y="-20" width="100%" height="20" textalign="center" valign="center" textvalign="center" wrap="true" align="left" font="chat_12" color="white" shadow="true">{description}</label>	
+				<label x="1" y="-2" width="100%" height="20" textalign="center" valign="bottom" textvalign="center" align="center" font="chat_13" color="#00FFFF" shadow="true" watch="EndGameAward{index}" ontrigger="SetText(param);"></label>
+			</panel>
+			
+			<panel onmouseover="ShowOnly('award_detail_{index}');" onmouseout="ShowOnly('my_statistics');"/>
+		</panel>							
+	</template>
+
+	<template name="statistic">
+		<panel  height="50" width="99%" color="invisible">
+			<frame color="#2E1F00AA" texture="/ui/frames/rounded_bg_white.tga" borderthickness="4"/>
+			<frame style="vist_frame_3"  texture="/ui/frames/roundframe.tga" borderthickness="4"/>
+			<panel width="50" align="left" color="invisible">
+				<panel x="3" width="44" height="44" color="#CC3300" valign="center"/>
+				<image x="4" valign="center" width="42" height="42" texture="{icon}"/>
+			</panel>
+			<panel width="-53" align="right" color="invisible">
+				<label width="100%" height="60%" valign="top" textvalign="center" align="left" font="chat_12" color="white" shadow="true">{label}</label> <!-- header label -->	
+				<label width="100%" height="60%" valign="bottom" textvalign="center" align="center" font="chat_14" color="yellow" shadow="true" watch="{triggername}" ontrigger="SetText(param);"></label> <!-- header label -->	
+			</panel>					
+		</panel>	
+	</template>	
+
+	<template name="end_buttons">
+		<panel x="{end_x}" y="0" width="140" height="26">
+			<frame name="{end_name}" style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12"></frame>
+			<frame style="vist_frame_3" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12"></frame>
+			<label width="-20" height="24" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">{end_label}</label>
+			<button onclick="showonly('{end_panel}');" color="invisible"/>
+		</panel>
+	</template>	
+
+	<template name="field">
+		<panel height="26">
+			<panel x="-20" width="230"  align="right">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="white"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="6"/>
+				<textbox x="5" y="4" name="{name}" textvalign="center"  valign="center" endorder="2"  font="chat_12" color="invisible" textcolor="black" shadow="true"  maxlength="34"  onchange="SetPassword(this);" onenter="{cmd};"/>
+			</panel>					
+			<panel x="-260" align="right">
+				<label height="100%" width="100%" textalign="right" textvalign="center" font="chat_13" shadow="true" color="{color}">{label}</label> 	
+			</panel>				
+		</panel>
+	</template>
+
+	<template name="stat_detail">
+		<panel name="stat_detail_{col}" group="my_statistics" height="73%" color="invisible"  visible="false" onload="CreateString('_stat_col_{col}'); Set('_stat_col_{col}', 'ShowOnly(\'stat_detail_{stat}\');');" watch="EndGameData{stat}Pages" ontrigger="CreateInt('_stat_maxpages_col{col}', param);">
+			<panel height="-20" width="-20" valign="center" align="center">
+				<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+				<frame style="vist_frame_2" texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+				<frame style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>
+				<frame style="vist_frame_3" texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12"/>
+				<label y="2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_13" color="white" shadow="true">{heading}</label>
+
+				<frame style="vist_bg_3" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="28" borderthickness="12"/>
+				<frame style="vist_frame_2" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="28"  borderthickness="12">
+					<label y="2" x="-10" width="100%" height="20" textalign="right" textvalign="center" align="right" font="chat_12" color="yellow" shadow="true" watch="EndGameData{stat}Pages" ontrigger="SetText('Page: ' # _stat_page + 1 # ' of ' # param);">Page: 1 of 1</label>
+					<label y="3" x="10" width="100%" height="20" textalign="left" textvalign="center" align="left" font="chat_9" color="gray" shadow="true">Click mouse to cycle pages.</label>
+				</frame>
+
+				<table
+					y="29"
+					rows="20"
+					width="-6"
+					align="center"
+					expandable="false"
+					rowheight="20"
+					cols="24%,38%,38%"
+					font="chat_12"
+					headings="{timeheading},{targetheading},{methodheading}"
+					headingdatacolor="yellow"
+					verticalbordercolor="black"
+					horizontalbordercolor="#444444EE"
+					dataoffset="2%"
+					color="#5E2D1E"
+					altrowcolor="#2E1F00"
+					watch="EndGameData{stat}"
+				/>	
+			</panel>
+		</panel>
+	</template>
+
+	<template name="stat_detail_valueonly">
+		<panel name="stat_detail_{col}" group="my_statistics" height="73%" color="invisible"  visible="false" onload="CreateString('_stat_col_{col}'); Set('_stat_col_{col}', 'ShowOnly(\'stat_detail_{stat}\');');" watch="EndGameData{stat}Pages" ontrigger="CreateInt('_stat_maxpages_col{col}', param);">
+			<panel height="-20" width="-20" valign="center" align="center">
+				<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+				<frame style="vist_frame_2"  texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+				<frame style="vist_bg_3"  texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>
+				<frame style="vist_frame_3"  texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12"/>
+				<label y="2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_13" color="white" shadow="true">{heading}</label>
+
+				<frame style="vist_bg_3" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="28" borderthickness="12"/>
+				<frame style="vist_frame_2" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="28"  borderthickness="12">
+					<label y="2" x="-10" width="100%" height="20" textalign="right" textvalign="center" align="right" font="chat_12" color="yellow" shadow="true" watch="EndGameData{stat}Pages" ontrigger="SetText('Page: '# _stat_page + 1 # ' of ' # param);">Page: 1 of 1</label>
+					<label y="3" x="10" width="100%" height="20" textalign="left" textvalign="center" align="left" font="chat_9" color="gray" shadow="true">Click mouse to cycle pages.</label>
+				</frame>
+
+				<table
+					y="29"
+					rows="20"
+					width="-6"
+					align="center"
+					expandable="false"
+					rowheight="20"
+					cols="50%,50%"
+					font="chat_12"
+					headings="{targetheading},{valueheading}"
+					headingdatacolor="yellow"
+					verticalbordercolor="black"
+					horizontalbordercolor="#444444EE"
+					dataoffset="2%"
+					color="#5E2D1E"
+					altrowcolor="#2E1F00"
+					watch="EndGameData{stat}"
+				/>	
+			</panel>
+		</panel>
+	</template>
+
+	<template name="stat_detail_timeonly">
+		<panel name="stat_detail_{col}" group="my_statistics" height="73%" color="invisible"  visible="false" onload="CreateString('_stat_col_{col}'); Set('_stat_col_{col}', 'ShowOnly(\'stat_detail_{stat}\');');" watch="EndGameData{stat}Pages" ontrigger="CreateInt('_stat_maxpages_col{col}', param);">
+			<panel height="-20" width="-20" valign="center" align="center">
+				<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+				<frame style="vist_frame_2" texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+				<frame style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>
+				<frame style="vist_frame_3" texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12"/>
+				<label y="2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_13" color="white" shadow="true">{heading}</label>
+
+				<frame style="vist_bg_3" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="28" borderthickness="12"/>
+				<frame style="vist_frame_2" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="28"  borderthickness="12">
+					<label y="2" x="-10" width="100%" height="20" textalign="right" textvalign="center" align="right" font="chat_12" color="yellow" shadow="true" watch="EndGameData{stat}Pages" ontrigger="SetText('Page: ' # _stat_page + 1 # ' of ' # param);">Page: 1 of 1</label>
+					<label y="3" x="10" width="100%" height="20" textalign="left" textvalign="center" align="left" font="chat_9" color="gray" shadow="true">Click mouse to cycle pages.</label>
+				</frame>
+
+				<table
+					y="29"
+					rows="20"
+					width="-6"
+					align="center"
+					expandable="false"
+					rowheight="20"
+					cols="50%,50%"
+					font="chat_12"
+					headings="{timeheading},{targetheading}"
+					headingdatacolor="yellow"
+					verticalbordercolor="black"
+					horizontalbordercolor="#444444EE"
+					dataoffset="2%"
+					color="#5E2D1E"
+					altrowcolor="#2E1F00"
+					watch="EndGameData{stat}"
+					ontrigger="(*param)();"
+				/>	
+			</panel>
+		</panel>
+	</template>
+
+	<template name="award_detail">
+		<panel name="award_detail_{index}" group="my_statistics" height="73%" color="invisible"  visible="false">
+			<panel height="-20" width="-20" valign="center" align="center">
+				<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+				<frame style="vist_frame_2" texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+				<frame style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>
+				<frame style="vist_frame_3" texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12"/>
+				<label y="2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_13" color="white" shadow="true">{award} Rankings</label>
+
+				<frame style="vist_bg_3" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="28" borderthickness="12"/>
+				<frame style="vist_frame_2" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="28"  borderthickness="12"/>
+
+				<table
+					y="29"
+					rows="20"
+					width="-6"
+					align="center"
+					expandable="false"
+					rowheight="20"
+					cols="16%,42%,42%"
+					font="chat_12"
+					headings="Rank,Name,{effectheading}"
+					headingdatacolor="yellow"
+					verticalbordercolor="black"
+					horizontalbordercolor="#444444EE"
+					dataoffset="2%"
+					color="#5E2D1E"
+					altrowcolor="#2E1F00"
+					watch="EndGameList{index}"
+				/>	
+			</panel>
+		</panel>
+	</template>
+	
+	<panel name="voicetip" color="invisible" visible="false" watch="EndGameShowStats" blockinput="false" noclick="true" ontrigger="SetVisible(param);" onshow="PlayVoiceTip('/ui/vtip/states/finishedagame.mp3');"/>
+
+	<!-- Victory/Defeat graphic -->
+	<panel y="-256" width="512" height="256" align="center" color="invisible" watch="EndGameVictory" ontrigger="SlideY(0, 700);">
+		<image texture="/ui/elements/victory.tga" visible="false" watch="EndGameVictory" ontrigger="SetVisible(param);"/>
+		<image texture="/ui/elements/defeat.tga" visible="false" watch="EndGameVictory" ontrigger="SetVisible(!param);"/>
+	</panel>
+	
+	<!-- Main panel -->
+	<panel align="center" valign="center" width="1024" height="768" visible="true" watch="EndGameShowStats" ontrigger="SetVisible(param);" onshow="HideWidget('commander_karma'); HideWidget('commander_rating_overlay'); HideWidget('karma_overlay'); HideWidget('commander_nocomm'); HideWidget('commander_norate'); HideWidget('karma_rating_error'); if(!IsDemoAccount() and GetLocalTeam() != 0 and ((GetOfficialCommanderClientNum(GetLocalTeam()) != GetLocalClientNum() and GetOfficialCommanderClientNum(GetLocalTeam()) != -1) or UpdateKarmaList() > 0), ShowWidget('commander_karma')); If(GetOfficialCommanderClientNum(GetLocalTeam()) == GetLocalClientNum(), ShowWidget('commander_norate'), If(GetOfficialCommanderClientNum(GetLocalTeam()) == -1, ShowWidget('commander_nocomm'), ShowWidget('karma_overlay')));">
+		<!-- Border -->
+		<frame style="vist_bg_1" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+		<frame style="vist_frame_1" texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+		
+		<!-- Header -->
+		<frame style="vist_bg_4" texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>
+		
+		<label
+			x="10" y="3"
+			width="100%" height="20"
+			align="center"
+			textalign="center" textvalign="center"
+			font="chat_18"
+			color="yellow"
+			shadow="true"
+			watch="EndGameMatchID"
+			ontrigger="If(param == -1, SetText('Unranked match'), SetText('Match ID: ' # param));"
+		/>
+		
+		<frame style="vist_frame_4" texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12">
+			<instance name="round_button2" x="30" align="left" valign="center" width="115" height="24" font="chat_12" label="Disconnect" onclick="Disconnect(); If(IsLoggedIn(), SetHostInterface('browser'), SetHostInterface('main'));"/>
+			<instance name="round_button2" x="-30" align="right" valign="center" width="55" height="24" font="chat_12" label="Quit" onclick="Disconnect(); Quit();"/>		
+		</frame>
+	
+		<!-- Footer -->
+		<frame style="vist_bg_4" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="60"  borderthickness="12"/>
+		<frame style="vist_frame_4" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="60"  borderthickness="12">
+			<panel width="40%" x="12"  height="-12" valign="center" align="left" color="invisible">
+				<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8"/>
+				<frame style="vist_frame_2"  texture="/ui/frames/roundframe.tga" borderthickness="8"/>
+
+				<label y="3"  height="20"  width="100%" textalign="center" textvalign="center" align="center" font="chat_12" color="yellow" shadow="true">See how you match up with the rest of the Savage community!</label>
+				<label y="-5"  height="20"  width="100%" textalign="center" textvalign="center" valign="bottom" align="center" font="chat_12" color="white" shadow="true">Visit ^090savage2.s2games.com/player_ladder.php^* for player ladder.</label>
+			</panel>
+
+			<!-- Timer -->
+			<panel width="15%" height="-12" valign="center" align="center" color="invisible">
+				<frame color="#883300"  texture="/ui/frames/rounded_bg_white.tga" borderthickness="8"/>		 		
+				<frame color="#FFFF00"  texture="/ui/frames/roundframe.tga" borderthickness="8"/>		
+
+				<label y="3" height="20" width="100%" textalign="center" textvalign="center" align="center" font="chat_14" color="yellow" shadow="true">Time Left:</label>
+				<label y="-5" height="20" width="100%" textalign="center" textvalign="center" valign="bottom" align="center" font="chat_14" color="white" shadow="true" watch="EndGameTime" ontrigger="SetText(param);"/>
+			</panel>
+
+			<panel width="40%" x="-12" height="-12" valign="center" align="right" color="invisible">
+				<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8"/>		 		
+				<frame style="vist_frame_2"  texture="/ui/frames/roundframe.tga" borderthickness="8"/>		
+
+				<label y="3"  height="20"  width="100%" textalign="center" textvalign="center" align="center" font="chat_12" color="yellow" shadow="true">Check out the replay from every game EVER played!</label>
+				<label y="-5"  height="20"  width="100%" textalign="center" textvalign="center" valign="bottom" align="center" font="chat_12" color="white" shadow="true">Visit ^090savage2replays.com^* to download this or any other replays.</label>
+			</panel>	
+		</frame>
+
+		<panel name="stats_workarea" y="28" height="-88" width="-4" align="center" texture="/ui/elements/parchment.tga">
+			<!-- Left column -->
+			<panel width="70.3%" color="invisible">
+				<panel height="70%" y="10" width="-20" valign="top" align="center">
+					<!-- Border -->
+					<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+					<frame style="vist_frame_2" texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+					
+					<!-- Header -->
+					<frame style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>				
+					<frame style="vist_frame_3" texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12"/>
+					<label y="2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_13" color="white" shadow="true">Game Statistics:</label>		
+
+					<panel y="32" height="24" width="-4" align="center" color="invisible" onload="CreateInt('_stat_col'); CreateInt('_stat_row'); CreateInt('_stat_page'); CreateInt('_stat_cur_maxpages');">
+						<!-- Tabs -->
+						<instance name="end_buttons" end_name="awards" end_x="5" end_label="Awards" end_panel="end_awards"/>
+						<instance name="end_buttons" end_name="team1" end_x="155" end_label="Team 1" end_panel="end_team1"/>
+						<instance name="end_buttons" end_name="team2" end_x="305" end_label="Team 2" end_panel="end_team2"/>				
+
+						<!-- Awards -->
+						<panel name="end_awards" group="end_statistics" y="24" height="-91" align="center" texture="/ui/elements/grad_diag.tga" color="#560001CC" visible="true">
+							<panel style="vist_frame_4" height="2" ></panel>
+							<panel x="5" y="-24" width="140" height="24">
+								<frame style="vist_bg_4" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12"/>
+								<frame style="vist_frame_4" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12"/>
+								<label width="-20" height="24" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Awards</label>
+							</panel>
+
+							<panel x="15" width="-24" y="2" height="416" align="left"  color="invisible" float="bottom" padding="8">
+								<panel y="1%" height="23%" color="invisible" padding="20" float="right">	
+									<instance name="award" index="0" award="Hero" icon="/shared/textures/icons/awards/hero.tga" description="Most Damage to Stronghold/Lair"/>
+									<instance name="award" index="1" award="Sadist" icon="/shared/textures/icons/awards/sadist.tga" description="Most Kills"/>
+									<instance name="award" index="2" award="Veteran" icon="/shared/textures/icons/awards/veteran.tga" description="Most Experience"/>
+								</panel>
+
+								<panel height="23%" color="invisible" padding="20" float="right">	
+									<instance name="award" index="3" award="Homewrecker" description="Most building damage" icon="/shared/textures/icons/awards/home_wrecker.tga"/>
+									<instance name="award" index="4" award="Teacher's Pet" description="Most orders followed" icon="/shared/textures/icons/awards/teachers_pet.tga"/>
+									<instance name="award" index="5" award="Newbie Award" description="Worst kill verses death ratio" icon="/shared/textures/icons/awards/newbie.tga"/>
+								</panel>
+
+								<panel height="23%" color="invisible" padding="20" float="right">	
+									<instance name="award" index="6" award="Mother Teresa" description="Most HP Healed" icon="/shared/textures/icons/awards/mother_teresa.tga"/>
+									<instance name="award" index="7" award="Biggest MMORPG Fan" description="Most Npcs Killed" icon="/shared/textures/icons/awards/mmorpg_fan.tga"/>
+									<instance name="award" index="8" award="Vegan Award" icon="/shared/textures/icons/awards/vegan.tga" description="Least Npcs Killed"/>
+								</panel>
+
+								<panel   height="23%" color="invisible" padding="20" float="right">	
+									<instance name="award" index="9" award="Feeder" description="Most Deaths" icon="/shared/textures/icons/awards/feeder.tga"/>
+									<instance name="award" index="10" award="Ghandi Award" icon="/shared/textures/icons/awards/ghandi.tga" description="Least Kills"/>
+									<instance name="award" index="11" award="Entrepreneur" icon="/shared/textures/icons/awards/entrepreneur.tga" description="Most gold collected"/>
+								</panel>
+							</panel>
+						</panel>
+
+						<!-- Team 1 -->
+						<panel name="end_team1" group="end_statistics" y="24" height="-91" align="center" texture="/ui/elements/grad_diag.tga" color="#560001CC" visible="false">
+							<panel style="vist_frame_4" height="2"/>
+							<panel x="155" y="-24" width="140" height="24">
+								<frame style="vist_bg_4" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12"/>
+								<frame style="vist_frame_4" texture="/ui/frames/roundframe_header.tga" height="26"  borderthickness="12"/>
+								<label width="-20" height="24" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Team 1</label>
+							</panel>
+
+							<panel  width="-9" x="2" y="2" height="416" align="left" color="invisible">
+								<table
+									name="EndGameTeam1Table"
+									height="-16"
+									rows="19"
+									expandable="false"
+									rowheight="20"
+									cols="17%,8%,6%,6%,6%,6%,7%,7%,8%,7%,6%,8%,8%"
+									font="chat_12"
+									headings="Player,Exp,Kills,Asts,Dths,K:D,Heal,Rez'd,Gold,Repair,Razed,P.Dmg,B.Dmg"
+									headingdatacolor="yellow"
+									verticalbordercolor="black"
+									horizontalbordercolor="#444444EE"
+									dataoffset="2%"
+									color="#5E2D1E"
+									altrowcolor="#2E1F00"
+									watch="EndGameTeam0"
+									onmouseover="
+										set(_stat_col, col);
+										set(_stat_row, row);
+										Set(_stat_page, 0);
+										if(_stat_col != 0 and _stat_col != 1 and and _stat_row != 0, ShowOnly('stat_detail_' # _stat_col));
+										ShowEndGameStats(dataid, 0, 20);"
+									onmouseout="ShowOnly('my_statistics');"
+									onclick="
+										Set(_stat_page, _stat_page + 1);
+										Set(_stat_cur_maxpages, *('_stat_maxpages_col' # col));
+										*(_stat_cur_maxpages);
+										if(_stat_page == _stat_cur_maxpages, Set(_stat_page, 0));
+										ShowEndGameStats(dataid, _stat_page * 21, ((_stat_page + 1) * 21) - 1);"
+								/>
+							</panel>
+						</panel>			
+
+						<!-- Team 2 -->
+						<panel name="end_team2" group="end_statistics" y="24" height="-91" align="center" texture="/ui/elements/grad_diag.tga" color="#560001CC" visible="false">
+							<panel style="vist_frame_4" height="2"/>
+							<panel x="305" y="-24" width="140" height="24">
+								<frame style="vist_bg_4" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12"/>
+								<frame style="vist_frame_4" texture="/ui/frames/roundframe_header.tga" height="26"  borderthickness="12"/>
+								<label width="-20" height="24" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Team 2</label>
+							</panel>
+
+							<panel  width="-9" x="2" y="2" height="416" align="left"  color="invisible">
+								<table
+									name="EndGameTeam2Table"
+									height="-16"
+									rows="19"
+									expandable="false"
+									rowheight="20"
+									cols="17%,8%,6%,6%,6%,6%,7%,7%,8%,7%,6%,8%,8%"
+									font="chat_12"
+									headings="Player,Exp,Kills,Asts,Dths,K:D,Heal,Rez'd,Gold,Repair,Razed,P.Dmg,B.Dmg"
+									headingdatacolor="yellow"
+									verticalbordercolor="black"
+									horizontalbordercolor="#444444EE"
+									dataoffset="2%"
+									color="#5E2D1E"
+									altrowcolor="#2E1F00"
+									watch="EndGameTeam1"
+									onmouseover="
+										set(_stat_col, col);
+										set(_stat_row, row);
+										Set(_stat_page, 0);
+										if(_stat_col != 0 and _stat_col != 1 and and _stat_row != 0, ShowOnly('stat_detail_' # _stat_col));
+										ShowEndGameStats(dataid, 0, 20);"
+									onmouseout="ShowOnly('my_statistics');"
+									onclick="
+										Set(_stat_page, _stat_page + 1);
+										Set(_stat_cur_maxpages, *('_stat_maxpages_col' # col));
+										*(_stat_cur_maxpages);
+										if(_stat_page == _stat_cur_maxpages, Set(_stat_page, 0));
+										ShowEndGameStats(dataid, _stat_page * 21, ((_stat_page + 1) * 21) - 1);"
+								/>	
+							</panel>
+						</panel>
+					</panel>	
+				</panel>		
+
+				<!-- Chat -->
+				<panel name="chat_panel" y="-10"  height="25%" width="-20" align="center" valign="bottom">
+					<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>		 		
+					<frame style="vist_frame_2" texture="/ui/frames/roundframe.tga" borderthickness="12"/>		
+					<frame style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>				
+					<frame style="vist_frame_3" texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12"/>
+					<label y="2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_13" color="white" shadow="true">Chat:</label>
+
+					<textbuffer
+						name="end_chat_buffer"
+						scrolltexture="/ui/elements/vist_scroll.tga"
+						y="30"
+						width="-10"
+						height="-70"
+						align="center"
+						valign="top"
+						textalign="left"
+						font="chat_12"
+						wrap="true"
+						anchorbottom="true"
+						usesmileys="true"
+						handleheight="32"
+						maxlines="5000"
+						shadow="true"
+						color="invisible"
+						textcolor="white"
+						watch1="IRCChatTrigger"
+						ontrigger1="If(IsVisible(), TextBufferCmd(param));"
+						watch2="GameChatTrigger"
+						ontrigger2="If(IsVisible(), TextBufferCmd(param));"
+						onload="CreateInt(name # 'LastUpdate', 0);"
+						onshow="TriggerChatEvents(*(name # 'LastUpdate'));"
+						onhide="Set(name # 'LastUpdate', GetTime());"
+					/>
+
+					<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#863838" borderthickness="12" onload="CreateString('_end_chat_type', 'TeamChat');">
+						<panel  x="10" width="80" height="24" align="left" valign="center" onshow="If(!StringEquals(GetCurrentChatMessage(), ''), Split(Set('_end_chat_type', GetCurrentChatType() # 'Chat'), ShowOnly('Chat' # GetCurrentChatType() # 'Button'))); SetFocusName('end_chat_box');">
+								<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+								<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+							<button name="ChatteamButton" group="ChatButtons" visible="true" color="invisible" onclick="Playsound('/shared/sounds/ui/button_click.mp3'); set(_end_chat_type, 'AllChat'); ShowOnly('ChatallButton'); SetFocusName('end_chat_box');"><label width="100%" height="100" textvalign="center" textalign="center" valign="center" align="center" font="chat_12" color="black" shadow="false">Team:</label></button>
+							<button name="ChatallButton" group="ChatButtons" visible="false" color="invisible" onclick="Playsound('/shared/sounds/ui/button_click.mp3'); set(_end_chat_type, 'SquadChat'); ShowOnly('ChatsquadButton'); SetFocusName('end_chat_box');"><label width="100%" height="100" textvalign="center" textalign="center" valign="center" align="center" font="chat_12" color="black" shadow="false">All:</label></button>
+							<button name="ChatsquadButton" group="ChatButtons" visible="false" color="invisible" onclick="Playsound('/shared/sounds/ui/button_click.mp3'); set(_end_chat_type, 'TeamChat'); ShowOnly('ChatteamButton'); SetFocusName('end_chat_box');"><label width="100%" height="100" textvalign="center" textalign="center" valign="center" align="center" font="chat_12" color="black" shadow="false">Squad:</label></button>
+						</panel>
+
+						<panel  x="95" width="-245" height="24" align="left" valign="center">
+							<frame  texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="black"/>
+							<frame  texture="/ui/frames/roundframe.tga" color="orange" borderthickness="8"/>
+							<textbox name="end_chat_box" x="5" width="-5" y="6" maxlength="250" textalign="left" font="chat_12" textcolor="orange" shadow="false" color="invisible" onshow="setfocus(false);" onenter="(*_end_chat_type)(this); eraseinputline();" onesc="eraseinputline(); setfocus(true);"/>
+						</panel>
+
+						<panel  x="-10" width="120" height="24" align="right" valign="center">
+								<frame  texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+								<frame  texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+							<label width="100%" height="100" textvalign="center" textalign="center" valign="center" align="center" font="chat_12" color="black" shadow="false">Send Message</label> <!-- header label -->
+							<button color="invisible" onclick="playsound('/shared/sounds/ui/button_click.mp3'); Call('end_chat_box', '(*_end_chat_type)(this);EraseInputLine();SetFocus(true);');"></button>
+						</panel>
+					</frame> <!-- frame footer -->
+				</panel>			
+			</panel>
+
+			<!-- Right column -->
+			<panel align="right" width="30%" color="invisible" onload="CreateInt('replay_comment_changed', 0);" onshow="ShowWidget('ReplayComments'); Set(replay_comment_changed, 0);">
+				<!-- My Stats Window -->
+				<panel name="my_statistics" group="my_statistics" height="73%" color="invisible">
+					<panel height="-20" width="-20" valign="center" align="center">
+						<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+						<frame style="vist_frame_2"  texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+						<frame style="vist_bg_3"  texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>
+						<frame style="vist_frame_3"  texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12"/>
+						<label y="2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_13" color="white" shadow="true">My Statistics:</label>
+
+						<panel color="invisible" width="-2" align="center" y="28" height="-32">
+							<panel y="4" width="50%" float="bottom" padding="5">
+								<instance name="statistic" triggername="EndGameRank" label="Rank" icon="/ui/elements/stat_icons/player_rank.tga"/>
+								<instance name="statistic" triggername="EndGameExperience" label="Player Exp" icon="/ui/elements/stat_icons/player_experience.tga"/>
+								<instance name="statistic" triggername="EndGameKills" label="Total Kills" icon="/ui/elements/stat_icons/total_kills.tga"/>
+								<instance name="statistic" triggername="EndGameDeaths" label="Total Deaths" icon="/ui/elements/stat_icons/total_deaths.tga"/>
+								<instance name="statistic" triggername="EndGameKillDeathRatio" label="Kill:Death" icon="/ui/elements/stat_icons/kill_death_ratio.tga"/>
+								<instance name="statistic" triggername="EndGameAssists" label="Total Assists" icon="/ui/elements/stat_icons/total_assists.tga"/>
+								<instance name="statistic" triggername="EndGamePlayerDamage" label="Player Dmg" icon="/ui/elements/stat_icons/player_damage.tga"/>
+								<instance name="statistic" triggername="EndGameSoulsSpent" label="Souls Spent" icon="/ui/elements/stat_icons/souls_spent.tga"/>
+							</panel>
+
+							<panel y="4" x="50%" width="50%" float="bottom" padding="5">							
+								<instance name="statistic" triggername="EndGameNPCKills" label="NPC Kills" icon="/ui/elements/stat_icons/npc_kills.tga"/>		
+								<instance name="statistic" triggername="EndGameHPHealed" label="HP Healed" icon="/ui/elements/stat_icons/hps_healed.tga"/>					
+								<instance name="statistic" triggername="EndGameResurrects" label="Resurrections" icon="/ui/elements/stat_icons/resurections.tga"/>												
+								<instance name="statistic" triggername="EndGameBuildingDamage" label="Building Dmg" icon="/ui/elements/stat_icons/total_building_damage.tga"/>
+								<instance name="statistic" triggername="EndGameRazed" label="Razed" icon="/ui/elements/stat_icons/razed.tga"/>
+								<instance name="statistic" triggername="EndGameHPRepaired" label="HP Repaired" icon="/ui/elements/stat_icons/build.tga"/>
+								<instance name="statistic" triggername="EndGameGoldEarned" label="Total Gold" icon="/ui/elements/stat_icons/total_gold.tga"/>					
+								<instance name="statistic" triggername="EndGameTimePlayed" label="Time Played" icon="/ui/elements/stat_icons/hours_played.tga"/>
+							</panel>						
+						</panel>
+					</panel>			
+				</panel>
+
+				<!-- Stat detail window -->
+				<panel name="stat_detail" group="my_statistics" height="73%" color="invisible"  visible="false">
+					<panel height="-20" width="-20" valign="center" align="center">
+						<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+						<frame style="vist_frame_2"  texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+						<frame style="vist_bg_3"  texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>
+						<frame style="vist_frame_3"  texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12"/>
+						<label y="2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_13" color="white" shadow="true">S2Jesse's Kills:</label>
+
+						<frame style="vist_bg_3" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="28" borderthickness="12"/>
+						<frame style="vist_frame_2" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="28"  borderthickness="12">
+
+						<label y="2" x="-10" width="100%" height="20" textalign="right" textvalign="center" align="right" font="chat_12" color="yellow" shadow="true">Page: 1 of 5</label>
+						<label y="3" x="10" width="100%" height="20" textalign="left" textvalign="center" align="left" font="chat_9" color="gray" shadow="true">Click mouse to cycle pages.</label>
+						</frame>
+	
+						<table
+							name="EndGameStatDetailTable"
+							align="top"
+							y="28"
+							rows="22"
+							expandable="true"
+							rowheight="20"
+							cols="33%,33%,33%"
+							font="chat_12"
+							headings="Target,Effect,Cause"
+							headingdatacolor="yellow"
+							verticalbordercolor="black"
+							horizontalbordercolor="#444444EE"
+							dataoffset="2%"
+							color="#5E2D1E"
+							altrowcolor="#2E1F00"
+							watch="EndGameStatDetail"
+						/>	
+					</panel>
+				</panel>
+				
+				<!-- Award detail windows -->
+				<instance name="award_detail" index="0" award="Hero" awardname="Hero" effectheading="Damage"/>
+				<instance name="award_detail" index="1" award="Sadist" awardname="Sadist" effectheading="Kills"/>
+				<instance name="award_detail" index="2" award="Veteran" awardname="Veteran" effectheading="Experience"/>
+				<instance name="award_detail" index="3" award="Homewrecker" awardname="Homewrecker" effectheading="Damage"/>
+				<instance name="award_detail" index="4" award="Teacher's Pet" awardname="TeachersPet" effectheading="Orders Followed"/>
+				<instance name="award_detail" index="5" award="Newbie" awardname="Newbie" effectheading="K:D Ratio"/>
+				<instance name="award_detail" index="6" award="Mother Teresa" awardname="MotherTeresa" effectheading="HP Healed"/>
+				<instance name="award_detail" index="7" award="Biggest MMORPG Fan" awardname="MMORPGFan" effectheading="NPC Kills"/>
+				<instance name="award_detail" index="8" award="Vegan" awardname="Vegan" effectheading="NPC Kills"/>
+				<instance name="award_detail" index="9" award="Feeder" awardname="Feeder" effectheading="Deaths"/>
+				<instance name="award_detail" index="10" award="Ghandi" awardname="Ghandi" effectheading="Kills"/>
+				<instance name="award_detail" index="11" award="Entrepreneur" awardname="Entrepreneur" effectheading="Gold Earned"/>
+				
+				<!-- Stat detail windows -->
+				<!-- instance name="stat_detail_valueonly" heading="Experience Earned" stat="Experience" valueheading="Experience" targetheading="Source" col="1"/ -->
+				<instance name="stat_detail" stat="Kills" heading="Kills" timeheading="Time" targetheading="Opponent" methodheading="Method" col="2"/>
+				<instance name="stat_detail_timeonly" heading="Assists" stat="Assists" timeheading="Time" targetheading="Opponent" col="3"/>
+				<instance name="stat_detail" stat="Deaths" heading="Deaths" timeheading="Time" targetheading="Opponent" methodheading="Method" col="4"/>
+				<instance name="stat_detail" stat="KillDeathRatio" heading="Kills and Deaths" timeheading="Time" targetheading="Opponent" methodheading="Method" col="5"/>
+				<instance name="stat_detail_valueonly" heading="Healed" stat="HPHealed" valueheading="Healed" targetheading="Target" col="6"/>
+				<instance name="stat_detail_timeonly" heading="Resurrects" stat="Resurrects" timeheading="Time" targetheading="Player" col="7"/>
+				<instance name="stat_detail_valueonly" heading="Gold Earned" stat="GoldEarned" valueheading="Gold Earned" targetheading="Source" col="8"/>
+				<instance name="stat_detail_valueonly" heading="Repaired" stat="HPRepaired" valueheading="Repaired" targetheading="Target" col="9"/>
+				<instance name="stat_detail" heading="Buildings Razed" stat="BuildingsRazed" timeheading="Time" targetheading="Building" methodheading="Method" col="10"/>
+				<instance name="stat_detail_valueonly" stat="PlayerDamage" heading="Player Damage" valueheading="Damage" targetheading="Target" col="11"/>
+				<instance name="stat_detail_valueonly" stat="BuildingDamage" heading="Building Damage" valueheading="Damage" targetheading="Building" col="12"/>
+
+				<!-- Replay Window -->			
+				<panel name="ReplayComments" height="28%" valign="bottom" color="invisible" onload="CreateInt('replay_vote', 1);">
+					<panel height="-20" width="-20" valign="center" align="center">
+						<frame style="vist_bg_2" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+						<frame style="vist_frame_2" texture="/ui/frames/roundframe.tga" borderthickness="12"/>
+						<frame style="vist_bg_3" texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>
+						<frame style="vist_frame_3" texture="/ui/frames/roundframe_header.tga" height="28"  borderthickness="12"/>
+						<label y="2" x="10" height="20" textalign="left" textvalign="center" align="left" font="chat_13" color="white" shadow="true">Replay Comments and Rating</label>
+
+						<panel y="-30" valign="bottom" width="52%" height="24" align="center" padding="8" float="right" color="invisible">
+							<panel width="24" height="24" >
+								<image texture="/ui/elements/star.tga" color="gray" />
+								<image name="1star_replay" texture="/ui/elements/star.tga" color="#FFCC00" visible="true"/>		
+								<button onclick="ShowWidget(1star); Hidewidget('5star_replay'); HideWidget('4star_replay'); HideWidget('3star_replay'); HideWidget('2star_replay'); Set('replay_vote', 1);" color="invisible"/>
+							</panel>
+							<panel width="24" height="24" >
+								<image texture="/ui/elements/star.tga" color="gray" />
+								<image name="2star_replay"  texture="/ui/elements/star.tga" color="#FFCC00" visible="false" />	
+								<button onclick="ShowWidget('1star_replay'); ShowWidget('2star_replay'); HideWidget('5star_replay'); HideWidget('4star_replay'); HideWidget('3star_replay'); Set('replay_vote', 2);" color="invisible"/>
+							</panel>
+							<panel width="24" height="24" >
+								<image texture="/ui/elements/star.tga" color="gray"/>
+								<image name="3star_replay"  texture="/ui/elements/star.tga" color="#FFCC00" visible="false"/>	
+								<button onclick="ShowWidget('1star_replay'); showwidget('2star_replay'); showwidget('3star_replay');  hidewidget('5star_replay'); hidewidget('4star_replay'); set('replay_vote', 3);" color="invisible"/>							
+							</panel>
+							<panel width="24" height="24" >
+								<image texture="/ui/elements/star.tga" color="gray" />
+								<image name="4star_replay"  texture="/ui/elements/star.tga" color="#FFCC00" visible="false"/>	
+								<button onclick="ShowWidget('1star_replay'); showwidget('2star_replay'); showwidget('3star_replay'); showwidget('4star_replay'); hidewidget('5star_replay'); set('replay_vote', 4);" color="invisible"/>							
+							</panel>
+							<panel width="24" height="24" >
+								<image texture="/ui/elements/star.tga" color="gray" />
+								<image name="5star_replay"  texture="/ui/elements/star.tga" color="#FFCC00" visible="false" />		
+								<button onclick="ShowWidget('1star_replay'); showwidget('2star_replay'); showwidget('3star_replay'); showwidget('4star_replay'); showwidget('5star_replay'); set('replay_vote', 5);" color="invisible"/>
+							</panel>
+						</panel>
+
+						<panel  y="48" height="65" width="-20" align="center" color="blue">						
+							<label y="-20" x="3" height="20" textalign="left" textvalign="center" align="left" font="chat_10" color="white" shadow="true">Comments:</label>
+							<frame texture="/ui/frames/inset.tga" borderthickness="2">
+								<textbuffer name="replay_comments" x="3" width="-6" y="3" height="-6" maxlength="250" usescrollbar="false" textalign="left" font="chat_12" textcolor="orange" shadow="false" color="invisible" wrap="true" editable="true" onload="CreateString('replay_comment', '');" onchange="Set('replay_comment', this);" onshow="ClearBufferText();"/>
+							</frame>
+						</panel>
+
+						<panel  y="-5"  width="160" height="20" align="center" valign="bottom">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+							<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="chat_12" color="black" shadow="false">Submit Rating</label>
+							<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); SetFocusName('end_chat_box'); If(StringLength(replay_comment) > 0, Split(SubmitReplayComment(replay_vote, replay_comment), HideWidget('ReplayComments')),  Call('replay_comments', 'SetBufferText(\'You must enter a comment!\');'));"/>
+						</panel>					
+					</panel>
+				</panel>
+			</panel>	
+		</panel>
+		
+		<panel name="commander_karma" blockinput="true" color="#000000AA" visible="false" onshow="UpdateKarmaList();">
+			<panel name="commander_review" x="-160" width="300" height="470" align="center" valign="center">
+				<panel y="30" height="-30" texture="/ui/elements/parchment.tga" color="#FFFFFFcc"/>
+ 				<frame  style="lobby_window_bg" texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="12" noclick="true"></frame>		
+				<frame style="lobby_window"  texture="/ui/frames/roundframe_header.tga"  borderthickness="12" noclick="true"></frame>		
+				<frame  style="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="30" borderthickness="12" noclick="true"> </frame>	
+				<frame  style="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="30" borderthickness="12" noclick="true"></frame>	
+				<label  x="15" y="0" width="90%" height="30" align="left" valign="top" textalign="left" textvalign="center" font="chat_14" shadow="true" color="white" onframe="If(StringLength(GetOfficialCommanderName(GetLocalTeam())) > 0, SetText('Commander: ' # GetOfficialCommanderName(GetLocalTeam())), SetText('Commander: None'));">Commander: None</label>
+
+				<panel y="45" align="center" width="-20"  height="80">
+					<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="12" noclick="true"></frame>
+					<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+
+					<panel y="7" x="-45" valign="top" width="52%" height="24" align="center" padding="8" float="right" color="invisible" onload="CreateInt('commander_vote', 3); CreateString('commander_comment');">
+					
+						<label width="40" height="30" textalign="left" textvalign="center" font="chat_12" shadow="true" color="white">Worst</label>
+					
+						<panel width="24" height="24" >
+							<image texture="/ui/elements/star.tga" color="gray" />
+							<image name="1star" texture="/ui/elements/star.tga" color="#FFCC00" visible="true"/>		
+							<button onclick="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); ShowWidget(1star); Hidewidget('5star'); HideWidget('4star'); HideWidget('3star'); HideWidget('2star'); Set(commander_vote, 1);" color="invisible"/>
+						</panel>
+						<panel width="24" height="24" >
+							<image texture="/ui/elements/star.tga" color="gray" />
+							<image name="2star"  texture="/ui/elements/star.tga" color="#FFCC00" visible="1" />	
+							<button onclick="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); ShowWidget('1star'); ShowWidget('2star'); HideWidget('5star'); HideWidget('4star'); HideWidget('3star'); Set('commander_vote', 2);" color="invisible"/>
+						</panel>
+						<panel width="24" height="24" >
+							<image texture="/ui/elements/star.tga" color="gray"/>
+							<image name="3star"  texture="/ui/elements/star.tga" color="#FFCC00" visible="1"/>	
+							<button onclick="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); showwidget('1star'); showwidget('2star'); showwidget('3star');  hidewidget('5star'); hidewidget('4star'); set('commander_vote', 3);" color="invisible"/>							
+						</panel>
+						<panel width="24" height="24" >
+							<image texture="/ui/elements/star.tga" color="gray" />
+							<image name="4star"  texture="/ui/elements/star.tga" color="#FFCC00" visible="false"/>	
+							<button onclick="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); showwidget('1star'); showwidget('2star'); showwidget('3star'); showwidget('4star'); hidewidget('5star'); set('commander_vote', 4);" color="invisible"/>							
+						</panel>
+						<panel width="24" height="24" >
+							<image texture="/ui/elements/star.tga" color="gray" />
+							<image name="5star"  texture="/ui/elements/star.tga" color="#FFCC00" visible="false" />		
+							<button onclick="PlaySound('/shared/sounds/ui/button_over_small2.mp3'); showwidget('1star'); showwidget('2star'); showwidget('3star'); showwidget('4star'); showwidget('5star'); set('commander_vote', 5);" color="invisible"/>
+						</panel>
+						
+						<label width="35" height="30" textalign="left" textvalign="center" font="chat_12" shadow="true" color="white">Best</label>
+						
+					</panel>
+					
+					
+
+					<instance name="round_button2" y="10" x="-68" width="122" height="22" valign="center" align="center"
+						font="chat_12" label="Submit Rating"
+						onclick="SubmitCommanderRating(commander_vote, commander_comment); showwidget('commander_rating_overlay'); if(UpdateKarmaList() > 0, hidewidget('karma_overlay'), HideWidget('commander_karma'));" 
+					/>
+					
+					<instance name="round_button2" y="10" x="68" width="122" height="22" valign="center" align="center"
+						font="chat_12" label="Decline Rating"
+						onclick="showwidget('commander_rating_overlay'); if(UpdateKarmaList() > 0, hidewidget('karma_overlay'), HideWidget('commander_karma'));" 
+					/>
+				</panel>
+
+				<panel  y="150" height="65" width="-20" align="center" color="blue">						
+					<label y="-20" x="3" height="20" textalign="left" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Reason:</label>
+					<frame texture="/ui/frames/inset.tga" borderthickness="2">
+						<textbuffer name="commander_reason" x="3" width="-6" y="3" height="-6" maxlength="250" usescrollbar="false" textalign="left" font="chat_12" textcolor="orange" shadow="false" color="invisible" wrap="true" editable="true" onchange="Set('commander_comment', this);" onshow="ClearBufferText();"/>
+					</frame>
+				</panel>
+
+				<panel y="225" align="center" width="-20"  height="233">
+					<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="12" noclick="true"></frame>
+					<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+					<frame  style="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12" noclick="true"> </frame>	
+					<frame  style="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12" noclick="true"></frame>	
+					<label  x="15" y="0" width="100%" height="26" align="left" valign="top" textalign="left" textvalign="center" font="chat_12" shadow="true" color="white">Information</label>
+
+					<panel y="15" width="-12" height="70" align="center">				
+						<label  x="6" y="0" width="98%" height="46" align="left" valign="top" textalign="left" textvalign="center" font="chat_11" wrap="true" shadow="true" color="white">Please rate your commander by clicking on the appropriate star.  Proper rating of commanders helps track commander performance.</label>				
+					</panel>
+
+					<panel y="92" width="-12" height="134" align="center">				
+						<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+						<label  x="8" y="7" width="98%" height="44" align="left" valign="top" textalign="left" textvalign="top" font="chat_11" wrap="true" shadow="true" color="white">^rNote:^* Rating a winning commander below 3 stars or rating a losing commander higher than 3 stars will result in your vote counting twice.</label>
+						<label  x="7" y="55" width="100%" height="44" align="left" valign="top" textalign="left" textvalign="center" font="chat_11" wrap="true" shadow="true" color="white">This dynamic helps elevate erroneous ratings based purely on wins and losses. Please rate your commander based on his performance rather your team's outcome (win / loss).</label>				
+					</panel>	
+
+				</panel>
+				<panel name="commander_rating_overlay" height="-32" y="30" width="-2" align="center" visible="0" color="#00000099" blockinput="true">
+					<panel y="-100" align="center" valign="center" width="-20" height="80">
+						<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="12" noclick="true"></frame>
+						<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+						<label  x="2.5%" y="10" width="95%" height="44" align="left" valign="top" textalign="center" textvalign="center" font="chat_12" wrap="true" shadow="true" color="white">Thank you for rating your commander! Please now give a player a karma ranking to continue.</label>				
+					</panel>				
+				</panel>
+				<panel name="commander_nocomm" height="-32" y="30" width="-2" align="center" visible="0" color="#00000099" blockinput="true">
+					<panel y="-100" align="center" valign="center" width="-20" height="80">
+						<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="12" noclick="true"></frame>
+						<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+						<label  x="2.5%" y="10" width="95%" height="44" align="left" valign="top" textalign="center" textvalign="center" font="chat_12" wrap="true" shadow="true" color="white">Your team did not have a commander to review.</label>				
+					</panel>				
+				</panel>
+				<panel name="commander_norate" height="-32" y="30" width="-2" align="center" visible="0" color="#00000099" blockinput="true">
+					<panel y="-100" align="center" valign="center" width="-20" height="80">
+						<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="12" noclick="true"></frame>
+						<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+						<label  x="2.5%" y="10" width="95%" height="44" align="left" valign="top" textalign="center" textvalign="center" font="chat_12" wrap="true" shadow="true" color="white">You were the commander and cannot rate yourself.</label>				
+					</panel>				
+				</panel>
+			</panel>		
+
+			<panel name="karma_review" x="160" width="300" height="470" align="center" valign="center" onshow="Set('karma_action', 'add'); HideWidget('removing'); ShowWidget('giving');">
+				<panel y="30" height="-30" texture="/ui/elements/parchment.tga" color="#FFFFFFcc"/>
+        <frame style="lobby_window_bg" texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="12" noclick="true"></frame>		
+				<frame style="lobby_window"  texture="/ui/frames/roundframe_header.tga"  borderthickness="12" noclick="true"></frame>		
+				<frame style="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="30" borderthickness="12" noclick="true"> </frame>	
+				<frame style="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="30" borderthickness="12" noclick="true"></frame>	
+				<label x="15" y="0" width="90%" height="30" align="left" valign="top" textalign="left" textvalign="center" font="chat_14" shadow="true" color="white">Karma Score</label>	
+
+				<panel y="176" height="65" width="-20" align="center" color="blue">						
+					<label y="-20" x="3" height="20" textalign="left" textvalign="center" align="left" font="chat_12" color="white" shadow="true">Reason:</label>
+					<frame texture="/ui/frames/inset.tga" borderthickness="2">
+						<textbuffer name="karma_reason" x="3" width="-6" y="3" height="-6" maxlength="250" usescrollbar="false" textalign="left" font="chat_12" textcolor="orange" shadow="false" color="invisible" wrap="true" editable="true" onchange="Set('karma_comment', this);" onshow="ClearBufferText();"/>
+					</frame>
+				</panel>
+
+				<panel y="45" align="center" width="-20"  height="106" onload="CreateString('karma_action', 'add'); CreateString('karma_player'); CreateString('karma_comment');">
+					<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="12" noclick="true"></frame>
+					<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>		
+
+					<panel y="46" x="15" align="left" height="18" width="90">
+						<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" color="#FF000044"/>
+						<frame visible="0" name="remove_karma_over" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" color="#FF0000AA"/>
+						<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="#ff0000cc"/>
+						<label y="-1" width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="chat_10" color="white" shadow="true" shadowcolor="black">Remove Karma</label>				
+						<button color="invisible" onmouseover="showwidget('remove_karma_over'); PlaySound('/shared/sounds/ui/button_over_small2.mp3');" onmouseout="hidewidget('remove_karma_over');" onclick="showwidget('removing'); hidewidget('giving'); PlaySound('/shared/sounds/ui/button_click.mp3'); Set('karma_action', 'remove');" />
+					</panel>	
+
+					<panel y="38" align="center" valign="top" width="32" height="32">
+						<image texture="/ui/elements/stat_icons/karma_score.tga"/>
+						<frame style="vist_frame_2"  texture="/ui/frames/roundframe.tga" borderthickness="8"/>								
+					</panel>				
+
+					<panel y="46" x="-15" align="right" height="18" width="90">				
+						<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" color="#00FF0055"/>
+						<frame visible="0" name="give_karma_over" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" color="#00FF00AA"/>
+						<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="#00FF00cc"/>
+						<label y="-1" width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="chat_10" color="white" shadow="true" shadowcolor="black">Give Karma</label>				
+						<button color="invisible" onmouseover="showwidget('give_karma_over');PlaySound('/shared/sounds/ui/button_over_small2.mp3');" onmouseout="hidewidget('give_karma_over');" onclick="hidewidget('removing'); showwidget('giving'); PlaySound('/shared/sounds/ui/button_click.mp3'); Set('karma_action', 'add');"/>
+					</panel>			
+
+					<panel name="giving" width="-12" y="-9" valign="bottom" align="center" height="20" visible="1">
+						<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00FF0055" borderthickness="6" noclick="true"></frame>
+						<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  color="#00FF00cc" borderthickness="6" noclick="true"></frame>	
+						<label  x="0" y="-1" width="100%" height="20" align="center" valign="top" textalign="center" textvalign="center" font="chat_12" shadow="true" color="white" onframe="SetText('^090Giving Karma To:^* ' # karma_player);"/>	
+					</panel>
+
+					<panel name="removing" width="-12" y="-9" valign="bottom" align="center" height="20" visible="0">
+						<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#FF000044" borderthickness="6" noclick="true"></frame>					
+						<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  color="#ff0000cc" borderthickness="6" noclick="true"></frame>	
+						<label x="0" y="-1" width="100%" height="20" align="center" valign="top" textalign="center" textvalign="center" font="chat_12" shadow="true" color="white" onframe="SetText('^rRemoving Karma:^* ' # karma_player);"/>	
+					</panel>
+					
+					<label y="11" x="12" align="left" height="23" width="50" textvalign="center" textalign="center" font="chat_13" color="white">Player:</label>
+					<panel y="12" x="-16" align="right" height="23" width="194" watch="KarmaList" ontrigger="SleepWidget(100);" onshow="Call('karma_player_combobox_listbox_vscroll','SetX(-2);'); SleepWidget(100);" onwake="Call('karma_player_combobox_listbox','SortListBoxValue();');">
+						<combobox name="karma_player_combobox" width="194" font="chat_14" color="invisible" maxlistheight="7" itemheight="19" handleheight="45" scrollbarsize="16" scrolltexture="/ui/elements/vist_scroll.tga" cvar="karma_player" watch="KarmaList" ontrigger="If(StringLength(param) > 0, AddTemplateListItem('karma_combobox_item', param, 'label', param), ClearItems()); Call('karma_player_combobox_listbox','SortListBoxValue();');">
+							<widgetstate statename="up">
+								<panel width="194" y="-2">
+									<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#2E1F00"/>
+									<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+									<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_up.tga" />
+								</panel>
+							</widgetstate>
+							<widgetstate statename="over">
+								<panel width="194" y="-2">
+									<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#504009"/>
+									<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+									<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+								</panel>
+							</widgetstate>
+							<widgetstate statename="down">
+								<panel width="194" y="-2">
+									<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="4" color="#504009"/>
+									<frame texture="/ui/frames/roundframe_header.tga" borderthickness="4" color="#5E2D1F"/>
+
+									<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+								</panel>
+							</widgetstate>
+							<widgetstate statename="listbg">
+								<panel width="194" height="144">
+									<panel y="-2" height="2" color="#5E2D1F"/>
+									<image width="-2" height="-8" align="center" texture="/ui/elements/list_parchment.tga" />
+									<panel width="2" height="-11" align="right" color="#5E2D1F"/>
+									<frame valign="bottom" height="10" texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="4" color="#504009"/>
+									<frame valign="bottom" height="10" texture="/ui/frames/roundframe_footer.tga" borderthickness="4" color="#5E2D1F"/>
+									<frame texture="/ui/frames/roundframe_footer.tga" borderthickness="4" color="#5E2D1F"/>
+								</panel>
+							</widgetstate>
+							<widgetstate statename="itembg">
+								<panel color="invisible">
+									<panel x="1" y="0" width="191" height="2" color="#5E2D1FAA" />
+									<image x="1" y="2" width="191" height="18" texture="/ui/elements/list_gradient.tga" rendermode="overlay" color="#909090" />
+								</panel>
+							</widgetstate>
+							<widgetstate statename="itemhighlight">
+								<image x="1" y="2" width="191" height="17" color="#202000" rendermode="additive"/>
+							</widgetstate>
+						</combobox>
+					</panel>
+				</panel>
+
+				<instance name="round_button2" y="32" x="10" width="135" height="22" valign="center" align="left"
+					font="chat_10" label="Submit Karma"
+					onclick="If(StringLength(karma_player) > 0, Split(SubmitKarmaRating(karma_action, karma_player, karma_comment),showwidget('karma_overlay'),hidewidget('commander_karma')), showwidget('karma_rating_error'));"
+				/>
+				<instance name="round_button2" y="32" x="-10" width="135" height="22" valign="center" align="right"
+					font="chat_10" label="Decline Karma"
+					onclick="HideWidget('commander_karma');"
+				/>	
+
+				<panel y="292" align="center" width="-20"  height="165">
+					<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="12" noclick="true"></frame>
+					<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+					<frame  style="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12" noclick="true"> </frame>	
+					<frame  style="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12" noclick="true"></frame>	
+					<label  x="15" y="0" width="100%" height="26" align="left" valign="top" textalign="left" textvalign="center" font="chat_12" shadow="true" color="white">Information</label>
+
+					<panel y="15" width="-12" height="70" align="center">				
+						<label  x="8" y="0" width="92%" height="46" align="left" valign="top" textalign="left" textvalign="center" font="chat_11" wrap="true" shadow="true" color="white">Please select a player and either give or remove a karma point.</label>				
+					</panel>
+
+					<panel y="70" width="-12" height="86" align="center">				
+						<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+						<label  x="8" y="6" width="92%" height="76" align="left" valign="top" textalign="left" textvalign="top" font="chat_11" wrap="true" shadow="true" color="white">^rNote:^* For every 10 points of karma you give, in return you will receive 1 karma point. Make sure to reward players for exceptional play and only remove karma from players who truly deserve it.</label>				
+					</panel>
+				</panel>
+
+				<panel name="karma_overlay" height="-32" y="30" width="-2" align="center" visible="1" color="#00000099" blockinput="true">
+					<panel y="-100" align="center" valign="center" width="-20" height="80">
+						<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="12" noclick="true"></frame>
+						<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+						<label  x="25" y="7" width="94%" height="44" align="left" valign="top" textalign="left" textvalign="center" font="chat_12" wrap="true" shadow="true" color="white">Please rate your commander's performance to continue.</label>				
+					</panel>				
+				</panel>		
+			</panel>
+
+			<panel name="karma_rating_error" visible="false" color="#000000AA" blockinput="true">
+				<panel width="350" height="110" align="center" valign="center">
+					<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" color="#00000099" borderthickness="12" noclick="true"></frame>
+					<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+					<label  x="2%" y="7" width="94%" height="44" align="left" valign="top" textalign="center" textvalign="center" font="chat_12" wrap="true" shadow="true" color="white">You must select a player and an action to submit a karma rating.</label>				
+
+					<instance name="round_button2" y="-10" x="0" width="140" height="22" valign="bottom" align="center"
+						font="chat_12" label="Okay"
+						onclick="HideWidget('karma_rating_error');" 
+					/>				
+				</panel>
+			</panel>
+		</panel>
+	</panel>
+</interface>

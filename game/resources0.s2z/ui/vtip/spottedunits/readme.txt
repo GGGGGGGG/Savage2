@@ -1,0 +1,1 @@
+These tips are designed to trigger when a player first spots a particular enemy class. These are shorter tips than those found in the loadout menu, designed to familiarize players with the names of the classes, as well as give them a brief overview of what to expect when they come to tear their heads off.

@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="runebuilder">
+	<include file="fonts.xml"/>
+	
+	<style name="standard_label" color="#e5e5e5" shadow="true" shadowcolor="gray"/>
+	
+	<include file="/ui/inc_button.xml"/>
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="0 0 0 .5"/><!--color="#2E1F0055"/>-->
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>
+		
+		
+	<template name="rune_regen" >		
+		<panel width="64" height="64" color="black">			
+			<panel group="{group}" visible="0" name="{label}_highlight" color=".5 .4 0 .6">				
+				<panel x="-2" y="-2" color="1 .8  0 1" width="68" height="68"/>
+				<panel color="0 0 0 .8"/>
+			</panel>
+			
+			<panel texture="/ui/elements/grad.tga"/>
+			<image  rendermode="additive" texture="/items/persistant/bg_{file}.tga"/>
+			<button texture="/ui/elements/button_bevel2.tga" onmouseout="hidewidget('{label}_tooltip');" onmouseover="showwidget('{label}_tooltip');" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); hidewidget('{label}_tooltip'); showonly('{label}_highlight'); showonly('{label}_label'); cmd('set _regen {label}; set _regen_desc {desc}'); CreateInt('_regen_type', {type}); Call('pers_color', 'setTexture(\'/items/persistant/bg_{file}.tga\');');   Call('pers_color', 'setVisible(\'1\');');"/>			
+			<panel height="18" width="110%" align="center" color="invisible" valign="bottom" y="20">				
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" style="lobby_window_bg"/>
+				<frame group="{group}2" name="{label}_label" visible="0" texture="/ui/frames/rounded_bg_white.tga" color="1 .8 0 1" borderthickness="4" style="lobby_window_bg"/>
+				
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="4"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="4"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="4"/>
+				<label y="-1"  width="100%" align="center" textalign="center" valign="center" textvalign="center" height="24" font="chat_12" color="white" shadow="true">{label}</label>	
+			</panel>
+			
+			<panel name="{label}_tooltip" visible="0" y="38" height="40" width="220%" align="center" color="invisible" valign="bottom">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="black"/>								
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="6"/>	
+				<label y="-4"  width="96%" align="center" textalign="center" valign="center" wrap="1" textvalign="top" height="24" font="chat_12" color="white" shadow="true">{tooltip}</label>	
+			</panel>
+			
+		</panel>
+	</template>
+	
+	
+	<template name="rune_increase" >		
+		<panel width="64" height="64" color="black">			
+			<panel group="{group}" visible="0" name="{label}_highlight" color=".5 .4 0 .6">				
+				<panel x="-2" y="-2" color="1 .8  0 1" width="68" height="68"/>
+				<panel color="0 0 0 .8"/>
+			</panel>
+			
+			<panel texture="/ui/elements/grad.tga"/>
+			<image  rendermode="additive" texture="/items/persistant/{file}.tga"/>
+			<button texture="/ui/elements/button_bevel2.tga" onmouseout="hidewidget('{label}_tooltip');" onmouseover="showwidget('{label}_tooltip');" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); hidewidget('{label}_tooltip');  showonly('{label}_highlight'); showonly('{label}_label'); cmd('set _increase {label}; set _increase_desc {desc}'); CreateInt('_increase_type', {type}); Call('pers_animal', 'setTexture(\'/items/persistant/animal_{file}.tga\');');   Call('pers_animal', 'setVisible(\'1\');');"/>			
+			<panel height="18" width="110%" align="center" color="invisible" valign="bottom" y="20">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" style="lobby_window_bg"/>
+				<frame group="{group}2" name="{label}_label" visible="0" texture="/ui/frames/rounded_bg_white.tga" color="1 .8 0 1" borderthickness="4" style="lobby_window_bg"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="4"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="4"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="4"/>
+				<label y="-1"  width="100%" align="center" textalign="center" valign="center" textvalign="center" height="24" font="chat_12" color="white" shadow="true">{label}</label>	
+			</panel>
+
+			<panel name="{label}_tooltip" visible="0" y="38" height="40" width="180%" align="center" color="invisible" valign="bottom">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="black"/>								
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="6"/>	
+				<label y="-4"  width="96%" align="center" textalign="center" valign="center" wrap="1" textvalign="top" height="24" font="chat_12" color="white" shadow="true">{tooltip}</label>	
+			</panel>
+		</panel>
+	</template>
+	
+	
+	<template name="rune_active" >		
+		<panel width="64" height="64" color="black">			
+			<panel group="{group}" visible="0" name="{label}_highlight" color=".5 .4 0 .6">				
+				<panel x="-2" y="-2" color="1 .8  0 1" width="68" height="68"/>
+				<panel color="0 0 0 .8"/>
+			</panel>
+			
+			<panel texture="/ui/elements/grad.tga"/>
+			<image  rendermode="additive" texture="/items/persistant/{file}.tga"/>
+			<button texture="/ui/elements/button_bevel2.tga" onmouseout="hidewidget('{label}_tooltip');" onmouseover="showwidget('{label}_tooltip');" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); hidewidget('{label}_tooltip');  showonly('{label}_highlight'); showonly('{label}_label'); cmd('set _active {label}; set _active_desc {desc}'); CreateInt('_active_type', {type}); Call('pers_active', 'setTexture(\'/items/persistant/effected_{file}.tga\');');  Call('pers_active', 'setVisible(\'1\');');"/>			
+			<panel height="18" width="110%" align="center" color="invisible" valign="bottom" y="20">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" style="lobby_window_bg"/>
+				<frame group="{group}2" name="{label}_label" visible="0" texture="/ui/frames/rounded_bg_white.tga" color="1 .8 0 1" borderthickness="4" style="lobby_window_bg"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="4"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="4"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="4"/>
+				<label y="-1"  width="100%" align="center" textalign="center" valign="center" textvalign="center" height="24" font="chat_12" color="white" shadow="true">{label}</label>	
+			</panel>		
+			<panel name="{label}_tooltip" visible="0" y="38" height="60" width="180%" align="center" color="invisible" valign="bottom">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="black"/>								
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="6"/>	
+				<label y="0"  width="96%" align="center" textalign="center" valign="center" wrap="1" textvalign="top" height="44" font="chat_12" color="white" shadow="true">{tooltip}</label>	
+			</panel>
+		</panel>
+	</template>
+	
+	
+	
+	
+	
+	
+	
+	
+	<template name="field">
+		<panel height="22" noclick="true" name="{widgetname}" visible="{visible=true}">
+			<panel x="220" width="{width}" align="left">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="white"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="6"/>
+				<textbox x="5" y="4" textvalign="center"  valign="center" taborder="{order}"  font="chat_12" color="invisible" textcolor="black" shadow="true"  onchange="{cmd}(this);" maxlength="{maxlength}"/>
+			</panel>					
+			<panel x="-340" align="right" noclick="true" passivechildren="true">
+				<label  height="100%" width="100%" textalign="right" textvalign="center" font="chat_13" shadow="true" color="{color}">{label}</label>
+			</panel>				
+		</panel>
+	</template>
+	
+	<panel name="purchase_item" texture="/ui/elements/score_grad.tga" onshow="HideWidget('pay_info_panel');" onload="cmd('set _active; set _increase; set _regen; set _active_desc; set _increase_desc; set _regen_desc'); CreateInt('_regen_type', 0); CreateInt('_increase_type', 0); CreateInt('_regen_type', 0);">	
+		<panel  align="center" valign="center" width="575" height="700" color="invisible">
+			<image texture="/ui/elements/shrine_back_2.tga" />
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+			<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+				<panel height="24">
+					<frame  x="0" style="lobby_window_header_bg" height="100%" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+					<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+						<label x="7" align="left" valign="center" textvalign="center" height="24" font="chat_12" color="white" shadow="true">Build a custom Rune - $4.99 </label>					
+					</frame>
+
+					<button
+						x="-12" y="5"
+						width="14" height="14"
+						align="right"
+						color="#FFFFFF99"
+						onclick="
+							PlaySound('/shared/sounds/ui/button_close.mp3');
+							SetHostInterface('browser');
+							HideRuneBuilder();"
+						texture="/ui/elements/xbutton.tga"
+					/>
+
+				</panel>	
+
+			<panel y="40" height="85" align="center" width="90%">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+				<label y="13" width="90%" align="center" valign="center" textvalign="top" textalign="center" wrap="1" height="100%" font="chat_12" color="white" shadow="true">Runes are the most powerful class of persistent item. This tool will let you build a custom rune tailored to your play style. Equip your rune using the persistent vault menu in the game. Your rune will expire after 120 days. </label>					
+			</panel>
+
+			<panel y="39" width="95%" height="85%" align="center" valign="bottom" color="invisible" noclick="1">
+
+				
+				
+				<panel float="bottom" padding="2%">
+					<panel height="120" noclick="1">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+						<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+							<panel height="20">
+								<frame  x="0" style="lobby_window_header_bg" height="100%" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+								<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+								<label x="7" align="left" valign="center" textvalign="center" height="20" font="chat_12" color="white" shadow="true">Passive Regeneration</label>					
+								</frame>
+							</panel>
+							
+						<panel height="-20" valign="bottom" color="invisible" float="right" padding="5%">					
+							<anchor y="10" x="10" height="64" valign="top" />
+							<!-- TOOLTIPS HERE -->
+							<instance name="rune_regen" type="1" group="regen" label="Red" file="red" desc="health" tooltip="Increases health regen by 15%%"/>				
+							<instance name="rune_regen" type="3" group="regen" label="Blue" file="blue" desc="mana" tooltip="Increases mana regen by 15%%"/>		
+							<instance name="rune_regen" type="4" group="regen" label="White" file="white" desc="stamina" tooltip="Increases stamina regen by 15%%"/>				
+						</panel>
+					</panel>
+
+					<panel height="120" noclick="1">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+						<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+							<panel height="20">
+								<frame  x="0" style="lobby_window_header_bg" height="100%" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+								<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+								<label x="7" align="left" valign="center" textvalign="center" height="20" font="chat_12" color="white" shadow="true">Passive Increases</label>					
+								</frame>
+							</panel>
+
+						<panel height="-20" valign="bottom" color="invisible" float="right" padding="5%" noclick="1">					
+							<anchor y="10" x="10" height="64" valign="top" />
+
+							<!-- TOOLTIPS HERE -->
+							<instance name="rune_increase" type="1" group="increase" file="dolphin" label="Dolphin" desc="mana" tooltip="Increases mana by 15%%"/>					
+							<instance name="rune_increase" type="2" group="increase" file="beaver" label="Beaver" desc="gold earned" tooltip="Increases gold earned by 15%%"/>					
+							<instance name="rune_increase" type="4" group="increase" file="armadillo" label="Armadillo" desc="armor" tooltip="Increases armor by 15%%"/>
+							<instance name="rune_increase" type="5" group="increase" file="bear" label="Bear" desc="health" tooltip="Increases health by 15%%"/>					
+							<instance name="rune_increase" type="7" group="increase" file="rabbit" label="Rabbit" desc="stamina" tooltip="Increases stamina by 15%%"/>					
+						</panel>					
+					</panel>
+
+					<panel height="120" >
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+						<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+							<panel height="20">
+								<frame  x="0" style="lobby_window_header_bg" height="100%" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+								<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+								<label x="7" align="left" valign="center" textvalign="center" height="20" font="chat_12" color="white" shadow="true">Active Replenishment</label>					
+								</frame>
+							</panel>
+						<panel height="-20" valign="bottom" color="invisible" float="right" padding="5%">					
+							<anchor y="10" x="10" height="64" valign="top" />
+							<!-- TOOLTIPS HERE -->
+							<instance name="rune_active" type="1" group="active" file="lungs" label="Lungs" desc="stamina" tooltip="Replenishes 15%% of your stamina on use"/>
+							<instance name="rune_active" type="2" group="active" file="heart" label="Heart" desc="health" tooltip="Replenishes 15%% of your health on use"/>
+							<instance name="rune_active" type="3" group="active" file="shield" label="Shield" desc="armor" tooltip="Increases your armor by 15%% on use"/>
+							<instance name="rune_active" type="4" group="active" file="feet" label="Feet" desc="speed" tooltip="Increases your speed by 15%% on use"/>
+							<instance name="rune_active" type="5" group="active" file="brain" label="Brain" desc="mana" tooltip="Replenishes 15%% of your mana on use"/>
+							<instance name="rune_active" type="6" group="active" file="dagger" label="Dagger" desc="damage" tooltip="Increases your damage by 15%% on use"/>
+						</panel>					
+					</panel>	
+
+					<panel height="134" >
+						<frame texture="/ui/frames/rounded_bg_white.tga"  borderthickness="8" style="lobby_window_bg"/>
+						<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+							<panel height="24">
+								<frame  x="0" style="lobby_window_header_bg" height="100%" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+								<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+								<label x="7" align="left" valign="center" textvalign="center" height="24" font="chat_12" color="white" shadow="true">Your Item:   ^y%_regen% Rune of %_increase%'s %_active%</label>					
+								</frame>
+							</panel>
+						<panel height="-24" valign="bottom" color="invisible" float="right" padding="5%">					
+							<panel x="10" height="92" width="92" valign="center" color="invisible">			
+								<image name="pers_color" visible="0" />
+								<image texture="/items/persistant/object_rune.tga"/>
+								<image name="pers_active"  visible="0" texture="/items/persistant/effected_lungs.tga"/>
+								<image name="pers_animal"  visible="0" texture="/items/persistant/animal_bear.tga"/>
+							</panel>
+
+
+							<panel x="120" y="10" height="50" width="400" valign="top" color="invisible" >					
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+								<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>						
+								<label width="90%" align="center" textvalign="center" height="24" font="chat_12" color="white" wrap="1" shadow="true">Provides a 15%% increase to %_regen_desc% regen and %_increase_desc%, and, on use, increases your %_active_desc% by 15%%.</label>					
+							</panel>
+						</panel>	
+
+						<panel x="-20" align="right" y="-10"  color="invisible" valign="bottom" width="240" height="32" >
+							<instance
+								align="center"
+								name="round_button2"							
+
+								font="chat_12"
+								label="Check Out"
+								watch=""
+								ontrigger=""
+								onclick="if(_regen_type != 0 and _increase_type != 0 and _active_type != 0, Split(hidewidget('purchase_item'), showwidget('checkout_item')));"
+								onmouseover=""
+								onmouseout=""
+							/>			
+						</panel>
+					</panel>
+				</panel>
+				<panel  x="-8" y="25" height="89" align="right" width="48%">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+					<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+					<label y="13" width="90%" align="center" valign="center" textvalign="top" textalign="center" wrap="1" height="100%" font="chat_12" color="white" shadow="false">Select an item type from each of the three categories to build your custom item. When you are happy with your item, click the checkout button below. </label>					
+				</panel>
+			</panel>
+
+		</panel>
+	</panel>
+
+	<panel name="checkout_item" visible="0"  texture="/ui/elements/score_grad.tga" onshow="Call('checkout_pers_color', 'SetTexture(\'/items/persistant/bg_\' # _regen # \'.tga\');');     Call('checkout_pers_active', 'SetTexture(\'/items/persistant/effected_\' # _active # \'.tga\');');    Call('checkout_pers_animal', 'SetTexture(\'/items/persistant/animal_\' # _increase # \'.tga\');');">	
+		<panel  align="center" valign="center" width="575" height="588" color="invisible" noclick="1">
+			<image texture="/ui/elements/shrine_back_2.tga" />
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+			<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+				<panel height="24">
+					<frame  x="0" style="lobby_window_header_bg" height="100%" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+					<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+						<label x="7" align="left" valign="center" textvalign="center" height="24" font="chat_12" color="white" shadow="true">Build a Persistent Item </label>					
+					</frame>
+
+					<button
+						x="-12" y="5"
+						width="14" height="14"
+						align="right"
+						color="#FFFFFF99"
+						onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); showwidget('purchase_item'); hidewidget('checkout_item');"
+						texture="/ui/elements/xbutton.tga"
+					/>
+
+				</panel>	
+
+
+			<panel y="39" width="95%" height="80%" align="center" valign="top" color="invisible" float="bottom" padding="2%">
+
+
+				<panel height="134" >
+					<frame texture="/ui/frames/rounded_bg_white.tga"  borderthickness="8" style="lobby_window_bg"/>
+					<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+						<panel height="24">
+							<frame  x="0" style="lobby_window_header_bg" height="100%" texture="/ui/frames/rounded_header_bg_white.tga"   borderthickness="8"></frame> <!-- frame header bg -->
+							<frame  x="0" texture="/ui/frames/roundframe_header.tga"  color="#863838" borderthickness="8">
+							<label x="7" align="left" valign="center" textvalign="center" height="24" font="chat_12" color="white" shadow="true">Your Item:   ^y%_regen% Rune of %_increase%'s %_active%</label>					
+							</frame>
+						</panel>
+					<panel height="-24" valign="bottom" color="invisible" float="right" padding="5%">					
+						<panel x="10" height="92" width="92" valign="center" color="invisible">			
+							<image name="checkout_pers_color" visible="1" />
+							<image texture="/items/persistant/object_rune.tga"/>
+							<image name="checkout_pers_active"  visible="1" texture="/items/persistant/effected_lungs.tga"/>
+							<image name="checkout_pers_animal"  visible="1" texture="/items/persistant/animal_bear.tga"/>
+						</panel>
+
+
+						<panel x="120" y="10" height="50" width="400" valign="top" color="invisible" >					
+							<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_bg"/>
+							<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>						
+							<label width="90%" align="center" textvalign="center" height="24" font="chat_12" color="white" wrap="1" shadow="true">Provides a 15%% increase to %_regen_desc% regen and %_increase_desc%, and, on use, increases your %_active_desc% by 15%%.</label>					
+						</panel>
+					</panel>	
+
+
+				</panel>					
+			</panel>
+
+
+			<panel height="500" noclick="1">
+
+
+				<panel  name="left" y="190" align="center" height="350" width="95%"  color="invisible" noclick="1">
+
+					<frame  texture="/ui/frames/rounded_bg_white.tga" color="#00000066" borderthickness="12"></frame> <!-- frame -->	
+					<frame  texture="/ui/frames/roundframe.tga" style="lobby_window"  borderthickness="12"></frame> <!-- frame -->	
+
+
+
+
+					<panel y="50"  float="bottom" padding="20" >
+
+						<panel  align="center" width="80%"  height="26">
+							<frame  texture="/ui/frames/rounded_bg_white.tga" color="#441100" borderthickness="8" ></frame> <!-- frame bg -->		 		
+							<frame  texture="/ui/frames/roundframe.tga" color="orange" borderthickness="8"></frame> <!-- frame -->
+							<label name="PriceNormal" y="-35" height="100%" textalign="center" wrap="true" textvalign="center" font="chat_12" shadow="true" color="yellow">Your statement will be billed 'S2Games, LLC.' for $4.99 USD </label>
+							<label  y="0" x="0" align="center" height="100%" width="-20" textalign="center" textvalign="center" wrap="true" font="chat_11" shadow="true" color="white">Please enter all of the following information. All fields are required.</label>
+						</panel>
+						<anchor x="0" y="50"  align="center"/>
+						<instance name="field" width="230" color="#FFDA00" cmd="AcctSetCardName" order="0" label="Name on Credit Card:" maxlength="200"/>					
+						<instance name="field" width="230" color="#FFDA00" cmd="AcctSetCardNumber" order="1" label="Credit Card Number:" maxlength="20"/>				
+						<instance name="field" width="80" color="#FFDA00" cmd="AcctSetCardPostal" order="2" label="Zip/Postal Code:" maxlength="20"/>
+
+						<panel height="24" y="205">
+							<panel x="220" width="50"  align="left">
+								<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="white"></frame> <!-- frame bg -->		 		
+								<frame  texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="6"></frame> <!-- frame -->
+								<textbox x="5" y="4" textvalign="center"  valign="center" taborder="5"  font="chat_12" color="invisible" textcolor="black" shadow="true" maxlength="5" onchange="AcctSetCardVerification(this);"/>
+							</panel>	
+
+							<panel x="-340"   align="right">
+								<label  height="100%" width="100%" textalign="right" textvalign="center" font="chat_13" shadow="true" color="#FFDA00">CVV Number:</label> 	
+								<button x="440" y="5" align="left" width="16" height="16" texture="/ui/elements/info.tga" onmouseover="ShowWidget('cvv_tooltip');" onmouseout="HideWidget('cvv_tooltip');" />
+								<image x="700" y="1" width="32" height="32" texture="/ui/elements/amex.tga"/>
+								<image x="640" y="1" width="64" height="32" texture="/ui/elements/cc.tga"/>
+
+
+							</panel>	
+
+							
+
+						</panel>
+
+						<panel  width="96%" valign="bottom" y="-55" align="center" height="46">
+							<frame  texture="/ui/frames/rounded_bg_white.tga" color="#441100" borderthickness="8" ></frame> <!-- frame bg -->		 		
+							<frame  texture="/ui/frames/roundframe.tga" color="orange" borderthickness="8"></frame> <!-- frame -->
+							<label  y="-8" x="0" align="center" height="100%" width="-20" textalign="left" textvalign="center" wrap="true" font="chat_11" shadow="true" color="white">^yNOTE:^*  If you are using PayPal you will need to use our web based item builder found at:    ^yhttp://www.s2games.com/item_builder.php^*</label> 	
+						</panel>	
+
+						<panel height="24" y="170">
+							<panel x="-400"  align="right" passivechildren="true" blockinput="false" noclick="true">
+								<label  height="100%" width="100%" textalign="right" textvalign="center" font="chat_13" shadow="true" color="#FFDA00">Exp. Date:</label> 	
+							</panel>
+
+							<panel x="-340"  align="right" passivechildren="true" blockinput="false" noclick="true">
+								<label  height="100%" width="100%" textalign="right" textvalign="center" font="chat_13" shadow="true" color="#FFDA00">Month:</label> 	
+							</panel>
+
+							<panel x="-215"  align="right" passivechildren="true" blockinput="false" noclick="true">
+								<label  height="100%" width="100%" textalign="right" textvalign="center" font="chat_13" shadow="true" color="#FFDA00">Year:</label> 	
+							</panel>
+
+							<panel x="344" width="70"  align="left">
+								<combobox
+									color="invisible"
+									itemwidth="70"
+									itemheight="24"
+									maxlistheight="8"
+									cvar="_purchase_year"
+									exteriorscrollbars="false"
+									scrolltexture="/ui/elements/vist_scroll.tga"
+									handleheight="24"
+									scrollbaroffset="0"
+									highlight="under"
+									onload="CreateString('_purchase_year', '08');"
+									onshow="ListBoxCmd('Select 0');"
+									onselect="AcctSetCardYear(this);"
+								>
+									<widgetstate statename="up">
+										<panel>
+											<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#2E1F00"/>
+											<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+											<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_up.tga" />
+										</panel>
+									</widgetstate>
+									<widgetstate statename="over">
+										<panel>
+											<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#504009"/>
+											<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+											<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+										</panel>
+									</widgetstate>
+									<widgetstate statename="down">
+										<panel>
+											<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="4" color="#504009"/>
+											<frame texture="/ui/frames/roundframe_header.tga" borderthickness="4" color="#5E2D1F"/>
+
+											<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+										</panel>
+									</widgetstate>
+									<widgetstate statename="listbg">
+										<panel height="192">
+											<frame texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="4" color="#504009"/>
+											<image height="-6" texture="/ui/elements/list_parchment.tga" />
+											<frame texture="/ui/frames/roundframe_footer.tga" borderthickness="4" color="#5E2D1F"/>
+										</panel>
+									</widgetstate>
+									<widgetstate statename="itembg">
+										<panel width="100%">
+											<image texture="/ui/elements/list_gradient.tga" rendermode="overlay" color="#909090" />
+											<frame texture="/ui/frames/roundframe_square.tga" borderthickness="10" color="#5E2D1F"/>
+										</panel>
+									</widgetstate>
+									<widgetstate statename="itemhighlight">
+										<panel width="100%">
+											<panel x="1" y="1" width="-2" height="-2" color="#404000" rendermode="additive" />
+										</panel>
+									</widgetstate>
+
+									<listitem value="08"><label font="chat_14" color="white">2008</label></listitem>
+									<listitem value="09"><label font="chat_14" color="white">2009</label></listitem>
+									<listitem value="10"><label font="chat_14" color="white">2010</label></listitem>
+									<listitem value="11"><label font="chat_14" color="white">2011</label></listitem>
+									<listitem value="12"><label font="chat_14" color="white">2012</label></listitem>
+									<listitem value="13"><label font="chat_14" color="white">2013</label></listitem>
+									<listitem value="14"><label font="chat_14" color="white">2014</label></listitem>
+									<listitem value="15"><label font="chat_14" color="white">2015</label></listitem>
+									<listitem value="16"><label font="chat_14" color="white">2016</label></listitem>
+									<listitem value="17"><label font="chat_14" color="white">2017</label></listitem>
+									<listitem value="18"><label font="chat_14" color="white">2018</label></listitem>
+									<listitem value="19"><label font="chat_14" color="white">2019</label></listitem>
+									<listitem value="20"><label font="chat_14" color="white">2020</label></listitem>
+								</combobox>
+							</panel>	
+
+							<panel x="215"  width="40"  align="left">
+								<combobox
+									color="invisible"
+									itemwidth="40"
+									itemheight="24"
+									maxlistheight="8"
+									cvar="_purchase_month"
+									exteriorscrollbars="false"
+									scrolltexture="/ui/elements/vist_scroll.tga"
+									handleheight="24"
+									scrollbaroffset="0"
+									highlight="under"
+									onload="CreateString('_purchase_month', '01');"
+									onshow="ListBoxCmd('Select 0');"
+									onselect="AcctSetCardMonth(this);"
+								>
+									<widgetstate statename="up">
+										<panel>
+											<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#2E1F00"/>
+											<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+											<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_up.tga" />
+										</panel>
+									</widgetstate>
+									<widgetstate statename="over">
+										<panel>
+											<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#504009"/>
+											<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+
+											<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+										</panel>
+									</widgetstate>
+									<widgetstate statename="down">
+										<panel>
+											<frame texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="4" color="#504009"/>
+											<frame texture="/ui/frames/roundframe_header.tga" borderthickness="4" color="#5E2D1F"/>
+
+											<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_over.tga" />
+										</panel>
+									</widgetstate>
+									<widgetstate statename="listbg">
+										<panel height="192">
+											<frame texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="4" color="#504009"/>
+											<image height="-6" texture="/ui/elements/list_parchment.tga" />
+											<frame texture="/ui/frames/roundframe_footer.tga" borderthickness="4" color="#5E2D1F"/>
+										</panel>
+									</widgetstate>
+									<widgetstate statename="itembg">
+										<panel width="100%">
+											<image texture="/ui/elements/list_gradient.tga" rendermode="overlay" color="#909090" />
+											<frame texture="/ui/frames/roundframe_square.tga" borderthickness="10" color="#5E2D1F"/>
+										</panel>
+									</widgetstate>
+									<widgetstate statename="itemhighlight">
+										<panel width="100%">
+											<panel x="1" y="1" width="-2" height="-2" color="#404000" rendermode="additive" />
+										</panel>
+									</widgetstate>
+
+									<listitem value="01"><label font="chat_14" color="white">01</label></listitem>
+									<listitem value="02"><label font="chat_14" color="white">02</label></listitem>
+									<listitem value="03"><label font="chat_14" color="white">03</label></listitem>
+									<listitem value="04"><label font="chat_14" color="white">04</label></listitem>
+									<listitem value="05"><label font="chat_14" color="white">05</label></listitem>
+									<listitem value="06"><label font="chat_14" color="white">06</label></listitem>
+									<listitem value="07"><label font="chat_14" color="white">07</label></listitem>
+									<listitem value="08"><label font="chat_14" color="white">08</label></listitem>
+									<listitem value="09"><label font="chat_14" color="white">09</label></listitem>
+									<listitem value="10"><label font="chat_14" color="white">10</label></listitem>
+									<listitem value="11"><label font="chat_14" color="white">11</label></listitem>
+									<listitem value="12"><label font="chat_14" color="white">12</label></listitem>
+								</combobox>
+							</panel>
+						</panel>
+					</panel>
+				</panel>	
+
+				<panel name="cvv_tooltip" y="340" x="100" visible="0" height="230"  align="center" width="90%" noclick="true">	
+					<image x="2" y="2" width="256" height="128" color="black" texture="/ui/elements/cvv.tga"/>
+					<image  width="256" height="128" texture="/ui/elements/cvv.tga"/>
+				</panel>
+			</panel>
+			
+			<panel x="-20" align="right" y="-10"  color="invisible" valign="bottom" width="240" height="32" >
+						<instance
+							align="center"
+							name="round_button2"							
+
+							font="chat_12"
+							label="Submit"
+							watch=""
+							ontrigger=""
+							onclick="ShowWidget('pay_info_panel'); PurchaseRune(_regen_type, _increase_type, _active_type);"
+							onmouseover=""
+							onmouseout=""
+						/>			
+					</panel>
+		</panel>
+	</panel>
+	
+	<panel name="pay_info_panel"  valign="center" width="100%" height="100%" align="center" visible="0" blockinput="true" color="#000000BB" watch1="PayAccountError" ontrigger1="Set('_pay_success', 0); ShowWidget('pay_info_button');" watch2="PayAccountSuccess" ontrigger2="Set('_pay_success', 1); ShowWidget('pay_info_button');" onload="CreateInt('_pay_success', 0);" onshow="Call('pay_info_label', 'SetText(\'Processing payment, please wait...\');'); HideWidget('pay_info_button');">
+	
+		<panel width="500" height="380" align="center" valign="center">
+			<frame  texture="/ui/frames/rounded_bg_white.tga" color="#441100" borderthickness="8" ></frame> <!-- frame bg -->		 		
+			<frame  texture="/ui/frames/roundframe.tga" color="orange" borderthickness="8"></frame> <!-- frame -->							
+			<image y="20" height="170" width="340" align="center" texture="/ui/elements/logo.tga"/>
+
+			<label name="pay_info_label" valign="bottom" y="-130" height="50" width="100%" textalign="center" wrap="true" font="chat_14" shadow="true" color="white" watch1="PayAccountError" ontrigger1="SetText('^wError processing payment: ' # param);" watch2="PayAccountSuccess" ontrigger2="SetText('^wPayment successful, thank you! Your account has been credited with your rune. If your vault was full, you can claim it through account management on our website at www.s2games.com.');">Processing payment, please wait...</label>
+			<panel name="pay_info_button" visible="false">
+				<instance name="round_button2" width="100" height="28" align="center" valign="bottom" y="-70" label="Continue" font="chat_12" onclick="HideWidget('pay_info_panel'); If(_pay_success, Split(showwidget('purchase_item'), hidewidget('checkout_item'), SetHostInterface('browser'), UpdateItems(), HideRuneBuilder()));"/>
+			</panel>
+		</panel>
+	</panel>	
+
+</interface>

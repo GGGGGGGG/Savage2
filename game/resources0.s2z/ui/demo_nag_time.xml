@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	
+	<template name="demo_nag_time">
+		<panel height="220" width="400" x="{x}" y="{y}">
+			<panel y="17" valign="top" height="-17" texture="/ui/elements/parchment.tga"/>
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+			<frame style="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26"  borderthickness="12"/>
+			<frame style="lobby_window_header_bg" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12"/>
+
+			<label x="0" y="5" width="250" height="24" textalign="center" align="center" font="chat_13" color="yellow" shadow="true">Savage 2 is running in DEMO mode.</label>
+
+			<panel y="18" width="-4" height="-18" valign="top" align="center" color="#00000055">
+				<image y="0" name="logo" align="right" width="250" height="120" sticky="true" texture="/ui/elements/logo.tga"/>			
+				<frame align="center" valign="bottom" y="-3" width="-40" height="32" color="00000088" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8">		
+					<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="8"/>			
+					<label  y="-49" x="30" height="24" width="100%" textalign="left" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Demo Time Remaining:</label>
+					<label  y="-53" x="200" height="24" width="100%" textalign="left" valign="center" textvalign="center" align="center" font="chat_22" color="red" shadow="true" onframe="SetText(FtoT(DemoTimeRemaining(),2));">05:00:00</label>
+				</frame>
+			</panel>
+
+			<image y="40" x="30"  width="92" height="92" texture="/ui/elements/star_price.tga"/>		
+			
+			<frame style="lobby_window_footer_bg" valign="bottom" visible="{showpurchase}" texture="/ui/frames/rounded_footer_bg_white.tga" height="46" borderthickness="12"/>
+			<frame style="lobby_window_footer" valign="bottom" visible="{showpurchase}" texture="/ui/frames/roundframe_footer.tga" height="46" borderthickness="12">		
+				<panel  name="purchase_button" width="224" height="24" valign="center" align="center">
+					<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+					<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+					<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); TogglePurchase();">
+						<widgetstate statename="up">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+							<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="black" shadow="true" shadowcolor="gray">Activate Account Instantly</label>
+						</widgetstate>
+						<widgetstate statename="over">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+							<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="white" shadow="true" shadowcolor="#7F6E00">Activate Account Instantly</label>
+						</widgetstate>
+						<widgetstate statename="down" x="1" y="1">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+							<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="#3f0001" shadow="true" shadowcolor="#7F6E00">Activate Account Instantly</label>
+						</widgetstate>
+						<widgetstate statename="disabled">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#666666"/>
+							<frame texture="/ui/frames/roundframe.tga" color="#666666" borderthickness="8"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="#333333" shadow="true" shadowcolor="black">Activate Account Instantly</label>
+						</widgetstate>
+					</button>
+				</panel>	
+			</frame>
+		</panel>
+	</template>
+</include>

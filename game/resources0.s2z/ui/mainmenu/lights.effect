@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="start_screen">
+
+<definitions>
+	<particlesystem name="system0" space="world">
+		<light 
+			bone="_bone_red_light"			
+			color="3 .7 0"
+			falloffstart="100"
+			falloffend="300"			
+		/>
+		
+		<light 
+			bone="_bone_back_light"			
+			color=".5 .6 1.4"
+			falloffstart="100"
+			falloffend="200"			
+		/>
+		
+		<simpleemitter
+			bone="_bone_righteye"
+			spawnrate="80"
+			particlelife="800"
+			
+			
+			gravity="-10"
+			minspeed="0"
+			maxspeed="50"
+			drag=".01"
+			acceleration="0"
+			position="0 0 0"
+			minangle="0"
+			maxangle="90"
+			direction="0 -1 5"
+			material="/shared/effects/materials/flame.material"
+			offsetsphere="0 0 0 "
+				
+		>
+			<particle
+				minangle="0"
+				maxangle="180" 
+				minanglespeed="-10"
+				maxanglespeed="10"
+				startframe="0"
+				endframe="1"
+				startsize="40"
+				endsize="1"
+				startcolor="0 0 0"
+				midcolor=".3 .3 .3"
+				endcolor=".3 0 0"
+				midcolorpos=".1"
+				startanchor="1"
+				endanchor="0.0"
+			/>
+		</simpleemitter>
+
+		<simpleemitter
+			bone="_bone_lefteye"
+			spawnrate="80"
+			particlelife="800"			
+			gravity="-10"
+			minspeed="0"
+			maxspeed="50"
+			drag=".01"
+			acceleration="0"
+			position="0 0 0"
+			minangle="0"
+			maxangle="90"
+			direction="0 -1 5"
+			material="/shared/effects/materials/flame.material"
+			offsetsphere="0 0 0 "
+				
+		>
+			<particle
+				minangle="0"
+				maxangle="180" 
+				minanglespeed="-10"
+				maxanglespeed="10"
+				startframe="0"
+				endframe="1"
+				startsize="40"
+				endsize="1"
+				startcolor="0 0 0"
+				midcolor=".3 .3 .3"
+				endcolor=".3 0 0"
+				midcolorpos=".1"
+				startanchor="1"
+				endanchor="0.0"
+			/>
+		</simpleemitter>
+		
+		<billboard
+			bone="_bone_lefteye"
+			color="1 1 1"
+			alpha="1.0"
+			param="0.01"
+			width="40"
+			height="80"
+			material="/shared/effects/materials/heathaze.material"
+			flare="true"
+		/>
+		
+		<billboard
+			bone="_bone_righteye"
+			color="1 1 1"
+			alpha="1.0"
+			param="0.01"
+			width="40"
+			height="80"
+			material="/shared/effects/materials/heathaze.material"
+			flare="true"
+		/>
+		
+	</particlesystem>
+</definitions>
+
+<thread>
+	<spawnparticlesystem instance="instance0" particlesystem="system0" />
+	<waitfordeath instance="instance0" />
+	<!-- <die /> -->
+</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

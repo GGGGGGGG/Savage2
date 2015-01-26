@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+  
+  <!-- Pug Window -->
+    
+  <panel name="pugmenu" visible="false" y="11" width="32%" height="368" align="center" valign="top" color="invisible" onshow="HideWidget('center_area');" onhide="ShowWidget('center_area');" onload="CreateString('pug_name'); CreateBool('pug_play', true); CreateInt('me', GetLocalClientNum() );" onframe="If((Pet_Shaman_Prerequisite == 1), Split(Cmd('do State_Interrupted_EffectPath'),Cmd('do Gadget_Hail_ModelPath'),Cmd('do Gadget_Hail_Description'),Cmd('do State_ImpPoisoned_Name'),Cmd('do State_ImpPoisoned_ExpiredEffectPath')));">
+        
+    <frame style="lobby_window_bg"/>
+    <frame style="lobby_window"/>
+    <frame style="lobby_window_header_bg"/>
+    <frame style="lobby_window_header">
+      <label width="-20" textvalign="center" align="center" font="chat_14" color="yellow" shadow="true">PUG Organisation Panel</label>
+      <button x="-12" y="7" width="14" height="14" align="right" color="#FFFFFF99" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('pugmenu');" texture="/ui/elements/xbutton.tga" hotkey="ESC" onhotkey="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('pugmenu');"/>
+    </frame>
+    
+    <panel y="26" height="-60" width="-4" align="center">
+      
+      <!-- Captains -->
+      <panel y="6" align="center" valign="top" width="-14" height="70">
+        <frame style="lobby_window_bg"/>
+        <frame style="lobby_window"/>
+        <frame style="lobby_window_header_bg"/>
+        <frame style="lobby_window_header">
+          <label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="gametiny" color="yellow">Team Captains</label>
+        </frame>
+        <panel height="-22" valign="bottom">
+          <instance name="round_button2" x="10" width="140" height="24" align="left" valign="center" font="gametiny" label="%pet_humanworker_inventory9%" enabled="false"/>
+          <instance name="round_button2" x="-10" width="140" height="24" align="right" valign="center" font="gametiny" label="%pet_beastworker_inventory9%" enabled="false"/>
+          <instance name="round_button2" x="10" width="140" height="24" align="left" valign="center" watch="UpdateDetail" ontrigger="SetVisible(param);" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); SendScriptInput('what','Captain', 'value', 'humans');" font="gametiny" label="Captain Humans"/>
+          <instance name="round_button2" x="-10" width="140" height="24" align="right" valign="center" watch="UpdateError" ontrigger="SetVisible(param);" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); SendScriptInput('what','Captain', 'value', 'beasts');" font="gametiny" label="Captain Beasts"/>
+        </panel>
+      </panel>
+
+      <!-- Players -->
+      <panel x="6" y="84" align="left" valign="top" width="204" height="252">
+        <frame style="lobby_window_bg"/>
+        <frame style="lobby_window"/>
+        <panel align="center" width="-4" y="10" height="-42" color="invisible" noclick="true">
+          <listbox name="player_listbox" wrap="row" width="-8" height="100%" align="right" valign="center" color="invisible" itemwidth="100%" itemheight="16" font="chat_13" highlightcolor="invisible" highlightbordercolor="invisible" highlight="under" scrolltexture="/ui/elements/vist_scroll.tga" handleheight="32" hoverselect="false" watch="LobbySpectatorList" onshow="Call('player_listbox_vscroll','SetHeight(-16);SetY(16);');" onframe="If(!HasListItem(''), Split(ListboxCmd('add '),ListBoxCmd('Sort')));" onselect="Set(pug_name, this);" onesc="SetFocus(false);"/>
+        </panel>
+        <frame style="lobby_window_header_bg"/>
+        <frame style="lobby_window_header">
+          <label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="gametiny" color="yellow" onframe="SetText('Available Players: ^w'#GetNumclients(0));">Available Players: ^w0</label>
+        </frame>
+        <frame style="lobby_window_footer_bg"/>
+        <frame style="lobby_window_footer">
+          <instance name="round_button2" width="-20" height="24" align="center" valign="center" enabled="false" watch="UpdatePercent" ontrigger="If((me == param), SetEnabled(1)); If((me != param), SetEnabled(0));" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); If((StringLength(pug_name) gt 0) and !StringEquals(pug_name,GetAccountName()), SendScriptInput('what','Select','value',  pug_name )); Set(pug_name, '');" font="gametiny" label="Pick %pug_name%"/>
+        </frame>
+      </panel>
+
+      
+      <!-- Status -->
+      <panel x="-6" y="84" align="right" valign="top" width="104" height="70">
+        <frame style="lobby_window_bg"/>
+        <frame style="lobby_window"/>
+        <frame style="lobby_window_header_bg"/>
+        <frame style="lobby_window_header">
+          <label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="gametiny" color="yellow" onframe="If(pug_play, SetText('Playing'), SetText('Spectating'));">Playing</label>
+        </frame>
+        <panel height="-26" valign="bottom">
+          <panel y="8" width="-20" height="24" align="center">
+            <instance name="round_button2" button_name="pug_status_playing" group="pug_status" visible="true" font="gametiny" watch1="UpdateExtraction" ontrigger1="SetEnabled(param);" watch2="UpdateChangelog" ontrigger2="Echo(param)" onclick="Set('pug_play',0); ShowOnly('pug_status_spectating'); PlaySound('/shared/sounds/ui/button_click.mp3'); SendScriptInput('what','Toggle','value',  pug_play ); ShowWidget('pug_status_disabled');" label="Spectate"/>
+            <instance name="round_button2" button_name="pug_status_spectating" group="pug_status" visible="false" font="gametiny" watch1="UpdateExtraction" ontrigger1="SetEnabled(param);" watch2="UpdateChangelog" ontrigger2="Echo(param)" onclick="Set('pug_play',1); ShowOnly('pug_status_playing'); PlaySound('/shared/sounds/ui/button_click.mp3'); SendScriptInput('what','Toggle','value',  pug_play ); ShowWidget('pug_status_disabled');" label="Play"/>
+            <panel name="pug_status_disabled" group="pug_status" color="invisible" visible="false" onshow="SleepWidget(3000);" onwake="SetVisible(false);">
+              <frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#666666"/>
+              <frame texture="/ui/frames/roundframe.tga" color="#666666" borderthickness="8"/>
+              <label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametiny" color="#333333" shadow="true" shadowcolor="black" onshow="SetText(If(pug_play,'Spectate','Play'));"/>
+            </panel>
+            <panel name="pug_status_locked" group="pug_status" color="invisible" visible="false" watch0="LobbyPhase" ontrigger0="SetVisible((LobbyPhase ge 3) and (LobbyPhase le 5));" watch1="Team" ontrigger1="SetVisible(!((param == 0) or (LobbyPhase == 6)));">
+              <frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#666666"/>
+              <frame texture="/ui/frames/roundframe.tga" color="#666666" borderthickness="8"/>
+              <label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametiny" color="#333333" shadow="true" shadowcolor="black">Locked</label>
+            </panel>
+          </panel>
+        </panel>
+      </panel>
+      
+      <!-- Menu -->
+      <panel x="-6" y="162" align="right" valign="top" width="104" height="134">
+        <frame style="lobby_window_bg"/>
+        <frame style="lobby_window"/>
+        <frame style="lobby_window_header_bg"/>
+        <frame style="lobby_window_header">
+          <label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="gametiny" color="yellow">Controls</label>
+        </frame>
+        <panel height="-26" valign="bottom" float="bottom" padding="10">
+          <instance y="6" name="round_button2" width="-20" height="24" align="center" font="chat_12" label="Step Down" watch="UpdateDetail UpdateError" ontrigger="SetEnabled(StringEquals(GetAccountName(),pet_humanworker_inventory9) or StringEquals(GetAccountName(),pet_beastworker_inventory9));" onclick="SendScriptInput('what','Resign', 'value', 'None');"/>
+          <instance name="round_button2" width="-20" height="24" align="center" font="chat_12" label="Command" watch="LobbyRequestButton" ontrigger="SetEnabled(param);" onclick="RequestCommand();" onmouseover="If(IsDemoAccount(), ShowWidget('demo_attribute_tip'));" onmouseout="HideWidget('demo_attribute_tip');"/>
+          <instance name="round_button2" width="-20" height="24" align="center" font="chat_12" label="Decl. Off." watch="LobbyDeclineButton" ontrigger="SetEnabled(param);" onclick="DeclineOfficer();"/>
+        </panel>
+      </panel>
+      
+      <!-- Begin -->
+      <panel x="-6" y="302" align="right" valign="top" width="104" height="33">
+        <button color="invisible" onshow="SetEnabled(true);" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); SendScriptInput('what','Ready', 'value', 'None'); SetEnabled(false);" font="gametiny" watch="LobbyPhase" ontrigger="SetEnabled(param == 2);">
+          <widgetstate statename="up">
+            <frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#2E1F00"/>
+            <frame texture="/ui/frames/roundframe.tga" color="#66222299" borderthickness="8"/>
+            <label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="white" shadow="false" shadowcolor="gray">Begin</label>
+          </widgetstate>
+          <widgetstate statename="over">
+            <frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#2E1F00"/>
+            <frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#5E2D1F66"/>
+            <frame texture="/ui/frames/roundframe.tga" color="#662222CC" borderthickness="8"/>
+            <label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="white" shadow="false" shadowcolor="#7F6E00">Begin</label>
+          </widgetstate>
+          <widgetstate statename="down" x="1" y="1">
+            <frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#2B1C00"/>
+            <frame texture="/ui/frames/roundframe.tga" color="#662222CC" borderthickness="8"/>
+            <label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="white" shadow="false" shadowcolor="#7F6E00">Begin</label>
+          </widgetstate>
+          <widgetstate statename="disabled">
+            <frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#2E1F00"/>
+            <frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#33333333"/>
+            <frame texture="/ui/frames/roundframe.tga" color="#662222CC" borderthickness="8"/>
+            <frame texture="/ui/frames/roundframe.tga" color="#33333333" borderthickness="8"/>
+            <label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="#333333" shadow="false" shadowcolor="black">Begin</label>
+          </widgetstate>
+        </button>
+      </panel>
+      
+    </panel>
+          
+  </panel>
+
+</include>

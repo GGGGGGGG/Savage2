@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_observer" Onshow="ClearVC();">
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+
+	<!-- Styles -->
+	<style name="cursor" group="cursors" width="30" height="30" valign="center" align="center" watch="Cursor"/>
+	<style name="icon" width="48" height="48" ontrigger="SetTexture(param);"/>
+	<style name="small_icon" width="24" height="24"/>
+	<style name="backpack" x="76" y="132" width="386" height="48" float="right" padding="8"/>
+	<style name="backpack2" style="backpack" y="188"/>
+	<style name="item_timer" width="48" height="48" start="270" end="-90" square="true" color="#000000cc" ontrigger="SetValue(param);"/>
+	<style name="basic_graph" valign="bottom" x="42" y="-24" width="111" height="111" detail="10" ontrigger="SetValue(param);"/>
+	<style name="skill_timer" width="48" height="48" start="270" end="-90" square="true" color="#000000cc" ontrigger="SetValue(param);"/>
+	<style name="ammo_bar" height="4" width="48" color="green" ontrigger="SetWidth(FtoP(param));"/>
+	<style name="ammo_label" height="100%" width="100%" font="gametiny" shadow="true" textalign="right" textvalign="bottom" color="white" ontrigger="If(param > 1, SetText(param), ClearText());"/>
+	<style name="hover_ammo_label" height="100%" width="100%" font="gamesmall" shadow="true" textalign="center" textvalign="center" color="white" ontrigger="If(param > 1, SetText(param), ClearText());"/>
+	<style name="watch_label" font="gamemedium" ontrigger="SetText(param);"/>
+	<style name="stat_label" style="watch_label" adhere="right"/>
+	
+	<style  name="pet_bg_1" color="#117700CC"/> 		
+	<style  name="pet_frame_1" color="#CCFFCC"/>				
+
+	<style name="pet_bg_2" color="#114400FF"/> 			
+	<style name="pet_frame_2" color="#CCFFCC"/>
+
+	<style name="pet_bg_3" color="#114400FF"/> 			
+	<style name="pet_frame_3" color="#CCFFCC"/>
+	
+
+	<style name="vchat_bg" color="#114400FF"/> 			
+	<style name="vchat" color="#CCFFCC"/>
+	
+	<style name="vchat_sub_bg" color="#114400FF"/> 			
+	<style name="vchat_sub" color="#CCFFCC"/>
+
+	<style name="lobby_window_header_highlight_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#A85135" borderthickness="12"/>
+
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>
+
+	<style name="lobby_window_header_bg_highlight" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#cc4422" borderthickness="12"/>
+
+	<!-- Templates -->
+	<include file="/ui/game_chat.xml"/>
+	<include file="/ui/inc_button.xml"/>
+	<include file="/ui/demo_nag.xml"/>
+		
+	<template name="vchat_grp">
+		<panel align="center" height="17" color="{bg}" hotkey="{key}">
+			<label x="5"  width="100%" height="16" textalign="left" textvalign="center" align="left" font="chat_12"  color="white" shadow="true">{submenu}</label>
+			<label x="-9"  width="100%" height="16" textalign="right" textvalign="center" align="right" font="chat_12"  color="yellow" shadow="true">{key}</label>
+		</panel>
+	</template>
+	
+	<template name="vchat_sub">
+		<panel align="center" height="17" color="{bg}" hotkey="{key}">
+			<label x="5"  width="100%" height="16" textalign="left" textvalign="center" align="left" font="chat_12"  color="white" shadow="true">{command_name}</label>
+			<label x="-9"  width="100%" height="16" textalign="right" textvalign="center" align="right" font="chat_12"  color="yellow" shadow="true">{key}</label>
+		</panel>
+	</template>
+	
+	<template name="death_msg">
+		<panel height="13" sticky="true" stickytoinvis="false" color="invisible" visible="true" sleeptime="5000" onwake="DestroyWidget();">
+			<frame color="#444444" texture="/ui/frames/rounded_bg_white.tga" borderthickness="4"/>
+			<frame color="white" texture="/ui/frames/roundframe.tga" borderthickness="4"/>
+			<label y="-1" textalign="center" font="chat_10" shadow="true" color="white" width="100%" height="100%" valign="center" textvalign="center" content="{message}"/>
+		</panel>
+	</template>
+	
+	<template name="hover_inventory_slot">
+		<panel width="24" height="24">
+			<image texture="/ui/elements/empty_pack.tga"/>
+			<panel watch="HoverInventoryExists{slot}" ontrigger="SetVisible(param);">
+				<image watch="HoverInventoryIcon{slot}" ontrigger="SetTexture(param);"/>
+				<label name="hover_ammo_label_slot{slot}" style="hover_ammo_label" watch="HoverInventoryAmmoCount{slot}"/>
+			</panel>
+		</panel>
+	</template>
+
+	<template name="hover_state_icon">
+		<image width="20" height="20" watch0="Hover{type}Icon{index}" ontrigger0="SetTexture(param);" watch1="Hover{type}Active{index}" ontrigger1="SetVisible(param);" />
+	</template>
+
+	<!-- Widgets -->
+
+	<!-- Header -->
+	<panel valign="top" height="200" onload="CreateBool('game_observer_shown',false);" onshow="Set('game_observer_shown',If(replay_isPlaying,false,true));" onhide="Set('game_observer_shown',false);">
+		<!-- Game time -->	
+		<panel width="128" y="0" align="center" height="32" visible="1">
+			<image height="64" texture="/ui/elements/tick_timer.tga" />
+
+			<panel width="23" height="23" align="center" x="0" y="37">
+				<piegraph color="white" start="270" end="-90" texture="/ui/elements/timer_backer.tga" />
+				<piegraph color="black" start="270" end="-90" watch="EconomyInterval" ontrigger="SetValue(param);"/>
+				<piegraph color="white" start="270" end="-90" texture="/ui/elements/timer_glass.tga" />
+			</panel>
+			
+			<label font="chat_12" y="2" height="14" textalign="center" textvalign="center" shadow="true">%cg_gameTime%</label>
+			
+			<label font="chat_10" y="18" height="14" textalign="center" textvalign="center" color="#00FF00" shadow="true">Upkeep Interval</label>
+		</panel>
+		
+		<!-- Minimap -->
+		<panel x="0" y="0" width="210" height="210">
+			<minimap valign="center" align="center" name="minimap" width="192" height="192" texture="!minimap_texture" watch="Minimap" />
+			<frame valign="center" align="center" name="frame" borderthickness="32" texture="/ui/frames/border2.tga" />
+		</panel>
+	</panel>
+
+	<!-- Crosshair -->
+	<image name="crosshair_bg" width="64" height="64" align="center" valign="center" texture="/ui/elements/3rd_xhair.tga" color="#FFFFFF66"/>
+
+	<panel name="tooltip_message_panel" float="bottom" x="-5" y="5" width="292" height="-452" align="right" valign="top" color="invisible">
+		<!--Hover Player info window -->
+		<panel name="infowindow" sticky="true" stickytoinvis="false" height="133" color="invisible" watch="HoverInfoPlayer" visible="true" ontrigger="SetVisible(param);">
+			<image x="-8" y="-8"  width="512" height="256" texture="/ui/fps/unit_info_bg.tga" />
+			<!--<image name="stam_icon" x="2" y="2" width="24" height="24" texture="/ui/elements/stamina_icon.tga" />-->
+			<panel name="info_stamina_bar" x="12" y="29" width="10" height="68" color="white">
+				<image texture="/ui/elements/stam_vert_neg.tga"/>
+				<image height="100%" texture="/ui/elements/stam_vert_pos.tga" watch="HoverStaminaPercent" ontrigger="SetY(FtoP(1 - param)); SetHeight(FtoP(param));" />
+				<image y="100%" height="2" color="white" watch="HoverStaminaPercent" ontrigger="SetY(FtoP(1 - param));" />
+			</panel>
+
+			<!--<image name="mana_icon" align="right" x="-2" y="2" width="24" height="24" texture="/ui/elements/mana_icon.tga" /> -->
+			<panel name="info_mana_bar" align="right" x="-12" y="29" width="10" height="68" color="blue">
+				<image texture="/ui/elements/mana_vert_neg.tga"/>
+				<image height="100%" texture="/ui/elements/mana_vert_pos.tga" watch="HoverManaPercent" ontrigger="SetY(FtoP(1 - param)); SetHeight(FtoP(param));" />
+				<image y="100%" height="2" color="white" watch="HoverManaPercent" ontrigger="SetY(FtoP(1 - param));" />
+			</panel>
+
+			<panel name="info_backpack1" x="32" y="20" width="56" height="89" float="bottom" padding="4" color="invisible">
+				<instance name="hover_inventory_slot" slot="10" />
+				<instance name="hover_inventory_slot" slot="11" />
+				<instance name="hover_inventory_slot" slot="12" />
+
+				<anchor x="28" y="0"/>
+				<instance name="hover_inventory_slot" slot="13" />
+				<instance name="hover_inventory_slot" slot="14" />
+				<instance name="hover_inventory_slot" slot="15" />
+			</panel>
+
+			<image name="info_player_portrait" x="92" y="22" width="48" height="48" watch="HoverIcon" ontrigger="SetTexture(param);" texture="/ui/elements/empty_logo.tga"/>
+
+			<panel name="info_states_buff" x="150" y="24" width="115" height="48" float="right" padding="2" color="invisible">
+				<instance name="hover_state_icon" type="Buff" index="0" />
+				<instance name="hover_state_icon" type="Buff" index="1" />
+				<instance name="hover_state_icon" type="Buff" index="2" />
+				<instance name="hover_state_icon" type="Buff" index="3" />
+				<instance name="hover_state_icon" type="Buff" index="4" />
+
+				<anchor x="0" y="25"/>
+				<instance name="hover_state_icon" type="Debuff" index="0" />
+				<instance name="hover_state_icon" type="Debuff" index="1" />
+				<instance name="hover_state_icon" type="Debuff" index="2" />
+				<instance name="hover_state_icon" type="Debuff" index="3" />
+				<instance name="hover_state_icon" type="Debuff" index="4" />
+			</panel>
+
+			<panel name="info_player_health" x="92" y="78" width="170" height="19" color="green">
+				<image texture="/ui/elements/health_neg.tga"/>
+				<image width="70%" texture="/ui/elements/health_pos_r.tga" watch="HoverHealthPercent" ontrigger="SetWidth(FtoP(param));" />
+
+				<image width="70%" texture="/ui/elements/health_pos_y.tga" watch="HoverHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));"/>
+				<image width="70%" texture="/ui/elements/health_pos.tga" watch="HoverHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, Saturate((param * 2) - 1));"/>
+
+				<image x="70%" width="2" color="white" watch="HoverHealthPercent" ontrigger="SetX(FtoP(param));" />
+				<label y="2" x="0" width="170" color="white" shadow="1" font="gametiny" textalign="center" watch="HoverHealthValue HoverMaxHealth" ontrigger="SetText(Ceil(HoverHealthValue) # '/' # Ceil(HoverMaxHealth));"/>
+			</panel>
+
+			<!-- Experience -->
+			<panel name="target_info_experience" x="43" y="-6" width="195"  align="left" valign="bottom" height="20" color="purple">
+				<image texture="/ui/elements/exp_neg.tga"/>
+				<image width="70%" texture="/ui/elements/exp_pos.tga" watch="HoverExperience" ontrigger="SetWidth(FtoP(param));" />
+
+
+				<image x="70%" width="2" color="white" watch="HoverExperience" ontrigger="SetX(FtoP(param));" />
+				<label y="2" color="white" shadow="1" font="gametiny" textalign="center" watch="HoverName" ontrigger="SetText(param);" />
+			</panel>
+
+			<!-- Background image -->
+			<image name="target_info_bg" x="-8" y="-8" width="512" height="256" texture="/ui/fps/unit_info_top.tga"/>
+
+			<label name="target_level" valign="bottom" x="5" width="30" height="30" shadow="1" shadowcolor="gray" textalign="center" textvalign="center" font="gamesmall" color="fuchsia" watch="HoverLevel" ontrigger="SetText(param);"/>
+			<label name="target_armor" valign="bottom" align="right" x="-5" width="30" height="30" textalign="center" textvalign="center" shadow="1" shadowcolor="gray" font="gamesmall" color="yellow" watch="HoverArmor" ontrigger="SetText(Round(param));"/>
+		</panel>
+
+		<!-- Building hover info -->
+		<frame name="building_hover_info" sticky="true" stickytoinvis="false" height="150" borderthickness="8" color="invisible" texture="/ui/frames/tooltip.tga" watch="HoverInfoBuilding" visible="false" ontrigger="SetVisible(param);">
+			<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" watch="HoverColors" ontrigger="SetBorderColor(param0); SetColor(param0);"/>
+			<frame texture="/ui/frames/roundframe.tga"  borderthickness="6" watch="HoverColors" ontrigger="SetBorderColor(param1); SetColor(param1);"/>
+
+			<!-- Name -->
+			<label y="6" x="10" height="22" align="left" textalign="left" width="148" font="gametiny" color="yellow" watch="HoverName" ontrigger="SetText(param);" content="NAME"/>
+
+			<panel x="-4" y="6" width="180" align="right" float="bottom" padding="0">
+				<!-- Armor -->
+				<panel height="16" sticky="true" stickytoinvis="false" watch="HoverArmor" ontrigger="SetVisible(param &gt;= 0);">
+					<label width="140" textalign="right" font="gametiny" color="yellow">Armor:</label>
+					<label textalign="right" font="gametiny" color="white" precision="2" watch="HoverArmor" ontrigger="SetText(param);"/>
+				</panel>
+
+				<!-- Extraction Rate -->
+				<panel height="16" sticky="true" stickytoinvis="false" watch="HoverExtractionRate" ontrigger="SetVisible(param &gt; 0);">
+					<label width="140" textalign="right" font="gametiny" color="yellow">Extraction Rate:</label>
+					<label textalign="right" font="gametiny" color="white" watch="HoverExtractionRate" ontrigger="SetText(param);"/>
+				</panel>
+			</panel>
+
+			<!-- Description -->
+			<label valign="center" y="0" align="center" width="-20" height="70"  wrap="true" font="gametiny" color="white" watch="HoverDescription" ontrigger="SetText(param);" content="DESCRIPTION"/>
+
+			<!-- Gold -->
+			<frame y="-28" valign="bottom" align="center" width="260" height="18" texture="/ui/frames/inset.tga" borderthickness="2" visible="false" watch="HoverGoldPercent" ontrigger="SetVisible(param &gt;= 0);"/>
+			<frame y="-30" valign="bottom" align="center" width="256" height="14" texture="/ui/frames/inset.tga" borderthickness="2" visible="false" watch="HoverGoldPercent" ontrigger="SetVisible(param &gt;= 0);">
+				<image texture="/ui/elements/health_neg.tga"/>
+				<image width="70%" texture="/ui/elements/health_pos_y.tga" watch="HoverGoldPercent" ontrigger="SetWidth(param * 256);"/>
+				<image x="70%" width="2" color="white" watch="HoverGoldPercent" ontrigger="SetX(param * 256);"/>
+
+				<label x="0" y="-1" width="100%" color="white" shadow="true" font="gametiny" textalign="center" watch="HoverGoldValue HoverMaxGold" ontrigger="if(HoverGoldValue == 0, SetText('Empty'), SetText(Round(HoverGoldValue) # '/' # Round(HoverMaxGold)));"/>
+			</frame>
+
+			<!-- Build percent -->
+			<frame y="-28" valign="bottom" align="center" width="260" height="18" texture="/ui/frames/inset.tga" borderthickness="2" visible="false" watch="HoverBuildPercent" ontrigger="If(param == 1.0, SetVisible(false), SetVisible(true));"/>
+			<frame y="-30" valign="bottom" align="center" width="256" height="14" texture="/ui/frames/inset.tga" borderthickness="2" visible="false" watch="HoverBuildPercent" ontrigger="If(param == 1.0, SetVisible(false), SetVisible(true));">
+				<image texture="/ui/elements/mana_neg.tga"/>
+				<image texture="/ui/elements/mana_pos.tga" watch="HoverBuildPercent" ontrigger="SetWidth(FtoP(param));"/>
+				<image x="70%" width="2" color="white" watch="HoverBuildPercent" ontrigger="SetX(FtoP(param));"/>
+
+				<label x="0" y="-1" width="100%" color="white" shadow="true" font="gametiny" textalign="center" watch="HoverBuildPercent" ontrigger="SetText(FtoP(param, 0) # '%');"/>
+			</frame>
+
+			<!-- Health -->
+			<frame y="-8" valign="bottom" align="center" width="260" height="18" texture="/ui/frames/inset.tga" borderthickness="2" visible="false" watch="HoverMaxHealth" ontrigger="SetVisible(param != -1);"/>
+			<frame y="-10" valign="bottom" align="center" width="256" height="14" texture="/ui/frames/inset.tga" borderthickness="2" visible="false" watch="HoverMaxHealth" ontrigger="SetVisible(param != -1);">
+				<image texture="/ui/elements/health_neg.tga"/>
+				<image texture="/ui/elements/health_pos_r.tga" watch="HoverHealthPercent" ontrigger="SetWidth(param * 256);"/>
+				<image texture="/ui/elements/health_pos_y.tga" watch="HoverHealthPercent" ontrigger="SetWidth(param * 256); Setcolor(1, 1, 1, Saturate((param * 2.5) - 0.25));"/>
+				<image texture="/ui/elements/health_pos.tga" watch="HoverHealthPercent" ontrigger="SetWidth(param * 256); Setcolor(1, 1, 1, Saturate((param * 2) - 1));"/>
+				<image width="2" color="white" watch="HoverHealthPercent" ontrigger="SetX(param * 256);"/>
+
+				<label x="0" y="-1" width="100%" color="white" shadow="true" font="gametiny" textalign="center" watch="HoverHealthValue HoverMaxHealth" ontrigger="SetText(Round(HoverHealthValue) # '/' # Round(HoverMaxHealth));"/>
+			</frame>
+		</frame>
+
+		<!-- NPC hover info -->
+		<frame name="npc_tip" sticky="true" stickytoinvis="false" height="120" borderthickness="8" color="invisible" texture="/ui/frames/tooltip.tga" watch="HoverInfoNpc" visible="true" ontrigger="SetVisible(param);">
+			<frame color="#AA0000CC" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6"/>
+			<frame color="yellow" texture="/ui/frames/roundframe.tga"  borderthickness="6"/>
+
+			<!-- Name -->
+			<label y="6" x="10" height="22" align="left" textalign="left" width="148" font="gametiny" color="yellow" watch="HoverName" ontrigger="SetText(param);"/>
+
+			<!-- Level -->
+			<label y="6" x="0" height="22" align="right" textalign="left" width="75" font="gametiny" color="yellow">Level:</label>
+			<label y="6" x="42" height="22" align="right" textalign="left" width="75" font="gametiny" color="white" content="1"/>
+
+			<!-- Description -->
+			<label valign="center" y="-0" align="center" width="-20" height="70" wrap="true" font="gametiny" color="White" watch="HoverDescription" ontrigger="SetText(param);">DESCRIPTION</label>
+
+			<!-- Health -->
+			<frame y="-8" valign="bottom" align="center" width="260" height="18" texture="/ui/frames/inset.tga" borderthickness="2"/>
+			<frame y="-10" valign="bottom" align="center" width="256" height="14" texture="/ui/frames/inset.tga" borderthickness="2">
+				<image texture="/ui/elements/health_neg.tga"/>
+				<image width="70%" texture="/ui/elements/health_pos_r.tga" watch="HoverHealthPercent" ontrigger="SetWidth(param * 256);"/>
+
+				<image width="70%" texture="/ui/elements/health_pos_y.tga" watch="HoverHealthPercent" ontrigger="SetWidth(param * 256); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));"/>
+				<image width="70%" texture="/ui/elements/health_pos.tga" watch="HoverHealthPercent" ontrigger="SetWidth(param * 256); SetColor(1, 1, 1, Saturate((param * 2) - 1));"/>
+
+				<image x="70%" width="2" color="white" watch="HoverHealthPercent" ontrigger="SetX(param * 256);"/>
+				<label x="0" y="-1" width="100%" color="white" shadow="true" font="gametiny" textalign="center" watch="HoverHealthValue HoverMaxHealth" ontrigger="SetText(Round(HoverHealthValue) # '/' # Round(HoverMaxHealth));"/>
+			</frame>
+		</frame>
+
+		<!-- Gadget hover info -->
+		<frame name="gadget_hover_info" sticky="true" stickytoinvis="false" height="120" borderthickness="8" color="invisible" texture="/ui/frames/tooltip.tga" watch="HoverInfoGadget" visible="true" ontrigger="SetVisible(param);">
+			<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" watch="HoverColors" ontrigger="SetBorderColor(param0); SetColor(param0);"/>
+			<frame texture="/ui/frames/roundframe.tga"  borderthickness="6" watch="HoverColors" ontrigger="SetBorderColor(param1); SetColor(param1);"/>
+
+			<!-- Name -->
+			<label y="6" x="10" height="22" align="left" textalign="left" width="148" font="gametiny" color="yellow" watch="HoverName" ontrigger="SetText(param);" content="NAME"/>
+
+			<!-- Description -->
+			<label valign="center" y="-0" align="center" width="-20" height="70"  wrap="true" font="gametiny" color="white" watch="HoverDescription" ontrigger="SetText(param);" content="DESCRIPTION"/>
+
+			<!-- Timer -->
+			<frame y="-28" valign="bottom" align="center" width="260" height="18" texture="/ui/frames/inset.tga" borderthickness="2"/>
+			<frame y="-30" valign="bottom" align="center" width="256" height="14" texture="/ui/frames/inset.tga" borderthickness="2">
+				<image texture="/ui/elements/mana_neg.tga"/>
+				<image width="70%" texture="/ui/elements/mana_pos.tga" watch="HoverLifetimePercent" ontrigger="SetWidth(param * 256);"/>
+				<image x="70%" width="2" color="white" watch="HoverLifetimePercent" ontrigger="SetX(param * 256);"/>
+
+				<label x="0" y="-1" width="100%" color="white" shadow="true" font="gametiny" textalign="center" watch="HoverLifetimeValue" ontrigger="SetText('Time left: ' # Round(param / 1000) # ' seconds');"/>
+			</frame>
+
+			<!-- Health -->
+			<frame y="-8" valign="bottom" align="center" width="260" height="18" texture="/ui/frames/inset.tga" borderthickness="2"/>
+			<frame y="-10" valign="bottom" align="center" width="256" height="14" texture="/ui/frames/inset.tga" borderthickness="2">
+				<image texture="/ui/elements/health_neg.tga"/>
+				<image texture="/ui/elements/health_pos_r.tga" watch="HoverHealthPercent" ontrigger="SetWidth(param * 256);"/>
+				<image texture="/ui/elements/health_pos_y.tga" watch="HoverHealthPercent" ontrigger="SetWidth(param * 256); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));"/>
+				<image texture="/ui/elements/health_pos.tga" watch="HoverHealthPercent" ontrigger="SetWidth(param * 256); SetColor(1, 1, 1, Saturate((param * 2) - 1));"/>
+				<image width="2" color="white" watch="HoverHealthPercent" ontrigger="SetX(param * 256);"/>
+
+				<label x="0" y="-1" width="100%" color="white" shadow="true" font="gametiny" textalign="center" watch="HoverHealthValue HoverMaxHealth" ontrigger="SetText(Round(HoverHealthValue) # '/' # Round(HoverMaxHealth));"/>
+			</frame>
+		</frame>
+
+		<!-- Chest hover info -->
+		<frame name="chest_info" sticky="true" stickytoinvis="false" height="140" borderthickness="8" color="invisible" texture="/ui/frames/tooltip.tga" watch="HoverInfoChest" visible="true" ontrigger="SetVisible(param);">
+			<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6" watch="HoverColors" ontrigger="SetBorderColor(param0); SetColor(param0);"/>
+			<frame texture="/ui/frames/roundframe.tga"  borderthickness="6" watch="HoverColors" ontrigger="SetBorderColor(param1); SetColor(param1);"/>
+
+			<image x="8" y="8" width="64" height="64" watch="HoverInventoryIcon0 HoverInventoryExists0" ontrigger="if(HoverInventoryExists0, SetTexture(HoverInventoryIcon0), '/ui/elements/empty_logo.tga');" texture="/ui/elements/empty_logo.tga"/>
+			<label x="80" y="8" width="-88" height="20" font="gametiny" color="yellow" watch="HoverName" ontrigger="SetText(param);" content="NAME"/>
+			<label x="80" y="28" width="-88" height="70" wrap="true" font="gamemicro" color="white" watch="HoverDescription" ontrigger="SetText(param);" content="DESCRIPTION"/>
+
+			<label x="8" y="116" width="-16" height="70" textalign="center" wrap="true" font="gametiny" color="white" content="Walk over this item to place it in your inventory."/>
+		</frame>
+
+		<!-- Game Messages -->
+		<panel name="death_message_queue" color="invisible" sticky="true" stickysizing="true" stickytoinvis="false" height="100%" float="bottom" padding="1" watch="KillNotification" ontrigger="Instantiate('death_msg', 'message', param);" />
+	</panel>
+	
+	<!-- Voice macros -->	
+	<panel name="vc" height="512" width="512" align="center" valign="center">
+		<panel name="vc_00" visible="false">
+			<image texture="/ui/vc/vc_00.tga" />
+		</panel>
+		<panel name="vc_01" visible="false">
+			<image texture="/ui/vc/vc_01.tga" />
+		</panel>
+		<panel name="vc_02" visible="false">
+			<image texture="/ui/vc/vc_02.tga" />
+		</panel>
+		<panel name="vc_03" visible="false">
+			<image texture="/ui/vc/vc_03.tga" />
+		</panel>
+		<panel name="vc_04" visible="false">
+			<image texture="/ui/vc/vc_04.tga" />
+		</panel>
+		<panel name="vc_05" visible="false">
+			<image texture="/ui/vc/vc_05.tga" />
+		</panel>
+		<panel name="vc_06" visible="false">
+			<image texture="/ui/vc/vc_06.tga" />
+		</panel>
+	</panel>
+
+	<instance name="game_chat_window" interface="game_observer" xoffset="75" yoffset="-150"/>
+
+	<panel name="error" visible="false">
+		<panel align="center" y="10%"  width="300" height="160">
+			<panel align="center" valign="center" width="60" height="120" >
+				<modelpanel  align="center" valign="bottom"  noclick="true" model="/ui/models/error.mdf" anim="idle"  camerapos="0 80 0" cameradistance="50" camerafov="20"/>	
+			</panel>
+		
+			<frame name="move_tooltip" borderthickness="8" color="#FFFFFFFF" texture="/ui/frames/tooltip.tga" visible="true">
+				<panel width="-30" height="-30" valign="center" align="center" >		
+					<label x="12" y="8" height="22" width="100%" textalign="center" font="gamesmall" color="red">Not Enough Souls!</label>
+					<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">You must have at least one soul to utilize the sacrifical shrine.</label>
+				</panel>
+			</frame>
+		</panel>
+
+		<panel align="center" y="38%"  width="300" height="160">
+			<frame name="move_tooltip" borderthickness="8" color="#FFFFFFFF" texture="/ui/frames/tooltip.tga" visible="true">				
+				<label x="12" y="20" height="22" width="100%" textalign="center" font="gamesmall" color="red">Nothing to Enter!</label>
+				<panel width="-50" height="-30" valign="center" align="right" >							
+					<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">You must be near a Command Center, A garrison or a Supply Depot to use the Enter Key</label>
+				</panel>			
+			</frame>
+
+			<panel align="left" valign="center" width="60" height="90" >
+				<modelpanel  align="center" valign="bottom"  noclick="true" model="/ui/models/error.mdf" anim="idle"  camerapos="0 80 0" cameradistance="80" camerafov="20"/>	
+			</panel>	
+		</panel>		
+	</panel>
+
+	<panel x="214" y="39"  noclick="true">
+		<include file="/ui/game_voicecommands.xml"/>
+	</panel>
+	
+
+	
+	<panel name="warmup_panel" align="center" valign="top" y="70" width="454" height="64" visible="0" watch="LobbyPhase" ontrigger="SetVisible(param == 6);">
+		<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+		<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+
+		<label y="9" width="100%" align="center" textalign="center" font="chat_13" shadow="true" wrap="true" color="yellow">Warmup Mode</label>
+		<label y="32" width="100%" align="center" textalign="center" font="chat_13" shadow="true" wrap="true" color="white" watch="WarmupPlayersRequired" ontrigger="SetText('Waiting on ' # param # ' more players to start the game');">Waiting on X more players to start the game</label>
+	</panel>
+</interface>
+

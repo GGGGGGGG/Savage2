@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_message">
+	<include file="/ui/fonts.xml"/>
+	
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>
+
+<panel name="game_message_panel" blockinput="true" color="#000000FF">
+	<image texture="/ui/elements/parchment.tga"/>
+	
+		<frame  width="100%" height="100%" texture="/ui/frames/inset.tga"  color="#FFcc00" borderthickness="2"  align="center" valign="center">
+		
+			<image name="random_loading_image" onshow="exec ('/ui/scripts/loading_picker.cfg');" color="white" align="center" valign="center" texture="$white"></image>
+			<image y="3%" x="-2%"  width="40%" height="30%" align="right" texture="/ui/elements/logo.tga"/>
+			<panel y="30%" x="0" width="40%" height="8%" align="center" valign="center" color="0 0 0 .5">
+				<label name="tip_header" y="-10" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_18" shadow="true" wrap="true" color="red" >Game Tips:</label>
+				<label name="tip_content" y="15" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Tip Message here.</label>
+			</panel>
+			<panel x="1" y="25" width="1024" height="128" align="center" valign="bottom" color="invisible">
+				<panel align="center" width="90%" height="80%">
+					<image texture="/ui/loadingscreens/loading_bar_bg.tga"/>
+					<panel y="25%" x="4.4%"  width="90.9%" height="31">
+						<panel width="100%" watch="MessageProgress" ontrigger="SetWidth(FtoP(param));">
+							<image texture="/ui/loadingscreens/loading_bar_fg.tga" watch="MessageProgress" ontrigger="SetUScale(param);"/>
+							<image width="32" align="left" texture="/ui/loadingscreens/loading_bar_fg_l.tga"/>
+							<image width="32" align="right" texture="/ui/loadingscreens/loading_bar_fg_r.tga"/>
+							<image width="64" height="64" x="26" color="#FFFFFF77" valign="center" align="right" rendermode="additive" texture="/ui/loadingscreens/loading_bar_fg_glow.tga"/>
+						</panel>
+					</panel>
+					<image texture="/ui/loadingscreens/loading_bar_frame.tga"/>
+				<textbuffer name="message" y="25%" height="42" textalign="center" usescrollbar="false" font="chat_16" shadowoffset="2" shadow="true" color="invisible" textcolor="yellow" watch="MessageDetails" ontrigger="SetBufferText(param);">Testing dude wow</textbuffer>					
+				<label y="-60%" name="title" height="18" align="center" valign="center" textalign="center" shadowoffset="2" font="chat_16" shadow="true" color="white" watch="MessageStatusDesc" ontrigger="SetText(param);">header label</label>
+				</panel>
+				
+			
+			</panel>		
+		
+		</frame>	
+				<panel name="message_main" align="center" valign="center" width="260" height="135">
+		
+			
+	
+			<!-- Text -->
+
+
+			<!-- Progress bar			<frame name="progress_bar" align="center" valign="center" y="25" texture="/ui/frames/inset.tga" height="20" width="240" borderthickness="2" visible="1" watch="MessageProgress" ontrigger="SetVisible(param != -1);">
+				<panel width="236" align="center" valign="center" height="15" texture="/ui/elements/health_neg.tga"/>
+				<panel x="2" width="90%" height="15" align="left" valign="center" texture="/ui/elements/health_pos.tga" watch="MessageProgress" ontrigger="SetWidth(FtoP(param));"/>
+				<panel x="90%" width="2" height="15" align="left" valign="center" color="white" watch="MessageProgress" ontrigger="SetX(FtoP(param));"/>
+			</frame> -->
+
+			
+
+		
+		<!-- Button -->
+		<button name="button_ok" y="25" width="100" height="35" align="center" valign="center" color="invisible" onclick="HideModalDialog();" visible="false" watch="MessageButton" ontrigger="SetVisible(param);">
+			<widgetstate statename="up">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+				<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+				<label width="100%" height="40" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="black" shadow="false">OK</label>
+			</widgetstate>
+			<widgetstate statename="over">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+				<label width="100%" height="40" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="black" shadow="false">OK</label>
+			</widgetstate>
+			<widgetstate statename="down" x="1" y="1">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+				<label width="100%" height="40" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="black" shadow="false">OK</label>
+			</widgetstate>
+		</button>
+	</panel>
+</panel>	
+</interface>

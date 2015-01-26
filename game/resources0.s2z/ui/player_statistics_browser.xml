@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<template name="browser_statistic">
+		<panel height="50" width="99%" color="invisible">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="#560001"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="4"/>
+			<panel width="50" align="left" color="invisible">
+				<panel x="3" width="44" height="44" color="red" valign="center"/>
+				<image x="4" valign="center" width="42" height="42" texture="{icon}"/>
+			</panel>
+			<panel width="-53" align="right" color="invisible">
+				<label width="100%" height="60%" valign="top" textvalign="center" align="left" font="chat_14" color="white" shadow="true">{label}</label>
+				<label width="100%" height="60%" valign="bottom" textvalign="center" align="center" font="chat_14" color="yellow" shadow="true" watch="BrowserStats{triggerindex}" ontrigger="SetText(param{statindex});">{stat}</label>
+			</panel>					
+		</panel>	
+	</template>
+	
+	<panel
+		name="statistics_status"
+		width="100%" height="100%"
+		align="center" valign="center"
+		visible="false"
+		color="#00000099"
+		blockinput="true"
+    onshow="BringToFront();"
+	>
+		<panel width="250" height="130" align="center" valign="center">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#560001"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="12"/>
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#7C1A19" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" height="26" color="#863838" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#7C1A19" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#863838" borderthickness="12">
+				<panel width="60%" height="24" align="center" valign="center">
+					<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+					<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+					<label width="100%" height="100" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="black" shadow="false">Cancel</label>
+					<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('statistics_status'); HideWidget('statistics_browser'); BrowserCancelStats();"/>
+				</panel>
+			</frame>
+
+			<label
+				width="-20" height="20"
+				shadow="true"
+				textalign="center"
+				align="center" valign="center"
+				y="-15"
+				font="gametweener" color="green"
+				shadowoffset="4"
+				wrap="true"
+				watch="BrowserStatsStatus"
+				ontrigger="
+					If(param == 0, SetText('Retrieving user statistics...'), If(param == 2, 'Error retrieving statistics.'));"
+			/>
+		</panel>
+	</panel>
+
+	<panel name="statistics_browser" width="364" height="546" align="center" valign="center" visible="false" cangrab="true" passivechildren="false" onshow="BringToFront();">
+		<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#560001" noclick="true"/>
+		<frame  texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="12" noclick="true"/>
+		<frame  texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#7C1A19" borderthickness="12" noclick="true"/>
+		<frame  texture="/ui/frames/roundframe_header.tga" height="26" color="#863838" borderthickness="12" noclick="true"/>
+		<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="26" color="#7C1A19" borderthickness="12" passivechildren="true" noclick="true"/>
+<!--		
+		<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="26" color="#863838" borderthickness="12" noclick="true" passivechildren="true">
+			<label width="100%" x="10" height="24" textalign="left" textvalign="center" align="center" font="chat_12" color="yellow" shadow="true" watch="BrowserStats" ontrigger="SetText('Account Created: ^w' # param2);"/>
+		</frame>
+-->
+		<label width="100%" x="10" height="24" textvalign="center" align="center" font="chat_14" color="yellow" shadow="true" watch="BrowserStats1" ontrigger="SetText('Statistics: ^999' # param0);" noclick="true"/>
+		<label width="100%" x="-55" height="24" textalign="right" textvalign="center" align="center" font="chat_12" color="yellow" shadow="true" watch="BrowserStats1" ontrigger="SetText('SF: ^999' # param1);" noclick="true"/>
+		<button x="-12" y="5"  width="14" height="14" align="right" color="#FFFFFF99"  onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('statistics_browser');" texture="/ui/elements/xbutton.tga"/>
+		<panel y="26" width="-4" height="-52" color="invisible" align="center" passivechildren="true" noclick="true" >				
+			<panel y="1" width="50%" float="bottom" padding="5">
+				<instance name="browser_statistic" triggerindex="1" statindex="2" label="Player Rank" stat="5" icon="/ui/elements/stat_icons/player_rank.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="3" label="Karma Score" stat="-99" icon="/ui/elements/stat_icons/karma_score.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="4" label="Player Exp" stat="5" icon="/ui/elements/stat_icons/player_experience.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="5" label="Match Record" stat="5-1-0" icon="/ui/elements/stat_icons/match_record.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="6" label="Player Damage" stat="5" icon="/ui/elements/stat_icons/player_damage.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="7" label="Total Kills" stat="5" icon="/ui/elements/stat_icons/total_kills.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="8" label="Total Assists" stat="5" icon="/ui/elements/stat_icons/total_assists.tga"/>
+				<instance name="browser_statistic" triggerindex="1" statindex="9" label="Souls Spent" stat="5" icon="/ui/elements/stat_icons/souls_spent.tga"/>	
+				<instance name="browser_statistic" triggerindex="2" statindex="0" label="NPC Kills" stat="5" icon="/ui/elements/stat_icons/npc_kills.tga"/>		
+			</panel>
+			
+			<panel y="1" x="50%" width="50%" float="bottom" padding="5">
+				<instance name="browser_statistic" triggerindex="2" statindex="1" label="HP Healed" stat="5" icon="/ui/elements/stat_icons/hps_healed.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="2" label="Resurrections" stat="5" icon="/ui/elements/stat_icons/resurections.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="3" label="Building Damage" stat="5" icon="/ui/elements/stat_icons/total_building_damage.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="4" label="Buildings Razed" stat="5" icon="/ui/elements/stat_icons/razed.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="5" label="HP Repaired" stat="5" icon="/ui/elements/stat_icons/build.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="6" label="Total Deaths" stat="5" icon="/ui/elements/stat_icons/total_deaths.tga"/>					
+				<instance name="browser_statistic" triggerindex="2" statindex="7" label="Kill:Death Ratio" stat="2:1" icon="/ui/elements/stat_icons/kill_death_ratio.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="8" label="Time Played" stat="05:13:10" icon="/ui/elements/stat_icons/hours_played.tga"/>
+				<instance name="browser_statistic" triggerindex="2" statindex="9" label="Total Gold" stat="5" icon="/ui/elements/stat_icons/total_gold.tga"/>					
+			</panel>				
+		</panel>
+
+		<panel name="demo_stats_cover" height="95%" y="5%" watch="DemoAccountBrowser" ontrigger="SetVisible(param);">
+			<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#00ccFF88"/>
+			<frame x="0" texture="/ui/frames/roundframe.tga" borderthickness="12" color="yellow"/>
+			
+				<panel width="-20" valign="center" align="center" height="450">
+					<frame color="#000000cc" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+					<frame color="yellow"  texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+					<label y="15%" height="24" width="90%"  textalign="center" textvalign="top" align="center" font="chat_14" color="red" shadow="true" valign="top">Prime Account Required!</label>
+					<label y="12%" width="90%" height="100" textvalign="center" textalign="center" valign="top" align="center" wrap="true" font="chat_12" color="white" shadow="false">Upgrade to a Prime Account now to view player stats, participate on the official ladder, and unlock the many other perks Prime Accounts receive. A Prime Account upgrade is a one time fee of only $9.99! The process is quick, secure, and all without leaving the game.</label>						
+					<label y="51%" x="4%" height="24" width="90%"  textalign="left" textvalign="center" align="left" font="chat_12" color="yellow" shadow="true" valign="top">Prime Account Features:</label>
+					
+					<panel x="4%" height="15" align="left" float="right" width="85%" valign="center" y="9%">
+						<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Access to Player stats</label>
+					</panel>
+					
+					<panel x="4%" height="15" align="left" float="right" width="85%" valign="center" y="14%">
+						<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Two extra inventory slots</label>
+					</panel> 
+
+					<panel x="4%" height="15" align="left" float="right" width="85%" valign="center" y="19%">
+						<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Unlimited Hellbourne Units</label>
+					</panel> 
+
+					<panel x="4%" height="15" align="left" float="right" width="85%" valign="center" y="24%">
+						<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Create and manage clans</label>
+					</panel> 		
+
+					<panel x="4%" height="5%" align="left" float="right" width="85%" valign="center" y="29%">
+						<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Support independent gaming!</label>
+					</panel> 
+
+					<panel x="4%" height="5%" align="left" float="right" width="85%" valign="center" y="35%">
+						<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+						<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Access to replays of every match ever played</label>
+					</panel> 
+					
+					<panel height="45" y="-5" align="center" valign="bottom">
+						<instance name="round_button2" width="130" height="22" align="center" valign="center" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); SetHostInterface('purchase'); TogglePurchase(); ToggleCCPanel();"  font="chat_13" label="Upgrade Now!" /> 
+					</panel>
+				</panel>
+			<image align="center" width="92" height="92" texture="/ui/elements/lock.tga"/>
+		</panel>
+	</panel>	
+</include>

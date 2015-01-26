@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+  <include file="/ui/inc_button.xml"/>
+	<panel name="replay_browser" width="780" height="750" align="center" valign="center" visible="0" onshow="Exec('/ui/scripts/replay_list.cfg');" blockinput="true">
+		<panel width="50%" height="50%" align="center" valign="center">
+			<panel y="26" height="-50" texture="/ui/elements/parchment.tga" noclick="true"/>
+			<frame  style="options_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" noclick="true"></frame>
+			<frame style="options_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+			<frame  style="options_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12" noclick="true"> </frame>
+			<frame  style="options_window_header" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12" noclick="true"></frame>	
+			<label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="chat_14" color="white" noclick="true">Replay Browser</label>
+			<frame style="options_window_footer_bg"  valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" borderthickness="12" noclick="true"/>
+			<frame style="options_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35"  borderthickness="12" float="right" padding="6" noclick="true" >
+
+        <!-- start replay button -->
+        <instance
+			name="round_button2"
+			x="-5%"
+			width="40%" height="24"
+			align="right" valign="center"
+			onclick="
+				PlaySound('/shared/sounds/ui/button_click.mp3');
+				If(_replay_selected != -1, StartReplay(*('_replay_' # _replay_selected)));
+				Call('replay_list', 'ListBoxCmd(\'clear\')');
+				Set(_replay_selected, -1);
+				HideWidget('replay_browser');
+				Exec('/scripts/menu_in.cfg'); 
+			"
+			font="gametweener"
+			label="Start Replay"
+		/>
+
+        <!--cancel button for replay screen -->
+        <instance name="round_button2" x="5%" width="40%" height="24" align="left" valign="center" onclick="Exec('/scripts/menu_in.cfg'); PlaySound('/shared/sounds/ui/button_click.mp3'); Call('replay_list', 'ListBoxCmd(\'clear\')'); Set(_replay_selected, -1); HideWidget('replay_browser');"  font="gametweener" label="Cancel" />
+			</frame>
+			<panel width="98%" align="center" y="30" height="-68">
+				<panel width="45%" align="left" color="invisible">
+				
+					<!-- Map info -->
+					<panel name="replay_info" align="center" width="90%" height="302" sticky="true" color="invisible">
+						<frame  style="options_window_bg" color="#00000088"/>
+						<frame style="options_window"/>
+						
+						<frame style="options_window_header_bg" height="22"/>
+						<frame style="options_window_header" height="22"/>
+						
+						<label x="10" width="-20" height="22" textalign="left" textvalign="center" align="left" font="chat_12" color="yellow" shadow="true" watch="ReplayInfoMatchID" ontrigger="SetText('Match ID: ^w' # param # '^*');">Match ID:</label>
+						<!--<label x="-10" width="-20" height="22" textalign="right" textvalign="center" align="right" font="chat_10" color="white" shadow="true">WOW</label>-->
+						<panel y="22" height="-22" align="center" float="bottom" padding="2">
+							
+							<panel x="10" align="left" valign="center" width="172" color="invisible">
+								<panel x="5" y="2" height="-22" float="bottom" padding="3">
+									<label width="-20" height="18" textalign="left" textvalign="top" align="left" font="chat_14" color="yellow" shadow="true" watch="ReplayInfoMapName" ontrigger="SetText('Map: ^w' # param # '^*');">Map:</label>
+									<webimage valign="center" align="left" width="128" height="128" texture="/ui/elements/empty_logo.tga" watch="ReplayInfoMapName" ontrigger="SetTextureWeb('http://www.savage2replays.com/maps/' # param # '.jpg');" />
+									<!-- <label height="14" width="80%" textalign="left" font="gametiny" color="Yellow" watch="ReplayInfoDate" ontrigger="SetText('Date: ^w' # param # '^*');">Date:</label> -->
+									<!-- <label height="14" width="100%" textalign="left" font="gametiny" color="Yellow" watch="ReplayInfoDuration" ontrigger="SetText('Duration: ^w' # param # '^*');">Duration:</label> -->
+									<!-- <label height="14" width="100%" textalign="left" font="gametiny" color="Yellow" watch="ReplayInfoPlayers" ontrigger="SetText('Players: ^w' # param # '^*');">Players:</label> -->
+									<label height="14" width="100%" textalign="left" font="gametiny" color="Yellow" watch="ReplayInfoServer" ontrigger="SetText('Server: ^w' # param # '^*');">Server:</label>
+									<!-- <label height="14" width="100%" textalign="left" font="gametiny" color="Yellow" watch="ReplayInfoRaces" ontrigger="SetText('Races: ^w' # param # '^*');">Races:</label> -->
+									<!-- <label height="14" width="100%" textalign="left" font="gametiny" color="Yellow" watch="ReplayInfoAverageSF" ontrigger="SetText('Average SF: ^w' # param # '^*');">Average SF:</label> -->
+									<!-- <label height="14" width="100%" textalign="left" font="gametiny" color="Yellow" watch="ReplayInfoGameVersion" ontrigger="SetText('Version: ^w' # param # '^*');">Version:</label> -->
+								</panel>
+							</panel>
+						</panel>
+					</panel>
+				
+				
+				</panel>
+				<listbox
+					x="-6"
+					name="replay_list"
+					wrap="row"
+					width="52%" height="302"
+					align="right" valign="top"
+					color="#00000088"
+					itemwidth="96%" itemheight="16"
+					font="gametweener"
+					highlightcolor="1 1 .4 .3"
+					highlightbordercolor="invisible"
+					highlight="under"
+					scrolltexture="/ui/elements/vist_scroll.tga"
+					handleheight="64"
+					hoverselect="false"
+					onselect="Set('_replay_selected', param); ReplayInfo(*('_replay_' # _replay_selected)));"
+					ondoubleclick="If(_replay_selected != -1, StartReplay(*('_replay_' # _replay_selected))); Call('replay_list', 'ListBoxCmd(\'Clear\');'); Set(_replay_selected, -1); HideWidget('replay_browser');"
+				/>
+			</panel>
+		</panel>
+	</panel>		
+	
+</include>

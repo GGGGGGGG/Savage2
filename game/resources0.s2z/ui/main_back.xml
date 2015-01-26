@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="main" onshow="PlayMusic('/music/dark_mask.mp3',false); Exec('/ui/scripts/Smileys.cfg');">
+	<!-- Fonts -->
+	<include file="/ui/fonts.xml"/>
+	
+	<!-- Round button template -->
+	<include file="/ui/inc_button.xml"/>
+
+	<!-- Styles -->		
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+
+	<!-- Templates -->
+
+	<image name="main_menu_background" texture="/ui/main_menu.tga"/>
+
+	<template name="menu_button">
+		<button x="{x}" y="{y}" width="{width}" height="{height}" align="{align}" valign="{valign}" color="invisible" onmouseover="PlaySound('/shared/sounds/ui/main_menu/button_over.mp3');" onclick="PlaySound('/shared/sounds/ui/main_menu/button_click.mp3'); {command};">
+			<widgetstate statename="up">
+				<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gamemedium" color="orange" shadow="false" shadowcolor="gray">{label}</label>
+			</widgetstate>
+			<widgetstate statename="over">
+				<image width="300" height="64" align="center" valign="center" texture="/ui/elements/button_highlight.tga" rendermode="additive"/>
+				<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gamemedium" color="white" shadow="false" shadowcolor="gray">{label}</label>
+			</widgetstate>
+		</button>
+	</template>
+	
+	<panel y="22%" width="200" height="372" align="center" valign="center" color="invisible" float="bottom" padding="10">
+		<instance name="menu_button" width="100" height="24" color="white" align="center" label="Login" command="ShowWidget('account_login')"/>
+		<instance name="menu_button" width="100" height="24" color="white" align="center" label="Local" command="ShowWidget('local_browser_panel')"/>
+		<instance name="menu_button" width="120" height="24" color="white" align="center" label="Practice" command="if(svr_minClients == 0, Set(svr_minClients, 1)); StartLocalGame('practice');"/>
+		<instance name="menu_button" width="100" height="24" color="white" align="center" label="Tutorial" command="StartLocalGame('tutorial');"/>
+		<!--instance name="menu_button" width="100" height="24" color="white" align="center" label="Editor" command="StartClient('editor');"/-->
+		<instance name="menu_button" width="112" height="24" color="white" align="center" label="Replays" command="ShowWidget('replay_browser')"/>>
+		<instance name="menu_button" width="116" height="24" color="white" align="center" label="Options" command="Exec('/scripts/slide.cfg')"/>
+		<instance name="menu_button" width="64" height="24" color="white" align="center" label="Quit" command="ShowWidget('quit_confirm');"/>
+	</panel>
+
+	<panel x="748" y="168" width="200" height="16" color="navy" cangrab="true" onload="SetVisible(host_developerMenu);">
+		<label height="20" textalign="center" color="white" shadow="true" noclick="true">Developer Menu</label>
+		<button name="hide_button" x="-2" y="2" width="12" height="12" align="right" texture="/ui/elements/minus.tga" onclick="HideWidget('dev_panel'); ShowWidget('show_button'); SetVisible(false);"/>
+		<button name="show_button" x="-2" y="2" width="12" height="12" align="right" texture="/ui/elements/minus.tga" visible="false" onclick="ShowWidget('dev_panel'); ShowWidget('hide_button'); SetVisible(false);"/>
+		<panel name="dev_panel" y="16" height="220" color="silver" float="bottom" padding="4">
+			<instance name="round_button2" y="8" width="80%" height="24" align="center" font="gamesmall" label="Deadlock" onclick="StartLocalGame('deadlock2');"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Hellpeak" onclick="StartLocalGame('hellpeak');"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Crossroads" onclick="StartLocalGame('working/crossroads');"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Duel Arena" onclick="StartLocalGame('duel_arena');"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Tutorial" onclick="StartLocalGame('tut26');"/>
+			<panel width="90%" height="1" align="center" color="#666666"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Editor" onclick="StartClient('editor');"/>
+			<instance name="round_button2" width="80%" height="24" align="center" font="gamesmall" label="Viewer" onclick="StartClient('modelviewer');"/>
+		</panel>
+	</panel>
+	
+	<!-- confirm quit -->
+	<panel color="#000000cc" name="quit_confirm" visible="false" blockinput="true">		
+		<panel width="250" height="150" align="center" valign="center">
+			<panel y="-2" valign="center" height="-45" texture="/ui/elements/parchment.tga"/>
+		
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg"/>
+			<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="12"/>
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" style="lobby_window_header_bg" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window_header" borderthickness="12"/>
+
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="50" style="lobby_window_header_bg" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="50" style="lobby_window_header" borderthickness="12">
+
+			<panel y="0" height="28" valign="center" align="center" width="-30" >
+				<panel height="28" width="100" align="left" color="invisible">
+					<instance name="round_button2" width="100" height="24" font="gametweener" label="Savage" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('quit_confirm');"/>
+				</panel>
+				
+				<panel height="28" width="100" align="right" color="invisible">
+					<instance name="round_button2" width="100" height="24" font="gametweener" label="Pansy" onclick="Quit();"/>
+				</panel>				
+			</panel>			
+			</frame> <!-- frame footer -->
+			
+			<panel  y="40" width="-30" height="50" align="center" color="invisible">
+				<label width="-20" height="24" textvalign="center" align="center" font="chat_14" wrap="true" color="white" shadow="true">Quitting already you pansy?</label>
+			</panel>
+			
+			<label width="-20" height="24" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Confirm</label>
+			<button x="-12" y="7"  width="14" height="14" align="right" color="#FFFFFF99" texture="/ui/elements/xbutton.tga" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('quit_confirm');"/>
+
+		</panel>
+	</panel>
+
+	<!-- Options panel -->
+	<include file="/ui/game_options.xml"/>
+	
+	<include file="/ui/mott.xml"/>
+	
+	<!-- Login panel -->
+	<include file="/ui/main_login.xml"/>
+	
+	<!-- Local browser -->
+	<include file="/ui/main_local_browser.xml"/>
+	
+	<!-- Replay browser -->
+	<include file="/ui/main_replay_browser.xml"/>
+</interface>
+

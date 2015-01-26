@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+  
+  <!-- Deprecated -->
+	
+	<template name="demo_browser_nag">
+		<panel height="395" width="400" x="{x}" y="{y}">
+			<panel y="17" valign="top" height="-17" texture="/ui/elements/parchment.tga"/>
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+			<frame style="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26"  borderthickness="12"/>
+			<frame style="lobby_window_header_bg" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12"/>
+
+			<label x="10" height="24" textalign="left" textvalign="center" align="left" font="chat_13" color="yellow" shadow="true">Savage 2 is running in DEMO mode.</label>
+
+			<panel y="18" width="-4" height="-18" valign="top" align="center" color="#00000055">
+				<frame align="center" valign="bottom" y="-3" width="-40" height="32" color="00000088" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8">		
+					<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="8"/>			
+					<label  y="-29" x="30" height="24" width="100%" textalign="left" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Demo Time Remaining:</label>
+					<label  y="-33" x="200" height="24" width="100%" textalign="left" valign="center" textvalign="center" align="center" font="chat_22" color="red" shadow="true" onframe="SetText(FtoT(DemoTimeRemainingBrowser(),2));">05:00:00</label>
+				</frame>
+
+				<frame align="center" valign="top" y="10" width="-10" height="300" color="00000088" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8">	
+					<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="8"/>	
+
+					<label noclick="true" y="-8" width="-10" height="-40" align="center" valign="center" textalign="center" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Activate your demo account now to experience ^ySavage 2: ^* ^yA Tortured Soul^* the way it was meant to be played. Just click the activate now button and see what you've been missing. The process is quick, secure and all without leaving the game. </label>
+
+					<panel y="75" x="25" float="bottom" padding="4"  color="invisible">
+						<label noclick="true" height="24" width="100%"  textalign="center" textvalign="center" align="center" font="chat_14" color="yellow" shadow="true">Full Account Features:</label>
+
+						<panel noclick="true" height="20" align="left" float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"/>
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Access to lifetime player stats</label>
+						</panel> 
+
+						<panel noclick="true" height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga"  valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Two extra inventory slots</label>
+						</panel> 
+
+						<panel noclick="true" height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Unlimited access to Hellbourne units</label>
+						</panel> 
+
+						<panel noclick="true"  height="20" align="left" float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Access to create and manage clans</label>
+						</panel> 	
+
+						<panel noclick="true" height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Access to replays of every match ever played</label>
+						</panel> 	
+
+						<panel noclick="true"  height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" 	valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >No monthly fees</label>
+						</panel> 
+						
+						<panel noclick="true"  height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" 	valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Support Independent Gaming!</label>
+						</panel> 	
+					</panel>
+				</frame>
+
+			</panel>
+		
+			<frame style="lobby_window_footer_bg" valign="bottom" visible="{showpurchase}" texture="/ui/frames/rounded_footer_bg_white.tga" height="36" borderthickness="12"/>
+			<frame style="lobby_window_footer" valign="bottom" visible="{showpurchase}" texture="/ui/frames/roundframe_footer.tga" height="36" borderthickness="12">		
+					<panel  name="purchase_button" width="224" height="24" valign="center" align="center">
+						<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+						<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+						<label width="100%" height="100" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="black" shadow="false">Activate Account Instantly</label>
+						<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); SetHostInterface('purchase');"/>
+					</panel>	
+			</frame>
+		</panel>
+	</template>
+</include>

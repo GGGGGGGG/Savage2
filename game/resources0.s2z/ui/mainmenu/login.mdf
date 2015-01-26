@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="skull02_recover04.max" file="login.model" type="K2">
+	<anim name="start" clip="login.clip" startframe="0" numframes="90" loop="false" blendtime="1000"/>
+
+	<anim name="idle" clip="login.clip" startframe="90" numframes="0" loopbackframe="90" loop="true" />
+	
+	<anim name="hover" clip="login.clip" startframe="91" numframes="2" loopbackframe="92" loop="true">
+		<frameevent frame="4" cmd="PlaySound /shared/sounds/impacts/block_2.mp3 650"/>
+	</anim>
+	<anim name="mouseout" clip="login.clip" startframe="93" numframes="1" loopbackframe="93" loop="true" />
+	<anim name="return" clip="login.clip" startframe="0" numframes="90" loop="false" fps="45" />	
+	<anim name="login" clip="login.clip" startframe="200" numframes="10" loopbackframe="209" loop="true" fps="13"/>	
+	<anim name="loginback" clip="login.clip" startframe="210" numframes="10" loop="false" fps="19"/>	
+	<anim name="out" clip="login.clip" startframe="100" numframes="50" loopbackframe="149" loop="true" fps=" 50"/>		
+</model>

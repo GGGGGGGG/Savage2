@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<!-- Headers -->
+	<include file="/ui/inc_button.xml"/>
+
+	<!-- Styles -->
+	<style name="options_window_header_highlight_bg" texture="/ui/frames/rounded_header_bg_white.tga" color="#A85135" borderthickness="12"/>
+	<style name="options_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="options_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="options_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="options_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="options_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="options_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="options_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>
+	<style name="options_panel" group="options_panels" y="56" height="-91" width="-4" align="center" texture="/ui/elements/grad_diag.tga" color="#560001CC" visible="false"/>
+	
+	<style name="vist_bg_1" color="#560001"/>
+
+	<!-- Templates -->
+	<template name="combobox_item">
+		<label x="4" font="chat_12" color="white" textvalign="center" shadow="true" shadowoffset="1" content="{label}"/>
+	</template>
+
+	<template name="options_combobox_state">
+		<widgetstate statename="{state}">
+			<panel>
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="{color}"/>
+				<frame texture="/ui/frames/roundframe.tga" borderthickness="4" color="#5E2D1F"/>
+				<image x="-2" width="16" height="16" align="right" valign="center" texture="/ui/elements/vist_scroll_vmax_{image}.tga" />
+			</panel>
+		</widgetstate>
+	</template>
+	
+	<template name="tip_mark" >
+		<panel color="invisible" x="{x}" y="{y}" width="{width}" height="{height}" valign="{valign}" align="{align}" noclick="true">
+			<button
+				name="{button_name}"
+				color="invisible"
+				visible="{visible=true}"
+				onmouseover="showwidget('{tip_id}');"
+				onmouseout="hidewidget('{tip_id}');"
+			>			
+				<widgetstate statename="up">
+					<image width="100%" height="100%" valign="center" align="center" texture="/ui/elements/tip_mark.tga" />
+				</widgetstate>			
+
+				<widgetstate statename="over">
+					<image width="100%" height="100%" valign="center" align="center" texture="/ui/elements/tip_mark.tga" />
+				</widgetstate>
+			</button>
+		</panel>		
+	</template>
+	
+	<template name="generic_tooltip">
+		<panel name="{tip_id}" y="{y}" x="{x}" width="{width=100%}" height="{height=100%}" align="{align=left}" valign="{valign=top}" color="invisible" visible="{visible=0}" noclick="1">
+			<frame  texture="/ui/frames/tooltip_bg.tga" color="0 0 0 .8" borderthickness=".6h" align="left" valign="top" noclick="1">
+				<frame texture="/ui/frames/roundframe.tga" color="#A0A0A0" borderthickness=".6h" noclick="1"/>
+				
+				<label width="-5%" height="2.2h" textvalign="bottom" textalign="left" align="center" font="dyn_10" color="#ffab01" shadow="1" noclick="1">{title}</label>
+				<label y="2.2h" width="-5%" height="100%" textvalign="top" textalign="left" align="center" font="dyn_9" noclick="1" color="white" shadow="1" wrap="1" watch="{label_watch}" ontrigger="{label_ontrigger}">{label}</label>
+				
+			</frame>
+		</panel>
+	</template>
+	
+	<template name="options_combobox">
+		<combobox
+			name="{combobox_name=}"
+			x="{x}"
+			width="{width}"
+			height="20"
+			valign="{valign=center}"
+			color="invisible"
+			itemwidth="{itemwidth}"
+			itemheight="20"
+			maxlistheight="{maxlistheight}"
+			cvar="{cvar}"
+			exteriorscrollbars="false"
+			scrolltexture="/ui/elements/vist_scroll.tga"
+			handleheight="48"
+			scrollbaroffset="0"
+			highlight="under"
+			onload="CreateString('_combobox_temp', {cvar}); ComboBoxCmd('clear'); {data}('combobox_item'); SetSelectedItemByValue(*('_combobox_temp')); {onload=}"
+			onselect="{action=}"
+		>
+			<instance name="options_combobox_state" state="up" color="#2E1F00" image="up"/>
+			<instance name="options_combobox_state" state="over" color="#504009" image="over"/>
+			<instance name="options_combobox_state" state="down" color="#504009" image="over"/>
+			<widgetstate statename="listbg">
+				<panel height="{listbgheight}">
+					<frame texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="4" color="#504009"/>
+					<image height="-6" texture="/ui/elements/list_parchment.tga" />
+					<frame texture="/ui/frames/roundframe_footer.tga" borderthickness="4" color="#5E2D1F"/>
+				</panel>
+			</widgetstate>
+			<widgetstate statename="itembg">
+				<panel width="{itemwidth}">
+					<image texture="/ui/elements/list_gradient.tga" rendermode="overlay" color="#909090" />
+					<frame texture="/ui/frames/roundframe_square.tga" borderthickness="10" color="#5E2D1F"/>
+				</panel>
+			</widgetstate>
+			<widgetstate statename="itemhighlight">
+				<panel width="{itemwidth}">
+					<panel x="1" y="1" width="-2" height="-2" color="#404000" rendermode="additive" />
+				</panel>
+			</widgetstate>
+		</combobox>
+	</template>
+
+	<template name="options_slider">
+		<panel height="38" width="-20" color="invisible" align="center">
+			<frame style="options_window_bg" borderthickness="8"/>
+			<frame style="options_window" borderthickness="8"/>
+
+			<cvarlabel
+				x="3%" y="1"
+				width="100%" height="20"
+				align="left"
+				textalign="left" textvalign="center"
+				font="chat_14"
+				color="yellow"
+				shadow="true"
+				prefix="{label}: ^w"
+				onload="CreateString('{slider_name}_value');"
+				cvar="{slider_name}_value"
+			/>
+
+			<button x="-4" y="3" width="56" height="16" align="right" valign="top" color="invisible" onclick="" visible="{more}">
+				<widgetstate statename="up">
+					<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+					<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+					<label x="6" y="-1" height="100%" textvalign="center" font="chat_12" color="black" shadow="false">More</label>
+					<image x="-3" y="0" width="16" height="16" align="right" color="black" texture="/ui/elements/sort_down.tga"/>
+				</widgetstate>
+				<widgetstate statename="over">
+					<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+					<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+					<label x="6" y="-1" height="100%" textvalign="center" font="chat_12" color="black" shadow="false">More</label>
+					<image x="-3" y="0" width="16" height="16" align="right" color="black" texture="/ui/elements/sort_down.tga"/>
+				</widgetstate>
+				<widgetstate statename="down" x="1" y="1">
+					<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+					<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+					<label x="6" y="-1" height="100%" textvalign="center" font="chat_12" color="black" shadow="false">More</label>
+					<image x="-3" y="0" width="16" height="16" align="right" color="black" texture="/ui/elements/sort_down.tga"/>
+				</widgetstate>
+			</button>
+
+			<panel y="-5%"  height="20" width="14%" color="invisible" valign="bottom">
+				<label width="100%" height="20" textalign="center" textvalign="center" align="center" font="chat_12" color="white" shadow="true">Low</label>
+			</panel>
+
+			<panel y="-14%" height="10" width="72%" align="center"  color="invisible" valign="bottom">
+				<frame valign="bottom" height="10" color="#00000088" borderthickness="4" texture="/ui/frames/inset_round.tga">
+					<slider
+						name="{slider_name}"
+						slotwidth="-6" slotheight="8"
+						slotcolor="#CCCCCCFF"
+						handlewidth="12" handleheight="12"
+						handlecolor="#CCCCCC"
+						cvar="{cvar}"
+						minvalue="{minvalue}" maxvalue="{maxvalue}"
+						step="{step}"
+						texture="/ui/elements/generic_slider.tga"
+						onchange="Set({slider_name}_value, {value}); {action=};"
+						onshow="Set({slider_name}_value, {value});"
+					/>
+				</frame>
+			</panel>
+
+			<panel y="-5%" height="20" width="14%" align="right" color="invisible" valign="bottom">
+				<label width="100%" height="20" textalign="center" textvalign="center" align="center" font="chat_12" color="white" shadow="true">High</label>
+			</panel>
+		</panel>
+	</template>
+
+	<template name="options_checkbox_state">
+		<widgetstate statename="{state}" float="right" padding="4">
+			<panel width="{size}">
+				<panel width="-2" height="-2" align="center" valign="center">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="4" color="white"/>
+					<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="4"/>
+					<image color="green" texture="/ui/elements/check.tga" visible="{checked}"/>
+				</panel>
+			</panel>
+			<label width="-{size}" height="100%" textvalign="center" font="{font}" color="{color}" shadow="true">{label}</label>
+		</widgetstate>
+	</template>
+	
+	<template name="options_checkbox">
+		<panel width="{width=160}" height="{height=18}" align="{align=center}" noclick="true">
+			<button color="invisible" numstates="2" cvar="{cvar}" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); {action}">
+				<instance name="options_checkbox_state" state="up" size="{height=18}" label="{label}" font="{font=chat_12}"	color="yellow" checked="false"/>
+				<instance name="options_checkbox_state" state="over" size="{height=18}" label="{label}" font="{font=chat_12}" color="white" checked="false"/>
+				<instance name="options_checkbox_state" state="down" size="{height=18}" label="{label}" font="{font=chat_12}" color="green" checked="false"/>
+				<instance name="options_checkbox_state" state="up2" size="{height=18}" label="{label}" font="{font=chat_12}" color="yellow" checked="true"/>
+				<instance name="options_checkbox_state" state="over2" size="{height=18}" label="{label}" font="{font=chat_12}" color="white" checked="true"/>
+				<instance name="options_checkbox_state" state="down2" size="{height=18}" label="{label}" font="{font=chat_12}" color="green" checked="true"/>
+			</button>
+		</panel>
+	</template>
+	
+	<template name="options_checkbox_wide">
+		<panel width="{width=280}" height="{height=18}" align="{align=center}" noclick="true">
+			<button color="invisible" numstates="2" cvar="{cvar}" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); {action}">
+				<instance name="options_checkbox_state" state="up" size="{height=18}" label="{label}" font="{font=chat_12}"	color="yellow" checked="false"/>
+				<instance name="options_checkbox_state" state="over" size="{height=18}" label="{label}" font="{font=chat_12}" color="white" checked="false"/>
+				<instance name="options_checkbox_state" state="down" size="{height=18}" label="{label}" font="{font=chat_12}" color="green" checked="false"/>
+				<instance name="options_checkbox_state" state="up2" size="{height=18}" label="{label}" font="{font=chat_12}" color="yellow" checked="true"/>
+				<instance name="options_checkbox_state" state="over2" size="{height=18}" label="{label}" font="{font=chat_12}" color="white" checked="true"/>
+				<instance name="options_checkbox_state" state="down2" size="{height=18}" label="{label}" font="{font=chat_12}" color="green" checked="true"/>
+			</button>
+		</panel>
+	</template>
+
+	<template name="keybind_button_state">
+		<widgetstate statename="{state}" x="{x=}" y="{y=}">
+			<panel visible="{frame=true}">
+				<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="4" color="#FFE333"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="4"/>
+			</panel>
+			<label width="100%" height="100%" textvalign="center" textalign="center"
+				valign="center" align="center" font="chat_12" color="{color=black}" shadow="true" shadowcolor="{shadowcolor=#7F6E00}"
+				onshow="SetText(GetKeybindButton('{table}', '{action}', '{param}', {num}));"
+				onrefresh="SetText(GetKeybindButton('{table}', '{action}', '{param}', {num}));">
+			</label>
+		</widgetstate>
+	</template>
+	
+	<template name="keybind_button">
+		<button x="{x=0}" y="-1" width="100" height="100%" align="right" color="invisible"
+			onclick="
+				PlaySound('/shared/sounds/ui/button_click.mp3');
+				_keybind_command = '{command}';
+				_keybind_table = '{table}';
+				_keybind_action = '{action}';
+				_keybind_param = '{param}';
+				_keybind_old_button = GetKeybindButton('{table}', '{action}', '{param}', {num});
+				ShowWidget('keybind_button_binder');"
+		>
+			<instance name="keybind_button_state" state="up" frame="false" color="white" shadowcolor="black" table="{table}" action="{action}" param="{param}" num="{num}"/>
+			<instance name="keybind_button_state" state="over" table="{table}" action="{action}" param="{param}" num="{num}"/>
+			<instance name="keybind_button_state" state="down" x="1" y="1" table="{table}" action="{action}" param="{param}" num="{num}"/>
+		</button>
+	</template>
+	
+	<template name="keybind">
+		<listitem>
+			<panel height="20" width="100%" align="left" color="invisible">
+				<frame style="options_window_bg" borderthickness="4"/>
+				<frame style="options_window" borderthickness="4"/>
+
+				<label x="5" y="-1" width="100%" height="100%" textalign="left" textvalign="center" align="left" font="chat_12" color="yellow" shadow="true">{label}:</label>
+
+				<instance name="keybind_button" x="-100" num="0" command="{command}" table="{table}" action="{action}" param="{param=}"/>
+				<instance name="keybind_button" num="1" command="{command}" table="{table}" action="{action}" param="{param=}"/>
+			</panel>
+		</listitem>
+	</template>
+
+	<template name="keybind_type">
+		<listitem>
+			<panel height="20" width="100%" align="left" color="invisible">
+				<label x="5" y="0" width="100%" height="100%" textalign="left" textvalign="center" align="left" font="chat_14" color="white" shadow="true">{label}</label>
+			</panel>
+		</listitem>
+	</template>
+
+	<template name="keybind_header">
+		<panel height="20" width="100%" align="left" color="invisible">
+			<frame style="options_window_header_highlight_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="4"/>
+			<frame texture="/ui/frames/roundframe.tga" color="#863838" borderthickness="4"/>
+
+			<label x="5" y="-1" width="100%" height="100%" textalign="left" textvalign="center" align="left" font="chat_12" color="yellow" shadow="true" content="Action:"/>
+			<label x="-116" y="-1" width="100" height="100%" textalign="center" textvalign="center" align="right" font="chat_12" color="white" shadow="true" content="Key 1"/>
+			<label x="-16" y="-1" width="100" height="100%" textalign="center" textvalign="center" align="right" font="chat_12" color="white" shadow="true" content="Key 2"/>
+		</panel>
+	</template>
+
+	<template name="options_tabs">
+		<panel x="{x}" y="0" width="80" height="26">
+			<frame style="options_window_header_bg"/>
+			<frame style="options_window_header"/>
+			<label
+				width="-10" height="24"
+				align="center"
+				textalign="center" textvalign="center"
+				font="chat_14" color="white" shadow="true"
+				content="{label}"
+			/>
+			<button onclick="ShowOnly('{panel}'); PlaySound('/shared/sounds/ui/button_click.mp3');" color="invisible"/>
+		</panel>
+	</template>
+
+	<template name="joystick_axis_slider">
+		<panel height="12" float="right">
+			<label width="60" font="chat_10" color="white" shadow="true">{label}</label>
+			<frame width="-86" color="#00000088" borderthickness="4" texture="/ui/frames/inset_round.tga">
+				<slider
+					slotwidth="-6" slotheight="8"
+					handlewidth="12" handleheight="12"
+					slotcolor=".8 .8 .8 1"
+					handlecolor=".8 .8 .8 1"
+					texture="/ui/elements/generic_slider.tga"
+					cvar="{cvar}{axis}"
+					minvalue="{min}" maxvalue="{max}"
+					step="{step}"
+					onchange="Set({cvar}{axis}_display, FtoA(this, {precision=2})); {action=}"
+					onshow="Set({cvar}{axis}_display, FtoA(this, {precision=2}));"
+				/>
+			</frame>
+			<cvarlabel
+				width="40"
+				font="chat_10"
+				color="white"
+				shadow="true"
+				onload="CreateString('{cvar}{axis}_display');"
+				cvar="{cvar}{axis}_display"
+			/>
+		</panel>
+	</template>
+	
+	<template name="joystick_axis">
+		<panel width="100%" height="80">
+			<frame style="options_window_bg"/>
+			<frame style="options_window"/>
+
+			<panel width="85%" align="center" float="bottom" padding="2">
+				<label width="16" height="18" font="chat_18" textvalign="top" color="yellow" shadow="true">{axis}</label>
+				<panel width="-16" height="18" adhere="right" spacing="0">
+					<panel y="2" valign="center" height="10" float="right" padding="0">
+						<panel width="10">
+							<frame width="-2" height="-2" align="center" valign="center" texture="/ui/frames/rounded_bg_white.tga" borderthickness="2" color="maroon"/>
+							<frame width="-2" height="-2" align="center" valign="center" texture="/ui/frames/rounded_bg_white.tga" borderthickness="2" color="red" visible="false" watch="Axis{axis}Neg" ontrigger="SetVisible(param);"/>
+							<frame texture="/ui/frames/roundframe.tga" borderthickness="2" color="white"/>
+						</panel>
+						<panel width="-20">
+							<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="3" color="green"/>
+							<frame texture="/ui/frames/roundframe.tga" borderthickness="3" color="white"/>
+							<frame
+								height="-2"
+								valign="center"
+								texture="/ui/frames/rounded_bg_white.tga"
+								borderthickness="3"
+								color="lime"
+								watch="Axis{axis}"
+								ontrigger="
+									If(param lt 0, SetWidth(FtoP(-param / 2)), SetWidth(FtoP(param / 2)));
+									If(param lt 0, SetX(FtoP((1 + param) / 2)), SetX('50%'));
+									SetVisible(param lt -0.05 or param gt 0.05);"
+								watch0="Axis{axis}Exists"
+								ontrigger0="SetVisible(param);"
+							/>
+							<panel width="2" height="-2" align="center" valign="center" color="lime"/>
+							<panel name="joystick_deadzone_{axis}" onframe="SetX(FtoP((1 - input_joyDeadZone{axis}) / 2)); SetWidth(FtoP(input_joyDeadZone{axis}));">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="3" color="0 0 0 .25"/>
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="3" color="white"/>
+							</panel>
+						</panel>
+						<panel width="10">
+							<frame width="-2" height="-2" align="center" valign="center" texture="/ui/frames/rounded_bg_white.tga" borderthickness="2" color="maroon"/>
+							<frame width="-2" height="-2" align="center" valign="center" texture="/ui/frames/rounded_bg_white.tga" borderthickness="2" color="red" visible="false" watch="Axis{axis}Pos" ontrigger="SetVisible(param);"/>
+							<frame texture="/ui/frames/roundframe.tga" borderthickness="2" color="white"/>
+						</panel>
+					</panel>
+				</panel>
+				<instance name="joystick_axis_slider" label="Dead zone" cvar="input_joyDeadZone" axis="{axis}" min="0" max="1" step="0.01" action="If(input_joyDeadZone{axis} ge 0.01, ShowWidget('joystick_deadzone_{axis}'), HideWidget('joystick_deadzone_{axis}'));"/>
+				<instance name="joystick_axis_slider" label="Sensitivity" cvar="input_joySensitivity" axis="{axis}" min="0" max="10" step="0.05"/>
+				<instance name="joystick_axis_slider" label="Gain" cvar="input_joyGain" axis="{axis}" min="1" max="2.5" step="0.02"/>
+				<instance name="options_checkbox" height="14" align="left" cvar="input_joyInvert{axis}" label="Invert" font="chat_10"/>
+			</panel>
+			
+			<frame style="options_window_bg" color="0 0 0 .6" watch="Axis{axis}Exists" ontrigger="SetVisible(!param or input_joyDeviceID == -1);"/>
+		</panel>
+	</template>
+	
+	<panel name="game_options" width="342" height="700" align="center" valign="center" color="invisible" visible="false" onframe="OptionsFrame();" onshow="OptionsOpen();">
+		<panel name="main_panel">
+			<panel style="vist_bg_1" y="28" height="28"/>
+			<panel y="28" height="28" color="#00000044"/>
+
+			<frame style="options_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="invisible"/>
+			<frame style="options_window" texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+			<frame style="options_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="28" borderthickness="12"/>
+			<frame style="options_window_header" texture="/ui/frames/roundframe_header.tga" height="28" borderthickness="12"/>
+			<frame style="options_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" borderthickness="12"/>
+			<frame style="options_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35"  borderthickness="12" float="right" padding="6" >
+				<anchor x="10" height="24" valign="center"/>
+				<instance name="round_button2" width="90" height="24" onclick="OptionsResetAll(); PlaySound('/shared/sounds/ui/button_click.mp3');" font="gametweener" label="Reset All" />
+
+				<anchor x="128" height="24" valign="center"/>
+				<instance name="round_button2" width="64" height="24" onclick="Exec('/scripts/menu_in.cfg');  HideWidget('game_options'); OptionsApply();" font="gametweener" label="Ok"/>
+				<instance name="round_button2" width="64" height="24" onclick="Exec('/scripts/menu_in.cfg'); HideWidget('game_options'); OptionsCancel();" font="gametweener" label="Cancel"/>
+				<instance name="round_button2" width="64" height="24" onclick="OptionsApply();" font="gametweener" label="Apply" />
+			</frame>
+
+			<label width="-20" height="24" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Options</label>
+			<button
+				x="-12" y="7"
+				width="14" height="14"
+				align="right"
+				color="#FFFFFF99"
+				onclick="Exec('/scripts/menu_in.cfg');  HideWidget('game_options'); PlaySound('/shared/sounds/ui/button_click.mp3'); OptionsCancel();"
+				texture="/ui/elements/xbutton.tga"
+				hotkey="ESC"
+				onhotkey="Exec('/scripts/menu_in.cfg');  HideWidget('game_options'); PlaySound('/shared/sounds/ui/button_click.mp3'); OptionsCancel();"
+			/>
+		</panel>
+
+		<!-- Tabs -->
+		<panel y="32" height="24" width="-4" align="center" color="invisible">
+			<instance name="options_tabs" x="5" label="Graphics" panel="graphics"/>
+			<instance name="options_tabs" x="88" label="Sound" panel="sound"/>
+			<instance name="options_tabs" x="171" label="Controls" panel="controls"/>
+			<instance name="options_tabs" x="255" label="Voice" panel="voip"/>
+		</panel>
+
+		<!-- Graphics -->
+		<panel name="graphics" style="options_panel" visible="true">
+			<panel style="options_window_bg" height="2"/>
+			<panel texture="/ui/elements/parchment.tga"/>
+
+			<panel x="5" y="-24" width="80" height="24">
+				<frame style="options_window_header_highlight_bg" height="26"/>
+				<frame style="options_window_header"/>
+				<label width="100%" height="24" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Graphics</label>
+			</panel>
+
+			<panel name="rendering_options" y="-10" align="center" valign="bottom" width="-14" height="350">
+				<frame style="options_window_bg"/>
+				<frame style="options_window"/>
+				<frame style="options_window_header_bg"/>
+				<frame style="options_window_header"/>
+
+				<label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="chat_14" color="white">Rendering Options</label>
+
+				<panel x="0" y="30" width="-6" height="400" align="center" color="invisible" float="bottom" padding="2" noclick="true">
+					<instance name="options_slider" cvar="options_modelQuality" slider_name="options_slider_model" more="false" minvalue="6" maxvalue="0" step="1" label="Model Quality" value="Choose(options_modelQuality, -1, 'Custom', 'Extreme', 'Very High', 'High', 'Medium', 'Medium Low', 'Low', 'Very Low')" action=""/>
+					<instance name="options_slider" cvar="options_textureDetail" slider_name="options_slider_texture" more="false" minvalue="0" maxvalue="2" step="1" label="Texture Detail" value="Choose(options_textureDetail, 0, 'Low', 'Medium', 'High')" action=""/>
+					<instance name="options_slider" cvar="options_shaderQuality" slider_name="options_slider_shader" more="false" minvalue="2" maxvalue="0" step="1"  label="Shader Quality" value="Choose(options_shaderQuality, -1, 'Custom', 'High', 'Medium', 'Low')" action=""/>
+					<instance name="options_slider" cvar="options_shadowQuality" slider_name="options_slider_shadow" more="false" minvalue="4" maxvalue="0" step="1" label="Shadow Quality" value="Choose(options_shadowQuality, -1, 'Custom', 'Very High', 'High', 'Medium', 'Low', 'Disabled')" action=""/>
+					<instance name="options_slider" cvar="options_effectQuality" slider_name="options_slider_effect" more="false" minvalue="3" maxvalue="0" step="1" label="Effect Quality" value="Choose(options_effectQuality, -1, 'Custom', 'High', 'Medium', 'Low', 'Disabled')" action=""/>
+					<instance name="options_slider" cvar="scene_farClip" slider_name="options_slider_terrain" more="false" minvalue="2000" maxvalue="20000" step="100" label="World Draw Distance" value="Round(scene_farClip)" action=""/>
+					<instance name="options_slider" cvar="scene_entityDrawDistance" slider_name="options_slider_object" more="false" minvalue="2000" maxvalue="10000" step="100" label="Object Draw Distance" value="Round(scene_entityDrawDistance)" action=""/>
+					<instance name="options_slider" cvar="scene_foliageDrawDistance" slider_name="options_slider_foliage" more="false" minvalue="0" maxvalue="3000" step="100" label="Foliage Draw Distance" value="Round(scene_foliageDrawDistance)" action=""/>
+				</panel>
+			</panel>
+
+			<panel name="res_options" y="10" align="center" valign="top" width="-14" height="230">
+				<frame style="options_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+				<frame style="options_window" texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+				<frame style="options_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12"/>
+				<frame style="options_window_header" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12"/>
+
+				<label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="chat_14" color="white">Video Options</label>
+
+				<panel align="center" width="-4" y="28" height="-61" color="invisible" padding="2" float="bottom" noclick="true" reverse="true">
+					<panel width="-12" height="22" align="center" valign="top" visible="true">
+						<label width="96" height="100%" textalign="right" textvalign="center" font="chat_12" color="yellow" shadow="true">Resolution</label>
+						<instance name="options_combobox" x="102" width="208" itemwidth="191" maxlistheight="10" listbgheight="206" cvar="vid_mode" data="AddVideoModes" />
+					</panel>
+
+					<panel width="-12" height="22" align="center" valign="top" visible="true">
+						<label width="96" height="100%" textalign="right" textvalign="center" font="chat_12" color="yellow" shadow="true">Aspect Ratio</label>
+						<instance name="options_combobox" x="102" width="62" itemwidth="62" maxlistheight="4" listbgheight="86" cvar="vid_aspect" data="AddAspectModes" />
+					</panel>
+
+					<panel width="-12" height="22" align="center" valign="top" visible="true">
+						<label width="96" height="100%" textalign="right" textvalign="center" font="chat_12" color="yellow" shadow="true">Anti-Aliasing</label>
+						<instance name="options_combobox" x="102" width="62" itemwidth="62" maxlistheight="6" listbgheight="126" cvar="vid_multisample" data="AddAntiAliasingModes" />
+					</panel>
+
+					<panel width="-12" height="22" align="center" valign="top" visible="true">
+						<label width="96" height="100%" textalign="right" textvalign="center" font="chat_12" color="yellow" shadow="true">Texture Filtering</label>
+						<instance name="options_combobox" x="102" width="124" itemwidth="124" maxlistheight="9" listbgheight="186" cvar="vid_textureFiltering" data="AddTextureFilteringModes" />
+					</panel>
+
+					<instance name="options_checkbox" cvar="vid_fullscreen" label="Full Screen Mode" />
+					<if os="windows">
+						<instance name="options_checkbox" cvar="d3d_presentInterval" label="Vertical Sync" />
+						<instance name="options_checkbox" cvar="vid_usepostEffects" label="Post Processing Effects" />
+						<instance name="options_checkbox" cvar="vid_usesceneBuffer" label="Refraction Effects" />
+					</if>
+					<if os="linux">
+						<instance name="options_checkbox" cvar="gl_swapInterval" label="Vertical Sync" />
+						<instance name="options_checkbox" cvar="sys_grabInput" label="Grab Keyboard/Mouse" />
+					</if>
+					<if os="apple">
+						<instance name="options_checkbox" cvar="gl_swapInterval" label="Vertical Sync" />
+					</if>
+
+					<!-- instance name="options_slider" cvar="vid_gamma" slider_name="options_slider_gamma" minvalue="0.5" maxvalue="2.0" value="FtoA(vid_gamma, 2)" label="Brightness" action=""/ -->
+				</panel>
+			</panel>
+		</panel>
+
+		<!-- Sound -->
+		<panel name="sound" style="options_panel">
+			<panel texture="/ui/elements/parchment.tga"/>
+			<panel x="88" y="-24" width="80" height="24">
+				<frame style="options_window_header_highlight_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12"/>
+				<frame style="options_window" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12"/>
+				<label width="100%" height="24" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Sound</label>
+			</panel>
+
+			<panel name="volume_controls" y="5" align="center" valign="top" width="-14" height="402">
+				<frame style="options_window_bg"/>
+				<frame style="options_window"/>
+				<frame style="options_window_header_bg"/>
+				<frame style="options_window_header"/>
+
+				<label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="chat_14" color="white">Volume Controls</label>
+
+				<panel x="0" y="32" width="-6" height="410" align="center" color="invisible" float="bottom" padding="5" noclick="true">
+					<instance name="options_slider" cvar="sound_masterVolume" slider_name="options_slider_masterVolume" minvalue="0" maxvalue="1" value="round (sound_masterVolume * 100)" label="Master Volume" action=""/>
+					<panel height="2" texture="/ui/elements/line_break_inset.tga" width="-20" color="#FFFFFF55" />
+					<instance name="options_slider" cvar="sound_sfxVolume" slider_name="options_slider_sfxVolume" minvalue="0" maxvalue="1" value="round (sound_sfxVolume * 100)" label="Sound Effects Volume" action=""/>
+					<instance name="options_slider" cvar="sound_interfaceVolume" slider_name="options_slider_interfaceVolume" minvalue="0" maxvalue="1" value="round (sound_interfaceVolume * 100)" label="Interface Volume" action=""/>
+					<instance name="options_slider" cvar="sound_musicVolume" slider_name="options_slider_musicVolume" minvalue="0" maxvalue="1" value="round (sound_musicVolume * 100)" label="Music Volume" action=""/>
+					<panel height="2" texture="/ui/elements/line_break_inset.tga" width="-20" color="#FFFFFF55" />
+
+					<instance name="options_slider" cvar="sound_voiceChatVolume" slider_name="options_slider_voiceChatVolume" minvalue="0" maxvalue="1" value="round (sound_voiceChatVolume * 100)" label="Voice Chat Volume" action=""/>
+					<!-- instance name="options_slider" cvar="cg_voiceQuality" slider_name="options_slider_voiceQuality" minvalue="0" maxvalue="10" value="round (cg_voiceQuality * 100)" label="Voice Recording Quality" action=""/ -->
+
+					<instance name="options_checkbox" cvar="sound_disableVoice" label="Disable Voice Chat" />
+					<instance name="options_checkbox" cvar="sound_voiceMicMuted" label="Mute Microphone" />
+					
+					<instance name="options_slider" cvar="sound_voiceTipVolume" slider_name="options_slider_voiceTipVolume" minvalue="0" maxvalue="1" value="round (sound_voiceTipVolume * 100)" label="Voice Tips Volume" action=""/>
+					<instance name="options_checkbox" cvar="sound_disableVoiceTips" label="Disable Voice Tips" />
+				</panel>
+				
+				<instance name="round_button2" y="-2" x="1.25%" align="left" valign="bottom" width="47.5%" height="24" onclick="OptionsResetVoiceTips(true);" font="gamemicro" label="Reset Account's Voice Tips"/>
+				<instance name="round_button2" y="-2" x="-1.25%" align="right" valign="bottom" width="47.5%" height="24" onclick="OptionsResetVoiceTips(false);" font="gamemicro" label="Reset All Voice Tips"/>
+			</panel>
+
+			<panel name="sound_settings" y="-5" align="center" valign="bottom" width="-14" height="192">
+				<frame style="options_window_bg"/>
+				<frame style="options_window"/>
+				<frame style="options_window_header_bg"/>
+				<frame style="options_window_header"/>
+
+				<label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="chat_14" color="white">Sound Options</label>
+
+				<panel x="0" y="32" width="-6" height="150" align="center" color="invisible" float="bottom" padding="5" noclick="true" reverse="true">
+					<if os="linux">
+						<panel width="-20" height="22" align="center" valign="top" visible="true">
+							<label width="104" height="100%" textalign="right" textvalign="center" font="chat_12" color="yellow" shadow="true">Output System</label>
+							<instance name="options_combobox" x="120" width="170" itemwidth="170" maxlistheight="4" listbgheight="88" cvar="sound_output" data="AddSoundOutputs" action="RefreshSoundDrivers(); Call('playback_drivers_combobox', 'ComboBoxCmd(\'clear\');AddSoundPlaybackDrivers(\'combobox_item\');SetSelectedItemByValue(\'sound_driver\');'); Call('recording_drivers_combobox', 'ComboBoxCmd(\'clear\');AddSoundRecordingDrivers(\'combobox_item\');SetSelectedItemByValue(\'sound_recording_driver\');');"/>
+						</panel>
+					</if>
+					
+					<panel width="-20" height="22" align="center" valign="top" visible="true">
+						<label width="104" height="100%" textalign="right" textvalign="center" font="chat_12" color="yellow" shadow="true">Playback Driver</label>
+						<instance name="options_combobox" combobox_name="playback_drivers_combobox" x="120" width="170" itemwidth="170" maxlistheight="3" listbgheight="66" cvar="sound_driver" data="AddSoundPlaybackDrivers"/>
+					</panel>
+
+					<panel width="-20" height="22" align="center" valign="top" visible="true">
+						<label width="104" height="100%" textalign="right" textvalign="center" font="chat_12" color="yellow" shadow="true">Recording Driver</label>
+						<instance name="options_combobox" combobox_name="recording_drivers_combobox" x="120" width="170" itemwidth="170" maxlistheight="3" listbgheight="66" cvar="sound_recording_driver" data="AddSoundRecordingDrivers"/>
+					</panel>
+					
+					<if os="windows">
+						<instance name="options_slider" cvar="options_soundQuality" slider_name="options_slider_soundQuality" minvalue="3" maxvalue="0" value="Choose(options_soundQuality, -1, 'Custom', 'High', 'Normal', 'Low', 'Very Low')" label="Sound Quality" action=""/>
+					</if>
+					<instance name="options_slider" cvar="sound_numChannels" slider_name="options_slider_soundNumChannels" minvalue="32" maxvalue="256" value="sound_numChannels" label="Sound Channels" action=""/>
+					<instance name="options_checkbox" cvar="sound_disable" label="Disable Sound" />
+				</panel>
+			</panel>
+		</panel>
+
+		<!-- Controls -->
+		<panel name="controls" style="options_panel">
+			<panel texture="/ui/elements/parchment.tga"/>
+			<panel x="171" y="-24" width="80" height="24">
+				<frame style="options_window_header_highlight_bg" height="26"/>
+				<frame style="options_window_header"/>
+				<label width="100%" height="24" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Controls</label>
+			</panel>
+
+			<panel y="4" align="center" valign="top" width="-14" height="602" color="invisible">
+				<frame style="options_window_bg" y="26" height="-26" texture="/ui/frames/rounded_footer_bg_white.tga"/>
+				<frame style="options_window" y="26" height="-26" texture="/ui/frames/roundframe_footer.tga"/>
+
+				<!-- Tabs -->
+				<panel height="26">
+					<panel width="33.33%">
+						<frame style="options_window_header_bg"/>
+						<frame style="options_window_header"/>
+						<label x="10" width="100%" height="26" textvalign="center" font="chat_14" color="white" shadow="true">Binds</label>
+						<button color="invisible" onclick="ShowOnly('keys_options'); PlaySound('/shared/sounds/ui/button_click.mp3');"/>
+					</panel>
+
+					<panel x="33.33%" width="33.33%">
+						<frame style="options_window_header_bg"/>
+						<frame style="options_window_header"/>
+						<label x="10" width="100%" height="26" textvalign="center" shadow="true" font="chat_14" color="white">Gameplay</label>
+						<button color="invisible" onclick="ShowOnly('mouse_options'); PlaySound('/shared/sounds/ui/button_click.mp3');"/>
+					</panel>
+
+					<panel x="66.67%" width="33.33%">
+						<frame style="options_window_header_bg"/>
+						<frame style="options_window_header"/>
+						<label x="10" width="100%" height="26" textvalign="center" font="chat_14" color="white" shadow="true">Gamepad</label>
+						<button color="invisible" onclick="ShowOnly('gamepad_options'); PlaySound('/shared/sounds/ui/button_click.mp3');"/>
+					</panel>
+				</panel>
+
+				<panel name="mouse_options" group="control_devices" y="26" visible="false" noclick="true">
+					<frame style="options_window_header_highlight_bg" y="-26" x="33.33%" width="33.33%" height="26">
+						<label x="10" width="100%" height="26" textvalign="center" font="chat_14" color="white" shadow="true">Gameplay</label>
+					</frame>
+
+					<panel y="8" width="-4" height="-26" align="center" color="invisible" float="bottom" padding="8">
+						<instance name="options_slider" cvar="input_mouseSensitivity" slider_name="options_slider_mouseSensitivity" minvalue="0" maxvalue="10" value="FtoA(input_mouseSensitivity, 1)" label="Mouse Sensitivity"/>
+						<instance name="options_slider" cvar="cam_smoothPositionHalfLife" slider_name="options_slider_posSmoothing" minvalue="0" maxvalue="0.2" value="FtoA((cam_smoothPositionHalfLife / 0.1) * 100, 0) # '%%'" label="Camera Position Smoothing"/>
+						<instance name="options_slider" cvar="cam_smoothAnglesHalfLife" slider_name="options_slider_angleSmoothing" minvalue="0" maxvalue="0.1" value="FtoA((cam_smoothAnglesHalfLife / 0.05) * 100, 0) # '%%'" label="Camera Angle Smoothing"/>
+						<instance name="options_slider" cvar="cam_fov" slider_name="options_slider_fov" minvalue="75" maxvalue="105" value="FtoA(cam_fov)" label="Field of view"/>
+						<panel width="-28" height="24" align="center">
+							<instance name="options_checkbox" cvar="input_mouseInvertY" label="Invert mouse" align="left"/>
+							<instance name="options_checkbox" cvar="cam_alwaysThirdPerson" label="3rd Person Guns" align="right"/>
+						</panel>
+						<panel width="-28" height="24" align="left">
+							<instance name="options_checkbox_wide" cvar="cl_holdCharge" label="Hold down charge key to maintain charge" align="left"/>
+						</panel>
+						<panel width="-28" height="24" align="left">
+							<instance name="options_checkbox_wide" cvar="cl_doubleTapCharge" label="Double tap forward key to charge" align="left"/>
+						</panel>
+						<panel width="-28" height="24" align="left">
+							<instance name="options_checkbox_wide" cvar="cl_doubleTapDodge" label="Double tap movement keys to dodge" align="left"/>
+						</panel>
+					</panel>
+				</panel>
+
+				<panel name="gamepad_options" group="control_devices" y="26" height="-26" visible="false">
+					<frame style="options_window_header_highlight_bg" x="66.67%" y="-26" width="33.33%" height="26">
+						<label x="10" width="100%" height="26" textvalign="center" font="chat_14" color="white" shadow="true">Gamepad</label>
+					</frame>
+					<panel y="4" width="-16" align="center" color="invisible" float="bottom" padding="2" reverse="true">
+						<panel height="20" float="right" padding="8">
+							<label width="70" font="chat_14" color="yellow" shadow="true">Controller</label>
+							<instance
+								name="options_combobox"
+								width="227"
+								valign="top"
+								itemwidth="210"
+								maxlistheight="3"
+								listbgheight="66"
+								cvar="input_joyDeviceID"
+								data="AddGameControllers"
+							/>
+						</panel>
+						<panel height="24">
+							<frame style="options_window_bg" borderthickness="8"/>
+							<frame style="options_window" borderthickness="8"/>
+							<panel width="95%" height="20" align="center" valign="center" float="right" padding="4">
+								<label width="86" font="chat_14" color="yellow" shadow="true">Camera Yaw</label>
+								<instance
+									name="options_combobox"
+									width="40"
+									valign="top"
+									itemwidth="40"
+									maxlistheight="6"
+									listbgheight="132"
+									cvar="input_joyCameraX"
+									data="AddAxes"
+									onload="SetSelectedItemByValue(GetAxisValue(GetJoystickAxisBind('player', 'CameraYaw', '')));"
+									action="ClearJoystickAxisBinds('player', 'CameraYaw', ''); Cmd('BindAxis player ' # GetAxisName(this) # ' CameraYaw');"
+								/>
+								<label width="96" font="chat_14" color="yellow" shadow="true" spacing="8">Camera Pitch</label>
+								<instance
+									name="options_combobox"
+									width="40"
+									valign="top"
+									itemwidth="40"
+									maxlistheight="6"
+									listbgheight="132"
+									cvar="input_joyCameraY"
+									data="AddAxes"
+									onload="SetSelectedItemByValue(GetAxisValue(GetJoystickAxisBind('player', 'CameraPitch', '')));"
+									action="ClearJoystickAxisBinds('player', 'CameraPitch', ''); Cmd('BindAxis player ' # GetAxisName(this) # ' CameraPitch');"
+								/>
+							</panel>
+							<frame style="options_window_bg" x="0" color="0 0 0 .6" borderthickness="8" onframe="SetVisible(input_joyDeviceID == -1);"/>
+						</panel>
+						<panel height="24">
+							<frame style="options_window_bg" borderthickness="8"/>
+							<frame style="options_window" borderthickness="8"/>
+							<panel width="90%" height="20" align="center" valign="center" float="right" padding="8">
+								<instance name="options_checkbox" width="120" align="left" cvar="input_joyControlCursor" label="Control cursor"/>
+								<label width="10" font="chat_14" color="yellow" shadow="true">X</label>
+								<instance
+									name="options_combobox"
+									width="40"
+									valign="top"
+									itemwidth="40"
+									maxlistheight="6"
+									listbgheight="132"
+									cvar="input_joyCursorX"
+									data="AddAxes"
+								/>
+								<label width="10" font="chat_14" color="yellow" shadow="true">Y</label>
+								<instance
+									name="options_combobox"
+									width="40"
+									valign="top"
+									itemwidth="40"
+									maxlistheight="6"
+									listbgheight="132"
+									cvar="input_joyCursorY"
+									data="AddAxes"
+								/>
+							</panel>
+							<frame style="options_window_bg" x="0" color="0 0 0 .6" borderthickness="8" onframe="SetVisible(input_joyDeviceID == -1);"/>
+						</panel>
+						<instance name="joystick_axis" axis="X"/>
+						<instance name="joystick_axis" axis="Y"/>
+						<instance name="joystick_axis" axis="Z"/>
+						<instance name="joystick_axis" axis="R"/>
+						<instance name="joystick_axis" axis="U"/>
+						<instance name="joystick_axis" axis="V"/>
+					</panel>
+				</panel>
+				
+				<panel name="keys_options" group="control_devices" y="26" visible="true" noclick="true">
+					<frame style="options_window_header_highlight_bg" y="-26" width="33.33%" height="26">
+						<label x="10" width="100%" height="26" textvalign="center" font="chat_14" color="white" shadow="true">Binds</label>
+					</frame>
+
+					<instance name="round_button2" y="-34" width="115" height="20" align="center" valign="bottom" onclick="Exec('/default_binds.cfg'); Refresh();" font="gametweener" label="Reset Defaults"/>
+
+					<panel y="8" width="-4" height="-72" align="center" color="invisible">
+						<panel color="invisible" float="bottom" padding="3" onload="CreateString('_keybind_command'); CreateString('_keybind_table'); CreateString('_keybind_action'); CreateString('_keybind_param'); CreateString('_keybind_old_button');">
+							<instance name="keybind_header"/>
+							<listbox width="-16" height="-20" itemwidth="100%" itemheight="23" color="invisible" hoverselect="false" select="false" handleheight="48" scrolltexture="/ui/elements/vist_scroll.tga" exteriorscrollbars="true">
+								<instance name="keybind_type" label="General" />
+								<instance name="keybind" command="BindButton" label="On-screen Info" table="game" action="AltInfo" />
+								<instance name="keybind" command="BindImpulse" label="Chat All" table="game" action="ChatAll"/>
+								<instance name="keybind" command="BindImpulse" label="Chat Team" table="game" action="ChatTeam"/>
+								<instance name="keybind" command="BindImpulse" label="Chat Squad" table="game" action="ChatSquad"/>
+								<instance name="keybind" command="BindImpulse" label="Menu" table="game" action="ToggleMenu"/>
+								<instance name="keybind" command="BindImpulse" label="Info Screen" table="game" action="ToggleInfoScreen" param="scores"/>
+								<instance name="keybind" command="BindImpulse" label="Chat History" table="game" action="ShowInfoScreen" param="chat"/>
+								<instance name="keybind" command="BindImpulse" label="Building Info" table="game" action="ShowInfoScreen" param="tech"/>
+								<instance name="keybind" command="BindImpulse" label="Character Stats" table="game" action="ShowInfoScreen" param="character"/>
+								<instance name="keybind" command="BindImpulse" label="Tools" table="game" action="ShowInfoScreen" param="tools"/>
+								<instance name="keybind" command="BindImpulse" label="Lobby" table="game" action="ToggleLobby" />
+								<!-- <instance name="keybind" command="BindButton" label="Voice-chat" table="commander" action="VoiceChat" /> -->
+								<instance name="keybind" command="BindImpulse" label="Voice Commands" table="game" action="VoiceCommands" />
+								<instance name="keybind" command="BindButton" label="Cancel" table="game" action="Cancel" />
+								<instance name="keybind" command="BindButton" label="Show Chat" table="game" action="ShowChat" />
+								<instance name="keybind" command="BindButton" label="Show Scores" table="game" action="ToggleScoreOverlay" />
+								<instance name="keybind" command="BindButton" label="Show Ability Info" table="game" action="ToggleAbilitiesOverlay" />
+								<instance name="keybind" command="BindImpulse" label="Vote Yes" action="VoteNo" table="game"/>
+								<instance name="keybind" command="BindImpulse" label="Vote No" action="VoteYes" table="game"/> 
+								<instance name="keybind_type" label="Player" />
+								<instance name="keybind" command="BindButton" label="Move Forward" table="player" action="MoveForward" />
+								<instance name="keybind" command="BindButton" label="Move Back" table="player" action="MoveBack" />
+								<instance name="keybind" command="BindButton" label="Move Left" table="player" action="MoveLeft" />
+								<instance name="keybind" command="BindButton" label="Move Right" table="player" action="MoveRight" />
+								<instance name="keybind" command="BindImpulse" label="Auto-run" table="player" action="AutoRun" />
+								<instance name="keybind" command="BindButton" label="Sprint" table="player" action="Sprint" />
+								<instance name="keybind" command="BindButton" label="Jump" table="player" action="Jump" />
+								<instance name="keybind" command="BindButton" label="Attack" table="player" action="QuickAttack" />
+								<instance name="keybind" command="BindButton" label="Dodge/charge" table="player" action="StrongAttack" />
+								<instance name="keybind" command="BindButton" label="Block" table="player" action="Block" />
+								<instance name="keybind" command="BindButton" label="Use" table="player" action="Use" />
+								<instance name="keybind" command="BindButton" label="Repair" table="player" action="Repair" />
+								<instance name="keybind" command="BindButton" label="Taunt" table="player" action="Taunt" />
+								<instance name="keybind" command="BindImpulse" label="Inventory Next" table="player" action="InvNext" />
+								<instance name="keybind" command="BindImpulse" label="Inventory Prev" table="player" action="InvPrev" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 1" table="player" action="Inventory0" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 2" table="player" action="Inventory1" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 3" table="player" action="Inventory2" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 4" table="player" action="Inventory3" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 5" table="player" action="Inventory4" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 6" table="player" action="Inventory5" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 7" table="player" action="Inventory6" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 8" table="player" action="Inventory7" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 9" table="player" action="Inventory8" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 0" table="player" action="Inventory9" />
+								<instance name="keybind" command="BindImpulse" label="Backpack 1" table="player" action="Inventory10" />
+								<instance name="keybind" command="BindImpulse" label="Backpack 2" table="player" action="Inventory11" />
+								<instance name="keybind" command="BindImpulse" label="Backpack 3" table="player" action="Inventory12" />
+								<instance name="keybind" command="BindImpulse" label="Backpack 4" table="player" action="Inventory13" />
+								<instance name="keybind" command="BindImpulse" label="Backpack 5" table="player" action="Inventory14" />
+								<instance name="keybind" command="BindImpulse" label="Backpack 6" table="player" action="Inventory15" />
+								<instance name="keybind" command="BindImpulse" label="Ping" table="player" action="StartPing" />
+								<instance name="keybind" command="BindImpulse" label="Pet Commands" table="player" action="PetCommands" />
+								<instance name="keybind" command="BindImpulse" label="Officer Commands" table="player" action="OfficerCommands" />
+								<instance name="keybind_type" label="Commander" />
+								<instance name="keybind" command="BindButton" label="Move Forward" table="commander" action="MoveForward" />
+								<instance name="keybind" command="BindButton" label="Move Back" table="commander" action="MoveBack" />
+								<instance name="keybind" command="BindButton" label="Move Left" table="commander" action="MoveLeft" />
+								<instance name="keybind" command="BindButton" label="Move Right" table="commander" action="MoveRight" />
+								<instance name="keybind" command="BindImpulse" label="Zoom In" table="commander" action="ZoomIn" />
+								<instance name="keybind" command="BindImpulse" label="Zoom Out" table="commander" action="ZoomOut" />
+								<instance name="keybind" command="BindButton" label="Primary Button" table="commander" action="CommanderPrimary" />
+								<instance name="keybind" command="BindButton" label="Secondary Button" table="commander" action="CommanderSecondary" />
+								<instance name="keybind" command="BindButton" label="Tertiary Button" table="commander" action="CommanderTertiary" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 1" table="commander" action="InvSelect" param="0"/>
+								<instance name="keybind" command="BindImpulse" label="Inventory 2" table="commander" action="InvSelect" param="1" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 3" table="commander" action="InvSelect" param="2" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 4" table="commander" action="InvSelect" param="3" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 5" table="commander" action="InvSelect" param="4" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 6" table="commander" action="InvSelect" param="5" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 7" table="commander" action="InvSelect" param="6" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 8" table="commander" action="InvSelect" param="7" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 9" table="commander" action="InvSelect" param="8" />
+								<instance name="keybind" command="BindImpulse" label="Inventory 0" table="commander" action="InvSelect" param="9" />
+							</listbox>
+						</panel>
+					</panel>
+				</panel>
+			</panel>
+		</panel>
+		
+		
+		<!-- voip -->
+		<panel name="voip" style="options_panel">
+			<panel texture="/ui/elements/parchment.tga"/>
+			<panel x="255" y="-24" width="80" height="24">
+				<frame style="options_window_header_highlight_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12"/>
+				<frame style="options_window" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12"/>
+				<label width="100%" height="24" textalign="center" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Voice</label>
+			</panel>
+
+			<panel name="voice_controls" y="5" align="center" valign="top" width="-14" height="402">
+				<frame style="options_window_bg"/>
+				<frame style="options_window"/>
+				<frame style="options_window_header_bg"/>
+				<frame style="options_window_header"/>
+
+				<label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="chat_14" color="white">Voice Options</label>
+
+				<panel x="0" y="32" width="-6" height="380" align="center" color="invisible" float="bottom" padding="5" noclick="true" reverse="true">
+					<if os="linux">
+						<panel width="-20" height="22" align="center" valign="top" visible="true">
+							<label width="104" height="100%" textalign="right" textvalign="center" font="chat_12" color="yellow" shadow="true">Mixer</label>
+							<instance name="options_combobox" x="120" width="170" itemwidth="170" maxlistheight="4" listbgheight="88" cvar="sound_mixer" data="AddSoundMixers" action="SetSoundMixer();"/>
+						</panel>
+					</if>
+					<instance name="options_slider" cvar="voice_volume" slider_name="options_slider_voiceVolume" minvalue="0" maxvalue="1" value="round (voice_volume * 100)" label="Voice Chat Volume" action=""/>
+					<panel height="2" texture="/ui/elements/line_break_inset.tga" width="-20" align="center" color="#FFFFFF55" />
+					<instance name="options_slider" cvar="voice_micVolume" slider_name="options_slider_micVolume" minvalue="0" maxvalue="1" value="round (voice_micVolume * 100)" label="Microphone Input Volume" action=""/>
+					<instance name="options_slider" cvar="voice_audioDampen" slider_name="options_slider_audioDampen" minvalue="0" maxvalue="1" value="round (voice_audioDampen * 100)" label="Voice Audio Reduction Volume" action=""/>
+					<panel height="2" texture="/ui/elements/line_break_inset.tga" width="-20" align="center" color="#FFFFFF55" />
+
+					<instance name="options_checkbox" cvar="voice_micBoost" label="Microphone Boost" />
+					<instance name="options_checkbox" cvar="sound_disableVoice" label="Disable Voice Chat" />
+					
+					<panel height="2" texture="/ui/elements/line_break_inset.tga" width="-20" align="center" color="#FFFFFF55" />
+					
+					<instance name="options_checkbox" cvar="voice_pushToTalk" label="Push To Talk" action="If(voice_pushToTalk, ShowOnly('voice_options_ptt'), ShowOnly('voice_options_no_ptt'));"/>
+					
+					<panel height="100" width="90%" align="center">
+						<panel name="voice_options_ptt" group="voice_options" float="bottom" padding="5" onshow="if(!voice_pushToTalk, HideWidget());">
+							<instance name="keybind" command="BindButton" label="Push To Talk" table="game" action="VoicePushToTalk" param="" />
+						</panel>
+						
+						<panel name="voice_options_no_ptt" group="voice_options" float="bottom" padding="5" onshow="if(voice_pushToTalk, HideWidget());">
+							<instance name="options_slider" cvar="voice_micOnLevel" slider_name="options_slider_voiceMicOnLevel" minvalue="0" maxvalue="100" value="round (voice_micOnLevel)" label="Mic On Sensitivity" action=""/>
+							<instance name="options_slider" cvar="voice_micOnTime" slider_name="options_slider_voiceMicOnTime" minvalue="0" maxvalue="2000" value="round (voice_micOnTime)" label="Mic Off Delay" action=""/>
+							<panel color="invisible" height="35">
+								<frame style="options_window_bg" borderthickness="8"/>
+								<frame style="options_window" borderthickness="8"/>
+								
+								<panel width="100%" height="100%" x="5" y="5" onhide="VoiceStopTest(); ShowWidget('voip_button_start'); HideWidget('voip_button_stop'); HideWidget('voip_sound_indicator');">
+									<panel name="voip_button_start">
+										<instance name="round_button2" width="90" height="24" onclick="VoiceStartTest(); PlaySound('/shared/sounds/ui/button_click.mp3'); ShowWidget('voip_sound_indicator'); ShowWidget('voip_button_stop'); HideWidget('voip_button_start');" font="gametweener" label="Test Mic" />
+									</panel>
+									<panel visible="false" name="voip_button_stop">
+										<instance name="round_button2" width="90" height="24" onclick="VoiceStopTest(); PlaySound('/shared/sounds/ui/button_click.mp3'); ShowWidget('voip_button_start'); HideWidget('voip_button_stop'); HideWidget('voip_sound_indicator');" font="gametweener" label="Stop Test" />
+									</panel>
+									
+									
+									
+									<panel width="127" y="4" x="107" height="17" color="black">
+										<panel width="100%" watch="VoiceLevel" ontrigger="SetWidth(param # '%');">
+											<panel name="voip_sound_indicator" watch="VoiceLevel" color="orange" ontrigger="SetWidth(param # '%');" />
+										</panel>
+									</panel>
+									<label height="20" width="40" textalign="center" x="240" y="4" font="chat_14" noclick="true" color="white" shadow="true" watch="VoiceLevel" ontrigger="SetText(FtoA(param, 0));">0</label>
+									<frame width="140" x="100" height="31" y="-3" texture="/ui/frames/border3.tga" borderthickness="25" />
+									
+								</panel>
+							</panel>
+						</panel>
+					</panel>
+				</panel>
+			</panel>
+
+		</panel><!-- end voip -->
+		
+		
+	</panel>
+
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<panel x="0" y="0" name="keybind_button_binder" color="invisible" visible="false">
+		<buttoncatcher
+			name="keybind_button_catcher"
+			align="center" valign="center"
+			color="#000000c0"
+			onbutton="
+				HideWidget('keybind_button_binder');
+				Cmd('Unbind ' # _keybind_table # ' ' # _keybind_old_button);
+				Cmd(_keybind_command # ' ' # _keybind_table # ' ' # param # ' ' # _keybind_action # ' ' # _keybind_param);
+				PlaySound('/shared/sounds/ui/tutorial/popup_show_1.mp3');
+				Refresh();"
+		/>
+
+		<panel width="280" height="140" align="center" valign="center" noclick="true">
+			<panel y="26" height="-50" texture="/ui/elements/parchment.tga" noclick="true"/>
+			<frame style="options_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" noclick="true"/>
+			<frame style="options_window" texture="/ui/frames/roundframe.tga" borderthickness="12" noclick="true"/>
+			<frame style="options_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12" noclick="true"/>
+			<frame style="options_window_header" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12" noclick="true"/>
+
+			<label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="chat_14" color="white" noclick="true">Choose a New Bind</label>
+			<label y="43" height="40" textalign="center" font="chat_13" color="yellow" shadow="1" wrap="true" noclick="true">To choose a new bind press a key or mouse button.</label>
+
+			<frame style="options_window_footer_bg"  valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" borderthickness="12" noclick="true"/>
+			<frame style="options_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35"  borderthickness="12" float="right" padding="6" noclick="true">
+				<instance name="round_button2"  x="10" width="120" height="24" valign="center" align="left"
+					font="gametweener" label="Clear Bind"
+					onclick="
+						HideWidget('keybind_button_binder');
+						Cmd('Unbind ' # _keybind_table # ' ' # _keybind_old_button);
+						Cmd(_keybind_command # ' ' # _keybind_table # ' INVALID ' # _keybind_action # ' ' # _keybind_param);
+						PlaySound('/shared/sounds/ui/tutorial/popup_show_1.mp3');
+						Refresh();"
+				/>
+
+				<instance name="round_button2" x="-10" width="120" height="24" valign="center" align="right"
+					font="gametweener" label="Cancel"
+					onclick="HideWidget('keybind_button_binder');"
+				/>
+				
+			</frame>
+		</panel>
+	</panel>
+	
+</include>

@@ -1,0 +1,2232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_commander" scenex="25%" sceney="25%" scenewidth="50%" sceneheight="50%" onshow="ClearVC();">
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+	
+	<!-- Styles -->
+	<style name="tooltip_frame" borderthickness="8" color="#777777" texture="/ui/frames/tooltip_bg.tga" visible="false"/>			
+	<style name="horz_rule" width="1" color="white"/>
+
+	<style name="vist_bg_1" bgcolor="#560001" color="#560001"/>
+	<style name="vist_frame_1" color="#662222"/>	
+	
+	<style name="vist_bg_green" bgcolor="#00CC00" color="#00CC00"/>
+	<style name="vist_frame_green" color="#00CC00"/>		
+	<style name="vist_bg_green_2" bgcolor="#007700" color="#007700"/>
+	<style name="vist_frame_green_2" color="#007700"/>		
+
+	<style name="vist_bg_2" color="#7C1A19"  bgcolor="#7C1A19"/>
+	<style name="vist_frame_2" color="#863838" />	
+
+	<style name="vist_bg_3" color="#FF4500"  bgcolor="#FF4500"/>
+	<style name="vist_frame_3" color="#FF4500"  bgcolor="#FF4500" />	
+
+	<style name="vist_bg_4" color="#7C1A19"  bgcolor="#7C1A19"/>
+	<style name="vist_frame_4" color="#863838" />		
+	
+	<!--<style name="vist_tooltip_bg"  bgcolor="#FFCC00bb" color="#FFCC00bb"/>-->
+	<style name="vist_tooltip_bg"  bgcolor="#777777" color="#777777"/>	
+	
+	<style name="hover_ammo_label" height="100%" width="100%" font="gamesmall" shadow="true" textalign="center" textvalign="center" color="white" ontrigger="If(param > 1, SetText(param), ClearText());"/>
+	
+	<!-- Templates -->
+	<include file="/ui/game_chat.xml"/>
+	<include file="/ui/inc_button.xml"/>
+
+	<template name="multi_select_unit">
+		<panel width="50" height="61" watch="MultiSelectActive{index}" ontrigger="SetVisible(param);">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="MultiSelectSquadColor{index}" ontrigger="SetBorderColor(param);"/>
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+			<frame texture="/ui/frames/roundframe.tga" watch="MultiSelectSquadColor{index}" ontrigger="SetBorderColor(param);" borderthickness="6"/>
+			<panel x="4" y="4" width="42" height="54" float="bottom" padding="1">
+				<panel height="42" width="42" >
+					<image watch="MultiSelectIcon{index}" ontrigger="SetTexture(param);"/>
+					<!--image texture="/ui/elements/battlegroup_dead.tga" visible="{dead}" color="#FF000088"/-->
+					<label x="-2" y="-2" width="100%" height="100%" textvalign="bottom" textalign="right" align="center" font="chat_12" color="white" shadow="true" visible="{dead}">99</label>
+					<button onclick="" onmouseover="ShowWidget('{squad}_squad_tooltip');" onmouseout="HideWidget('{squad}_squad_tooltip');" color="invisible"/>
+				</panel>
+				<panel height="4" color="black">
+					<panel color="red" watch="MultiSelectHealthPercent{member}{index}" ontrigger="SetWidth(FtoP(param));"/>
+					<panel color="yellow" watch="MultiSelectHealthPercent{member}{index}" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 0, Saturate((param * 2.5) - 0.25));" />
+					<panel color="lime" watch="MultiSelectHealthPercent{member}{index}" ontrigger="SetWidth(FtoP(param)); SetColor(0, 1, 0, Saturate((param * 2) - 1));" />
+				</panel>
+				<panel height="4" color="black">
+					<panel color="blue" watch="MultiSelectManaPercent{index}" ontrigger="SetWidth(FtoP(param));"/>
+				</panel>
+			</panel>
+			<button
+				onmouseover=";"
+				onmouseout="MultiSelectHoverEntity(-1);"
+				watch="MultiSelectIndex{index}"
+				ontrigger="
+					SetOnclick('CommanderSelect(' # param # ');');
+					SetOnmouseover('MultiSelectHoverEntity(' # param # ');');"
+				color="invisible"
+			/>
+		</panel>		
+	</template>	
+
+	<template name="building_tooltip">
+		<frame name="{building_name}_tooltip" texture="/ui/frames/tooltip_bg.tga" color="#777777" borderthickness="12" visible="false" x="-5" y="-210"  align="right" valign="bottom" width="250" height="144">
+			<frame texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"/>
+			<image x="174" y="9" width="16" height="16" texture="/ui/elements/gold.tga"/>
+			<label x="194" y="9" height="22" width="200" textalign="left" font="gametiny" color="white" onshow="SetText(Building_{building_name}_Cost);"/>
+			<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow" onshow="SetText(Building_{building_name}_Name);"/>
+			<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" onshow="SetText(Building_{building_name}_Description);" color="white"/>
+			<label y="-5" width="-26" height="16" align="center" valign="bottom" font="chat_10" wrap="true" content="Prerequisite:" color="yellow"/>
+			<label name="commander_building_prereq" y="-5" x="67" width="-26" height="16" align="center" valign="bottom" font="chat_10" wrap="true" onshow="SetText(GetPrereqDetails((building_{building_name}_Prerequisite)));" color="white"/>
+		</frame>
+	</template>
+	
+	<template name="building_tooltip_unlocks">
+		<frame name="{building_name}_tooltip_unlocks" texture="/ui/frames/tooltip_bg.tga" color="#777777" borderthickness="12" visible="false" x="-265" y="-210" align="right" valign="bottom" width="164" height="200" onshow="SetVisible(stringequals('{show_panel}','true')); SetHeight('{panel_height}');">
+		<frame texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"/>
+		<panel float="bottom" x="6" y="6">
+
+			<label  height="22" textalign="left" font="gametweener" color="Yellow" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{unit1_texture}', '') || !stringequals('{unit2_texture}', '') || !stringequals('{unit3_texture}', '') || !stringequals('{unit4_texture}', ''));">Unlocks Units:</label>
+			
+			<panel noclick="true" height="38" align="left" float="right" padding="5" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{unit1_texture}', '') || !stringequals('{unit2_texture}', '') || !stringequals('{unit3_texture}', '') || !stringequals('{unit4_texture}', ''));">
+				<image width="32" height="32" texture="{unit1_texture}" onshow="SetVisible(!stringequals('{unit1_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{unit2_texture}" onshow="SetVisible(!stringequals('{unit2_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{unit3_texture}" onshow="SetVisible(!stringequals('{unit3_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{unit4_texture}" onshow="SetVisible(!stringequals('{unit4_texture}', ''));" sticky="true" stickytoinvis="false" />
+			</panel>
+
+			<label  height="22" textalign="left" font="gametweener" color="Yellow" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{weapon1_texture}', '') || !stringequals('{weapon2_texture}', '') || !stringequals('{weapon3_texture}', '') || !stringequals('{weapon4_texture}', ''));">Unlocks Weapons:</label>
+
+			<panel noclick="true" height="38" align="left" float="right" padding="5" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{weapon1_texture}', '') || !stringequals('{weapon2_texture}', '') || !stringequals('{weapon3_texture}', '') || !stringequals('{weapon4_texture}', ''));">
+				<image width="32" height="32" texture="{weapon1_texture}" onshow="SetVisible(!stringequals('{weapon1_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{weapon2_texture}" onshow="SetVisible(!stringequals('{weapon2_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{weapon3_texture}" onshow="SetVisible(!stringequals('{weapon3_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{weapon4_texture}" onshow="SetVisible(!stringequals('{weapon4_texture}', ''));" sticky="true" stickytoinvis="false" />
+			</panel>
+			
+				<label  height="22" textalign="left" font="gametweener" color="Yellow" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{ability1_texture}', '') || !stringequals('{ability2_texture}', '') || !stringequals('{ability3_texture}', '') || !stringequals('{ability4_texture}', ''));">Unlocks Abilities:</label>
+			
+			<panel noclick="true" height="38" align="left" float="right" padding="5" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{ability1_texture}', '') || !stringequals('{ability2_texture}', '') || !stringequals('{ability3_texture}', '') || !stringequals('{ability4_texture}', ''));">
+				<image width="32" height="32" texture="{ability1_texture}" onshow="SetVisible(!stringequals('{ability1_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{ability2_texture}" onshow="SetVisible(!stringequals('{ability2_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{ability3_texture}" onshow="SetVisible(!stringequals('{ability3_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{ability4_texture}" onshow="SetVisible(!stringequals('{ability4_texture}', ''));" sticky="true" stickytoinvis="false" />
+			</panel> 
+			
+			<label  height="22" textalign="left" font="gametweener" color="Yellow" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{item1_texture}', '') || !stringequals('{item2_texture}', '') || !stringequals('{item3_texture}', '') || !stringequals('{item4_texture}', ''));">Unlocks Items:</label>
+			
+			<panel noclick="true" height="38" align="left" float="right" padding="5" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{item1_texture}', '') || !stringequals('{item2_texture}', '') || !stringequals('{item3_texture}', '') || !stringequals('{item4_texture}', ''));">
+				<image width="32" height="32" texture="{item1_texture}" onshow="SetVisible(!stringequals('{item1_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{item2_texture}" onshow="SetVisible(!stringequals('{item2_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{item3_texture}" onshow="SetVisible(!stringequals('{item3_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{item4_texture}" onshow="SetVisible(!stringequals('{item4_texture}', ''));" sticky="true" stickytoinvis="false" />
+			</panel>
+		
+		</panel>
+		</frame>
+		
+	</template>
+	
+	<!-- for the megamap, ended up having to toss these up here -->
+	<template name="megamap_selectsquadbutton">
+		<panel width="32" height="32" color="invisible" watch="CommanderSquadExists{index}" ontrigger="SetVisible(param);">
+			<button color="invisible" onclick="CommanderSelectSquad({index});" onmouseover="ShowWidget('select_squad_tooltip');" onmouseout="HideWidget('select_squad_tooltip');">
+				<widgetstate statename="up">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+					<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+					
+				</widgetstate>
+				<widgetstate statename="over">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+					<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+					
+				</widgetstate>
+				<widgetstate x="1" y="1" statename="down">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+					<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+					
+				</widgetstate>
+			</button>
+		</panel>
+	</template>
+
+	<template name="building_button">
+		<panel height="48" width="48" padding="8">
+			<image x="3" y="3" width="-6" height="-6"
+				onshow="SetTexture(Building_{building_name}_IconPath);"
+				texture="$checker"
+				watch="CanBuild"
+				ontrigger="If(StringEquals(param0, 'Building_{building_name}'), If(param1, SetRenderMode('normal'), SetRenderMode('grayscale')));"
+			/>
+			<button
+				watch="CanBuild"
+				ontrigger="
+					If(
+						StringEquals(param0, 'Building_{building_name}'),
+						If(
+							param1,
+							SetOnclick('PlaySound(\'/shared/sounds/ui/button_click_2.mp3\'); HideWidget(\'{building_name}_tooltip\'); SelectBuilding(\'{building_name}\');'),
+							SetOnclick('PlaySound(\'/shared/sounds/ui/building_place_error.mp3\');')
+						)
+					);
+				"
+				hotkey="{building_shortcut}"
+				onhotkey="SelectBuilding('{building_name}');"
+				onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('{building_name}_tooltip'); ShowWidget('{building_name}_tooltip_unlocks');"
+				onmouseout="HideWidget('{building_name}_tooltip'); HideWidget('{building_name}_tooltip_unlocks');"
+				onclick=""
+				texture="/ui/elements/button_bevel.tga"
+			/>
+		</panel>
+	</template>
+
+	<template name="misc_button">
+		<panel width="100" height="24">
+			<button width="100" height="24" align="center" color="invisible" onclick=" PlaySound('/shared/sounds/ui/button_click_2.mp3'); {action};" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('{tooltip_name}');" onmouseout="HideWidget('{tooltip_name}');">
+				<widgetstate statename="up">
+					<image width="128" height="32" texture="/ui/elements/comm_stone{index}.tga"/>
+					<label y="3" width="100" textalign="center" font="gametiny" color="yellow" shadow="true">{label}</label>
+				</widgetstate>
+				<widgetstate statename="over" x="-1" y="-1">
+					<image width="128" height="32" texture="/ui/elements/comm_stone{index}.tga"/>
+					<label y="3" width="100" textalign="center" font="gametiny" color="white" shadow="true">{label}</label>
+				</widgetstate>
+				<widgetstate statename="down" x="1" y="1">
+					<image width="128" height="32" texture="/ui/elements/comm_stone{index}.tga"/>
+					<label y="3" width="100" textalign="center" font="gametiny" color="red" shadow="true">{label}</label>
+				</widgetstate>
+			</button>
+		</panel>
+	</template>
+
+	<template name="squad_member">
+		<panel width="32" height="38" float="bottom" padding="1">
+			<panel height="32" width="32" >
+				<image watch="CommanderSquadMemberIcon{member}{index}" ontrigger="if(StringEquals(param, ''), SetTexture('/ui/elements/empty_logo.tga'), SetTexture(param));" />
+				<image texture="/ui/elements/battlegroup_dead.tga" visible="false" watch="CommanderSquadMemberDead{member}{index}" ontrigger="SetVisible(param);" color="#770000" />
+				<label x="-1" y="-1" width="100%" height="100%" textvalign="bottom" textalign="right" align="center" font="chat_10" color="white" shadow="true" visible="{dead}">99</label>
+				<button
+					onmouseover=";"
+					onmouseout="MultiSelectHoverEntity(-1);"
+					watch="CommanderSquadMemberIndex{member}{index}"
+					ontrigger=
+					"
+						SetOnmouseover('MultiSelectHoverEntity(' # param # ');');
+						SetOnclick('CommanderSelect(' # param # ');');
+					"
+					color="invisible"
+				/>
+			</panel>
+		
+			<panel height="3" color="black">
+				<panel color="red" watch="CommanderSquadMemberHealthPercent{member}{index}" ontrigger="SetWidth(FtoP(param));"/>
+				<panel color="yellow" watch="CommanderSquadMemberHealthPercent{member}{index}" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 0, Saturate((param * 2.5) - 0.25));" />
+				<panel color="lime" watch="CommanderSquadMemberHealthPercent{member}{index}" ontrigger="SetWidth(FtoP(param)); SetColor(0, 1, 0, Saturate((param * 2) - 1));" />
+			</panel>
+		
+			<panel height="3" color="black">
+				<panel color="blue" watch="CommanderSquadMemberManaPercent{member}{index}" ontrigger="SetWidth(FtoP(param));"/>
+			</panel>
+		</panel>
+	</template>
+
+	<template name="battle_group">		
+		<panel width="50" height="60" color="invisible" watch="CommanderSquadExists{index}" ontrigger="SetVisible(param);" visible="false" stickytoinvis="false" sticky="true">
+			<!-- Officer -->
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param);"/>
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+			<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param);" borderthickness="6"/>
+			<panel x="4" y="4" width="42" height="54" float="bottom" padding="1">
+				<panel height="42" width="42" >
+					<image watch="CommanderSquadOfficerIcon{index}" ontrigger="SetTexture(param);" watch0="CommanderSquadOfficerDead{index}" ontrigger0="if(param, SetRenderMode('grayscale'), SetRenderMode('normal'));"/>
+					<image texture="/ui/elements/battlegroup_dead.tga" visible="false" color="#cc0000ee" watch="CommanderSquadOfficerDead{index}" ontrigger="SetVisible(param);"/>
+					<label x="-2" y="-2" width="100%" height="100%" textvalign="bottom" textalign="right" align="center" font="chat_12" color="white" shadow="true" visible="{dead}">99</label> 	
+					<button
+						onmouseover=";"
+						onmouseout="MultiSelectHoverEntity(-1);"
+						watch="CommanderSquadOfficerIndex{member}{index}"
+						ontrigger=
+						"
+							SetOnmouseover('MultiSelectHoverEntity(' # param # ');');
+							SetOnclick('CommanderSelect(' # param # ');');
+						"
+						color="invisible"
+					/>
+				</panel>
+				<panel height="4" color="black">
+					<panel color="red" watch="CommanderSquadOfficerHealthPercent{member}{index}" ontrigger="SetWidth(FtoP(param));"/>
+					<panel color="yellow" watch="CommanderSquadOfficerHealthPercent{member}{index}" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 0, Saturate((param * 2.5) - 0.25));" />
+					<panel color="lime" watch="CommanderSquadOfficerHealthPercent{member}{index}" ontrigger="SetWidth(FtoP(param)); SetColor(0, 1, 0, Saturate((param * 2) - 1));" />
+				</panel>
+				<panel height="4" color="black">
+					<panel color="blue" watch="CommanderSquadOfficerManaPercent{index}" ontrigger="SetWidth(FtoP(param));"/>
+				</panel>
+			</panel>			
+
+			<!-- Members -->
+			<panel width="16" noclick="true">			
+				<panel x="54" valign="bottom" height="45" color="invisible">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+					<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+					<panel x="4" y="2" float="right" padding="4">
+						<panel x="-6" align="right" width="12" height="40">
+							<button valign="center" align="center" onclick="showwidget('{squad}_panel'); hidewidget('expand_squad_tooltip');" onmouseover="showwidget('expand_squad_tooltip');" onmouseout="hidewidget('expand_squad_tooltip');"  texture="/ui/elements/officer_arrow.tga"/>
+						</panel>
+					</panel>
+				</panel>				
+			</panel>
+			<panel name="{squad}_panel" width="50" visible="true" noclick="true">
+				<panel x="54" width="123" height="13" color="invisible" visible="{sel_all}">
+					<button color="invisible" onclick="CommanderSelectSquad({index});" onmouseover="ShowWidget('select_squad_tooltip');" onmouseout="HideWidget('select_squad_tooltip');">
+						<widgetstate statename="up">
+							<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+							<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+							<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Select Entire Squad</label>
+						</widgetstate>
+						<widgetstate statename="over">
+							<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+							<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Select Entire Squad</label>
+						</widgetstate>
+						<widgetstate x="1" y="1" statename="down">
+							<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+							<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Select Entire Squad</label>
+						</widgetstate>
+					</button>
+				</panel>			
+				<panel x="54" width="123" valign="bottom" height="45" color="invisible">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+					<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+					<panel x="4" y="2"  float="right" padding="4">
+						<instance name="squad_member" index="{index}" member="0"/>
+						<instance name="squad_member" index="{index}" member="1"/>
+						<instance name="squad_member" index="{index}" member="2"/>
+
+						<panel x="-6" align="right" width="12" height="40">
+							<button onclick="HideWidget('{squad}_panel'); HideWidget('collapse_squad_tooltip');" onmouseover="ShowWidget('collapse_squad_tooltip');" onmouseout="HideWidget('collapse_squad_tooltip');" texture="/ui/elements/officer_arrow_collapse.tga"/>
+						</panel>
+					</panel>
+				</panel>					
+			</panel>				
+		</panel>		
+	</template>
+	
+	<template name="ability_tooltip">
+		<frame name="ability_tooltip{slot}" texture="/ui/frames/tooltip_bg.tga" color="#777777" borderthickness="12" visible="false" x="-5" y="-210" align="right" valign="bottom" width="250" height="134">
+			<frame texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"/>
+			<label x="12" y="8" width="170" height="22" textalign="left" font="gametweener" color="Yellow" watch="InventoryName{slot}" ontrigger="SetText(param # ' (^291' # Floor(({slot} + 1) % 10) # '^*)');"/>
+
+			<image x="178" y="12" width="16" height="16" texture="/ui/elements/mana_icon.tga" />
+			<label x="199" y="12" precision="0" width="60" height="22" textalign="left" font="gametweener" color="#00E4FF" watch="InventoryManaCost{slot}" ontrigger="SetText(param);"/>
+
+			<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white" watch="InventoryDescription{slot}" ontrigger="SetText(param);"/>
+
+			<label x="155" y="-5" valign="bottom"  height="22" textalign="left" font="gamemicro" color="Yellow">Cooldown:</label>
+			<label valign="bottom" x="212" y="-5" width="64" height="22" textalign="left" font="gamemicro" color="white" watch="InventoryCooldown{slot}" ontrigger="SetText(param # 's');"/>
+		</frame>
+	</template>
+
+	<!-- Inventory templates -->
+	<template name="ability_button">
+		<panel width="48" height="48" watch="InventoryExists{slot}" ontrigger="SetVisible(param);">
+			<image x="3" y="3" width="-6" height="-6" watch="InventoryIcon{slot}" ontrigger="SetTexture(param);" watch0="InventoryEnabled{slot}" 
+				ontrigger0="If(param, SetRenderMode('normal'), SetRenderMode('grayscale'));"
+			/>			
+			<piegraph start="270" end="-90" square="true" color="#000000cc" watch="InventoryTimer{slot}" ontrigger="SetValue(param);"/>
+			<image texture="$white" rendermode="overlay" 
+				watch="InventoryEnabled{slot}" ontrigger="SetVisible(!param);"
+				watch0="InventoryNoAccess{slot}" ontrigger0="If(param, SetColor('red'));"
+				watch1="InventoryLowMana{slot}" ontrigger1="If(param, SetColor('#4444ff'));"
+				watch2="InventoryDisabled{slot}" ontrigger2="If(param, SetColor('#676045'));"
+			/>
+			<frame x="3" y="3" width="-6" height="-6" borderthickness="3" bordercolor="yellow" color="invisible" watch="SelectedItem" ontrigger="SetVisible(param == {slot});">
+				<image x="3" y="3" width="-6" height="-6" texture="/ui/fps/selected.tga" rendermode="additive" />
+			</frame>
+			<button
+				texture="/ui/elements/button_bevel.tga"
+				onclick="SelectItem({slot}); HideWidget('ability_tooltip{slot}');"
+				onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('ability_tooltip{slot}');"
+				onmouseout="HideWidget('ability_tooltip{slot}');"
+			/>
+			<image x="0" y="30" width="32" height="32" texture="/ui/fps/key_box.tga" noclick="true" />
+			<label x="0" y="30" width="16" height="16" textalign="center" textvalign="center" color="white" font="gametiny" onload="SetText(Floor(({slot} + 1)  % 10));" noclick="true"/>
+		</panel>
+	</template>
+	
+	<template name="hover_inventory_slot">
+		<panel width="24" height="24">
+			<image texture="/ui/elements/empty_pack.tga"/>
+			<panel watch="HoverInventoryExists{slot}" ontrigger="SetVisible(param);">
+				<image watch="HoverInventoryIcon{slot}" ontrigger="SetTexture(param);"/>
+				<label name="hover_ammo_label_slot{slot}" style="hover_ammo_label" watch="HoverInventoryAmmoCount{slot}"/>
+			</panel>
+		</panel>
+	</template>
+
+	<template name="commselection_inventory_slot">
+		<panel width="24" height="24">
+			<image texture="/ui/elements/empty_pack.tga"/>
+			<panel watch="CommSelectionInventoryExists{slot}" ontrigger="SetVisible(param);">
+				<image watch="CommSelectionInventoryIcon{slot}" ontrigger="SetTexture(param);"/>
+				<label name="commselection_ammo_label_slot{slot}" style="hover_ammo_label" watch="CommSelectionInventoryAmmoCount{slot}"/>
+			</panel>
+		</panel>
+	</template>
+	
+	<template name="command_button">
+		<panel width="48" height="48" watch="CommandExists{slot}" ontrigger="SetVisible(param);" visible="false">
+			<image x="3" y="3" width="-6" height="-6" watch="CommandIcon{slot}" ontrigger="SetTexture(param);" />			
+			<button
+				texture="/ui/elements/button_bevel.tga"
+				onclick="Action('Inventory{slot}');"
+				onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3');"
+				watch="InventoryEnabled{slot}" ontrigger="SetEnabled(param);"
+			/>
+			<image x="3" y="38" width="32" height="32" texture="/ui/fps/key_box.tga" noclick="true" />
+			<label x="3" y="38" width="16" height="16" textalign="center" textvalign="center" color="white" font="gametiny" noclick="true" content="X" />
+		</panel>
+	</template>
+	
+	<template name="hover_state_icon">
+		<image width="20" height="20" watch0="Hover{type}Icon{index}" ontrigger0="SetTexture(param);" watch1="Hover{type}Active{index}" ontrigger1="SetVisible(param);" />
+	</template>
+
+	<template name="commselection_state_icon">
+		<image width="20" height="20" watch0="CommSelection{type}Icon{index}" ontrigger0="SetTexture(param);" watch1="CommSelection{type}Active{index}" ontrigger1="SetVisible(param);" />
+	</template>
+	
+	<template name="basic_tooltip">
+		<frame name="{id}_tooltip"  style="tooltip_frame">
+			<frame texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"/>
+			<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">{title}</label>
+			<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">{text}</label>
+		</frame>
+	</template>
+	
+	<template name="worker_icon">
+		<panel width="40" height="40" watch="WorkerIndex{index}" ontrigger="SetVisible(param != 0);">
+			<image watch="WorkerIcon{index}" ontrigger="SetTexture(param);"/>
+			<image x="0" watch="WorkerAction{index}" ontrigger="SetTexture('/ui/elements/' # param # '.tga');"/>
+			
+			<button color="invisible" watch="WorkerIndex{index}" ontrigger="SetOnclick('CommanderSelect(' # param # ');');"/>
+		</panel>
+	</template>
+
+	<template name="death_msg">
+		<panel height="13" sticky="true" stickytoinvis="false" color="orange" visible="true" onshow="SleepWidget(5000);" onwake="DestroyWidget();">
+			<frame color="#444444" texture="/ui/frames/rounded_bg_white.tga" borderthickness="4"/>
+			<frame color="white" texture="/ui/frames/roundframe.tga" borderthickness="4"/>
+			<label y="-1" textalign="center" font="chat_10" shadow="true" color="white" width="100%" height="100%" valign="center" textvalign="center" content="{message}"/>
+		</panel>	
+	</template>
+	
+	<panel name="voicetip" color="invisible" blockinput="false" noclick="true" onshow="PlayVoiceTip('/ui/vtip/states/commander.mp3'); exec('/ui/scripts/voicecommands_comm.cfg');"/>
+	
+	<!--- Main panel -->
+	<panel name="commander_panel" visible="true" noclick="true">
+		<button x="-60" y="3" width="180" height="32" align="right" onmouseover="ShowWidget('shhealth_tooltip');" onmouseout="HideWidget('shhealth_tooltip');" color="invisible"/>
+
+		<!--- Decorative frames -->
+		<panel name="bg_bars" noclick="true">
+			<!-- footer bar-->
+			<panel valign="bottom" height="32" float="right" padding="0">
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>	
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>	
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>	
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>	
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>	
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>	
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>		
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>	
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>		
+				<image valign="bottom" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>				
+			</panel>
+		
+			<panel y="-31" valign="bottom" height="32" float="right" padding="0">
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image  valign="bottom"  width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+			</panel>
+	
+			<panel valign="top" y="4" height="32" float="right" padding="0">
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>	
+				<image  width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+			</panel>
+		
+			<panel valign="top" y="0" height="32" float="right" padding="0">
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>	
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+				<image width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+			</panel>
+		</panel>		
+
+		<!-- Header -->
+		<panel name="header" valign="top" height="32">
+			<!-- Income -->
+			<panel name="income" align="center" height="32" width="128" x="80" y="4">
+				<image x="12" texture="/ui/elements/wide_small_infobox.tga"/>
+				<label x="46" y="6" width="100%" textalign="left" font="gametiny" color="yellow" content="Income: ^999%Income%^*"/>
+				<button width="138" onmouseover="showwidget('income_tooltip');" onmouseout="hidewidget('income_tooltip');" color="invisible"/>
+			</panel>
+
+			<!-- Upkeep -->
+			<panel name="upkeep" align="center" height="32" width="150" x="-100" y="4">
+				<image x="12" texture="/ui/elements/wide_small_infobox.tga"/>
+				<label name="upkeepstatus" x="23" y="6" width="100%" textalign="left" font="gametiny" color="yellow" watch="Upkeep SuddenDeathAlert" ontrigger="If(Upkeep and !SuddenDeathAlert, SetText('Upkeep: ^gMET'), SetText('Upkeep: ^rUNMET'));"/>
+				<label x="10" y="6" width="100%" textalign="left" font="gametiny" color="yellow" watch="SuddenDeathAlert" ontrigger="HideWidget('upkeepstatus'); SetVisible(param); SetText('^rSUDDEN DEATH');" />
+				<button width="138" onmouseover="showwidget('upkeep_tooltip');" onmouseout="hidewidget('upkeep_tooltip');" color="invisible"/>
+			</panel>
+
+			<!--Base health bar -->
+			<panel name="yourbasehealth" x="-5" y="8" width="172" height="16" align="right" color="invisible">
+	        <panel x="20" width="-44">
+				<image texture="/ui/fps/health_negative.tga"/>
+				<image watch="CommandCenterHealthPercent" ontrigger="SetWidth(param * 128);"   texture="/ui/fps/health_positive_r.tga"/>
+				<image watch="CommandCenterHealthPercent" ontrigger="SetWidth(param * 128); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));" texture="/ui/fps/health_positive_y.tga"/>
+				<image watch="CommandCenterHealthPercent" ontrigger="SetWidth(param * 128); SetColor(1, 1, 1, Saturate((param * 2) - 1));" texture="/ui/fps/health_positive.tga"/>
+				<panel y="4" width="2" height="12" color="white" watch="CommandCenterHealthPercent" ontrigger="SetX(param * 128);"/>
+	        </panel>
+	        <panel y="-5" >
+				<image align="left" width="32" height="32" texture="/ui/elements/deco_cont_l.tga"/>
+		        <image align="center" width="-64" height="32" texture="/ui/elements/deco_cont_c.tga"/>
+				<image align="right" width="32" height="32" texture="/ui/elements/deco_cont_r.tga"/>
+			</panel>
+			<label font="chat_12" shadow="true" width="125" height="15" y="2" align="center" textalign="center" color="white" onmouseover="ShowWidget('shhealth_tooltip');" onmouseout="HideWidget('shhealth_tooltip');">Team</label>
+	      </panel>
+
+			<!--Base health bar -->
+			<panel name="enemybasehealth" x="5" y="8" width="172" height="16" align="left" color="invisible">
+	        <panel x="20" width="-44">
+	          <image texture="/ui/fps/health_negative.tga"/>
+	          <image width="50" watch="EnemyCommandCenterHealthPercent" ontrigger="SetWidth(param * 128);"   texture="/ui/fps/health_positive_r.tga"/>
+	          <image width="50" watch="EnemyCommandCenterHealthPercent" ontrigger="SetWidth(param * 128); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));" texture="/ui/fps/health_positive_y.tga"/>
+	          <image width="50" watch="EnemyCommandCenterHealthPercent" ontrigger="SetWidth(param * 128); SetColor(1, 1, 1, Saturate((param * 2) - 1));" texture="/ui/fps/health_positive.tga"/>
+	          <panel y="4" width="2" height="12" color="white" watch="EnemyCommandCenterHealthPercent" ontrigger="SetX(param * 128);"/>
+	        </panel>
+	        <panel y="-5">
+	          <image align="left" width="32" height="32" texture="/ui/elements/deco_cont_l.tga"></image>
+	          <image align="center" width="-64" height="32" texture="/ui/elements/deco_cont_c.tga"></image>
+	          <image align="right" width="32" height="32" texture="/ui/elements/deco_cont_r.tga"></image>
+	        </panel>
+			<label font="chat_12" shadow="true" width="125" height="15" y="2" align="center" textalign="center" color="white" onmouseover="ShowWidget('enemy_shhealth_tooltip');" onmouseout="HideWidget('enemy_shhealth_tooltip');">Enemy</label>
+	     </panel>
+
+			<!-- Team gold -->
+			<panel name="teamgold" align="right" height="32" width="128" x="-194" y="4">
+				<image x="12" texture="/ui/elements/wide_small_infobox.tga"/>
+				<image texture="/ui/elements/left_small_infobox.tga"/>
+				<label x="9" y="6" width="100%" textalign="left" font="gametiny" color="yellow" content="Team Gold: ^999%TeamGold%^*" />
+				<button width="140" onmouseover="showwidget('teamgold_tooltip');" onmouseout="hidewidget('teamgold_tooltip');" color="#00000000"/>
+			</panel>
+			
+			<!-- Game time -->	
+			<panel name="GameTime" width="128" y="0" align="center" height="32" visible="1" noclick="true" passivechildren="true">
+				<image height="64" texture="/ui/elements/tick_timer.tga" />
+
+				<panel width="23" height="23" align="center" x="0" y="37">
+					<piegraph color="white" start="270" end="-90" texture="/ui/elements/timer_backer.tga" />
+					<piegraph color="black" start="270" end="-90" watch="EconomyInterval" ontrigger="SetValue(param);"/>
+					<piegraph color="white" start="270" end="-90" texture="/ui/elements/timer_glass.tga" />
+				</panel>
+				
+				<label font="chat_12" y="2" height="14" textalign="center" textvalign="center" shadow="true">%cg_gameTime%</label>
+				
+				<label font="chat_10" y="18" height="14" textalign="center" textvalign="center" color="#00FF00" shadow="true">Upkeep Interval</label>
+			</panel>
+			
+			<!-- Team experience 
+			<panel name="teamexpbar" x="210" y="3" height="32" width="128">
+				<panel align="center" y="5" height="16" width="-40">
+					<image texture="/ui/fps/exp_negative.tga"/>
+					<image watch="Experience" ontrigger="setwidth(param * 160);" texture="/ui/fps/exp_positive.tga"/>
+					<panel y="4" width="2" height="-4" color="white" watch="Experience" ontrigger="setx(param * 160);"/>
+				</panel>
+				<image align="center" height="32" width="-128" texture="/ui/elements/container_c.tga"/>
+				<image align="left" height="32" width="64" texture="/ui/elements/container_l.tga"/>
+				<image align="right" height="32" width="64" texture="/ui/elements/container_r.tga"/>
+				<panel x="-40" align="left" height="45" width="45">
+					<image align="left" height="64" width="64" texture="/ui/commander/teamlvl_box.tga"/>
+					<label height="20" width="43" valign="center" shadow="true" font="gamesmall" textalign="center" color="white" content="%Level%"/>
+				</panel>
+				<button x="-40" width="324" onmouseover="showwidget('teamexp_tooltip');" onmouseout="hidewidget('teamexp_tooltip');" color="invisible"/>
+
+			
+			</panel>-->
+			
+
+
+			<!-- Death notifications -->
+			<panel noclick="true" y="88" width="280" align="right" float="bottom" padding="1" color="invisible" watch="KillNotification" ontrigger="Instantiate('death_msg', 'message', param);"/>
+		</panel>
+		
+		<!-- bg items -->
+		<panel x="0" y="-22" height="138" align="center" valign="bottom" width="-40" noclick="true" color="invisible">
+			<panel color="invisible" />	
+
+			<!-- tileing parts -->
+			<panel  x="354" width="1" float="right" padding="0"  align="left" noclick="true"> 
+				<image  width="64" height="256" texture="/ui/commander/stone_tile_l.tga"  />
+				<image  width="256" height="256" texture="/ui/commander/stone_tile_c.tga"  />
+				<image  width="256" height="256" texture="/ui/commander/stone_tile_c.tga"  />
+				<image  width="256" height="256" texture="/ui/commander/stone_tile_c.tga"  />
+				<image  width="256" height="256" texture="/ui/commander/stone_tile_c.tga"  />
+				<image  width="256" height="256" texture="/ui/commander/stone_tile_c.tga"  />
+			</panel>	
+			
+			<panel  y="0" align="center" width="298" color="invisible">
+				<panel  x="-71" width="1"   align="left" noclick="true"> 					
+					
+					<image x="0" width="64" height="256" texture="/ui/commander/stone_tile_r.tga"  />
+				</panel>			
+			</panel>				
+
+			<panel  y="0" align="center" width="298" color="invisible">
+				<panel  x="13" width="1" float="right" padding="0"  align="right" noclick="true"> 
+					<image  width="64" height="256" texture="/ui/commander/stone_tile_l.tga"  />
+					<image  width="256" height="256" texture="/ui/commander/stone_tile_c.tga"  />
+					<image  width="256" height="256" texture="/ui/commander/stone_tile_c.tga"  />
+					<image  width="256" height="256" texture="/ui/commander/stone_tile_c.tga"  />
+					<image  width="256" height="256" texture="/ui/commander/stone_tile_c.tga"  />
+				</panel>			
+			</panel>	
+			<image y="0" x="-349" align="right" width="64" height="256" texture="/ui/commander/stone_tile_r.tga"  />
+			
+
+			<panel x="2" align="center" width="298" color="black">
+				<image x="-19" width="32"  align="left" texture="/ui/frames/standard_l.tga" />
+				<image x="19" width="32" align="right" texture="/ui/frames/standard_r.tga" />			
+			</panel>
+			
+			<image y="-19"  height="32"  texture="/ui/frames/standard_t.tga" />
+			<image y="18"  height="32" valign="bottom" texture="/ui/frames/standard_b.tga" />
+
+			<panel name="player_portrait" height="150" width="108" x="-233" y="2" align="right" valign="bottom" color="black">
+				<image y="13" x="-19" width="32" height="-20" align="left" texture="/ui/frames/standard_l.tga" />
+
+				<image y="0" width="128" height="256" texture="/ui/commander/portrait_bg.tga"/>
+				<image y="13" x="-19" width="32" height="-20" align="left" texture="/ui/frames/standard_l.tga" />
+				<image y="-19" width="-10" height="32" align="right" texture="/ui/frames/standard_t.tga" />
+				<image y="19" width="-10" height="32" valign="bottom" align="right" texture="/ui/frames/standard_b.tga" />
+				<image y="-19" x="-19" width="32" height="32" align="left" texture="/ui/frames/standard_tl.tga" />
+				<image y="19" x="-19" width="32" valign="bottom" height="32" align="left" texture="/ui/frames/standard_bl.tga" />
+			</panel>
+			<panel x="20" height="166" width="32" valign="bottom" align="right" color="black"/>			
+		</panel>	
+
+		<!-- Team mana -->
+		<panel name="mana" valign="bottom" x="384" y="-170" width="-765" height="16" align="left">
+			<image align="left" texture="/ui/elements/mana_neg.tga"/>
+			<image width="80%" align="left" watch="TeamManaPercent" ontrigger="SetWidth((param * 100)#'%');"  texture="/ui/elements/mana_pos.tga"/>
+			<panel x="80%" y="0" width="2"  color="white" watch="TeamManaPercent" ontrigger="setx((param * 100)#'%');"/>
+			<panel y="-2" height="1" color="#bbbbbb"/>
+			<panel y="-1" height="1" color="#555555"/>
+			<panel y="0" height="1" color="black"/>	
+			<label y="2" width="100%" textalign="center" valign="center" height="100%" font="chat_11" shadow="true" color="white" watch="TeamMana TeamMaxMana" ontrigger="SetText(Round(TeamMana) # '/' # Round(TeamMaxMana));" onmouseover="ShowWidget('mana_tooltip');" onmouseout="HideWidget('mana_tooltip');"/>			
+		</panel>
+
+		<!-- multi select info panel -->	
+		<panel name="multi_select_panel" y="-25" width="276" height="138" align="center" valign="bottom" color="invisible" visible="false" watch="MultiSelectActive1" ontrigger="SetVisible(param);">
+			<panel x="7" y="7" height="50%" float="right" padding="4">
+				<instance name="multi_select_unit" index="0"/>
+				<instance name="multi_select_unit" index="1"/>
+				<instance name="multi_select_unit" index="2"/>
+				<instance name="multi_select_unit" index="3"/>
+				<instance name="multi_select_unit" index="4"/>						
+			</panel>
+			
+			<panel x="7" y="73"  height="50%" float="right" padding="4">
+				<instance name="multi_select_unit" index="5"/>
+				<instance name="multi_select_unit" index="6"/>
+				<instance name="multi_select_unit" index="7"/>
+				<instance name="multi_select_unit" index="8"/>
+				<instance name="multi_select_unit" index="9"/>						
+			</panel>	
+		</panel>		
+
+		<!--*** npc  selected *** -->
+		<panel name="npc_infowindow" x="0" y="-28" width="292" height="133" align="center" valign="bottom" color="invisible" watch="CommSelectionNpc" visible="false" ontrigger="SetVisible(param);">
+			<frame width="-8" align="center" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="black"/>
+			<frame width="-8" align="center" texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="8"/>
+			
+			<!-- Name -->
+			<label y="7" height="22" textalign="center" font="gamesmall" watch="CommSelectionName" ontrigger="settext(param);" color="yellow" shadow="true"/>
+
+			<!-- Abillities -->
+			<frame x="0" y="32" width="140" align="center" height="46" borderthickness="2" color="invisible">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="black"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8"/>
+				<label y="1" height="22" textalign="center" font="chat_12" color="#00ccFF" shadow="true" content="Abilities"/>
+				
+				
+				<panel y="-4" x="1" valign="bottom" align="center" width="121" height="24" float="right" padding="8" color="invisible">
+					<panel width="24" >
+						<image texture="/ui/elements/empty_logo.tga"/>
+						<button color="invisible" onmouseover="ShowWidget('ncp_ability_tooltip');" onmouseout="HideWidget('ncp_ability_tooltip');"/>
+					</panel>
+					
+					<panel width="24" >
+						<image texture="/ui/elements/empty_logo.tga"/>
+						<button color="invisible" onmouseover="ShowWidget('ncp_ability_tooltip');" onmouseout="hidewidget('ncp_ability_tooltip');"/>
+					</panel>	
+					<panel width="24" >
+						<image texture="/ui/elements/empty_logo.tga"/>
+						<button color="invisible" onmouseover="ShowWidget('ncp_ability_tooltip');" onmouseout="hidewidget('ncp_ability_tooltip');"/>
+					</panel>
+					<panel width="24" >
+						<image texture="/ui/elements/empty_logo.tga"/>
+						<button color="invisible" onmouseover="ShowWidget('ncp_ability_tooltip');" onmouseout="hidewidget('ncp_ability_tooltip');"/>
+					</panel>					
+		
+				</panel>
+			</frame>
+			
+			<!-- Icon -->
+			<frame x="12"  y="8" width="52" height="52"  borderthickness="2" texture="/ui/frames/inset.tga" color="white">
+				<image align="center" valign="center" width="48" height="48" watch="CommSelectionIcon" ontrigger="SetTexture(param);"/>
+			</frame>
+			
+			<frame x="12" y="62" width="52" align="left" height="18" borderthickness="2" color="invisible" watch="CommSelectionLevel" ontrigger="SetVisible(param >= 0);">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="black"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="6"/>
+				<label y="-1" width="100%" height="100%" valign="center" textalign="center" textvalign="center" font="chat_12" shadow="true" color="#FF00CC" watch="CommSelectionLevel" ontrigger="SetText(' LVL: '# param);"/>
+			</frame>				
+			
+			<!--armor  Icon -->
+			<frame x="-12" y="8" width="52" align="right" height="52"  borderthickness="2"  color="invisible">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="black"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8"/>
+				<image align="center" y="4" valign="top" width="42" height="42"  texture="/ui/elements/armor_icon2.tga"/>
+			</frame>
+			
+			<frame x="-12" y="62" width="52" align="right" height="18"  borderthickness="2"  color="invisible">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="black"/>
+				<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="6"/>
+				<label y="-1" width="100%" height="100%" valign="center" textalign="center" textvalign="center" font="chat_12" shadow="true" precision="2" watch="CommSelectionArmor" ontrigger="settext(param);" color="#00FF00"/>
+			</frame>			
+
+			<!-- Health -->
+			<panel name="info_npc_health" y="88" width="270" align="center" height="16" color="green">
+				<image texture="/ui/elements/health_neg.tga"/>
+				<image width="70%" texture="/ui/elements/health_pos_r.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param));" />
+				
+				<image texture="/ui/elements/health_pos_y.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));"/>
+				<image texture="/ui/elements/health_pos.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, Saturate((param * 2) - 1));" />
+
+				<image width="2" color="white" watch="CommSelectionHealthPercent" ontrigger="SetX(FtoP(param));"/>
+				<label width="100%" color="white" shadow="1" font="gametiny" textvalign="center" textalign="center" watch="CommSelectionHealthValue CommSelectionMaxHealth" ontrigger="SetText(Round(CommSelectionHealthValue) # '/' # Round(CommSelectionMaxHealth));"/>
+			</panel>
+			
+			<!-- Mana -->
+			<panel name="info_npc_mana" y="108" width="270" align="center" height="16" color="green" watch="CommSelectionMaxMana" ontrigger="SetVisible(param > 0);">
+				<image texture="/ui/elements/health_neg.tga"/>
+				<image texture="/ui/elements/mana_neg.tga"/>
+				<image width="70%" texture="/ui/elements/mana_pos.tga" watch="CommSelectionManaPercent" ontrigger="SetWidth(FtoP(param));"/>
+				
+				<image x="70%" width="2" color="white" watch="CommSelectionManaPercent" ontrigger="SetX(FtoP(param));"/>
+				<label y="2" x="0" width="100%" color="white" shadow="1" font="gametiny" textalign="center" watch="CommSelectionManaValue CommSelectionMaxMana" ontrigger="SetText(Round(CommSelectionManaValue) # '/' # Round(CommSelectionMaxMana));"/>
+			</panel>			
+		</panel>	
+
+		<!-- Selected gadget info panel -->
+		<panel name="selected_info_gadget"  x="0" y="-28" width="292" height="133" align="center" valign="bottom" color="invisible" watch="CommSelectionGadget" visible="0">
+			<!-- Icon -->
+			<frame x="8" y="8" width="52" height="52" borderthickness="2" texture="/ui/frames/inset.tga" color="white">
+				<image align="center" valign="center" width="48" height="48" watch="CommSelectionIcon" ontrigger="SetTexture(param);"/>
+			</frame>
+
+			<panel x="68" y="2" height="80" width="220" color="invisible">
+				<label width="100%" height="22" textalign="center" font="gamesmall" watch="CommSelectionName" ontrigger="SetText(param);" color="yellow" shadow="true"/>
+				<label y="23" width="100%" height="58" font="chat_11" color="white" wrap="true" watch="CommSelectionDescription" ontrigger="SetText(param);"/>
+			</panel>
+			
+			<!-- Build  bar -->
+			<frame y="112" align="center" width="270" height="18" color="white" visible="1" texture="/ui/frames/inset.tga" watch="" ontrigger="SetVisible(param lt 1 and param ge 0);">
+				<panel width="-4" height="-4" align="center" valign="center">
+					<image texture="/ui/elements/mana_neg.tga"/>
+					<image width="70%" texture="/ui/elements/mana_pos.tga" watch="CommSelectionLifetimePercent" ontrigger="SetWidth(FtoP(param));"/>
+
+					<image x="70%" width="2" color="white" watch="CommSelectionLifetimePercent" ontrigger="SetX(FtoP(param));" />
+					<label y="0" height="100%" width="100%" textalign="center" font="chat_10" shadow="true" watch="CommSelectionLifetimeValue" ontrigger="SetText(FtoT(param));" color="white"/>
+				</panel>
+			</frame>
+
+			<!-- Health bar -->
+			<frame  y="88" align="center" width="270" height="18" color="white" visible="false" texture="/ui/frames/inset.tga" watch="CommSelectionHealthValue" ontrigger="SetVisible(param != -1);">
+				<panel width="-4" height="-4" align="center" valign="center">	
+					<image texture="/ui/elements/health_neg.tga"/>
+					<image width="80%" texture="/ui/elements/health_pos_r.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param));" />
+					<image width="80%" texture="/ui/elements/health_pos_y.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); setcolor(1, 1, 1, saturate((param * 2.5) - 0.25));" />
+					<image width="80%" texture="/ui/elements/health_pos.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); setcolor( 1, 1, 1, saturate((param * 2) - 1));" />
+
+					<image x="80%" width="2" color="white" watch="CommSelectionHealthPercent" ontrigger="SetX(FtoP(param));" />
+					<label y="0" height="100%" width="100%" textalign="center" font="chat_10" shadow="true" watch="CommSelectionHealthValue CommSelectionMaxHealth" ontrigger="SetText(Round(CommSelectionHealthValue) # '/' # Round(CommSelectionMaxHealth));" color="white"/>
+				</panel>
+			</frame>
+		</panel>		
+
+		<!-- Selected building info panel -->
+		<panel name="selected_info_building"  x="0" y="-28" width="292" height="133" align="center" valign="bottom" color="invisible" watch="CommSelectionBuilding" visible="false">
+			<!-- Name -->
+			<label y="11" height="22" textalign="center" font="gamesmall" watch="CommSelectionName" ontrigger="settext(param);" color="yellow" shadow="true"/>
+
+			<!-- Icon -->
+			<frame x="12"  y="8" width="52" height="52"  borderthickness="2" texture="/ui/frames/inset.tga" color="white">
+				<image align="center" valign="center" width="48" height="48" watch="CommSelectionIcon" ontrigger="SetTexture(param);"/>
+			</frame>
+			
+			<!--armor  Icon -->
+			<frame x="-12" y="8" width="52" align="right" height="52"  borderthickness="2" color="invisible" watch="CommSelectionArmor" ontrigger="SetVisible(param != -1);">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="black"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8"/>
+				
+				<image align="center" y="4" valign="top" width="32" height="32"  texture="/ui/elements/armor_icon.tga"/>
+				<label width="100%" height="16" valign="bottom" y="-3" textalign="center" textvalign="center" font="chat_12" shadow="true" precision="2" watch="CommSelectionArmor" ontrigger="SetText(param);" color="lime"/>
+			</frame>
+
+			<!-- repairable -->
+			<frame align="center" y="2" valign="bottom" width="95%" height="28"  borderthickness="10" color="invisible">
+
+			<label x="-28" y="0" height="100%" width="100" align="center" valign="center" textvalign="center" textalign="center" shadow="1" font="gametiny" color="yellow">Repairable:</label>
+			<panel x="20" y="1" width="12" valign="center" height="12" align="center">
+				<image watch="Repairable" ontrigger="if(param, SetTexture('/ui/chatgui/checkbox_down.tga'), SetTexture('/ui/chatgui/checkbox_down2.tga'));"/>
+			  
+				<button name="ToggleRepairable" y="0" width="15" height="15" valign="bottom" align="center" onclick="ToggleRepairable();" color="invisible" ontrigger="SetVisible(param);">
+				<label x="20" y="0" height="20" width="100" align="center" valign="center" textvalign="center" textalign="center" shadow="1" font="gametiny" watch="Repairable" ontrigger="if(param, SetText('NO'), SetText('YES')); if(param, SetColor('red'), SetColor('green'));"/>
+				</button>
+			  
+			</panel>
+			</frame>
+
+			<!-- harvest rate -->
+			<frame align="center" y="2" valign="bottom" width="95%" height="28"  borderthickness="10" color="invisible" watch="CommSelectionExtractionRate" ontrigger="SetVisible(param != -1);">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="black"/>
+				<frame texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="8"/>
+				<label height="100%" width="100%" align="center" valign="center" textvalign="center" textalign="center" shadow="1" font="gametiny" color="white" watch="CommSelectionExtractionRate" ontrigger="SetText('^yHarvest Rate: ^*' #  param);"/>
+			</frame>	
+
+			<!-- gold  bar -->					
+			<frame y="65" align="center" width="270" height="18" color="white" visible="false" texture="/ui/frames/inset.tga" watch="CommSelectionGoldValue" ontrigger="SetVisible(param != -1);">
+				<panel width="-4" height="-4" align="center" valign="center">
+					<image texture="/ui/elements/health_neg_y.tga"/>
+					<image width="70%" texture="/ui/elements/health_pos_y.tga" watch="CommSelectionGoldPercent" ontrigger="SetWidth(FtoP(param));" />
+
+					<image x="70%" width="2" color="white" watch="CommSelectionGoldPercent" ontrigger="SetX(FtoP(param));" />
+					<label y="0" height="100%" width="100%" textalign="center" font="chat_10" shadow="true" watch="CommSelectionGoldValue CommSelectionMaxGold" ontrigger="SetText(Round(CommSelectionGoldValue) # '/' # Round(CommSelectionMaxGold));" color="white"/>
+				</panel>
+			</frame>				
+
+			<!-- Build  bar -->
+			<frame y="65" align="center" width="270" height="18" color="white" visible="false" texture="/ui/frames/inset.tga" watch="CommSelectionBuildPercent" ontrigger="SetVisible(param lt 1);">
+				<panel width="-4" height="-4" align="center" valign="center">
+					<image texture="/ui/elements/mana_neg.tga"/>
+					<image width="70%" texture="/ui/elements/mana_pos.tga" watch="CommSelectionBuildPercent" ontrigger="SetWidth(FtoP(param));"/>
+
+					<image x="70%" width="2" color="white" watch="CommSelectionBuildPercent" ontrigger="SetX(FtoP(param));" />
+					<label y="0" height="100%" width="100%" textalign="center" font="chat_10" shadow="true" watch="CommSelectionBuildPercent" ontrigger="SetText(FtoP(param, 0) # '%');" color="white"/>
+				</panel>
+			</frame>
+
+			<!-- Health bar -->
+			<frame  y="84" align="center" width="270" height="18" color="white" visible="false" texture="/ui/frames/inset.tga" watch="CommSelectionHealthValue" ontrigger="SetVisible(param != -1);">
+				<panel width="-4" height="-4" align="center" valign="center">	
+					<image texture="/ui/elements/health_neg.tga"/>
+					<image width="80%" texture="/ui/elements/health_pos_r.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param));" />
+					<image width="80%" texture="/ui/elements/health_pos_y.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); setcolor(1, 1, 1, saturate((param * 2.5) - 0.25));" />
+					<image width="80%" texture="/ui/elements/health_pos.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); setcolor( 1, 1, 1, saturate((param * 2) - 1));" />
+
+					<image x="80%" width="2" color="white" watch="CommSelectionHealthPercent" ontrigger="SetX(FtoP(param));" />
+					<label y="0" height="100%" width="100%" textalign="center" font="chat_10" shadow="true" watch="CommSelectionHealthValue CommSelectionMaxHealth" ontrigger="SetText(Round(CommSelectionHealthValue) # '/' # Round(CommSelectionMaxHealth));" color="white"/>
+				</panel>
+			</frame>
+		</panel>
+
+		<!--- Misc buttons -->
+		<panel name="misc_buttons" x="256" y="-20" valign="bottom" height="150" width="108" color="black">
+			<image y="13" x="19" width="32" height="-20" align="right" texture="/ui/frames/standard_r.tga" />
+			<image y="-19" height="32" align="right" texture="/ui/frames/standard_t.tga" />
+			<image y="19" width="-10" height="32" valign="bottom" align="right" texture="/ui/frames/standard_b.tga" />
+			<image y="-19" x="19" width="32" height="32" align="right" texture="/ui/frames/standard_tr.tga" />
+			<image y="19" x="19" width="32" valign="bottom" height="32" align="right" texture="/ui/frames/standard_br.tga" />
+
+			<panel y="4" width="100" height="140" float="bottom" align="center" padding="0">
+				<instance name="misc_button" index="1" label="TEAM ADMIN" action="If(IsWidgetVisible('team_manager_panel'), HideWidget('team_manager_panel'), ShowWidget('team_manager_panel'));" tooltip_name="teammanager_tooltip" />
+				<instance name="misc_button" index="2" label="BUILDINGS" action="ToggleInfoScreen('tech')" tooltip_name="menu_buildings_tooltip" />
+				<instance name="misc_button" index="3" label="SCORES" action="ToggleInfoScreen('scores')" tooltip_name="menu_scores_tooltip" />
+				<instance name="misc_button" index="1" label="HISTORY" action="ToggleInfoScreen('chat')" tooltip_name="menu_history_tooltip" />
+				<instance name="misc_button" index="2" label="MENU" action="ToggleMenu()" tooltip_name="menu_tooltip"/>
+				<instance name="misc_button" index="3" label="RESIGN" action="Resign()" tooltip_name="resign_tooltip" />
+			</panel>
+		</panel>
+		
+		<!--- Chat -->	
+		<panel noclick="true" passivechildren="true">
+			<instance name="game_chat_window" interface="game_commander" xoffset="15%" yoffset="-40%"/>
+		</panel>
+		
+		
+		<!-- New Worker Panel -->
+		<panel x="10" y="40"  float="right" padding="10" width="205" height="60" color="invisible" noclick="true">	
+			<panel width="48" height="54">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" />
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+				<frame texture="/ui/frames/roundframe.tga" borderthickness="6"/>
+				<panel y="3" align="center" valign="top" width="40" height="40">
+					<image texture="/ui/elements/empty_logo.tga"/>
+					<panel watch="Race" ontrigger="ShowOnly(param # '_worker_icon2');">
+						<image name="human_worker_icon2" group="worker_icons2" texture="/human/units/builder/icons/icon.tga" rendermode="grayscale"/>
+						<image name="beast_worker_icon2" group="worker_icons2" texture="/beast/units/conjurer/icons/icon.tga" rendermode="grayscale"/>
+						<panel color="0 0 0 .5" />
+					</panel>	
+					<instance name="worker_icon" index="0"/>
+				</panel>	
+
+				<panel y="-4" align="center" width="-8" valign="bottom" height="4" color="black">
+					<panel color="red" watch="WorkerHealth0" ontrigger="SetWidth(FtoP(param));"/>
+					<panel color="yellow" watch="WorkerHealth0" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 0, Saturate((param * 2.5) - 0.25));" />
+					<panel color="lime" watch="WorkerHealth0" ontrigger="SetWidth(FtoP(param)); SetColor(0, 1, 0, Saturate((param * 2) - 1));" />
+				</panel>
+			</panel>	
+			
+			<panel width="48" height="54">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" />
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+				<frame texture="/ui/frames/roundframe.tga" borderthickness="6"/>
+				<panel y="3" align="center" valign="top" width="40" height="40">
+					<image texture="/ui/elements/empty_logo.tga"/>					
+					<panel watch="Race" ontrigger="ShowOnly(param # '_worker_icon3');">
+						<image name="human_worker_icon3" group="worker_icons3" texture="/human/units/builder/icons/icon.tga" rendermode="grayscale"/>
+						<image name="beast_worker_icon3" group="worker_icons3" texture="/beast/units/conjurer/icons/icon.tga" rendermode="grayscale"/>
+						<panel color="0 0 0 .5" />
+					</panel>						
+					<instance name="worker_icon" index="1"/>
+				</panel>	
+
+				<panel y="-4" align="center" width="-8" valign="bottom" height="4" color="black">
+					<panel color="red" watch="WorkerHealth1" ontrigger="SetWidth(FtoP(param));"/>
+					<panel color="yellow" watch="WorkerHealth1" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 0, Saturate((param * 2.5) - 0.25));" />
+					<panel color="lime" watch="WorkerHealth1" ontrigger="SetWidth(FtoP(param)); SetColor(0, 1, 0, Saturate((param * 2) - 1));" />
+				</panel>
+			</panel>
+
+			<panel width="48" height="54">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" />
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+				<frame texture="/ui/frames/roundframe.tga" borderthickness="6"/>
+				<panel y="3" align="center" valign="top" width="40" height="40">
+					<image texture="/ui/elements/empty_logo.tga"/>
+					<panel watch="Race" ontrigger="ShowOnly(param # '_worker_icon4');">
+						<image name="human_worker_icon4" group="worker_icons4" texture="/human/units/builder/icons/icon.tga"  rendermode="grayscale"/>
+						<image name="beast_worker_icon4" group="worker_icons4" texture="/beast/units/conjurer/icons/icon.tga" rendermode="grayscale"/>
+						<panel color="0 0 0 .5" />
+					</panel>	
+					<instance name="worker_icon" index="2"/>
+				</panel>		
+
+				<panel y="-4" align="center" width="-8" valign="bottom" height="4" color="black">
+					<panel color="red" watch="WorkerHealth2" ontrigger="SetWidth(FtoP(param));"/>
+					<panel color="yellow" watch="WorkerHealth2" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 0, Saturate((param * 2.5) - 0.25));" />
+					<panel color="lime" watch="WorkerHealth2" ontrigger="SetWidth(FtoP(param)); SetColor(0, 1, 0, Saturate((param * 2) - 1));" />
+				</panel>
+			</panel>				
+				
+				
+				
+				
+				
+				
+				
+		</panel>		
+		
+		
+		<panel x="10" y="100"  float="bottom" padding="5" width="45" height="45" noclick="true">	
+			<instance name="battle_group" index="0" squad="red" sel_all="true"/>
+			<instance name="battle_group" index="1" squad="blue" sel_all="true"/>
+			<instance name="battle_group" index="2" squad="yellow" sel_all="true"/>
+			<instance name="battle_group" index="3" squad="green" sel_all="true"/>
+			<instance name="battle_group" index="4" squad="orange" sel_all="true"/>
+			
+			<!-- Voice Chat Panels -->
+			<panel width="210" height="300" sticky="true" stickytoinvis="false" float="bottom" noclick="true">
+				<instance name="voice_chat_panel" index="0"/>
+				<instance name="voice_chat_panel" index="1"/>
+				<instance name="voice_chat_panel" index="2"/>
+				<instance name="voice_chat_panel" index="3"/>
+				<instance name="voice_chat_panel" index="4"/>
+				<instance name="voice_chat_panel" index="5"/>
+				<instance name="voice_chat_panel" index="6"/>
+				<instance name="voice_chat_panel" index="7"/>
+				<instance name="voice_chat_panel" index="8"/>
+				<instance name="voice_chat_panel" index="9"/>
+				<instance name="voice_chat_panel" index="10"/>
+				<instance name="voice_chat_panel" index="11"/>
+				<instance name="voice_chat_panel" index="12"/>
+				<instance name="voice_chat_panel" index="13"/>
+				<instance name="voice_chat_panel" index="14"/>
+				<instance name="voice_chat_panel" index="15"/>
+				<instance name="voice_chat_panel" index="16"/>
+				<instance name="voice_chat_panel" index="17"/>
+				<instance name="voice_chat_panel" index="18"/>
+				<instance name="voice_chat_panel" index="19"/>
+				<instance name="voice_chat_panel" index="20"/>
+				<instance name="voice_chat_panel" index="21"/>
+				<instance name="voice_chat_panel" index="22"/>
+				<instance name="voice_chat_panel" index="23"/>
+				<instance name="voice_chat_panel" index="24"/>
+				<instance name="voice_chat_panel" index="25"/>
+				<instance name="voice_chat_panel" index="26"/>
+				<instance name="voice_chat_panel" index="27"/>
+				<instance name="voice_chat_panel" index="28"/>
+				<instance name="voice_chat_panel" index="29"/>
+				<instance name="voice_chat_panel" index="30"/>
+				<instance name="voice_chat_panel" index="31"/>
+			</panel>
+		</panel>
+
+		<!--- **** new mini map **** -->
+		<panel name="minimap"  width="265" height="230" align="left" valign="bottom" noclick="true">
+			<panel height="216" width="20" valign="bottom" color="black" />
+			
+			<frame borderthickness="32" texture="/ui/frames/standard.tga" noclick="true"/>
+
+			<minimap name="minimapclicker" x="19" y="19" width="192" height="192" texture="!minimap_texture" watch="Minimap" onrightclick="GivePositionOrder(param0, param1);"/>
+			<image align="right" x="-52" valign="center" height="-38" width="4" texture="/ui/frames/standard_vert.tga" />
+
+			<panel x="213" y="19" height="-38" width="32" color="black" float="bottom" padding="7">
+				<panel height="32" width="32" color="red">
+						<image align="left" width="32" texture="/ui/commander/draw.tga" />
+						<button width="32" height="32" cvar="ui_minimapDrawing" numstates="2" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); ui_minimapPing = 0;" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('draw_tooltip');" onmouseout="HideWidget('draw_tooltip');" align="center" texture="/ui/elements/button_bevel.tga" />						
+				</panel>
+				
+				<panel height="32" width="32" color="red">
+					<image  align="left" width="32"  texture="/ui/commander/ping.tga" />
+					<button width="32"  height="32" cvar="ui_minimapPing" numstates="2" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); ui_minimapDrawing = 0;" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('ping_tooltip');" onmouseout="HideWidget('ping_tooltip');" align="center" texture="/ui/elements/button_bevel.tga" />
+				</panel>
+
+				<panel height="32" width="32" color="red">
+					<image  align="left" width="32"  texture="/ui/commander/options.tga" />
+					<button width="32"  height="32" cvar="ui_minimapMega" numstates="2" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); ui_minimapMega = 0; If(IsWidgetVisible('megamap'), HideWidget('megamap'), ShowWidget('megamap'));" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('megamap_tooltip');" onmouseout="HideWidget('megamap_tooltip');" align="center" texture="/ui/elements/button_bevel.tga" />
+				</panel>
+				
+				<panel height="32" width="32" color="red">
+					<image  align="left" width="32" color="black" />
+				</panel>
+
+				<panel height="32" width="32" color="red">
+					<image  align="left" width="32" color="black" />
+				</panel>	
+			</panel>
+			<!--<button y="0" x="0" width="32" valign="top" onclick="ShowWidget('megamap');" height="32" align="right" color="#00000000" >
+				<image texture="/ui/frames/standard_tr.tga" />
+			</button>-->
+		</panel>
+
+		<!--- **** player portrait **** -->
+		<panel name="player_portrait" height="150" width="108" x="-253" y="-20" align="right" valign="bottom"  color="black" watch="CommSelectionPlayer" visible="false">
+			<image x="0" y="-42" width="128" height="128" valign="bottom" watch="CommSelectionCommanderPortrait" ontrigger="SetTexture(param);" texture="$checker"/>
+			<panel valign="bottom" y="-3" height="36" float="bottom" padding="2">
+				<frame name="info_player_health" y="2" align="center" width="100"  height="14" borderthickness="2" texture="/ui/frames/inset.tga" color="black">
+					<panel width="-4" height="-4" align="center" valign="center">
+						<image texture="/ui/elements/health_neg.tga"/>
+						<image width="70%" texture="/ui/elements/health_pos_r.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param));" />
+						<image width="70%" texture="/ui/elements/health_pos_y.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); setcolor(1, 1, 1, saturate((param * 2.5) - 0.25));" />
+						<image width="70%" texture="/ui/elements/health_pos.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); setcolor(1, 1, 1, saturate((param * 2) - 1));" />
+						<image x="70%" width="2" color="white" watch="CommSelectionHealthPercent" ontrigger="SetX(FtoP(param));"/>
+						<label y="-3" x="0" width="100%" color="white" shadow="1" font="gametiny" textalign="center" watch="CommSelectionHealthValue CommSelectionMaxHealth" ontrigger="SetText(Ceil(CommSelectionHealthValue) # '/' # Ceil(CommSelectionMaxHealth));"/>
+					</panel>
+				</frame>
+
+				<frame name="info_player_mana" y="20" align="center" width="100"  height="14"  color="black">
+					<panel width="-4" height="-4" align="center" valign="center">
+						<image texture="/ui/elements/mana_neg.tga"/>
+						<image width="70%" texture="/ui/elements/mana_pos.tga" watch="CommSelectionManaPercent" ontrigger="SetWidth(FtoP(param));"/>
+						<image x="70%" width="2" color="white" watch="CommSelectionManaPercent" ontrigger="SetX(FtoP(param));"/>
+						<label y="-3" x="0" width="100%" color="white" shadow="1" font="gametiny" textalign="center" watch="CommSelectionManaValue CommSelectionMaxMana" ontrigger="SetText(Ceil(CommSelectionManaValue) # '/' # Ceil(CommSelectionMaxMana));"/>
+					</panel>
+				</frame>
+			</panel>
+		</panel>
+
+		<!--- **** building portrait **** -->
+		<panel name="building_portrait" height="150" width="108" x="-253" y="-20" align="right" valign="bottom" color="black" watch="CommSelectionBuilding" visible="false">
+			<image x="0" y="-42" width="128" height="128" valign="bottom" watch="CommSelectionCommanderPortrait" ontrigger="SetTexture(param);" texture="$checker"/>
+			
+			<panel valign="bottom" y="-3" height="36" float="bottom" padding="2" watch="CommSelectionHealthValue" ontrigger="SetVisible(param != -1);">
+				<frame name="info_building_health" y="18" align="center" width="98" height="14" borderthickness="2" texture="/ui/frames/inset.tga" color="black">
+					<panel width="-4" height="-4" align="center" valign="center">
+						<image texture="/ui/elements/health_neg.tga"/>
+						<image width="70%" texture="/ui/elements/health_pos_r.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param));" />
+						<image width="70%" texture="/ui/elements/health_pos_y.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); setcolor(1, 1, 1, saturate((param * 2.5) - 0.25));" />
+						<image width="70%" texture="/ui/elements/health_pos.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); setcolor(1, 1, 1, saturate((param * 2) - 1));" />
+						<image x="70%" width="2" color="white" watch="CommSelectionHealthPercent" ontrigger="SetX(FtoP(param));" />
+						<label y="-2" x="0" width="100%" color="white" shadow="1" font="gamemicro" textalign="center" watch="CommSelectionHealthValue CommSelectionMaxHealth" ontrigger="SetText(Ceil(CommSelectionHealthValue) # '/' # Ceil(CommSelectionMaxHealth));"/>
+					</panel>
+				</frame>
+			</panel>
+		</panel>
+
+		<!--- **** controls **** -->
+		<frame name="controls"  width="262" height="204" align="right" valign="bottom"  borderthickness="32" texture="/ui/frames/standard.tga" color="white" noclick="true">
+			<image x="15" y="15" width="256" height="256" texture="/ui/commander/control_frame.tga"/>
+
+			<!-- Inventory -->
+			<panel name="inventory" x="24" y="24" width="214" height="156" float="right" padding="7" color="invisible" noclick="true">
+				<panel width="48" height="48">
+					<image texture="/ui/commander/build_up.tga"/>
+					<button
+						onmouseout="HideWidget('build_tooltip');"
+						onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('build_tooltip');"
+						onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); HideWidget('build_tooltip'); ShowBuildMenu();"
+						texture="/ui/elements/button_bevel.tga"
+						hotkey="B"
+						onhotkey="PlaySound('/shared/sounds/ui/button_click_2.mp3'); HideWidget('build_tooltip'); ShowBuildMenu();"
+					/>
+				</panel>
+				<panel width="48" height="48">
+					<panel watch="Race" ontrigger="ShowOnly(param # '_worker_icon');">
+						<image name="human_worker_icon" group="worker_icons" texture="/human/units/builder/icons/icon.tga" watch="WorkerAvailable" ontrigger="If(param, SetRenderMode('normal'), SetRenderMode('grayscale'));"/>
+						<image name="beast_worker_icon" group="worker_icons" texture="/beast/units/conjurer/icons/icon.tga" watch="WorkerAvailable" ontrigger="If(param, SetRenderMode('normal'), SetRenderMode('grayscale'));"/>
+					</panel>
+					<piegraph start="270" end="-90" square="true" color="#000000cc" watch="WorkerCooldownTimer" ontrigger="SetValue(param);"/>
+					<button
+						width="48" height="48"
+						watch="WorkerAvailable"
+						ontrigger="If(param, SetOnclick('PlaySound(\'/shared/sounds/ui/button_click_2.mp3\'); HideWidget(\'worker_tooltip\'); SpawnWorker();'), SetOnclick('PlaySound(\'/shared/sounds/ui/building_place_error.mp3\');'));"
+						onmouseout="HideWidget('worker_tooltip');"
+						onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('worker_tooltip');"
+						texture="/ui/elements/button_bevel.tga"
+					/>
+				</panel>
+				<instance name="ability_button" slot="8"/>
+				<instance name="ability_button" slot="9"/>
+				<anchor x="0" y="54"/>
+				<instance name="ability_button" slot="0"/>
+				<instance name="ability_button" slot="1"/>
+				<instance name="ability_button" slot="2"/>
+				<instance name="ability_button" slot="3"/>
+				<anchor x="0" y="108"/>
+				<instance name="ability_button" slot="4"/>
+				<instance name="ability_button" slot="5"/>
+				<instance name="ability_button" slot="6"/>
+				<instance name="ability_button" slot="7"/>
+			</panel>
+			
+			<image y="-5" width="64" height="32" align="center" texture="/ui/elements/dec_skull1.tga" noclick="true"/>
+		</frame>
+
+		<!--*** player selected *** -->
+		<panel name="CommSelection" x="0" y="-28" width="292" height="133" align="center" valign="bottom" color="invisible" watch="CommSelectionPlayer" visible="true" ontrigger="SetVisible(param);">
+			<image x="-8" y="-8"  width="512" height="256" texture="/ui/fps/unit_info_bg.tga" noclick="true"/>
+			<!--<image name="stam_icon" x="2" y="2" width="24" height="24" texture="/ui/elements/stamina_icon.tga" />-->
+			<panel name="info_stamina_bar" x="12" y="29" width="10" height="68" color="white">
+				<image texture="/ui/elements/stam_vert_neg.tga"/>
+				<image height="100%" texture="/ui/elements/stam_vert_pos.tga" watch="CommSelectionStaminaPercent" ontrigger="SetY(FtoP(1 - param)); SetHeight(FtoP(param));" />
+				<image y="100%" height="2" color="white" watch="CommSelectionStaminaPercent" ontrigger="SetY(FtoP(1 - param));" />
+			</panel>
+
+			<!--<image name="mana_icon" align="right" x="-2" y="2" width="24" height="24" texture="/ui/elements/mana_icon.tga" /> -->		
+			<panel name="info_mana_bar" align="right" x="-12" y="29" width="10" height="68" color="blue">
+				<image texture="/ui/elements/mana_vert_neg.tga"/>
+				<image height="100%" texture="/ui/elements/mana_vert_pos.tga" watch="CommSelectionManaPercent" ontrigger="SetY(FtoP(1 - param)); SetHeight(FtoP(param));" />
+				<image y="100%" height="2" color="white" watch="CommSelectionManaPercent" ontrigger="SetY(FtoP(1 - param));" /> 
+			</panel>						
+
+			<panel name="info_backpack1" x="32" y="20" width="56" height="89" float="bottom" padding="4" color="invisible">
+				<instance name="commselection_inventory_slot" slot="10" />
+				<instance name="commselection_inventory_slot" slot="11" />
+				<instance name="commselection_inventory_slot" slot="12" />
+				
+				<anchor x="28" y="0"/>
+				<instance name="commselection_inventory_slot" slot="13" />
+				<instance name="commselection_inventory_slot" slot="14" />
+				<instance name="commselection_inventory_slot" slot="15" />
+			</panel>		
+
+			<image name="info_player_portrait" x="92" y="22" width="48" height="48" watch="CommSelectionIcon" ontrigger="SetTexture(param);" texture="/ui/elements/empty_logo.tga"/>
+			
+			<panel name="info_states_buff" x="150" y="24" width="115" height="48" float="right" padding="2" color="invisible">
+				<instance name="commselection_state_icon" type="Buff" index="0" />
+				<instance name="commselection_state_icon" type="Buff" index="1" />
+				<instance name="commselection_state_icon" type="Buff" index="2" />
+				<instance name="commselection_state_icon" type="Buff" index="3" />
+				<instance name="commselection_state_icon" type="Buff" index="4" />
+				
+				<anchor x="0" y="25"/>
+				<instance name="commselection_state_icon" type="Debuff" index="0" />
+				<instance name="commselection_state_icon" type="Debuff" index="1" />
+				<instance name="commselection_state_icon" type="Debuff" index="2" />
+				<instance name="commselection_state_icon" type="Debuff" index="3" />
+				<instance name="commselection_state_icon" type="Debuff" index="4" />
+			</panel>
+
+			<panel name="info_player_health" x="92" y="78" width="170" height="19" color="green">				
+				<image texture="/ui/elements/health_neg.tga"/>
+				<image width="70%" texture="/ui/elements/health_pos_r.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param));" />
+
+				<image width="70%" texture="/ui/elements/health_pos_y.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));"/>
+				<image width="70%" texture="/ui/elements/health_pos.tga" watch="CommSelectionHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, Saturate((param * 2) - 1));"/>
+
+				<image x="70%" width="2" color="white" watch="CommSelectionHealthPercent" ontrigger="SetX(FtoP(param));" />
+				<label y="2" x="0" width="170" color="white" shadow="1" font="gametiny" textalign="center" watch="CommSelectionHealthValue CommSelectionMaxHealth" ontrigger="SetText(Ceil(CommSelectionHealthValue) # '/' # Ceil(CommSelectionMaxHealth));"/>
+			</panel>
+
+			<!-- Experience -->
+			<panel name="target_info_experience" x="43" y="-6" width="195"  align="left" valign="bottom" height="20" color="purple">				
+				<image texture="/ui/elements/exp_neg.tga"/>
+				<image width="70%" texture="/ui/elements/exp_pos.tga" watch="CommSelectionExperience" ontrigger="SetWidth(FtoP(param));" />
+
+
+				<image x="70%" width="2" color="white" watch="CommSelectionExperience" ontrigger="SetX(FtoP(param));" />
+				<label y="2" color="white" shadow="1" font="gametiny" textalign="center" watch="CommSelectionName" ontrigger="SetText(param);" />
+			</panel>	
+
+			<!-- Background image -->
+			<image name="target_info_bg" x="-8" y="-8" width="512" height="256" texture="/ui/fps/unit_info_top.tga" noclick="true"/>
+
+			<label name="target_level" valign="bottom" x="5" width="30" height="30" shadow="1" shadowcolor="gray" textalign="center" textvalign="center" font="gamesmall" color="fuchsia" watch="CommSelectionLevel" ontrigger="SetText(param);"/>
+			<label name="target_armor" valign="bottom" align="right" x="-5" width="30" height="30" textalign="center" textvalign="center" shadow="1" shadowcolor="gray" font="gamesmall" color="yellow" watch="CommSelectionArmor" ontrigger="SetText(Round(param));"/>
+		</panel>
+
+		<!--*** THIS IS THE MOUSE OVER VERSION OF THE PLAYER INFO FOR OFFICER PANEL AND MULTISELECT*** -->
+		<panel name="player_mouseover" x="0" y="-220" width="292" height="133" align="right" valign="bottom" color="invisible" visible="false" watch="HoverInfoPlayer" noclick="true" passivechildren="true">
+			<image x="-8" y="-8"  width="512" height="256" texture="/ui/fps/unit_info_bg.tga" />
+			<!--<image name="stam_icon" x="2" y="2" width="24" height="24" texture="/ui/elements/stamina_icon.tga" />-->
+			<panel name="info_stamina_bar" x="12" y="29" width="10" height="68" color="white">
+				<image texture="/ui/elements/stam_vert_neg.tga"/>
+				<image height="100%" texture="/ui/elements/stam_vert_pos.tga" watch="HoverStaminaPercent" ontrigger="SetY(FtoP(1 - param)); SetHeight(FtoP(param));" />
+				<image y="100%" height="2" color="white" watch="HoverStaminaPercent" ontrigger="SetY(FtoP(1 - param));" />
+			</panel>
+
+			<!--<image name="mana_icon" align="right" x="-2" y="2" width="24" height="24" texture="/ui/elements/mana_icon.tga" /> -->		
+			<panel name="info_mana_bar" align="right" x="-12" y="29" width="10" height="68" color="blue">
+				<image texture="/ui/elements/mana_vert_neg.tga"/>
+				<image height="100%" texture="/ui/elements/mana_vert_pos.tga" watch="HoverManaPercent" ontrigger="SetY(FtoP(1 - param)); SetHeight(FtoP(param));" />
+				<image y="100%" height="2" color="white" watch="HoverManaPercent" ontrigger="SetY(FtoP(1 - param));" /> 
+			</panel>						
+
+			<panel name="info_backpack1" x="32" y="20" width="56" height="89" float="bottom" padding="4" color="invisible">
+				<instance name="hover_inventory_slot" slot="10" />
+				<instance name="hover_inventory_slot" slot="11" />
+				<instance name="hover_inventory_slot" slot="12" />
+				
+				<anchor x="28" y="0"/>
+				<instance name="hover_inventory_slot" slot="13" />
+				<instance name="hover_inventory_slot" slot="14" />
+				<instance name="hover_inventory_slot" slot="15" />
+			</panel>		
+
+			<image name="info_player_portrait" x="92" y="22" width="48" height="48" watch="HoverIcon" ontrigger="SetTexture(param);" texture="/ui/elements/empty_logo.tga"/>
+			
+			<panel name="info_states_buff" x="150" y="24" width="115" height="48" float="right" padding="2" color="invisible">
+				<instance name="hover_state_icon" type="Buff" index="0" />
+				<instance name="hover_state_icon" type="Buff" index="1" />
+				<instance name="hover_state_icon" type="Buff" index="2" />
+				<instance name="hover_state_icon" type="Buff" index="3" />
+				<instance name="hover_state_icon" type="Buff" index="4" />
+				
+				<anchor x="0" y="25"/>
+				<instance name="hover_state_icon" type="Debuff" index="0" />
+				<instance name="hover_state_icon" type="Debuff" index="1" />
+				<instance name="hover_state_icon" type="Debuff" index="2" />
+				<instance name="hover_state_icon" type="Debuff" index="3" />
+				<instance name="hover_state_icon" type="Debuff" index="4" />
+			</panel>
+
+			<panel name="info_player_health" x="92" y="78" width="170" height="19" color="green">				
+				<image texture="/ui/elements/health_neg.tga"/>
+				<image width="70%" texture="/ui/elements/health_pos_r.tga" watch="HoverHealthPercent" ontrigger="SetWidth(FtoP(param));" />
+
+				<image width="70%" texture="/ui/elements/health_pos_y.tga" watch="HoverHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));"/>
+				<image width="70%" texture="/ui/elements/health_pos.tga" watch="HoverHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, Saturate((param * 2) - 1));"/>
+
+				<image x="70%" width="2" color="white" watch="HoverHealthPercent" ontrigger="SetX(FtoP(param));" />
+				<label y="2" x="0" width="170" color="white" shadow="1" font="gametiny" textalign="center" watch="HoverHealthValue HoverMaxHealth" ontrigger="SetText(Ceil(HoverHealthValue) # '/' # Ceil(HoverMaxHealth));"/>
+			</panel>
+
+			<!-- Experience -->
+			<panel name="target_info_experience" x="43" y="-6" width="195"  align="left" valign="bottom" height="20" color="purple">				
+				<image texture="/ui/elements/exp_neg.tga"/>
+				<image width="70%" texture="/ui/elements/exp_pos.tga" watch="HoverExperience" ontrigger="SetWidth(FtoP(param));" />
+
+
+				<image x="70%" width="2" color="white" watch="HoverExperience" ontrigger="SetX(FtoP(param));" />
+				<label y="2" color="white" shadow="1" font="gametiny" textalign="center" watch="HoverName" ontrigger="SetText(param);" />
+			</panel>	
+
+			<!-- Background image -->
+			<image name="target_info_bg" x="-8" y="-8" width="512" height="256" texture="/ui/fps/unit_info_top.tga" noclick="true"/>
+
+			<label name="target_level" valign="bottom" x="5" width="30" height="30" shadow="1" shadowcolor="gray" textalign="center" textvalign="center" font="gamesmall" color="fuchsia" watch="HoverLevel" ontrigger="SetText(param);"/>
+			<label name="target_armor" valign="bottom" align="right" x="-5" width="30" height="30" textalign="center" textvalign="center" shadow="1" shadowcolor="gray" font="gamesmall" color="yellow" watch="HoverArmor" ontrigger="SetText(Round(param));"/>
+		</panel>		
+		
+		<!--- **** mega map **** -->
+		<panel name="megamap" width="640" height="640" align="center" valign="center" color="invisible" visible="false" cangrab="true" onshow="SetX(0); SetY(0);">
+			
+		
+			<panel x="-25" y="40" height="900" width="32" color="invisible" float="bottom" padding="4" name="megamap_buttons_left">
+			
+				<panel height="16" width="16">
+						<panel width="32" height="16">
+						<image rotation="-90" width="16" height="16" texture="/ui/chatgui/standardscroll_vmax_up.tga" align="right" />
+						<button width="16" height="16" cvar="ui_minimapMega" numstates="2" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); HideWidget('megamap_buttons_left'); ShowWidget('megamap_buttons_right');" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('megamap_buttons_movetip');" onmouseout="HideWidget('megamap_buttons_movetip');" align="right" texture="/ui/elements/button_bevel.tga" />
+						</panel>
+				</panel>
+			
+				<panel height="32" width="32" color="red">
+						<image align="left" width="32" texture="/ui/commander/draw.tga" />
+						<button width="32" height="32" cvar="ui_minimapDrawing" numstates="2" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); ui_minimapPing = 0;" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('draw_tooltip');" onmouseout="HideWidget('draw_tooltip');" align="center" texture="/ui/elements/button_bevel.tga" />						
+				</panel>
+				
+				<panel height="32" width="32" color="red">
+					<image  align="left" width="32"  texture="/ui/commander/ping.tga" />
+					<button width="32"  height="32" cvar="ui_minimapPing" numstates="2" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); ui_minimapDrawing = 0;" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('ping_tooltip');" onmouseout="HideWidget('ping_tooltip');" align="center" texture="/ui/elements/button_bevel.tga" />
+				</panel>
+				
+				<instance name="megamap_selectsquadbutton" index="0" />
+				<instance name="megamap_selectsquadbutton" index="1" />
+				<instance name="megamap_selectsquadbutton" index="2" />
+				<instance name="megamap_selectsquadbutton" index="3" />
+				<instance name="megamap_selectsquadbutton" index="4" />
+			</panel>
+			
+			<!-- Not the most clean way to do it but at least there won't be any performance issues and it'll be easy to correct it later -->
+			<panel x="635" y="40" height="900" width="32" color="invisible" float="bottom" padding="4" name="megamap_buttons_right" visible="false">
+			
+				<panel height="16" width="16">
+						<panel width="32" height="16">
+						<image rotation="90" width="16" height="16" texture="/ui/chatgui/standardscroll_vmax_up.tga" align="left" />
+						<button width="16" height="16" cvar="ui_minimapMega" numstates="2" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); HideWidget('megamap_buttons_right'); ShowWidget('megamap_buttons_left');" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('megamap_buttons_movetip');" onmouseout="HideWidget('megamap_buttons_movetip');" align="left" texture="/ui/elements/button_bevel.tga" />
+						</panel>
+				</panel>
+			
+				<panel height="32" width="32" color="red">
+						<image align="left" width="32" texture="/ui/commander/draw.tga" />
+						<button width="32" height="32" cvar="ui_minimapDrawing" numstates="2" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); ui_minimapPing = 0;" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('draw_tooltip');" onmouseout="HideWidget('draw_tooltip');" align="center" texture="/ui/elements/button_bevel.tga" />						
+				</panel>
+				
+				<panel height="32" width="32" color="red">
+					<image  align="left" width="32"  texture="/ui/commander/ping.tga" />
+					<button width="32"  height="32" cvar="ui_minimapPing" numstates="2" onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); ui_minimapDrawing = 0;" onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('ping_tooltip');" onmouseout="HideWidget('ping_tooltip');" align="center" texture="/ui/elements/button_bevel.tga" />
+				</panel>
+				
+				<instance name="megamap_selectsquadbutton" index="0" />
+				<instance name="megamap_selectsquadbutton" index="1" />
+				<instance name="megamap_selectsquadbutton" index="2" />
+				<instance name="megamap_selectsquadbutton" index="3" />
+				<instance name="megamap_selectsquadbutton" index="4" />
+			</panel>
+			
+			<frame borderthickness="36" x="0" y="0" texture="/ui/frames/standard.tga" noclick="true"/>
+			<panel color="0 0 0 .55" width="590" height="440" x="20" y="20" noclick="true"/>
+			
+			<minimap name="minimap" x="19" y="19" width="-38" height="-38" texture="!minimap_texture" watch="Minimap" onrightclick="GivePositionOrder(param0, param1);"/>
+			
+			<!-- Title Panel -->
+			<panel y="-8" align="center" width="300" height="40" color="black" noclick="true">
+				<frame texture="/ui/frames/border2.tga" borderthickness="32" noclick="true" />
+				<label font="chat_16" shadow="true" height="15" y="-3" align="center" textalign="center" valign="center" color="white" noclick="true">MegaMap</label>
+				<button x="-16" y="12" width="18" height="18" align="right" color="#FFFFFF99" onclick="HideWidget('megamap');" texture="/ui/elements/xbutton.tga"></button>		
+			</panel>
+			
+			
+			
+			
+		</panel>
+
+		<!-- *** Tool Tips *** -->
+		<panel x="-5" y="-210"  align="right" valign="bottom" width="250" height="120" childrenpassive="true" noclick="true">
+			<frame name="build_fail_tooltip" style="tooltip_frame">
+				<frame texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"/>
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Can not build</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white" watch="BuildFailReason" ontrigger="SetText(param);"/>
+			</frame>
+
+			<instance name="basic_tooltip" id="build" title="Build (^291B^*)" text="Use this menu to select which structures to construct as well as manage upkeep. Also provides status of current construction and research."/>
+			<instance name="basic_tooltip" id="worker" title="Spawn Worker (^291P^*)" text="Create a worker unit to help build and repair your base.  Costs 650 gold and a maximum of 3 can be spawned at a time."/>
+
+			<!-- Extra Interface Tips -->
+			<instance name="basic_tooltip" id="building_info" title="Building Name" text="Building Description here..."/>
+			<instance name="basic_tooltip" id="income" title="Income" text="Income is the amount of gold extracted from your mines every 10 seconds."/>
+			<instance name="basic_tooltip" id="upkeep" title="Upkeep" text="Upkeep represents the impact your buildings and technology have on your economy.  The number is gold cost every 10 seconds."/>
+			<instance name="basic_tooltip" id="teamexp" title="Team Experience" text="This is the sum of the exp of all the players on the team."/>
+			
+			<instance name="basic_tooltip" id="draw" title="Draw (^291Alt-D^*)" text="Use this to draw more specifc routes and commands on all players on your team's Mini-Map."/>
+
+			<frame name="shhealth_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Stronghold Health</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This bar represents the current health of your Stronghold.</label>
+			</frame>
+			<frame name="enemy_shhealth_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Enemy Stronghold Health</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This bar represents the current health of the enemy Stronghold.</label>
+			</frame>			
+
+			<frame name="mana_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Commander Mana</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This bar represents the mana available to cast commander spells which are located on the bottom-right of the commander interface.</label>
+				<label x="115" y="100" height="22" textalign="left" font="gamemicro" color="Yellow">Current Mana:</label>
+				<label x="192" y="100" height="22" textalign="left" font="gamemicro" color="white" watch="TeamMana TeamMaxMana" ontrigger="SetText(Round(TeamMana) # '/' # Round(TeamMaxMana));">225 / 300</label>
+			</frame>
+			
+			<frame name="teamgold_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Team Gold</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This is the amount of gold harvested from gold mines and taxed from players.  It can be used to build structures, or given to teammates via the team manager.</label>
+			</frame>
+
+			<frame name="ping_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Ping (^291Alt-LMB ^*)</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Use this to target ping an area on the Mini-Map that all players on your team will receive.</label>
+			</frame>
+
+			<frame name="areachat_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Area Chat (^291Alt-C^*)</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Use this to send written chat to units only in a specific area on the map.</label>
+			</frame>
+
+			<frame name="tag_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Map Detail (^291Alt-T^*)</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This will toggle through different amounts of detail to be shown on the Mini-Map.</label>
+			</frame>
+
+			<frame name="empty_tooltip" style="tooltip_frame">				
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Empty For Now</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Eventually something cool will go here.</label>
+			</frame>
+
+			<frame name="officer_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Officer (^666Green Squad^*)</label>
+				<image x="218" y="9" width="16" height="16" texture="/ui/elements/squad_green_icon.tga" />
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Quickly select the Officer of the Green Squad to give commands to, chat with, heal, etc...</label>
+				<label x="98" y="100" height="22" textalign="left" font="gamemicro" color="Yellow">Current Members:</label>
+				<label x="192" y="100" height="22" textalign="left" font="gamemicro" color="white">5 Players</label>
+			</frame>
+
+			<frame name="red_squad_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Select Entire Red Squad</label>
+				<image x="218" y="9" width="16" height="16" texture="/ui/elements/squad_red_icon.tga" />
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Quickly select the entire Green Squad to give commands to, chat with, heal, etc...</label>
+				<label x="98" y="100" height="22" textalign="left" font="gamemicro" color="Yellow">Current Members:</label>
+				<label x="192" y="100" height="22" textalign="left" font="gamemicro" color="white">6 Players</label>
+			</frame>
+			
+			<frame name="blue_squad_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Select Entire Blue Squad</label>
+				<image x="218" y="9" width="16" height="16" texture="/ui/elements/squad_blue_icon.tga" />
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Quickly select the entire Green Squad to give commands to, chat with, heal, etc...</label>
+				<label x="98" y="100" height="22" textalign="left" font="gamemicro" color="Yellow">Current Members:</label>
+				<label x="192" y="100" height="22" textalign="left" font="gamemicro" color="white">6 Players</label>
+			</frame>
+
+			<frame name="yellow_squad_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Select Entire Yellow Squad</label>
+				<image x="218" y="9" width="16" height="16" texture="/ui/elements/squad_yellow_icon.tga" />
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Quickly select the entire Green Squad to give commands to, chat with, heal, etc...</label>
+				<label x="98" y="100" height="22" textalign="left" font="gamemicro" color="Yellow">Current Members:</label>
+				<label x="192" y="100" height="22" textalign="left" font="gamemicro" color="white">6 Players</label>
+			</frame>
+			
+			<frame name="green_squad_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Select Entire Green Squad</label>
+				<image x="218" y="9" width="16" height="16" texture="/ui/elements/squad_green_icon.tga" />
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Quickly select the entire Green Squad to give commands to, chat with, heal, etc...</label>
+				<label x="98" y="100" height="22" textalign="left" font="gamemicro" color="Yellow">Current Members:</label>
+				<label x="192" y="100" height="22" textalign="left" font="gamemicro" color="white">6 Players</label>
+			</frame>
+
+			<frame name="orange_squad_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Select Entire Orange Squad</label>
+				<image x="218" y="9" width="16" height="16" texture="/ui/elements/squad_orange_icon.tga" />
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Quickly select the entire Green Squad to give commands to, chat with, heal, etc...</label>
+				<label x="98" y="100" height="22" textalign="left" font="gamemicro" color="Yellow">Current Members:</label>
+				<label x="192" y="100" height="22" textalign="left" font="gamemicro" color="white">6 Players</label>
+			</frame>			
+
+			<frame name="expand_squad_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Expand Squad</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Use this arrow to expand the view to include all players in this squad.</label>
+			</frame>
+
+			<frame name="collapse_squad_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Collapse Squad</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Use this arrow to colapse the view to the squad officer icon only.</label>
+			</frame>
+
+			<!-- Additional Menu Buttons Tooltips -->
+			<frame name="menu_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Menu</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Use this to get to the options screen and other sub menus, such as the game lobby, and voting options.</label>
+			</frame>
+
+			<frame name="menu_buildings_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Buildings</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This button opens the buildings screen, which displays detailed information on the buildings that you've constructed.</label>
+			</frame>
+
+			<frame name="menu_scores_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Scores</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This button displays the scores panel, which can give you useful information on both teams.  Also, the VOIP icons here can be clicked to mute players.</label>
+			</frame>
+			
+			<frame name="menu_history_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">History</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This screen displays the chat history panel and allows you to easily converse with players.</label>
+			</frame>
+			
+			<frame name="loadout_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Loadout</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Stay the commander but spawn as a unit and help defend your base.  You may only play an action player for 30 seconds before being forced back to the commander chair.</label>
+			</frame>
+
+			<frame name="teammanager_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Team Manager</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Use this panel to easily view your teammates' status and manage your team.</label>
+			</frame>
+
+			<frame name="select_squad_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Select this Squad</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Click here to select an entire squad, allowing you to give orders that are exclusive to that squad.</label>
+			</frame>
+
+			<frame name="megamap_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Open MegaMap</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Displays a much larger view of the minimap, which can be useful for directing your team.</label>
+			</frame>
+			
+			<frame name="megamap_buttons_movetip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Move Buttons</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Click here to move the MegaMap buttons to the other side of the MegaMap.</label>
+			</frame>
+			
+			<frame name="resign_tooltip" style="tooltip_frame">
+				
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Resign</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">If you no longer wish to be the team commander you may resign.  This may be the preferred option if you do not feel that you can competently command your team.</label>
+			</frame>
+
+			<frame name="quit_tooltip" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Quit</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Quit the game.  This will show as a Quit/Disconnect in your stats which will relect poorly on you.</label>
+			</frame>
+			
+			<!-- Team Manager tooltips -->
+			<frame name="teammanager_tip_playerswap_info" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Player Swap</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">The button below can be used to move players from squad to squad, as well as promote players to/demote players from officer status.</label>
+			</frame>
+			
+			<frame name="teammanager_tip_playerswap" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Select Player to Swap</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This button allows you to select a player who you will be moving to another squad position.  This player will be swapped with the target player.</label>
+			</frame>
+
+			<frame name="teammanager_tip_playerswap_place" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Place Player Here</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Click here to swap this player with the player you initially chose.  The players will not swap map positions, items, gold, etc.  Only their squad/officer status will be changed.</label>
+			</frame>
+			
+			<frame name="teammanager_tip_playerswap_cancel" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Cancel Player Swap</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Click here to cancel the player swap, leaving your team's composition as it currently stands.</label>
+			</frame>
+
+			<frame name="teammanager_tip_level" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Player Level</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Displays the current player level for this player.  Higher level players usually have contributed more to your team, and may be able to better utilize the spells you cast.</label>
+			</frame>
+			
+			<frame name="teammanager_tip_souls" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Soul Count</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Displays the amount of souls collected by this player, which can be used to purchase hellbourne units at a sacrifical shrine.</label>
+			</frame>
+
+			<frame name="teammanager_tip_gold" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Player Gold</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This value is the amount of gold that this player has.  The player can spend this gold on units and items, or donate it to you.</label>
+			</frame>
+
+			<frame name="teammanager_tip_givegold" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Give Gold</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">Click here to give this player a small amount of gold.</label>
+				<label y="65" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="yellow">This can only be used if your team has met upkeep and more than 4 minutes have passed.</label>
+			</frame>
+
+			<frame name="teammanager_tip_inventory" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Player Inventory</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This area displays a list of items in this player's inventory.  Most items cost gold, and they provide boosts or replenishment when carried, used, or consumed.</label>
+			</frame>
+			
+			<frame name="teammanager_tip_buffs_debuffs" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Buffs and Debuffs</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This area lists buffs (positive effects) and debuffs (negative effects) placed on this player through various means.  Buffs are listed on top, and debuffs on the bottom.</label>
+			</frame>
+
+			<frame name="teammanager_tip_officer" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Squad Officer</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This player is a squad officer.  Squad officers can place spawn portals, have reduced respawn times, and can issue orders to their squadmates.</label>
+			</frame>
+
+			<frame name="teammanager_tip_name" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Player Name</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This is the player's name, which can be used to identify them.  This name is also their account name (also known as a username).</label>
+			</frame>
+			
+			<frame name="teammanager_tip_health_mana" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Health and Mana</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">The slim vertical bar on the left indicates this player's health.  The slim vertical bar on the right indicates the player's mana.</label>
+			</frame>
+			
+			<frame name="teammanager_tip_allplayergold" style="tooltip_frame">
+				<frame  texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"></frame> <!-- frame -->		
+				<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow">Player gold total</label>
+				<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" color="white">This count is a sum of all gold owned by all players on your team, which can be used to purchase units or items, and can be donated to the team gold pool.</label>
+			</frame>
+
+		</panel>
+	</panel>
+	
+	<instance name="ability_tooltip" slot="0"/>
+	<instance name="ability_tooltip" slot="1"/>
+	<instance name="ability_tooltip" slot="2"/>
+	<instance name="ability_tooltip" slot="3"/>
+	<instance name="ability_tooltip" slot="4"/>
+	<instance name="ability_tooltip" slot="5"/>
+	<instance name="ability_tooltip" slot="6"/>
+	<instance name="ability_tooltip" slot="7"/>
+	<instance name="ability_tooltip" slot="8"/>
+	<instance name="ability_tooltip" slot="9"/>
+
+	<!-- Game Tips -->
+	<panel name="game_tip" align="center" y="140" width="220" height="86" visible="false" watch="GameTipVisible" ontrigger="SetVisible(param);" noclick="true">
+	    <frame name="move_tooltip" borderthickness="8" color="#FFFFFFFF" texture="/ui/frames/tooltip.tga" visible="true" noclick="true">
+			<label x="4" y="5" height="22"  width="100%" textalign="center" font="chat_14" shadow="true" color="red" noclick="true">Game Tip:</label>
+		    <panel  x="-10" y="28"  width="-35" height="-30" valign="top" align="right" color="invisible" noclick="true">
+				<label  width="100%" height="100%" align="center" valign="center" textvalign="top" textalign="center" font="chat_12" wrap="true" color="white" watch="GameTipText" ontrigger="SetText(param);" noclick="true"/>
+			</panel>
+	    </frame>
+	    <panel align="left" x="-17" valign="center" width="60" height="120" noclick="true">
+		    <modelpanel  align="center" valign="bottom" noclick="true" model="/ui/models/error.mdf" anim="idle"  camerapos="0 220 0" cameradistance="60" camerafov="20"/>
+	    </panel>
+	</panel>
+	
+	<!-- Building menu tooltips -->
+	<instance name="building_tooltip" building_name="Armory"/>
+	<instance name="building_tooltip" building_name="SteamMine"/>
+	<instance name="building_tooltip" building_name="Monastery"/>
+	<instance name="building_tooltip" building_name="Academy"/>
+	<instance name="building_tooltip" building_name="SiegeWorkshop"/>
+	<instance name="building_tooltip" building_name="ArrowTower"/>
+	<instance name="building_tooltip" building_name="CannonTower"/>
+	<instance name="building_tooltip" building_name="ShieldTower"/>
+	<instance name="building_tooltip" building_name="HumanHellShrine"/>
+	<instance name="building_tooltip" building_name="Garrison"/>
+
+	<instance name="building_tooltip" building_name="Nexus"/>
+	<instance name="building_tooltip" building_name="GroveMine"/>
+	<instance name="building_tooltip" building_name="Sanctuary"/>
+	<instance name="building_tooltip" building_name="PredatorDen"/>
+	<instance name="building_tooltip" building_name="CharmShrine"/>
+	<instance name="building_tooltip" building_name="StrataSpire"/>
+	<instance name="building_tooltip" building_name="EntangleSpire"/>
+	<instance name="building_tooltip" building_name="ChlorophilicSpire"/>
+	<instance name="building_tooltip" building_name="HumanHellShrine"/>
+	<instance name="building_tooltip" building_name="SubLair"/>
+	
+	<!-- Panels on the sides of all structure information tooltips showing what they unlock -->
+	<include file="/ui/game_structure_unlocktips.xml"/>
+
+	<!-- new rts style build menu -->
+	<panel name="build_panel" x="-21" y="-21" width="217" height="159" valign="bottom" align="right" visible="false" watch="BuildModeActive" ontrigger="SetVisible(param);">
+		<image x="-9" y="-9" width="256" height="256" texture="/ui/commander/control_frame.tga" watch="Race" ontrigger="ShowOnly(param # '_buildings');"/>
+		
+		<panel name="human_buildings" group="buildings" x="0" y="0" float="bottom" padding="6">
+			<panel x="0" y="0" height="48" float="right" padding="7" color="invisible">
+				<instance name="building_button" building_name="SteamMine" building_shortcut=""/>
+				<instance name="building_button" building_name="Armory" building_shortcut=""/>
+				<instance name="building_button" building_name="Monastery" building_shortcut=""/>
+				<instance name="building_button" building_name="Academy" building_shortcut=""/>
+			</panel>
+			<panel height="48" float="right" padding="7" color="invisible">
+				<instance name="building_button" building_name="SiegeWorkshop" building_shortcut=""/>
+				<instance name="building_button" building_name="HumanHellShrine" building_shortcut=""/>
+				<panel height="48" width="48" />
+				<instance name="building_button" building_name="Garrison" building_shortcut=""/>
+			</panel>
+			<panel height="48" float="right" padding="7" color="invisible">
+				<instance name="building_button" building_name="ArrowTower" building_shortcut=""/>
+				<instance name="building_button" building_name="CannonTower" building_shortcut=""/>
+				<instance name="building_button" building_name="ShieldTower" building_shortcut=""/>
+				<panel height="48" width="48">
+					<image texture="/ui/elements/back.tga"/>
+					<button
+						texture="/ui/elements/button_bevel.tga"
+						onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3');"
+						onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); StopBuilding(); HideBuildMenu();"
+					/>
+				</panel>
+			</panel>
+		</panel>
+		
+		<panel name="beast_buildings" group="buildings" x="0" y="0" float="bottom" padding="6">
+			<panel x="0" y="0" height="48" float="right" padding="7" color="invisible">
+				<instance name="building_button" building_name="GroveMine" building_shortcut=""/>
+				<instance name="building_button" building_name="Nexus" building_shortcut=""/>
+				<instance name="building_button" building_name="Sanctuary" building_shortcut=""/>
+				<instance name="building_button" building_name="PredatorDen" building_shortcut=""/>
+			</panel>
+			<panel height="48" float="right" padding="7" color="invisible">
+				<instance name="building_button" building_name="CharmShrine" building_shortcut=""/>
+				<instance name="building_button" building_name="HumanHellShrine" building_shortcut=""/>
+				<panel height="48" width="48" />
+				<instance name="building_button" building_name="SubLair" building_shortcut=""/>
+			</panel>
+			<panel height="48" float="right" padding="7" color="invisible">
+				<instance name="building_button" building_name="StrataSpire" building_shortcut=""/>
+				<instance name="building_button" building_name="EntangleSpire" building_shortcut=""/>
+				<instance name="building_button" building_name="ChlorophilicSpire" building_shortcut=""/>
+				<panel height="48" width="48">
+					<image texture="/ui/elements/back.tga"/>
+					<button
+						texture="/ui/elements/button_bevel.tga"
+						onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3');"
+						onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); StopBuilding();  HideBuildMenu();"
+					/>
+				</panel>
+			</panel>
+		</panel>
+	</panel>
+	
+	<panel x="214" y="39"  noclick="true">
+		<include file="/ui/game_voicecommands.xml"/>
+	</panel>
+	
+		
+	
+	
+	
+	
+	
+
+	
+	<template name="teammanager_squadmember">
+		<panel width="550" height="40">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+			<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+			<panel float="right" padding="4" x="4" y="4" height="32">
+				<!-- Class icon (with normal clickity goodness) -->
+				<panel height="32" width="32" >
+					
+					<image watch="CommanderSquadMemberIcon{member}{index}" ontrigger="if(StringEquals(param, ''), SetTexture('/ui/elements/empty_logo.tga'), SetTexture(param));" />
+					<image texture="/ui/elements/battlegroup_dead.tga" visible="false" watch="CommanderSquadMemberDead{member}{index}" ontrigger="SetVisible(param);" color="#770000" />
+					<label x="-1" y="-1" width="100%" height="100%" textvalign="bottom" textalign="right" align="center" font="chat_10" color="white" shadow="true" visible="{dead}">99</label>
+					<button
+						onmouseover=";"
+						onmouseout="MultiSelectHoverEntity(-1);"
+						watch="CommanderSquadMemberIndex{member}{index}"
+						ontrigger=
+						"
+							SetOnmouseover('MultiSelectHoverEntity(' # param # ');');
+							SetOnclick('CommanderSelect(' # param # ');');
+						"
+						color="invisible"
+					/>
+				</panel>
+				<!-- Health/mana -->
+				<panel float="right" width="8" padding="1">
+					<panel width="3" color="black">
+						<panel color="red" valign="bottom" watch="CommanderSquadMemberHealthPercent{member}{index}" ontrigger="SetHeight(FtoP(param));"/>
+						<panel color="yellow" valign="bottom" watch="CommanderSquadMemberHealthPercent{member}{index}" ontrigger="SetHeight(FtoP(param)); SetColor(1, 1, 0, Saturate((param * 2.5) - 0.25));" />
+						<panel color="lime" valign="bottom" watch="CommanderSquadMemberHealthPercent{member}{index}" ontrigger="SetHeight(FtoP(param)); SetColor(0, 1, 0, Saturate((param * 2) - 1));" />
+					</panel>
+					<panel width="3" color="black">
+						<panel color="blue" valign="bottom" watch="CommanderSquadMemberManaPercent{member}{index}" ontrigger="SetHeight(FtoP(param));"/>
+					</panel>
+					<button width="100%" color="invisible" height="100%" y="0" onmouseover="ShowWidget('teammanager_tip_health_mana');" onmouseout="HideWidget('teammanager_tip_health_mana');" />
+				</panel>
+				<!-- Name/officer -->
+				<panel float="bottom" padding="2" width="100" height="38">
+					<label font="chat_12" shadow="true" height="15" align="center" textalign="center" color="white" watch="CommanderSquadMemberName{member}{index}" ontrigger="SetText(param);" onmouseover="ShowWidget('teammanager_tip_name');" onmouseout="HideWidget('teammanager_tip_name');">S2Mercenary</label>
+				</panel>
+				<!-- Items/inventory -->
+				<panel float="bottom" padding="2" width="50">
+					<panel float="right" padding="2" height="15">
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberInventory0{member}{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberInventory1{member}{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberInventory2{member}{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+					</panel>
+					<panel float="right" padding="2" height="15">
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberInventory3{member}{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberInventory4{member}{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberInventory5{member}{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+					</panel>
+					<button width="100%" color="invisible" height="100%" y="0" onmouseover="ShowWidget('teammanager_tip_inventory');" onmouseout="HideWidget('teammanager_tip_inventory');" />
+				</panel>
+				<!-- Gold/give gold -->
+				<panel float="bottom" padding="2" width="85" height="38">
+					<panel width="80" float="right" padding="2" height="15" align="center">
+						<image width="15" height="15" texture="/ui/elements/gold.tga"/>
+						<label font="chat_12" shadow="true" height="15" width="73" color="white" watch="CommanderSquadMemberGold{member}{index}" ontrigger="SetText(param); Set('_gold_{member}{index}', param);">434321</label>
+						<button width="100%" color="invisible" height="100%" y="0" onmouseover="ShowWidget('teammanager_tip_gold');" onmouseout="HideWidget('teammanager_tip_gold');" />
+					</panel>
+					<panel width="80" height="15" align="center">
+						<button color="invisible" onclick="CommanderGiveGold('{index}', '{member}', '250');" onmouseover="ShowWidget('teammanager_tip_givegold');" onmouseout="HideWidget('teammanager_tip_givegold');">
+							<widgetstate statename="up">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+								<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Give 250g</label>
+							</widgetstate>
+							<widgetstate statename="over">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Give 250g</label>
+							</widgetstate>
+							<widgetstate x="1" y="1" statename="down">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Give 250g</label>
+							</widgetstate>
+						</button>
+					</panel>
+				</panel>
+				<!-- Level, Souls,  -->
+				<panel float="bottom" width="42" padding="2">
+					<panel float="right" padding="2" height="15" align="center">
+						<image width="15" height="15" texture="/ui/elements/mana_icon.tga"/>
+						<label font="chat_12" shadow="true" height="15" width="25" color="cyan" watch="CommanderSquadMemberSouls{member}{index}" ontrigger="SetText(param);">150</label>
+					</panel>
+					<panel float="right" padding="2" height="15">
+						<image width="15" height="15" texture="/ui/elements/stat_icons/player_rank.tga"/>
+						<label font="chat_12" shadow="true" height="15" width="25" color="white" watch="CommanderSquadMemberLevel{member}{index}" ontrigger="SetText(param);">150</label>
+					</panel>
+						<button width="100%" color="invisible" height="50%" y="0" onmouseover="ShowWidget('teammanager_tip_souls');" onmouseout="HideWidget('teammanager_tip_souls');" />
+						<button width="100%" color="invisible" height="50%" y="50%" onmouseover="ShowWidget('teammanager_tip_level');" onmouseout="HideWidget('teammanager_tip_level');" />
+				</panel>
+				<!-- Buffs/Debuffs -->
+				<panel float="bottom" width="90" padding="2">
+					<panel float="right" padding="2" height="15">
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberBuffs0{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberBuffs1{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberBuffs2{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberBuffs3{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberBuffs4{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+					</panel>
+					<panel float="right" padding="2" height="15">
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberDebuffs0{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberDebuffs1{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberDebuffs2{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberDebuffs3{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadMemberDebuffs4{member}{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+					</panel>
+					<button width="100%" color="invisible" height="100%" y="0" onmouseover="ShowWidget('teammanager_tip_buffs_debuffs');" onmouseout="HideWidget('teammanager_tip_buffs_debuffs');" />
+				</panel>
+				<!-- Swap player positions -->
+				<panel float="bottom" width="100" padding="2">
+					<panel float="right" padding="2" height="15">
+						<label font="chat_12" shadow="true" height="15" align="center" textalign="center" color="white" onmouseover="ShowWidget('teammanager_tip_playerswap_info');" onmouseout="HideWidget('teammanager_tip_playerswap_info');">Player Swap:</label>
+					</panel>
+					<panel width="80" height="15" align="center">
+						<!-- Basic 'move' button - shows when they're not moving anything -->
+						<button name="swap_move_{member}{index}" color="invisible" onclick="CreateInt('_admin_swap_member', '{member}'); CreateInt('_admin_swap_squad', '{index}'); HideGroup('swap_buttons_move'); HideGroup('swap_buttons_cancel'); ShowGroup('swap_buttons_place'); ShowWidget('swap_cancel_{member}{index}');" group="swap_buttons_move" onmouseover="ShowWidget('teammanager_tip_playerswap');" onmouseout="HideWidget('teammanager_tip_playerswap');">
+							<widgetstate statename="up">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+								<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Move</label>
+							</widgetstate>
+							<widgetstate statename="over">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Move</label>
+							</widgetstate>
+							<widgetstate x="1" y="1" statename="down">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Move</label>
+							</widgetstate>
+						</button>
+						<!-- "Place here" button - this is where the player will end up -->
+						<button name="swap_place_{member}{index}" color="invisible" onclick="SwapSquadMembers(_admin_swap_squad, _admin_swap_member, '{index}', '{member}'); ShowGroup('swap_buttons_move'); HideGroup('swap_buttons_cancel'); HideGroup('swap_buttons_place');" visible="false" group="swap_buttons_place">
+							<widgetstate statename="up">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+								<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Place Here</label>
+							</widgetstate>
+							<widgetstate statename="over">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Place Here</label>
+							</widgetstate>
+							<widgetstate x="1" y="1" statename="down">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Place Here</label>
+							</widgetstate>
+						</button>
+						<!-- "Cancel" button - displays when that particular player is being moved -->
+						<button name="swap_cancel_{member}{index}" color="invisible" onclick="ShowGroup('swap_buttons_move'); HideGroup('swap_buttons_cancel'); HideGroup('swap_buttons_place');" visible="false" group="swap_buttons_cancel">
+							<widgetstate statename="up">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+								<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Cancel</label>
+							</widgetstate>
+							<widgetstate statename="over">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Cancel</label>
+							</widgetstate>
+							<widgetstate x="1" y="1" statename="down">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Cancel</label>
+							</widgetstate>
+						</button>
+					</panel>
+				</panel>
+			</panel>
+		</panel>
+	</template>
+	
+	
+	<template name="teammanager_selectsquadbutton">
+		<panel width="100" height="20" color="invisible" watch="CommanderSquadExists{index}" ontrigger="SetVisible(param);">
+			<button color="invisible" onclick="CommanderSelectSquad({index});" onmouseover="ShowWidget('select_squad_tooltip');" onmouseout="HideWidget('select_squad_tooltip');">
+				<widgetstate statename="up">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+					<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+					<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Select Squad</label>
+				</widgetstate>
+				<widgetstate statename="over">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+					<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+					<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Select Squad</label>
+				</widgetstate>
+				<widgetstate x="1" y="1" statename="down">
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+					<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+					<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Select Squad</label>
+				</widgetstate>
+			</button>
+		</panel>
+	</template>
+	
+	<template name="teammanager_squadofficer">
+			<!-- Officer -->
+			<panel width="550" height="40" color="invisible">
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+				<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+				<panel float="right" padding="4" x="4" y="4" height="32">
+					<!-- Class icon (with normal clickity goodness) -->
+					<panel height="32" width="32" >
+						<image watch="CommanderSquadOfficerIcon{index}" ontrigger="if(StringEquals(param, ''), SetTexture('/ui/elements/empty_logo.tga'), SetTexture(param));" />
+						<image texture="/ui/elements/battlegroup_dead.tga" visible="false" watch="CommanderSquadOfficerDead{index}" ontrigger="SetVisible(param);" color="#770000" />
+						<label x="-1" y="-1" width="100%" height="100%" textvalign="bottom" textalign="right" align="center" font="chat_10" color="white" shadow="true" visible="{dead}">99</label>
+						<button
+							onmouseover=";"
+							onmouseout="MultiSelectHoverEntity(-1);"
+							watch="CommanderSquadOfficerIndex{index}"
+							ontrigger=
+							"
+								SetOnmouseover('MultiSelectHoverEntity(' # param # ');');
+								SetOnclick('CommanderSelect(' # param # ');');
+							"
+							color="invisible"
+						/>
+					</panel>
+					<!-- Health/mana -->
+					<panel float="right" width="8" padding="1">
+						<panel width="3" color="black">
+							<panel color="red" valign="bottom" watch="CommanderSquadOfficerHealthPercent{index}" ontrigger="SetHeight(FtoP(param));"/>
+							<panel color="yellow" valign="bottom" watch="CommanderSquadOfficerHealthPercent{index}" ontrigger="SetHeight(FtoP(param)); SetColor(1, 1, 0, Saturate((param * 2.5) - 0.25));" />
+							<panel color="lime" valign="bottom" watch="CommanderSquadOfficerHealthPercent{index}" ontrigger="SetHeight(FtoP(param)); SetColor(0, 1, 0, Saturate((param * 2) - 1));" />
+						</panel>
+						<panel width="3" color="black">
+							<panel color="blue" valign="bottom" watch="CommanderSquadOfficerManaPercent{index}" ontrigger="SetHeight(FtoP(param));"/>
+						</panel>
+						<button width="100%" color="invisible" height="100%" y="0" onmouseover="ShowWidget('teammanager_tip_health_mana');" onmouseout="HideWidget('teammanager_tip_health_mana');" />
+					</panel>
+					<!-- Name/officer -->
+					<panel float="bottom" padding="2" width="100" height="38">
+						<label font="chat_12" shadow="true" height="15" align="center" textalign="center" color="white" watch="CommanderSquadOfficerName{index}" ontrigger="SetText(param);" onmouseover="ShowWidget('teammanager_tip_name');" onmouseout="HideWidget('teammanager_tip_name');">S2Mercenary</label>
+						<label font="chat_12" shadow="true" height="15" align="center" textalign="center" color="yellow" onmouseover="ShowWidget('teammanager_tip_officer');" onmouseout="HideWidget('teammanager_tip_officer');">Officer</label>
+					</panel>
+					<!-- Items/inventory -->
+					<panel float="bottom" width="50" padding="2">
+						<panel float="right" padding="2" height="15">
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerInventory0{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerInventory1{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerInventory2{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+						</panel>
+						<panel float="right" padding="2" height="15">
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerInventory3{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerInventory4{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerInventory5{index}" ontrigger="If(StringLength(param) gt 0, SetTexture(param), SetTexture('/ui/elements/empty_pack.tga'));"/>
+						</panel>
+						<button width="100%" color="invisible" height="100%" y="0" onmouseover="ShowWidget('teammanager_tip_inventory');" onmouseout="HideWidget('teammanager_tip_inventory');" />
+					</panel>
+					<!-- Gold/give gold -->
+					<panel float="bottom" padding="2" width="85" height="38">
+						<panel width="80" float="right" padding="2" height="15" align="center">
+							<image width="15" height="15" texture="/ui/elements/gold.tga"/>
+							<label font="chat_12" shadow="true" height="15" width="73" color="white" watch="CommanderSquadOfficerGold{index}" ontrigger="SetText(param); Set('_gold_off{index}', param);">5231</label>
+							<button width="100%" color="invisible" height="100%" y="0" onmouseover="ShowWidget('teammanager_tip_gold');" onmouseout="HideWidget('teammanager_tip_gold');" />
+						</panel>
+						<panel width="80" height="15" align="center">
+							<button color="invisible" onclick="CommanderGiveGold('{index}', '-2', '250');" onmouseover="ShowWidget('teammanager_tip_givegold');" onmouseout="HideWidget('teammanager_tip_givegold');">
+								<widgetstate statename="up">
+									<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+									<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+									<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+									<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Give 250g</label>
+								</widgetstate>
+								<widgetstate statename="over">
+									<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+									<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+									<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Give 250g</label>
+								</widgetstate>
+								<widgetstate x="1" y="1" statename="down">
+									<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+									<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+									<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Give 250g</label>
+								</widgetstate>
+							</button>
+						</panel>
+					</panel>
+					<!-- Level, Souls,  -->
+					<panel float="bottom" width="42" padding="2">
+						<panel float="right" padding="2" height="15" align="center">
+							<image width="15" height="15" texture="/ui/elements/mana_icon.tga"/>
+							<label font="chat_12" shadow="true" height="15" width="25" color="cyan" watch="CommanderSquadOfficerSouls{index}" ontrigger="SetText(param);">150</label>
+						</panel>
+						<panel float="right" padding="2" height="15">
+							<image width="15" height="15" texture="/ui/elements/stat_icons/player_rank.tga"/>
+							<label font="chat_12" shadow="true" height="15" width="25" color="white" watch="CommanderSquadOfficerLevel{index}" ontrigger="SetText(param);">150</label>
+						</panel>
+						<button width="100%" color="invisible" height="50%" y="0" onmouseover="ShowWidget('teammanager_tip_souls');" onmouseout="HideWidget('teammanager_tip_souls');" />
+						<button width="100%" color="invisible" height="50%" y="50%" onmouseover="ShowWidget('teammanager_tip_level');" onmouseout="HideWidget('teammanager_tip_level');" />
+					</panel>
+					<!-- Buffs/Debuffs -->
+					<panel float="bottom" width="90" padding="2">
+						<panel float="right" padding="2" height="15">
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerBuffs0{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerBuffs1{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerBuffs2{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerBuffs3{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerBuffs4{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						</panel>
+						<panel float="right" padding="2" height="15">
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerDebuffs0{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerDebuffs1{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerDebuffs2{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerDebuffs3{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+							<image width="15" height="15" texture="/ui/elements/empty_pack.tga" watch="CommanderSquadOfficerDebuffs4{index}" ontrigger="SetVisible(StringLength(param) gt 0); SetTexture(param);"/>
+						</panel>
+						<button width="100%" color="invisible" height="100%" y="0" onmouseover="ShowWidget('teammanager_tip_buffs_debuffs');" onmouseout="HideWidget('teammanager_tip_buffs_debuffs');" />
+					</panel>
+				<!-- Swap player positions -->
+				<panel float="bottom" width="100" padding="2">
+					<panel float="right" padding="2" height="15">
+						<label font="chat_12" shadow="true" height="15" align="center" textalign="center" color="white" onmouseover="ShowWidget('teammanager_tip_playerswap_info');" onmouseout="HideWidget('teammanager_tip_playerswap_info');">Player Swap:</label>
+					</panel>
+					<panel width="80" height="15" align="center">
+						<!-- Basic 'move' button - shows when they're not moving anything -->
+						<button name="swap_move_{index}" color="invisible" onclick="CreateInt('_admin_swap_member', '-2'); CreateInt('_admin_swap_squad', '{index}'); HideGroup('swap_buttons_move'); HideGroup('swap_buttons_cancel'); ShowGroup('swap_buttons_place'); ShowWidget('swap_cancel_{member}{index}');" group="swap_buttons_move" onmouseover="ShowWidget('teammanager_tip_playerswap');" onmouseout="HideWidget('teammanager_tip_playerswap');">
+							<widgetstate statename="up">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+								<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Move</label>
+							</widgetstate>
+							<widgetstate statename="over">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Move</label>
+							</widgetstate>
+							<widgetstate x="1" y="1" statename="down">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Move</label>
+							</widgetstate>
+						</button>
+						<!-- "Place here" button - this is where the player will end up -->
+						<button name="swap_place_{index}" color="invisible" onclick="SwapSquadMembers(_admin_swap_squad, _admin_swap_member, '{index}', '-2'); ShowGroup('swap_buttons_move'); HideGroup('swap_buttons_cancel'); HideGroup('swap_buttons_place');" visible="false" group="swap_buttons_place" onmouseover="ShowWidget('teammanager_tip_playerswap_place');" onmouseout="HideWidget('teammanager_tip_playerswap_place');">
+							<widgetstate statename="up">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+								<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Place Here</label>
+							</widgetstate>
+							<widgetstate statename="over">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Place Here</label>
+							</widgetstate>
+							<widgetstate x="1" y="1" statename="down">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Place Here</label>
+							</widgetstate>
+						</button>
+						<!-- "Cancel" button - displays when that particular player is being moved -->
+						<button name="swap_cancel_{index}" color="invisible" onclick="ShowGroup('swap_buttons_move'); HideGroup('swap_buttons_cancel'); HideGroup('swap_buttons_place');" visible="false" group="swap_buttons_cancel" onmouseover="ShowWidget('teammanager_tip_playerswap_cancel');" onmouseout="HideWidget('teammanager_tip_playerswap_cancel');">
+							<widgetstate statename="up">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);"/>
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#00000099"/>
+								<frame texture="/ui/frames/roundframe.tga" watch="CommanderSquadColor{index}" ontrigger="SetBorderColor(param); SetColor(param);" borderthickness="6"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="white" shadow="true">Cancel</label>
+							</widgetstate>
+							<widgetstate statename="over">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Cancel</label>
+							</widgetstate>
+							<widgetstate x="1" y="1" statename="down">
+								<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#999999" />
+								<frame texture="/ui/frames/roundframe.tga" borderthickness="6" color="white"/>
+								<label width="100%" height="100%" textvalign="center" textalign="center" align="center" font="chat_10" color="yellow" shadow="true">Cancel</label>
+							</widgetstate>
+						</button>
+					</panel>
+				</panel>
+				</panel>
+			</panel>
+
+	</template>
+
+	<!-- Watches a squad and adds/removes listbox item templates as necessary -->
+	<template name="teammanger_squadwatch_haslistitem">
+		<!-- Panel just for watches - need them here as I can't fit that many watches on a single listbox -->
+		<panel width="1" height="1" color="invisible" blockinput="false" noclick="true"
+			watch="CommanderSquadExists{index}"
+			ontrigger="If(param, Call('teammanager_listbox', 'if(!HasListItem(\'{index}0\'),Split(AddTemplateListItem(\'teammanager_squadofficer\', \'{index}0\', \'index\', \'{index}\'), UpdateInterface(), SortListboxValue()));'), Call('teammanager_listbox', 'if(HasListItem(\'{index}0\'),EraseListItemByValue(\'{index}0\'));'), Set('_gold_off{index}', 0));"
+			watch0="CommanderSquadMemberIcon0{index}"
+			ontrigger0="if(!StringEquals(param, ''), Call('teammanager_listbox', 'if(!HasListItem(\'{index}1\'),Split(AddTemplateListItem(\'teammanager_squadmember\', \'{index}1\', \'index\', \'{index}\', \'member\', \'0\'), UpdateInterface(), SortListboxValue()));'), Call('teammanager_listbox', 'if(HasListItem(\'{index}1\'),EraseListItemByValue(\'{index}1\'));'), Set('_gold_0{index}', 0));"
+			watch1="CommanderSquadMemberIcon1{index}"
+			ontrigger1="if(!StringEquals(param, ''), Call('teammanager_listbox', 'if(!HasListItem(\'{index}2\'),Split(AddTemplateListItem(\'teammanager_squadmember\', \'{index}2\', \'index\', \'{index}\', \'member\', \'1\'), UpdateInterface(), SortListboxValue()));'), Call('teammanager_listbox', 'if(HasListItem(\'{index}2\'),EraseListItemByValue(\'{index}2\'));'), Set('_gold_1{index}', 0));"
+			watch2="CommanderSquadMemberIcon2{index}"
+			ontrigger2="if(!StringEquals(param, ''), Call('teammanager_listbox', 'if(!HasListItem(\'{index}3\'),Split(AddTemplateListItem(\'teammanager_squadmember\', \'{index}3\', \'index\', \'{index}\', \'member\', \'2\'), UpdateInterface(), SortListboxValue()));'), Call('teammanager_listbox', 'if(HasListItem(\'{index}3\'),EraseListItemByValue(\'{index}3\'));'), Set('_gold_2{index}', 0));"
+						
+		/>
+	</template>
+	
+	<panel name="team_manager_panel"
+	align="center"
+	y="9%"
+	width="630"
+	height="477"
+	color="invisible" cangrab="true"
+	visible="false"
+	onshow="SetX(0); SetY('9%');"
+	>
+		<frame borderthickness="36" x="0" y="0" texture="/ui/frames/standard.tga" noclick="true"/>
+		<panel color="0 0 0 .55" width="586" height="441" x="20" y="20" noclick="true"/>
+		
+		<!-- Title Panel -->
+		<panel y="-8" align="center" width="300" height="40" color="black" noclick="true">
+			<frame texture="/ui/frames/border2.tga" borderthickness="32" noclick="true" />
+			<label font="chat_16" shadow="true" height="15" y="-3" align="center" textalign="center" valign="center" color="white" noclick="true">Team Manager</label>
+			<button x="-16" y="12" width="18" height="18" align="right" color="#FFFFFF99" onclick="HideWidget('team_manager_panel');" texture="/ui/elements/xbutton.tga"></button>		
+		</panel>
+		
+		<panel x="28" y="22" width="160" height="20" color="invisible" float="right" padding="2"
+			onload="CreateInt('_total_gold',0); CreateInt('_gold_off0',0); CreateInt('_gold_00',0); CreateInt('_gold_10',0); CreateInt('_gold_20',0); CreateInt('_gold_off1',0); CreateInt('_gold_01',0); CreateInt('_gold_11',0); CreateInt('_gold_21',0); CreateInt('_gold_off2',0); CreateInt('_gold_02',0); CreateInt('_gold_12',0); CreateInt('_gold_22',0); CreateInt('_gold_off3',0); CreateInt('_gold_03',0); CreateInt('_gold_13',0); CreateInt('_gold_23',0); CreateInt('_gold_off4',0); CreateInt('_gold_04',0); CreateInt('_gold_14',0); CreateInt('_gold_24',0);">
+			<label font="chat_12" shadow="true" height="15" width="68" color="white">Total gold : </label>		
+			<image width="15" height="15" texture="/ui/elements/gold.tga"/>
+			<label font="chat_12" shadow="true" height="15" width="73" color="white" 
+			watch="CommanderSquadOfficerGold0 CommanderSquadMemberGold00 CommanderSquadMemberGold01 CommanderSquadMemberGold02 CommanderSquadOfficerGold1 CommanderSquadMemberGold10 CommanderSquadMemberGold11 CommanderSquadMemberGold12 CommanderSquadOfficerGold2 CommanderSquadMemberGold20 CommanderSquadMemberGold21 CommanderSquadMemberGold22 CommanderSquadOfficerGold3 CommanderSquadMemberGold30 CommanderSquadMemberGold31 CommanderSquadMemberGold32 CommanderSquadOfficerGold4 CommanderSquadMemberGold40 CommanderSquadMemberGold41 CommanderSquadMemberGold42" 
+			ontrigger="Set('_total_gold', _gold_off0 + _gold_00 + _gold_10 + _gold_20 + _gold_off1 + _gold_01 + _gold_11 + _gold_21 + _gold_off2 + _gold_02 + _gold_12 + _gold_22 + _gold_off3 + _gold_03 + _gold_13 + _gold_23 + _gold_off4 + _gold_04 + _gold_14 + _gold_24); SetText(_total_gold);">0</label>
+		</panel>
+		<panel color="invisible" x="28" y="22" width="140" height="20" onmouseover="ShowWidget('teammanager_tip_allplayergold');" onmouseout="HideWidget('teammanager_tip_allplayergold');" />
+	
+		<!-- New Squad Panel -->
+		<panel x="28" y="42" float="bottom" padding="3" width="-44" height="-24" noclick="true" color="invisible">
+			<listbox name="teammanager_listbox" color="invisible" x="5" width="570" height="390" itemwidth="100%" itemheight="43" hoverselect="false" select="false"/>
+			<instance name="teammanger_squadwatch_haslistitem" index="0" />
+			<instance name="teammanger_squadwatch_haslistitem" index="1" />
+			<instance name="teammanger_squadwatch_haslistitem" index="2" />
+			<instance name="teammanger_squadwatch_haslistitem" index="3" />
+			<instance name="teammanger_squadwatch_haslistitem" index="4" />
+		</panel>
+		
+		<panel width="100%" height="50" x="30" y="433" float="right" padding="5" noclick="true">
+			<instance name="teammanager_selectsquadbutton" index="0" />
+			<instance name="teammanager_selectsquadbutton" index="1" />
+			<instance name="teammanager_selectsquadbutton" index="2" />
+			<instance name="teammanager_selectsquadbutton" index="3" />
+			<instance name="teammanager_selectsquadbutton" index="4" />
+		</panel>
+	</panel>
+	
+	
+	
+	
+	
+</interface>

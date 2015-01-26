@@ -1,0 +1,1 @@
+These tips are designed to trigger when a player first spots a particular NPC.

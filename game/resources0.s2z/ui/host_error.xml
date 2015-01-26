@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="host_error" alwaysupdate="true" onshow="Set('_cl_state','error');">
+	<!-- Includes -->
+	<include file="/ui/fonts.xml"/>
+	<include file="/ui/inc_button.xml"/>
+
+	<panel blockinput="true">
+		<!-- Background Image -->
+		<image name="random_loading_image" onshow="Exec('/ui/scripts/loading_picker.cfg');" color="white" texture="$white"/>
+		<image y="3%" x="-2%" width="40%" height="30%" align="right" texture="/ui/elements/logo.tga"/>
+		<image texture="/ui/elements/grad_diag.tga" color="0 0 0 .75" rendermode="normal"/>
+		<panel y="30%" x="0" width="40%" height="8%" align="center" valign="center" color="0 0 0 .5">
+			<label name="tip_header" y="-10" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_18" shadow="true" wrap="true" color="red" >Game Tips:</label>
+			<label name="tip_content" y="15" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Tip Message here.</label>
+		</panel>
+
+		<panel y="40%" width="36%" height="24.5%" align="center" color="invisible">
+			<frame color=".36 .24 0 1" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8"/>
+			<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga" borderthickness="8"/>
+
+			
+			<frame height="32" color=".54 .36 0 1" texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="8">
+				<frame color="1 .8 0 1" texture="/ui/frames/roundframe_header.tga" borderthickness="8"/>
+				<label x="10" textvalign="center" font="gamemedium" color="1 .8 0 1" shadow="true" watch="HostErrorTitle" ontrigger="SetText(param);"/>
+			</frame>
+			
+			<frame y="25%" width="80%" height="40%" align="center" color="#2E1F00" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="6">
+				<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga" borderthickness="6"/>
+				<label y="10.5%" width="97%" height="97%" textalign="center" align="center" valign="center" font="dyn_12" wrap="true" color="1 .8 0 1" shadow="true" watch="HostErrorMessage" ontrigger="SetText(param);"/>
+			</frame>
+
+			<instance name="round_button2" y="-10%" width="25%" height="15%" align="center" valign="bottom" font="dyn_12" label="OK" onclick="If(IsLoggedIn(), SetHostInterface('browser'), SetHostInterface('main'));"/>
+		</panel>
+	</panel>
+</interface>

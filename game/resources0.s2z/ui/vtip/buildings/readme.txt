@@ -1,0 +1,1 @@
+These tips are universal, and can be used for spotted buildings on both the human and beast team (ie. if you spot an enemy building, this tip will still give you the pertinent information).

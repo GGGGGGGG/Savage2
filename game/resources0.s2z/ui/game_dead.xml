@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_dead" alwaysupdate="true">
+	<!-- Include -->
+	<include file="fonts.xml"/>
+
+	<include file="/ui/game_chat.xml"/>
+
+	<!-- Styles -->
+	<style name="vist_frame_1" color="#662222"/>
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>	
+	
+	
+	<template name="death_msg_dead">
+		<panel height="13" sticky="true" stickytoinvis="false" color="invisible" visible="true" onframe="if(GetTime() - {time} gt 5000, DestroyWidget());">
+			<frame color="#444444" texture="/ui/frames/rounded_bg_white.tga" borderthickness="4"/>
+			<frame color="white" texture="/ui/frames/roundframe.tga" borderthickness="4"/>
+			<label y="-1" textalign="center" font="chat_10" shadow="true" color="white" width="100%" height="100%" valign="center" textvalign="center" content="{message}"/>
+		</panel>
+	</template>
+	
+	
+	<template name="backpack_slot">
+			<panel width="48" height="48" align="left">
+			<image texture="/ui/elements/empty_pack.tga"/>
+			<image texture="/ui/elements/lock.tga" color="1 1 1 .7" watch="DemoAccount" ontrigger="SetVisible(param); If({slot} lt 14, SetVisible(false));"/>
+			<panel watch="InventoryExists{slot}" ontrigger="SetVisible(param);">
+				<image
+					watch="InventoryIcon{slot}" ontrigger="SetTexture(param);"
+					watch0="InventoryEnabled{slot}" ontrigger0="If(param, SetRenderMode('normal'), SetRenderMode('grayscale')); If(param, SetColor(1, 1, 1), SetColor(0.5, 0.5, 0.5));"
+				/>
+				<piegraph start="270" end="-90" square="true" color="#000000cc" watch="InventoryTimer{slot}" ontrigger="SetValue(param);"/>
+				<image texture="$white" rendermode="overlay"
+					watch="InventoryEnabled{slot}" ontrigger="SetVisible(!param);"
+					watch0="InventoryNoAccess{slot}" ontrigger0="If(param, SetColor('red'));"
+					watch1="InventoryLowMana{slot}" ontrigger1="If(param, SetColor('#4444ff'));"
+					watch2="InventoryDisabled{slot}" ontrigger2="If(param, SetColor('#676045'));"
+				/>
+				<label name="ammo_label_slot{slot}" style="ammo_label" watch="InventoryAmmoCount{slot}"/>
+			</panel>
+		</panel>
+	</template>
+	
+	<!-- Backpack -->
+	<panel name="backpack" width="256" height="256" align="left" valign="bottom" >
+		<panel name="itemicons" style="backpack" float="right" padding="8">
+			<anchor x="75" y="131"/>
+			<instance name="backpack_slot" slot="13"/>
+			<instance name="backpack_slot" slot="14"/>
+			<instance name="backpack_slot" slot="15"/>
+			<anchor x="75" y="187"/>
+			<instance name="backpack_slot" slot="10"/>
+			<instance name="backpack_slot" slot="11"/>
+			<instance name="backpack_slot" slot="12"/>
+		</panel>
+		<image name="player_equipment" texture="/ui/fps/backpack.tga"/>
+	</panel>
+	
+	
+	<include file="demo_nag.xml"/>
+	<include file="demo_nag_time.xml"/>
+	
+	<panel name="voicetip" color="invisible" blockinput="false" noclick="true" onshow="PlayVoiceTip('/ui/vtip/states/died.mp3');"/>
+	
+	<!-- Minimap -->
+	<panel x="0" y="0" width="210" height="210">
+		<minimap valign="center" align="center" name="minimap" width="192" height="192" texture="!minimap_texture" watch="Minimap"/>
+		<frame valign="center" align="center" name="frame" borderthickness="32" texture="/ui/frames/border2.tga" />
+	</panel>
+
+	<!-- Per-Life stats -->
+	<frame y="-175" valign="center" align="center" width="450" height="320" borderthickness="2" color="invisible" watch="LobbyPhase" ontrigger="SetVisible(LobbyPhase != 6);">
+		<image name="skulll" align="center" valign="center" texture="/ui/elements/hell_background.tga" color="1 1 1 .85"/>
+		<frame texture="/ui/frames/border2.tga" borderthickness="32"/>
+		<image name="skulll" align="right" y="-10" x="15" width="64" height="64" texture="/ui/elements/behemskull_tr.tga"/>
+		<image name="skulll2" align="left" y="-10" x="-15" width="64" height="64" texture="/ui/elements/behemskull_tl.tga"/>
+		
+		<frame y="20" width="300" align="center" height="70" borderthickness="2" color="invisible">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="0 0 0 .5"/>
+			<label y="5" textalign="center" font="chat_22" color="yellow" content="You Have Died"/>
+			<label y="32" textalign="center" font="chat_10" color="white" wrap="true" onshow="SetText('Press ^y' # GetKeybindButton('player', 'Use', '', 0) # '^* to return to the loadout screen.');"/>
+			<label y="45" textalign="center" font="chat_10" color="white" wrap="true" content="Return to loadout to avoid ressurection."/>
+		</frame>
+
+		<!-- Kills -->
+		<panel height="60" x="35" y="100" width="40%" align="left"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .8" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" valign="center" width="42" texture="/ui/elements/stat_icons/total_kills.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow"  content="Kill Count"/>
+
+					<label x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="This life:"/>
+					<label name="kill_count_value" x="70" y="18" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeKills" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+					
+					<label x="4" y="32" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="Match Best:"/>
+					<label name="kill_count_best" x="70" y="32" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeHighestKills" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+				</panel>
+			</panel>
+		</panel>
+		
+		<!-- Assists -->
+		<panel height="60" x="35" y="170" width="40%" align="left"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .8" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" valign="center" width="42" texture="/ui/elements/stat_icons/total_assists.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow"  content="Assist Count"/>
+
+					<label x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="This life:"/>
+					<label name="assist_count_value" x="70" y="18" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeAssists" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+					
+					<label x="4" y="32" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="Match Best:"/>
+					<label name="assist_count_best" x="70" y="32" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeHighestAssists" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+				</panel>
+			</panel>
+		</panel>
+		
+		<!-- HP Healed -->
+		<panel height="60" x="35" y="240" width="40%" align="left"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .8" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" valign="center" width="42" texture="/ui/elements/stat_icons/hps_healed.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow"  content="Hitpoints Healed"/>
+
+					<label x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="This life:"/>
+					<label name="hp_healed_value" x="70" y="18" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeHealed" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+					
+					<label x="4" y="32" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="Match Best:"/>
+					<label name="hp_healed_best" x="70" y="32" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeHighestHealed" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+				</panel>
+			</panel>
+		</panel>
+		
+		<!-- Player Dmg -->
+		<panel height="60" x="-35" y="100" width="40%" align="right"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .8" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" valign="center" width="42" texture="/ui/elements/stat_icons/player_damage.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow"  content="Player Damage"/>
+
+					<label x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="This life:"/>
+					<label name="damage_delt_value" x="70" y="18" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeDamageDealt" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+					
+					<label x="4" y="32" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="Match Best:"/>
+					<label name="damage_delt_best" x="70" y="32" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeHighestDamageDealt" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+				</panel>
+			</panel>
+		</panel>
+		
+		<!--  Dmg  Received -->
+		<panel height="60" x="-35" y="170" width="40%" align="right"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .8" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" valign="center" width="42" texture="/hellbourne/units/revenant/icons/scorch.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow"  content="Damage Received"/>
+
+					<label x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="This life:"/>
+					<label name="damage_delt_value" x="70" y="18" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeDamageTaken" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+					
+					<label x="4" y="32" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="Match Worst:"/>
+					<label name="damage_delt_best" x="70" y="32" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeHighestDamageTaken" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+				</panel>
+			</panel>
+		</panel>
+		
+		<!-- Dmg blocked -->
+		<panel height="60" x="-35" y="240" width="40%" align="right"> 
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga"  color="0 0 0 .8" borderthickness="6" noclick="true"></frame>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="6" noclick="true"></frame>
+			<panel x="5"  height="48" width="-10" color="invisible" valign="center"> 
+				<image height="42" valign="center" width="42" texture="/ui/elements/armor_icon2.tga"/>
+				<panel width="-46" color="invisible" align="right"> 
+					<label x="4" height="12"  valign="top" align="left" textalign="left" font="chat_12" color="yellow"  content="Damage Blocked"/>
+
+					<label x="4" y="18" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="This life:"/>
+					<label name="damage_delt_value" x="70" y="18" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeDamageBlocked" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+					
+					<label x="4" y="32" height="12"  valign="top" align="left" textalign="left" font="chat_10" color="white" content="Match Best:"/>
+					<label name="damage_delt_best" x="70" y="32" valign="top" textalign="left" font="chat_10" color="red" watch="LifetimeHighestDamageBlocked" ontrigger="settext(FtoA(Round(param), 0, 0, ','));"/>
+				</panel>
+			</panel>
+		</panel>
+
+
+	</frame>
+
+	<!-- Timer -->
+	<panel align="center" valign="bottom" height="55">
+		<panel x="-10" align="right" valign="center" height="-8" width="230">
+			<frame color="0 0 0 .8" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+			<frame style="vist_frame_1" texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+			<label height="100%" width="65%" align="left" font="chat_22" textalign="right" color="orange" textvalign="center">Respawn In: </label>
+			<label height="100%" width="30%" font="gamelarge" align="right" textalign="left" color="white" textvalign="center" precision="0" watch="DeathTime" ontrigger="SetText(param / 1000);"/>
+		</panel>
+	</panel>
+	
+
+	<instance name="game_chat_window" interface="game_dead" xoffset="75" yoffset="-150"/>
+
+	<panel x="214" y="39"  noclick="true">
+		<include file="/ui/game_voicecommands.xml"/>
+	</panel>
+	
+
+	<panel y="40%" x="0" width="40%" height="8%" align="center" valign="center" color="0 0 0 .5" onshow="Exec('/ui/scripts/tips.cfg');">
+		<frame color="0 0 0 .8" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+		<frame style="vist_frame_1" texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+		<label name="tip_header" y="-10" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_18" shadow="true" wrap="true" color="red" >Game Tips:</label>
+		<label name="tip_content" y="15" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Tip Message here.</label>
+	</panel>
+	
+	<panel
+		name="kill_notifications"
+		width="300" height="100%"
+		align="right"
+		color="invisible"
+		sticky="true"
+		stickysizing="true"
+		stickytoinvis="false"
+		float="bottom"
+		padding="1"
+		watch="KillNotification"
+		ontrigger="If(IsVisible(),Instantiate('death_msg_dead', 'message', param, 'time', GetTime()));"/>
+
+
+	
+</interface>

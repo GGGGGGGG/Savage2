@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_player_build" onshow="If(HasCommander,Cancel());" watch="HasCommander" ontrigger="If(param,Cancel());">
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+
+	<include file="/ui/game_chat.xml"/>
+
+	<panel name="bg_bars" noclick="true">
+		<!-- header bar-->
+		<image valign="top" y="4" x="0" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>		
+		<image valign="top" y="4" x="256" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>		
+		<image valign="top" y="4" x="512" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>		
+		<image valign="top" y="4" x="768" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>		
+		<image valign="top" y="4" x="1024" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>		
+		<image valign="top" y="4" x="1280" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>		
+		<image valign="top" y="4" x="1536" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>		
+		<image valign="top" y="4" x="1792" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+		<image valign="top" y="4" x="2048" width="256" height="32" texture="/ui/fps/bottom_strip.tga"/>
+
+		<image valign="top" y="0" x="0" width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>		
+		<image valign="top" y="0" x="256" width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>		
+		<image valign="top" y="0" x="512" width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>		
+		<image valign="top" y="0" x="768" width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>		
+		<image valign="top" y="0" x="1024" width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>		
+		<image valign="top" y="0" x="1280" width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>		
+		<image valign="top" y="0" x="1536" width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>	
+		<image valign="top" y="0" x="1792" width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+		<image valign="top" y="0" x="2048" width="256" height="4" texture="/ui/fps/thin_horzstrip.tga"/>
+	</panel>	
+	
+	<!-- Header -->
+	<panel name="header" valign="top" height="200" passivechildren="true" noclick="true">
+		<!-- Personal gold -->
+		<panel name="personal_gold_panel" align="left" height="32" width="128" x="174" y="4">
+			<image name="mygoldimage" texture="/ui/elements/short_small_infobox.tga"/>		
+			<label name="gold" x="10" y="6" textalign="left" font="gametiny" color="yellow" content="Gold:"/>	
+			<label name="mygold" x="44" y="6" textalign="left" font="gametiny" color="white" watch="Gold" ontrigger="settext(param);"/>	
+		</panel>	
+
+		<!-- Team gold -->			
+		<panel name="team_gold_panel" align="left" height="32" width="128" x="280" y="4">
+			<image name="teamgoldimage_right" x="12" texture="/ui/elements/wide_small_infobox.tga"/>
+			<image name="teamgoldimage_left" texture="/ui/elements/left_small_infobox.tga"/>
+			<label name="teamgold" x="9" y="6" textalign="left" font="gametiny" color="yellow" content="Team Gold:"/>
+			<label name="team_gold_value" x="82" y="6" textalign="left" font="gametiny" color="white" watch="TeamGold" ontrigger="settext(param);"/>
+		</panel>
+
+		<panel name="upkeep" align="right" height="32" width="128" x="-280" y="4">
+			<image name="mygoldimage" texture="/ui/elements/short_small_infobox.tga"/>		
+			<label x="10" y="6" width="100%" textalign="left" font="gametiny" color="yellow" content="Upkeep: ^999%Upkeep%^*"/>
+		</panel>	
+
+		
+		<panel name="income" align="right" height="32" width="128" x="-170" y="4">
+			<image name="mygoldimage" texture="/ui/elements/short_small_infobox.tga"/>		
+				<label x="10" y="6" width="100%" textalign="left" font="gametiny" color="yellow" content="Income: ^999%Income%^*"/>
+		</panel>		
+
+		<panel width="100" y="3" align="center" height="32">
+			<image align="left" width="32"  texture="/ui/elements/time_window_l.tga"/>
+			<image align="center" width="-64"  texture="/ui/elements/time_window_c.tga"/>				
+			<image align="right" width="32"  texture="/ui/elements/time_window_r.tga"/>
+			<label font="gamesmall" y="-2" height="100%" textalign="center" textvalign="center" shadow="true">%cg_gameTime%</label>
+		</panel>
+
+    <!--Base health bar -->
+    <panel name="yourbasehealth" x="-5" y="8" width="172" height="16" align="right" color="invisible">
+      <panel x="20" width="-44">
+        <image texture="/ui/fps/health_negative.tga"/>
+        <image watch="CommandCenterHealthPercent" ontrigger="SetWidth(param * 128);"   texture="/ui/fps/health_positive_r.tga"/>
+        <image watch="CommandCenterHealthPercent" ontrigger="SetWidth(param * 128); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));" texture="/ui/fps/health_positive_y.tga"/>
+        <image watch="CommandCenterHealthPercent" ontrigger="SetWidth(param * 128); SetColor(1, 1, 1, Saturate((param * 2) - 1));" texture="/ui/fps/health_positive.tga"/>
+        <panel y="4" width="2" height="12" color="white" watch="CommandCenterHealthPercent" ontrigger="SetX(param * 128);"/>
+      </panel>
+      <panel y="-5" >
+        <image align="left" width="32" height="32" texture="/ui/elements/deco_cont_l.tga"></image>
+        <image align="center" width="-64" height="32" texture="/ui/elements/deco_cont_c.tga"></image>
+        <image align="right" width="32" height="32" texture="/ui/elements/deco_cont_r.tga"></image>
+      </panel>
+    </panel>
+
+    <!--Base health bar -->
+    <panel name="enemybasehealth" x="5" y="8" width="172" height="16" align="left" color="invisible">
+      <panel x="20" width="-44">
+        <image texture="/ui/fps/health_negative.tga"/>
+        <image width="50" watch="EnemyCommandCenterHealthPercent" ontrigger="SetWidth(param * 128);"   texture="/ui/fps/health_positive_r.tga"/>
+        <image width="50" watch="EnemyCommandCenterHealthPercent" ontrigger="SetWidth(param * 128); SetColor(1, 1, 1, Saturate((param * 2.5) - 0.25));" texture="/ui/fps/health_positive_y.tga"/>
+        <image width="50" watch="EnemyCommandCenterHealthPercent" ontrigger="SetWidth(param * 128); SetColor(1, 1, 1, Saturate((param * 2) - 1));" texture="/ui/fps/health_positive.tga"/>
+        <panel y="4" width="2" height="12" color="white" watch="EnemyCommandCenterHealthPercent" ontrigger="SetX(param * 128);"/>
+      </panel>
+      <panel y="-5" >
+        <image align="left" width="32" height="32" texture="/ui/elements/deco_cont_l.tga"></image>
+        <image align="center" width="-64" height="32" texture="/ui/elements/deco_cont_c.tga"></image>
+        <image align="right" width="32" height="32" texture="/ui/elements/deco_cont_r.tga"></image>
+      </panel>
+    </panel>
+
+    <!-- Minimap -->
+		<panel x="0" y="36" width="210" height="210">
+			<minimap valign="center" align="center" name="minimap" width="192" height="192" texture="!minimap_texture" watch="Minimap" />
+			<frame valign="center" align="center" name="frame" borderthickness="32" texture="/ui/frames/border2.tga" />
+		</panel>
+				
+	</panel>
+
+	<template name="building_button">
+		<panel height="48" width="48" padding="8">
+			<image x="3" y="3" width="-6" height="-6"
+				onshow="SetTexture(Building_{building_name}_IconPath);"
+				texture="$checker"
+				watch="CanBuild"
+				ontrigger="If(StringEquals(param0, 'Building_{building_name}'), If(param1, SetRenderMode('normal'), SetRenderMode('grayscale')));"
+			/>
+			<button
+				hotkey="{building_shortcut}"
+				onhotkey="SelectBuilding('{building_name}');"
+				onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3'); ShowWidget('{building_name}_tooltip'); ShowWidget('{building_name}_tooltip_unlocks');"
+				onmouseout="HideWidget('{building_name}_tooltip'); HideWidget('{building_name}_tooltip_unlocks');"
+				onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); HideWidget('{building_name}_tooltip'); SelectBuilding('{building_name}');"
+				texture="/ui/elements/button_bevel.tga"
+			/>
+		</panel>
+	</template>
+	
+	<template name="empty_slot">
+		<panel height="48" width="48" padding="8">
+			<image x="3" y="3" width="-6" height="-6" texture="/ui/elements/empty_logo.tga"/>			
+		</panel>
+	</template>
+
+	<template name="building_tooltip">
+		<frame name="{building_name}_tooltip" texture="/ui/frames/tooltip_bg.tga" color="#777777" bgcolor="#777777" borderthickness="12" visible="false" x="15" y="-15" valign="bottom" width="250" height="144">
+			<frame texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"/>
+			<image x="174" y="9" width="16" height="16" texture="/ui/elements/gold.tga"/>
+			<label x="194" y="9" height="22" width="200" textalign="left" font="gametiny" color="white" onshow="SetText(Building_{building_name}_Cost);"/>
+			<label x="12" y="8" height="22" textalign="left" font="gametweener" color="Yellow" onshow="SetText(Building_{building_name}_Name # '(^291{building_shortcut}^*)');"/>
+			<label y="30" width="-26" height="-32" align="center" font="gametiny" wrap="true" onshow="SetText(Building_{building_name}_Description);" color="white"/>
+
+			<!-- <label x="162" y="-6" height="16" valign="bottom" textalign="left" font="gamemicro" color="#CCCCCC" precision="2" onshow="SetText('Decay: ^w' # FtoP(Building_{building_name}_DecayRate) # '%');" /> -->
+			<label x="14" y="-6" height="16" valign="bottom" textalign="left" font="gamemicro" color="lime" onshow="SetText('Upkeep: ^w' # Building_{building_name}_UpkeepCost # '^990g');"/>
+		</frame>
+	</template>	
+	
+	<template name="building_tooltip_unlocks">
+		<frame name="{building_name}_tooltip_unlocks" texture="/ui/frames/tooltip_bg.tga" color="#777777" borderthickness="12" visible="false" x="275" y="-15" valign="bottom" width="164" height="200" onshow="SetVisible(stringequals('{show_panel}','true')); SetHeight('{panel_height}');">
+		<frame texture="/ui/frames/roundframe.tga" color="#CCCCCC" borderthickness="12"/>
+		<panel float="bottom" x="6" y="6">
+
+			<label  height="22" textalign="left" font="gametweener" color="Yellow" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{unit1_texture}', '') || !stringequals('{unit2_texture}', '') || !stringequals('{unit3_texture}', '') || !stringequals('{unit4_texture}', ''));">Unlocks Units:</label>
+			
+			<panel noclick="true" height="38" align="left" float="right" padding="5" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{unit1_texture}', '') || !stringequals('{unit2_texture}', '') || !stringequals('{unit3_texture}', '') || !stringequals('{unit4_texture}', ''));">
+				<image width="32" height="32" texture="{unit1_texture}" onshow="SetVisible(!stringequals('{unit1_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{unit2_texture}" onshow="SetVisible(!stringequals('{unit2_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{unit3_texture}" onshow="SetVisible(!stringequals('{unit3_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{unit4_texture}" onshow="SetVisible(!stringequals('{unit4_texture}', ''));" sticky="true" stickytoinvis="false" />
+			</panel>
+
+			<label  height="22" textalign="left" font="gametweener" color="Yellow" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{weapon1_texture}', '') || !stringequals('{weapon2_texture}', '') || !stringequals('{weapon3_texture}', '') || !stringequals('{weapon4_texture}', ''));">Unlocks Weapons:</label>
+
+			<panel noclick="true" height="38" align="left" float="right" padding="5" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{weapon1_texture}', '') || !stringequals('{weapon2_texture}', '') || !stringequals('{weapon3_texture}', '') || !stringequals('{weapon4_texture}', ''));">
+				<image width="32" height="32" texture="{weapon1_texture}" onshow="SetVisible(!stringequals('{weapon1_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{weapon2_texture}" onshow="SetVisible(!stringequals('{weapon2_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{weapon3_texture}" onshow="SetVisible(!stringequals('{weapon3_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{weapon4_texture}" onshow="SetVisible(!stringequals('{weapon4_texture}', ''));" sticky="true" stickytoinvis="false" />
+			</panel>
+			
+				<label  height="22" textalign="left" font="gametweener" color="Yellow" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{ability1_texture}', '') || !stringequals('{ability2_texture}', '') || !stringequals('{ability3_texture}', '') || !stringequals('{ability4_texture}', ''));">Unlocks Abilities:</label>
+			
+			<panel noclick="true" height="38" align="left" float="right" padding="5" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{ability1_texture}', '') || !stringequals('{ability2_texture}', '') || !stringequals('{ability3_texture}', '') || !stringequals('{ability4_texture}', ''));">
+				<image width="32" height="32" texture="{ability1_texture}" onshow="SetVisible(!stringequals('{ability1_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{ability2_texture}" onshow="SetVisible(!stringequals('{ability2_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{ability3_texture}" onshow="SetVisible(!stringequals('{ability3_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{ability4_texture}" onshow="SetVisible(!stringequals('{ability4_texture}', ''));" sticky="true" stickytoinvis="false" />
+			</panel> 
+			
+			<label  height="22" textalign="left" font="gametweener" color="Yellow" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{item1_texture}', '') || !stringequals('{item2_texture}', '') || !stringequals('{item3_texture}', '') || !stringequals('{item4_texture}', ''));">Unlocks Items:</label>
+			
+			<panel noclick="true" height="38" align="left" float="right" padding="5" sticky="true" stickytoinvis="false" onshow="SetVisible(!stringequals('{item1_texture}', '') || !stringequals('{item2_texture}', '') || !stringequals('{item3_texture}', '') || !stringequals('{item4_texture}', ''));">
+				<image width="32" height="32" texture="{item1_texture}" onshow="SetVisible(!stringequals('{item1_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{item2_texture}" onshow="SetVisible(!stringequals('{item2_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{item3_texture}" onshow="SetVisible(!stringequals('{item3_texture}', ''));" sticky="true" stickytoinvis="false" />
+				<image width="32" height="32" texture="{item4_texture}" onshow="SetVisible(!stringequals('{item4_texture}', ''));" sticky="true" stickytoinvis="false" />
+			</panel>
+		
+		</panel>
+		</frame>
+		
+	</template>
+	
+	<panel noclick="true" passivechildren="true">
+		<instance name="game_chat_window" interface="game_player_build" xoffset="75" yoffset="-150"/>
+	</panel>
+
+  <!-- Game Tips -->
+  <panel name="game_tip" align="center" y="140" width="220" height="86" visible="false" watch="GameTipVisible" ontrigger="SetVisible(param);" >
+    <frame name="move_tooltip" borderthickness="8" color="#FFFFFFFF" texture="/ui/frames/tooltip.tga" visible="true">
+      <label x="4" y="5" height="22"  width="100%" textalign="center" font="chat_14" shadow="true" color="red">Game Tip:</label>
+      <panel  x="-10" y="28"  width="-35" height="-30" valign="top" align="right" color="invisible" >
+        <label  width="100%" height="100%" align="center" valign="center" textvalign="top" textalign="center" font="chat_12" wrap="true" color="white" watch="GameTipText" ontrigger="SetText(param);"></label>
+      </panel>
+    </frame>
+    <panel align="left" x="-17" valign="center" width="60" height="120" >
+      <modelpanel  align="center" valign="bottom"  noclick="true" model="/ui/models/error.mdf" anim="idle"  camerapos="0 220 0" cameradistance="60" camerafov="20"/>
+    </panel>
+  </panel>
+	
+	<!-- Building menu tooltips -->
+	<instance name="building_tooltip" building_name="Armory" building_shortcut="A" />
+	<instance name="building_tooltip" building_name="SteamMine" building_shortcut="S" />
+	<instance name="building_tooltip" building_name="Monastery" building_shortcut="M" />
+	<instance name="building_tooltip" building_name="Academy" building_shortcut="C" />
+	<instance name="building_tooltip" building_name="SiegeWorkshop" building_shortcut="W" />
+	<instance name="building_tooltip" building_name="ArrowTower" building_shortcut="T" />
+	<instance name="building_tooltip" building_name="CannonTower" building_shortcut="N" />
+	<instance name="building_tooltip" building_name="ShieldTower" building_shortcut="H" />
+	<instance name="building_tooltip" building_name="HumanHellShrine" building_shortcut="F" />
+	<instance name="building_tooltip" building_name="Garrison" building_shortcut="G" />
+	
+	<instance name="building_tooltip" building_name="Nexus" building_shortcut="A" />
+	<instance name="building_tooltip" building_name="GroveMine" building_shortcut="S" />
+	<instance name="building_tooltip" building_name="Sanctuary" building_shortcut="M" />
+	<instance name="building_tooltip" building_name="PredatorDen" building_shortcut="C" />
+	<instance name="building_tooltip" building_name="CharmShrine" building_shortcut="W" />
+	<instance name="building_tooltip" building_name="StrataSpire" building_shortcut="T" />
+	<instance name="building_tooltip" building_name="EntangleSpire" building_shortcut="N" />
+	<instance name="building_tooltip" building_name="ChlorophilicSpire" building_shortcut="H" />
+	<instance name="building_tooltip" building_name="HumanHellShrine" building_shortcut="F" />
+	<instance name="building_tooltip" building_name="SubLair" building_shortcut="G" />
+	
+	<!-- Panels on the sides of all structure information tooltips showing what they unlock -->
+	<include file="/ui/game_structure_unlocktips.xml"/>
+	
+	<panel name="player_build_panel" x="0" y="0" width="225" height="168" valign="bottom" align="right" watch="Race HasCommander" ontrigger="if(HasCommander, ShowOnly(Race # '_buildings'), ShowOnly(Race # '_buildings_nocommander'));">
+		<image x="-9" y="-9" width="256" height="256" texture="/ui/commander/control_frame.tga"/>
+		<panel name="human_buildings" group="buildings" float="bottom" padding="6">
+			<panel x="0" y="0" height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="building_button" building_name="SteamMine"/>
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>
+			</panel>
+			<panel height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>
+			</panel>
+			<panel height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>
+				<panel height="48" width="48">
+					<image texture="/ui/elements/back.tga"/>
+					<button
+						onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3');"
+						onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); Cancel();"
+						texture="/ui/elements/button_bevel.tga"
+					/>
+				</panel>
+			</panel>
+		</panel>
+
+		
+		<panel name="human_buildings_nocommander" group="buildings" float="bottom" padding="6">
+			<panel x="0" y="0" height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="building_button" building_name="SteamMine"/>
+				<instance name="building_button" building_name="Armory"/>
+				<instance name="building_button" building_name="Monastery"/>
+				<instance name="building_button" building_name="Academy"/>
+			</panel>
+			<panel height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="building_button" building_name="SiegeWorkshop"/>
+				<instance name="building_button" building_name="HumanHellShrine"/>
+				<panel height="48" width="48" />
+				<instance name="building_button" building_name="Garrison"/>
+			</panel>
+			<panel height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="building_button" building_name="ArrowTower"/>
+				<instance name="building_button" building_name="CannonTower"/>
+				<instance name="building_button" building_name="ShieldTower"/>
+				<panel height="48" width="48">
+					<image texture="/ui/elements/back.tga"/>
+					<button
+						onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3');"
+						onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); Cancel();"
+						texture="/ui/elements/button_bevel.tga"
+					/>
+				</panel>
+			</panel>
+		</panel>	
+		
+		<panel name="beast_buildings" group="buildings" float="bottom" padding="6">
+			<panel x="0" y="0" height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="building_button" building_name="GroveMine"/>
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>					
+				<instance name="empty_slot"/>
+			</panel>
+			<panel height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>					
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>
+			</panel>
+			<panel height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="empty_slot"/>
+				<instance name="empty_slot"/>					
+				<instance name="empty_slot"/>
+				<panel height="48" width="48">
+					<image texture="/ui/elements/back.tga"/>
+					<button
+						onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3');"
+						onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); Cancel();"
+						texture="/ui/elements/button_bevel.tga"
+					/>
+				</panel>
+			</panel>
+		</panel>
+		
+		<panel name="beast_buildings_nocommander" group="buildings" float="bottom" padding="6">
+			<panel x="0" y="0" height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="building_button" building_name="GroveMine"/>
+				<instance name="building_button" building_name="Nexus"/>
+				<instance name="building_button" building_name="Sanctuary"/>
+				<instance name="building_button" building_name="PredatorDen"/>
+			</panel>
+			<panel height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="building_button" building_name="CharmShrine"/>
+				<instance name="building_button" building_name="HumanHellShrine"/>
+				<panel height="48" width="48" />
+				<instance name="building_button" building_name="SubLair"/>
+			</panel>
+			<panel height="48" float="right" padding="7" bgcolor="invisible">
+				<instance name="building_button" building_name="StrataSpire"/>
+				<instance name="building_button" building_name="EntangleSpire"/>
+				<instance name="building_button" building_name="ChlorophilicSpire"/>
+				<panel height="48" width="48">
+					<image texture="/ui/elements/back.tga"/>
+					<button
+						onmouseover="PlaySound('/shared/sounds/ui/button_over_small.mp3');"
+						onclick="PlaySound('/shared/sounds/ui/button_click_2.mp3'); Cancel();"
+						texture="/ui/elements/button_bevel.tga"
+					/>
+				</panel>
+			</panel>
+		</panel>		
+	</panel>
+
+	<panel x="214" y="39"  noclick="true">
+		<include file="/ui/game_voicecommands.xml"/>
+	</panel>
+
+</interface>

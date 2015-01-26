@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>	
+
+	<panel name="demo_hellbourne" visible="1">
+
+		<image texture="/ui/demo/demo_hellbourne.tga"/>
+
+		<panel name="demo_hellbourne_widget" y="40" width="320" height="660" align="center" valign="center" visible="1">
+
+
+			<include file="/ui/inc_button.xml"/>
+
+
+			<panel  y="6" valign="center" height="-45" texture="/ui/elements/parchment.tga"/>
+
+
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg" color="#00000088" ></frame>
+			<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"></frame>
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" height="28" style="lobby_window_bg"  bgcolor="#7C1A19" borderthickness="12"></frame>
+			<frame texture="/ui/frames/roundframe_header.tga" height="28" style="lobby_window" borderthickness="12"></frame>
+
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="46" style="lobby_window_footer_bg" borderthickness="12"></frame>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="46" style="lobby_window_footer" borderthickness="12">
+
+			<!-- Activate Button -->
+			<panel  name="purchase_button" width="224" height="24" valign="center" align="center" visible="true">			
+			<instance name="round_button2" width="220" height="24" align="center" valign="bottom" onclick="
+			PlaySound('/shared/sounds/ui/button_click.mp3');
+			CancelSacrifice();
+			TogglePurchase();"  font="gametweener" label="Activate Account Instantly" />			
+			</panel>
+			
+			</frame>
+
+			<label width="-20" height="28" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Savage 2 is running in DEMO Mode!</label>		
+
+			<panel height="-78" width="-4" align="center"  y="27" color="invisible" float="bottom" padding="10">
+
+				<!-- Intro Section -->
+				<panel y="11" width="-28" align="center" height="140">
+					<frame  texture="/ui/frames/rounded_bg_white.tga" color="#441100" borderthickness="8" ></frame>
+					<frame  texture="/ui/frames/roundframe.tga" color="orange" borderthickness="8"></frame>
+					<label y="6" x="0" width="100%" textalign="center" valign="center" textvalign="top" align="center" font="chat_28" color="yellow" shadow="true">Restricted Content!</label>
+					<label y="34" x="0" width="100%" textalign="center" valign="center" textvalign="top" align="center" font="gametiny" color="red" shadow="true">Activated Account Required for Access</label>
+					<label  y="56" x="94" align="left" height="100%" width="170" textalign="center" wrap="true" font="chat_14" shadow="true" color="yellow">Only activated accounts are able to access the power of Hellbourne units!</label>
+				</panel>
+
+
+				<!-- Sales Pitch -->
+				<panel  height="375" width="-28" align="center" color="invisible">
+					<frame  texture="/ui/frames/rounded_bg_white.tga" color="#00000066" borderthickness="12"></frame>
+					<frame  texture="/ui/frames/roundframe.tga" style="lobby_window"  borderthickness="12"></frame>
+
+					<label noclick="true" y="8" width="-28" height="-40" align="center" valign="center" textalign="center" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Activate your demo account now to experience ^ySavage 2: A Tortured Soul^* the way it was meant to be played. Just click the activate now button and see what you've been missing. The process is quick, secure and all without leaving the game. </label>
+
+					<panel height="215" y="160" x="10" float="bottom" padding="6" color="invisible">
+
+						<panel noclick="true" height="20" align="left" float="right" padding="10">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"/>
+							<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Persistant And Robust Stat Tracking</label>
+						</panel> 
+
+						<panel noclick="true" height="20" align="left" float="right" padding="10">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga"  valign="center"  />
+							<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Persistant Items</label>
+						</panel> 
+
+						<panel noclick="true" height="20" align="left" float="right" padding="10">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Shortened Spawn Time</label>
+						</panel> 
+
+						<panel noclick="true" height="20" align="left" float="right" padding="10">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Level Up And Customize Your Attributes</label>
+						</panel> 	
+
+						<panel noclick="true" height="20" align="left" float="right" padding="10">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Access to Advanced Clan System</label>
+						</panel> 	
+
+						<panel noclick="true" height="20" align="left" float="right" padding="10">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >No Monthly Fees</label>
+						</panel> 
+
+						<panel noclick="true" height="20" align="left" float="right" padding="10">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Support Independent Gaming</label>
+						</panel> 
+
+						<panel noclick="true" height="20" align="left" float="right" padding="10">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label textalign="left" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Access To Powerful Hellbourne Units</label>
+						</panel> 					
+
+					</panel>
+
+				</panel>
+
+				<!-- Countdown -->
+				<panel  height="32" width="-28" align="center" color="invisible">
+					<frame  texture="/ui/frames/rounded_bg_white.tga" color="#00000066" borderthickness="12"></frame>
+					<frame  texture="/ui/frames/roundframe.tga" style="lobby_window"  borderthickness="12"></frame>			
+					<label  x="7" height="24" width="100%" textalign="left" valign="center" textvalign="center" align="center" font="chat_13" color="white" shadow="true">Demo Time Remaining:</label>
+
+					<label y="-2" x="165" height="24" width="100%" textalign="left" valign="center" textvalign="center" align="center" font="chat_18" color="red" shadow="true" onframe="SetText(FtoT(DemoTimeRemaining(),2));">3        24</label>
+				</panel>
+
+			</panel>
+
+			<image y="88" x="-9"  width="128" height="128" texture="/ui/elements/lock.tga"/>
+			
+			<instance align="center"  y="-40" name="round_button2" width="160" height="18" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); CancelSacrifice();" font="chat_12" label="Cancel - Back to Game" />
+
+			<!--image y="170" x="230"  width="92" height="92" texture="/ui/elements/star_price.tga"/-->
+
+		</panel>
+	</panel>
+	
+
+</include>

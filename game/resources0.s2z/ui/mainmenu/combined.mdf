@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="3dlogo11_malphas.max" file="combined.model" type="K2">
+	<anim name="idle" clip="combined.clip" loop="true">
+		<frameevent frame="1" cmd="PlaySound /hellbourne/units/malphas/sounds/breathe.mp3 200 0.7 1 100"/>
+	</anim>
+</model>

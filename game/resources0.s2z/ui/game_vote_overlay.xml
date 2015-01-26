@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_vote_overlay">
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+	
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F00FF"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	
+	<panel name="vote_panel" align="center" valign="top" y="62" width="454" height="82" visible="true">
+		<frame  style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+		<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+
+		<label y="4" width="100%" align="center" textalign="center" font="chat_13" shadow="true" wrap="true" color="yellow">Vote In Progress</label>
+		<label y="22" width="100%" align="center" textalign="center" font="chat_13" shadow="true" wrap="true" color="white" watch="VoteType" ontrigger="SetText(param);">Impeach Commander</label>
+		<label y="37" width="100%" align="center" textalign="center" font="chat_13" shadow="true" wrap="true" color="white" watch="VoteTarget VoteInitiator" ontrigger="if(StringLength(VoteTarget) == 0 and StringLength(VoteInitiator) == 0, ClearText(), If(StringLength(VoteTarget) == 0, SetText('Vote called by ^r' # VoteInitiator # '^*'), SetText('Vote called by ^r' # VoteInitiator # '^*, called on ^r' # VoteTarget)));">Vote called by ^rJohn^*, called on ^rDoe</label>
+		<label y="52" width="100%" align="center" textalign="center" font="chat_13" shadow="true" wrap="true" color="white" watch="VoteTime" ontrigger="SetText('^r' # Floor(VoteTime) # ' ^*seconds remaining');">^r60 ^*seconds remaining</label>
+		
+		<label y="62" x="10" width="100%" align="center" textalign="left" font="chat_13" shadow="true" wrap="true" color="yellow"  watch="VoteType" ontrigger="SetText(GetKeybindButton('game','VoteNo','',0) # ': No');">F2: No</label>
+		<label y="62" x="-10" width="100%" align="center" textalign="right" font="chat_13" shadow="true" wrap="true" color="yellow" watch="VoteType" ontrigger="SetText(GetKeybindButton('game','VoteYes','',0) # ': Yes');" >F3: Yes</label>
+
+	</panel>
+</interface>

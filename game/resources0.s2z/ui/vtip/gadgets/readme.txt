@@ -1,0 +1,1 @@
+These tips are designed to trigger when a player spots a particular gadget or other feature within the world (ie. scar, gold mine etc). They are universal, and can be implemented for both sides (ie. regardless of whether you've spotted an allied or enemy gadget.

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<!-- Window styles -->
+	<style name="options_window_header_highlight_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#A85135" borderthickness="12"/>
+
+
+	<style name="options_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="options_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="options_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="options_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="options_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="options_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="options_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>
+	
+
+	<!-- Round button template -->
+  <include file="/ui/inc_button.xml"/>
+
+
+
+  <panel x="0" y="0" name="mott" color="#00000000"  noclick="true" visible="0">
+    <panel x="50%" width="480" height="600" align="left" valign="center" noclick="true">
+      <panel y="26" height="-50" texture="/ui/elements/parchment.tga" noclick="true"/>
+      <frame  style="options_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" noclick="true"></frame>
+      <!-- frame bg -->
+      <frame style="options_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"></frame>
+      <!-- frame -->
+      <frame  style="options_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12" noclick="true"> </frame>
+      <!-- frame header bg -->
+      <frame  style="options_window_header" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12" noclick="true"></frame>
+      <!-- frame header -->
+
+      <label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="chat_14" color="yellow" noclick="true">Message of the Day</label>
+      <textbuffer y="26" height="-60"   x="-17" align="right" width="-30" handleheight="48" scrolltexture="/ui/elements/vist_scroll.tga" exteriorscrollbars="true" textalign="left" font="chat_13" textcolor="white" color="invisible" shadow="1" wrap="true" noclick="0" file=":/change_log.txt"/>
+
+      <frame style="options_window_footer_bg"  valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" borderthickness="12" noclick="true"/>
+      <frame style="options_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35"  borderthickness="12" float="right" padding="6" noclick="true" >
+
+
+
+        <instance name="round_button2"  x="-10" width="120" height="24" valign="center" align="right"
+					font="gametweener" label="Continue"
+					onclick="HideWidget('mott');"
+					onenter="HideWidget('mott');"
+					onshow="SetFocus(true);"
+				/>		
+			</frame>
+		</panel>		
+	</panel>		
+	
+	
+	
+	
+	
+	
+</include>

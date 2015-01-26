@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F0055"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	
+	<template name="demo_nag">
+		<panel height="560" width="400" x="{x}" y="{y}">
+			<panel y="17" valign="top" height="-17" texture="/ui/elements/parchment.tga"/>
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12"/>
+			<frame style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12"/>
+			<frame style="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26"  borderthickness="12"/>
+			<frame style="lobby_window_header_bg" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12"/>
+
+			<label x="10" height="24" textalign="left" textvalign="center" align="left" font="chat_13" color="yellow" shadow="true">Upgrade to a Savage 2 Prime Account</label>
+
+			<panel y="18" width="-4" height="-18" valign="top" align="center" color="#00000055">
+				<image y="0" name="logo" align="center" width="250" height="120" sticky="true" texture="/ui/elements/logo.tga"/>			
+
+				<frame align="center" valign="top" y="110" width="-40" height="340" color="00000088" texture="/ui/frames/rounded_bg_white.tga" borderthickness="8">	
+					<frame y="10%" style="lobby_window"  texture="/ui/frames/roundframe.tga"  borderthickness="8"/>	
+
+					<label noclick="true" y="8%" width="-20" height="-40" align="center" valign="center" textalign="center" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Don't wait until level 25! Upgrade your free account now and unlock the many perks that Prime Members receive, as well as two random 60-day runes! A Prime Account upgrade is a one time fee of only $9.99! The process is quick, secure and all without leaving the game. </label>
+
+					<panel y="43%" x="25"  float="bottom" padding="4"  color="invisible">
+						<label noclick="true" x="-2%" height="24" width="100%"  textalign="center" textvalign="center" align="center" font="chat_14" color="yellow" shadow="true">Prime Account Features:</label>
+
+						<panel noclick="true" height="20" align="left" float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"/>
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Access to lifetime player stats</label>
+						</panel> 
+
+						<panel noclick="true" height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga"  valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Two extra inventory slots</label>
+						</panel> 
+
+						<panel noclick="true" height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Unlimited access to Hellbourne units</label>
+						</panel> 
+
+						<panel noclick="true"  height="20" align="left" float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Access to create and manage clans</label>
+						</panel> 	
+
+						<panel noclick="true" height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Access to replays of every match ever played</label>
+						</panel> 	
+
+						<panel noclick="true"  height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" 	valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >No monthly fees</label>
+						</panel> 
+						
+						<panel noclick="true"  height="20" align="left"  float="right" padding="15">
+							<image width="16" height="16" align="left" texture="/ui/elements/star.tga" 	valign="center"  />
+							<label   textalign="left" textvalign="top" font="chat_13" shadow="true" wrap="true" color="white" >Support Independent Gaming!</label>
+						</panel> 	
+						
+
+					</panel>
+				</frame>
+
+			</panel>
+			<image y="40" x="30"  width="92" height="92" texture="/ui/elements/star_price.tga"/>		
+			
+			<frame style="lobby_window_footer_bg" valign="bottom" visible="{showpurchase}" texture="/ui/frames/rounded_footer_bg_white.tga" height="46" borderthickness="12"/>
+			<frame style="lobby_window_footer" valign="bottom" visible="{showpurchase}" texture="/ui/frames/roundframe_footer.tga" height="46" borderthickness="12">		
+				<panel  name="purchase_button" width="224" height="24" valign="center" align="center">
+					<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+					<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+					<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); TogglePurchase();">
+						<widgetstate statename="up">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+							<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="black" shadow="true" shadowcolor="gray">Activate Account Instantly</label>
+						</widgetstate>
+						<widgetstate statename="over">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+							<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="white" shadow="true" shadowcolor="#7F6E00">Activate Account Instantly</label>
+						</widgetstate>
+						<widgetstate statename="down" x="1" y="1">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#FFE333"/>
+							<frame texture="/ui/frames/roundframe.tga" color="#7F6E00" borderthickness="8"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="#3f0001" shadow="true" shadowcolor="#7F6E00">Activate Account Instantly</label>
+						</widgetstate>
+						<widgetstate statename="disabled">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="#666666"/>
+							<frame texture="/ui/frames/roundframe.tga" color="#666666" borderthickness="8"/>
+							<label width="100%" height="100%" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="#333333" shadow="true" shadowcolor="black">Activate Account Instantly</label>
+						</widgetstate>
+					</button>
+				</panel>	
+			</frame>
+		</panel>
+	</template>
+</include>

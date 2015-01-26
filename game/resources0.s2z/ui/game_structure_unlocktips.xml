@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<!-- Building menu unlocks tooltips -->
+	<instance name="building_tooltip_unlocks" building_name="Armory"
+		weapon1_texture="/human/units/savage/icons/range1.tga"
+		weapon2_texture="/human/units/scout/icons/range2.tga"
+		weapon3_texture="/human/units/builder/icons/range1.tga"
+		weapon4_texture="/human/units/legionnaire/icons/range2.tga"
+		ability1_texture="/human/units/savage/icons/doubleattack.tga"
+		ability2_texture="/human/units/scout/icons/demopack.tga"
+		ability3_texture="/human/units/builder/icons/shieldgenerator.tga"
+		ability4_texture="/human/units/builder/icons/turret.tga"
+		item1_texture="/items/icons/speed_boost.tga"				
+		item2_texture="/items/icons/ammo_pack.tga"
+		item3_texture="/items/icons/platemail.tga"
+		item4_texture="/shared/items/power_absorbtion.tga"
+		show_panel="true"
+		panel_height="190"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="SteamMine"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="Monastery"
+		unit1_texture="/human/units/chaplain/icons/icon.tga"
+		ability1_texture="/human/units/savage/icons/morale.tga"
+		ability2_texture="/human/units/scout/icons/stealth.tga"
+		item1_texture="/shared/items/token_life.tga"
+		item2_texture="/shared/items/gust_wind.tga"
+		item3_texture="/shared/items/trinket_restoration.tga"
+		show_panel="true"
+		panel_height="190"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="Academy"
+		unit1_texture="/human/units/legionnaire/icons/icon.tga"
+		item1_texture="/shared/items/shield_wisdom.tga"
+		show_panel="true"
+		panel_height="128"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="SiegeWorkshop"
+		unit1_texture="/human/units/batteringram/icons/icon.tga"
+		unit2_texture="/human/units/steambuchet/icons/icon.tga"
+		item1_texture="/items/icons/human_range_buff.tga"
+		show_panel="true"
+		panel_height="128"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="ArrowTower"/>
+	<instance name="building_tooltip_unlocks" building_name="CannonTower"/>
+	<instance name="building_tooltip_unlocks" building_name="ShieldTower"/>
+	<instance name="building_tooltip_unlocks" building_name="HumanHellShrine"
+		unit1_texture="/hellbourne/units/revenant/icon.tga"
+		unit2_texture="/hellbourne/units/devourer/icon.tga"
+		unit3_texture="/hellbourne/units/malphas/icon.tga"
+		show_panel="true"
+		panel_height="68"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="Garrison"/>
+
+	<instance name="building_tooltip_unlocks" building_name="Nexus"
+		weapon1_texture="/human/units/savage/icons/range1.tga"
+		weapon2_texture="/beast/units/shapeshifter/icons/lightning_strike.tga"
+		weapon3_texture="/beast/units/conjurer/icons/venus.tga"
+		weapon4_texture="/beast/units/predator/icons/fireball.tga"
+		ability1_texture="/beast/units/hunter/icons/venemous.tga"
+		ability2_texture="/beast/units/shapeshifter/icons/cheetah.tga"
+		ability3_texture="/beast/units/shapeshifter/icons/sacrafice.tga"
+		ability4_texture="/beast/units/hunter/icons/wing_spin.tga"
+		item1_texture="/items/icons/lynxfeet.tga"				
+		item2_texture="/items/icons/beast_ammo_satchel.tga"
+		item3_texture="/items/icons/beast_platemail.tga"
+		item4_texture="/shared/items/power_absorbtion.tga"
+		show_panel="true"
+		panel_height="190"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="GroveMine"/>
+	<instance name="building_tooltip_unlocks" building_name="Sanctuary"
+		unit1_texture="/beast/units/shaman/icons/icon.tga"
+		ability1_texture="/beast/units/hunter/icons/sleep.tga"
+		ability2_texture="/beast/units/shapeshifter/icons/polymorph.tga"
+		item1_texture="/shared/items/token_life.tga"
+		item2_texture="/shared/items/gust_wind.tga"
+		item3_texture="/shared/items/trinket_restoration.tga"
+		show_panel="true"
+		panel_height="190"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="PredatorDen"
+		unit1_texture="/beast/units/predator/icons/icon.tga"
+		item1_texture="/shared/items/shield_wisdom.tga"
+		show_panel="true"
+		panel_height="128"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="CharmShrine"
+		unit1_texture="/beast/units/behemoth/icons/icon.tga"
+		unit2_texture="/beast/units/tempest/icons/icon.tga"
+		item1_texture="/items/icons/beast_range_buff.tga"
+		show_panel="true"
+		panel_height="128"
+	/>
+	<instance name="building_tooltip_unlocks" building_name="StrataSpire"/>
+	<instance name="building_tooltip_unlocks" building_name="EntangleSpire"/>
+	<instance name="building_tooltip_unlocks" building_name="ChlorophilicSpire"/>
+	<instance name="building_tooltip_unlocks" building_name="SubLair"/>
+</include>

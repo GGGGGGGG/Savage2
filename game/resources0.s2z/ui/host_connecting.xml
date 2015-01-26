@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="host_connecting">
+	<!-- Includes -->
+	<include file="/ui/fonts.xml"/>
+	<include file="/ui/inc_button.xml"/>
+
+	<template name="connect_step">
+		<image name="image_step_{watch}" width="16" height="16" watch="{watch}" ontrigger="If(param == 2, SetTexture('/ui/chatgui/checkbox_down2.tga'), SetTexture('/ui/chatgui/checkbox_down.tga'));"/>
+		<label name="label_step_{watch}" adhere="right" font="gametiny" shadow="true" color="yellow" watch="{watch}" ontrigger="If(param == 1, SetColor('yellow'), SetColor('white'));" content="{label}"/>
+	</template>
+	
+	<panel blockinput="true">
+		<!-- Background Image -->
+		<image name="random_loading_image" onshow="Exec('/ui/scripts/loading_picker.cfg');" color="white" texture="$white"/>
+		<image y="3%" x="-2%" width="40%" height="30%" align="right" texture="/ui/elements/logo.tga"/>
+		<panel y="30%" x="0" width="40%" height="8%" align="center" valign="center" color="0 0 0 .5">
+			<label name="tip_header" y="-10" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_18" shadow="true" wrap="true" color="red" >Game Tips:</label>
+			<label name="tip_content" y="15" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Tip Message here.</label>
+		</panel>
+		<!--image texture="/ui/elements/grad_diag.tga" color="0 0 0 .75" rendermode="normal"/-->
+
+		<!-- Connection steps -->
+		<panel x="2%" y="2%" width="23%" height="24.5%" color="invisible">
+			<frame color=".36 .24 0 .7" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8"/>
+			<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga" borderthickness="8"/>
+
+			<frame height="24" color=".54 .36 0 1" texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="8" float="bottom" padding="8">
+				<frame color="1 .8 0 1" texture="/ui/frames/roundframe_header.tga" borderthickness="8"/>
+				<label x="10" textvalign="center" font="gamesmall" color="1 .8 0 1" shadow="true">Connecting to Server</label>
+				<instance name="connect_step" watch="HostConnectServerReply" label="Waiting for reply"/>
+				<instance name="connect_step" watch="HostConnectGameSettings" label="Receiving game settings"/>
+				<instance name="connect_step" watch="HostConnectLoadWorld" label="Loading world"/>
+				<instance name="connect_step" watch="HostConnectLoadResources" label="Loading resources"/>
+				<instance name="connect_step" watch="HostConnectAuthenticate" label="Waiting for authorization"/>
+			</frame>
+			
+			<!--instance
+				name="round_button2"
+				y="-4%"
+				width="30%" height="15%"
+				align="center" valign="bottom"
+				font="dyn_12" label="Cancel"
+				onclick="StopClient(); If(IsLoggedIn(), SetHostInterface('browser'), SetHostInterface('main'));;"
+			/-->
+		</panel>
+		
+		<!-- Progress bar -->
+		<panel x="1" y="25" width="1024" height="128" align="center" valign="bottom" color="invisible">
+			<panel align="center" width="90%" height="80%" watch="MessageProgress" ontrigger="SetVisible(param != -1);">
+				<image texture="/ui/loadingscreens/loading_bar_bg.tga"/>
+				<panel y="25%" x="4.4%" width="90.9%" height="31">
+					<panel width="100%" watch="MessageProgress" ontrigger="SetWidth(FtoP(param));">
+						<image texture="/ui/loadingscreens/loading_bar_fg.tga" watch="MessageProgress" ontrigger="SetUScale(param);"/>
+						<image width="32" align="left" texture="/ui/loadingscreens/loading_bar_fg_l.tga"/>
+						<image width="32" align="right" texture="/ui/loadingscreens/loading_bar_fg_r.tga"/>
+						<image width="64" height="64" x="26" color="#FFFFFF77" valign="center" align="right" rendermode="additive" texture="/ui/loadingscreens/loading_bar_fg_glow.tga"/>
+					</panel>
+				</panel>
+				<image texture="/ui/loadingscreens/loading_bar_frame.tga"/>
+				<label name="message" y="25%" height="42" textalign="center" font="chat_16" shadowoffset="2" shadow="true" color="yellow" watch="MessageDetails" ontrigger="SetText(param);"/>
+				<label y="-60%" name="title" height="18" align="center" valign="center" textalign="center" shadowoffset="2" font="chat_16" shadow="true" color="white" watch="MessageStatusDesc" ontrigger="SetText(param);"/>
+			</panel>
+		</panel>
+		
+		<!-- Timeout text -->
+		<label textalign="center" valign="top" height="30" y="40" font="gamelarge" shadow="true" color="yellow" watch="HostConnectingTimeout" ontrigger="SetVisible(param le 25000); if(param le 25000, SetColor(1 - (param / 25000), param / 25000, 0, ((30000 - param) / 15000))); SetText('Connection Timeout: ' # Ceil(param / 1000));"/>
+	</panel>
+</interface>

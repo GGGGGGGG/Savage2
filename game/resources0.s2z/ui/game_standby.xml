@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_standby">
+	<!-- Includes -->
+	<include file="/ui/fonts.xml"/>
+	<include file="/ui/inc_button.xml"/>
+
+	<panel blockinput="true">
+		<!-- Background Image -->
+		<image name="random_loading_image" onshow="Exec('/ui/scripts/loading_picker.cfg');" color="white" texture="$white"/>
+		<image y="3%" x="-2%" width="40%" height="30%" align="right" texture="/ui/elements/logo.tga"/>
+		<panel y="30%" x="0" width="40%" height="8%" align="center" valign="center" color="0 0 0 .5">
+			<label name="tip_header" y="-10" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_18" shadow="true" wrap="true" color="red" >Game Tips:</label>
+			<label name="tip_content" y="15" width="-20" height="-20" align="center" valign="center" textalign="center" textvalign="top" font="chat_12" shadow="true" wrap="true" color="white" >Tip Message here.</label>
+		</panel>
+
+		<!-- Connection steps -->
+		<panel x="2%" y="2%" width="23%" height="12.5%" color="invisible">
+			<frame color=".36 .24 0 .7" texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8"/>
+			<frame color="1 .8 0 1" texture="/ui/frames/roundframe.tga" borderthickness="8"/>
+
+			<frame height="24" color=".54 .36 0 1" texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="8" float="bottom" padding="8">
+				<frame color="1 .8 0 1" texture="/ui/frames/roundframe_header.tga" borderthickness="8"/>
+				<label x="10" textvalign="center" font="gamesmall" color="1 .8 0 1" shadow="true">Connecting to Server</label>
+				<label name="label_step_{watch}" font="gametiny" shadow="true" color="yellow">The server is loading the next map...</label>
+			</frame>
+			
+			<instance
+				name="round_button2"
+				y="-9%"
+				width="30%" height="18%"
+				align="center" valign="bottom"
+				font="dyn_12" label="Cancel"
+				onclick="Disconnect(); If(IsLoggedIn(), SetHostInterface('browser'), SetHostInterface('main'));"
+			/>
+		</panel>
+	</panel>
+</interface>

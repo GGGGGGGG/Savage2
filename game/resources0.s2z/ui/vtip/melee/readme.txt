@@ -1,0 +1,1 @@
+These tips are designed to trigger when a player first selects their melee weapon voluntarily (ie. not when you first spawn with the weapons out by default).

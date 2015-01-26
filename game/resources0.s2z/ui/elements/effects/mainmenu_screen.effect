@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="main">
+	<definitions>
+		<particlesystem name="system0" space="world">
+
+			<sound
+				falloff="25.0" 
+				volume="0.05" 
+				sample="/shared/sounds/effects/fire_2.wav"
+				soundloop="true"
+				fadein="1500"
+				fadeout="400"
+			/>
+			
+		<simpleemitter
+			bone="_bone_source1"
+			spawnrate="1"
+			particlelife="4500"
+			gravity="-20"
+			speed="20"
+			drag="0.4"
+			acceleration="0.0"
+			position="0 0 0"
+			material="/shared/effects/materials/fireball_3d.material"
+		>
+			<particle 
+				angle="180"
+				startframe="0"
+				endframe="1"
+				size="150"
+			/>
+		</simpleemitter>
+		
+		
+		<simpleemitter
+			bone="_bone_source2"
+			spawnrate="1"
+			particlelife="4500"
+			gravity="-20"
+			speed="20"
+			drag="0.4"
+			acceleration="0.0"
+			position="0 0 0"
+			material="/shared/effects/materials/fireball_3d.material"
+		>
+			<particle 
+				minngle="180"
+				maxangle="-180"
+				startframe="0"
+				endframe="1"
+				size="150"
+			/>
+		</simpleemitter>	
+		
+		
+		
+		
+		
+		<simpleemitter
+			bone="_bone_source3"
+			spawnrate="2"
+			particlelife="3500"
+			gravity="-10"
+			speed="20"
+			drag="0.4"
+			offsetsphere="200 200 0"
+			acceleration="0.0"
+			position="0 0 0"
+			material="/shared/effects/materials/fireball_3d.material"
+		>
+			<particle 
+				minngle="180"
+				maxangle="-180"
+				startframe="0"
+				endframe="1"
+				size="200"
+			/>
+		</simpleemitter>	
+		
+		
+
+
+<!--
+
+
+
+			<simpleemitter
+				bone="_bone_soul1"
+				spawnrate="40"
+				particlelife="900"				
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"				
+				position="0 0 0"
+				offsetsphere="0 0 0"
+							
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="0 0 0"
+					endcolor=".15 .4 .7"
+					midcolor=".1 0 .1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+				
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="20.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+			
+			
+			
+		<trailemitter
+					bone="_bone_soul1"
+			spawnrate="100"
+			particlelife="400"
+			texpostime="400"
+		 	texposscale="0.0"
+		 	texstretchscale="1.0"
+			material="/shared/effects/materials/soul_trail.material"
+		>
+			<particle 
+
+				startcolor="0 0 0"
+				midcolor=".15 .4 .7"
+				endcolor="0 0 0"
+				midcolorpos=".2"
+				
+				startsize="20"
+				endsize="2" />		
+		</trailemitter>
+		
+		<trailemitter
+					bone="_bone_soul1"
+			spawnrate="100"
+			particlelife="200"
+			texpostime="200"
+		 	texposscale="0.0"
+		 	texstretchscale="1.0"
+			material="/shared/effects/materials/soul_trail.material"
+		>
+			<particle 
+
+				startcolor="0 0 0"
+				midcolor=".15 .4 .7"
+				endcolor="0 0 0"
+				midcolorpos=".2"
+				
+				startsize="20"
+				endsize="2" />		
+		</trailemitter>		
+		
+		
+
+			
+			
+			
+			<billboard
+						bone="_bone_soul1"
+			life="750"
+			loop="1"
+			startcolor="0 0 0"
+			midcolor=".15 .4 .7"
+			endcolor="0 0 0"
+			material="/shared/effects/materials/starlight.material"
+			startsize="20"
+			midsize="32"
+			endsize="20"
+			
+			 />
+		
+		
+			<simpleemitter
+				bone="_bone_soul1"
+				spawnrate="2"
+				particlelife="2000"				
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"				
+				position="0 0 0"
+				offsetsphere="0 0 0"			
+				material="/shared/effects/materials/smokering.material"	
+			>
+				<particle
+					startcolor="0 0 0"
+					endcolor="0 0 0"
+					midcolor=".15 .4 .7"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+					
+					startsize="10"
+					endsize="30"
+				/>
+			</simpleemitter>		
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			<simpleemitter
+				bone="_bone_soul2"
+				spawnrate="40"
+				particlelife="900"				
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"				
+				position="0 0 0"
+				offsetsphere="0 0 0"
+							
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="0 0 0"
+					endcolor=".15 .4 .7"
+					midcolor=".1 0 .1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+				
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="20.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+			
+			
+			
+		<trailemitter
+					bone="_bone_soul2"
+			spawnrate="100"
+			particlelife="400"
+			texpostime="400"
+		 	texposscale="0.0"
+		 	texstretchscale="1.0"
+			material="/shared/effects/materials/soul_trail.material"
+		>
+			<particle 
+
+				startcolor="0 0 0"
+				midcolor=".15 .4 .7"
+				endcolor="0 0 0"
+				midcolorpos=".2"
+				
+				startsize="20"
+				endsize="2" />		
+		</trailemitter>
+		
+		<trailemitter
+					bone="_bone_soul2"
+			spawnrate="100"
+			particlelife="200"
+			texpostime="200"
+		 	texposscale="0.0"
+		 	texstretchscale="1.0"
+			material="/shared/effects/materials/soul_trail.material"
+		>
+			<particle 
+
+				startcolor="0 0 0"
+				midcolor=".15 .4 .7"
+				endcolor="0 0 0"
+				midcolorpos=".2"
+				
+				startsize="20"
+				endsize="2" />		
+		</trailemitter>		
+		
+		
+
+			
+			
+			
+			<billboard
+						bone="_bone_soul2"
+			life="750"
+			loop="1"
+			startcolor="0 0 0"
+			midcolor=".15 .4 .7"
+			endcolor="0 0 0"
+			material="/shared/effects/materials/starlight.material"
+			startsize="20"
+			midsize="32"
+			endsize="20"
+			
+			 />
+		
+		
+			<simpleemitter
+						bone="_bone_soul2"
+				spawnrate="2"
+				particlelife="2000"				
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"				
+				position="0 0 0"
+				offsetsphere="0 0 0"			
+				material="/shared/effects/materials/smokering.material"	
+			>
+				<particle
+					startcolor="0 0 0"
+					endcolor="0 0 0"
+					midcolor=".15 .4 .7"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+					
+					startsize="10"
+					endsize="30"
+				/>
+			</simpleemitter>				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+			
+			
+			
+			
+			
+			
+
+			<simpleemitter
+				bone="_bone_soul3"
+				spawnrate="40"
+				particlelife="900"				
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"				
+				position="0 0 0"
+				offsetsphere="0 0 0"
+							
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="0 0 0"
+					endcolor=".15 .4 .7"
+					midcolor=".1 0 .1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+				
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="20.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+			
+			
+			
+		<trailemitter
+					bone="_bone_soul3"
+			spawnrate="100"
+			particlelife="400"
+			texpostime="400"
+		 	texposscale="0.0"
+		 	texstretchscale="1.0"
+			material="/shared/effects/materials/soul_trail.material"
+		>
+			<particle 
+
+				startcolor="0 0 0"
+				midcolor=".15 .4 .7"
+				endcolor="0 0 0"
+				midcolorpos=".2"
+				
+				startsize="20"
+				endsize="2" />		
+		</trailemitter>
+		
+		<trailemitter
+					bone="_bone_soul3"
+			spawnrate="100"
+			particlelife="200"
+			texpostime="200"
+		 	texposscale="0.0"
+		 	texstretchscale="1.0"
+			material="/shared/effects/materials/soul_trail.material"
+		>
+			<particle 
+
+				startcolor="0 0 0"
+				midcolor=".15 .4 .7"
+				endcolor="0 0 0"
+				midcolorpos=".2"
+				
+				startsize="20"
+				endsize="2" />		
+		</trailemitter>		
+		
+		
+	
+			
+			
+			
+			<billboard
+						bone="_bone_soul3"
+			life="750"
+			loop="1"
+			startcolor="0 0 0"
+			midcolor=".15 .4 .7"
+			endcolor="0 0 0"
+			material="/shared/effects/materials/starlight.material"
+			startsize="20"
+			midsize="32"
+			endsize="20"
+			
+			 />
+		
+		
+			<simpleemitter
+						bone="_bone_soul3"
+				spawnrate="2"
+				particlelife="2000"				
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"				
+				position="0 0 0"
+				offsetsphere="0 0 0"			
+				material="/shared/effects/materials/smokering.material"	
+			>
+				<particle
+					startcolor="0 0 0"
+					endcolor="0 0 0"
+					midcolor=".15 .4 .7"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+					
+					startsize="10"
+					endsize="30"
+				/>
+			</simpleemitter>				
+
+
+
+
+
+
+
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			<simpleemitter
+				bone="_bone_soul4"
+				spawnrate="40"
+				particlelife="900"				
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"				
+				position="0 0 0"
+				offsetsphere="0 0 0"
+							
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="0 0 0"
+					endcolor=".15 .4 .7"
+					midcolor=".1 0 .1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+				
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="20.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+			
+			
+			
+		<trailemitter
+					bone="_bone_soul4"
+			spawnrate="100"
+			particlelife="400"
+			texpostime="400"
+		 	texposscale="0.0"
+		 	texstretchscale="1.0"
+			material="/shared/effects/materials/soul_trail.material"
+		>
+			<particle 
+
+				startcolor="0 0 0"
+				midcolor=".15 .4 .7"
+				endcolor="0 0 0"
+				midcolorpos=".2"
+				
+				startsize="20"
+				endsize="2" />		
+		</trailemitter>
+		
+		<trailemitter
+					bone="_bone_soul4"
+			spawnrate="100"
+			particlelife="400"
+			texpostime="400"
+		 	texposscale="0.0"
+		 	texstretchscale="1.0"
+			material="/shared/effects/materials/soul_trail.material"
+		>
+			<particle 
+
+				startcolor="0 0 0"
+				midcolor=".15 .4 .7"
+				endcolor="0 0 0"
+				midcolorpos=".2"
+				
+				startsize="20"
+				endsize="2" />		
+		</trailemitter>		
+		
+
+			
+			<billboard
+						bone="_bone_soul4"
+			life="750"
+			loop="1"
+			startcolor="0 0 0"
+			midcolor=".15 .4 .7"
+			endcolor="0 0 0"
+			material="/shared/effects/materials/starlight.material"
+			startsize="20"
+			midsize="32"
+			endsize="20"
+			
+			 />
+		
+		
+			<simpleemitter
+						bone="_bone_soul4"
+				spawnrate="2"
+				particlelife="2000"				
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"				
+				position="0 0 0"
+				offsetsphere="0 0 0"			
+				material="/shared/effects/materials/smokering.material"	
+			>
+				<particle
+					startcolor="0 0 0"
+					endcolor="0 0 0"
+					midcolor=".15 .4 .7"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+					
+					startsize="10"
+					endsize="30"
+				/>
+			</simpleemitter>				
+		
+		
+
+
+
+
+-->
+
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->
+

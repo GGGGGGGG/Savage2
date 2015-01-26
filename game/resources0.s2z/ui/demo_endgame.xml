@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<include>
+
+	<panel name="demo_endgame" visible="0" color="invisible">
+
+		<include file="/ui/inc_button.xml"/>
+	
+		<image name="demo_endgame_background" texture="/ui/demo/demo_endgameBG.tga"/>
+		
+		<panel visible="1" color="invisible" width="1008" height="758" align="center" valign="center">		
+		
+			<!-- TY Box -->
+			<panel width="344" height="256" visible="1">
+
+				<panel  y="6" valign="center" height="-45" texture="/ui/elements/parchment.tga"/>
+
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg" color="#00000088" ></frame>
+				<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"></frame>
+				<frame texture="/ui/frames/rounded_header_bg_white.tga" height="28" style="lobby_window_bg"  bgcolor="#7C1A19" borderthickness="12"></frame>
+				<frame texture="/ui/frames/roundframe_header.tga" height="28" style="lobby_window" borderthickness="12"></frame>
+
+				<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="28" style="lobby_window_footer_bg" borderthickness="12"></frame>
+				<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="28" style="lobby_window_footer" borderthickness="12">		
+				</frame>
+
+				<label width="-20" height="28" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Savage 2 is running in DEMO Mode!</label>
+
+				<panel height="-78" width="-4" align="center"  y="27" color="invisible" float="bottom" padding="10">
+
+					<panel y="11" width="-28" align="center" height="140">
+						<frame  texture="/ui/frames/rounded_bg_white.tga" color="#441100" borderthickness="8" ></frame>
+						<frame  texture="/ui/frames/roundframe.tga" color="orange" borderthickness="8"></frame>					
+
+						<label y="8" x="10" width="100%" textalign="left" valign="center" textvalign="top" align="center" font="chat_22" color="yellow" shadow="true">Thank You for Playing</label>
+						<label y="32" x="10" width="100%" textalign="left" valign="center" textvalign="top" align="center" font="chat_16" color="red" shadow="true">Savage 2: A Tortured Soul</label>
+						<label  y="55" x="12" align="left" height="100%" width="-28" textalign="left" wrap="true" font="chat_14" shadow="true" color="white">We hope you enjoyed your time playing the game! We are confident you will enjoy it even more with an activated account.</label>
+					</panel>
+
+					<!-- Countdown -->
+					<panel  height="32" name="left" width="-28" align="center" color="invisible">
+						<frame  texture="/ui/frames/rounded_bg_white.tga" color="#00000066" borderthickness="12"></frame>
+						<frame  texture="/ui/frames/roundframe.tga" style="lobby_window"  borderthickness="12"></frame>			
+						<label  x="7" height="24" width="100%" textalign="left" valign="center" textvalign="center" align="center" font="chat_13" color="white" shadow="true">Demo Time Remaining:</label>
+
+						<label y="-2" x="165" height="24" width="100%" textalign="left" valign="center" textvalign="center" align="center" font="chat_18" color="red" shadow="true">3        24</label>
+						<label y="1" x="178" height="24" width="100%" textalign="left" valign="center" textvalign="center" align="center" font="chat_11" color="white" shadow="true">Hours          Min.</label>
+					</panel>
+
+				</panel>
+			</panel>
+
+
+			<!-- Price/Independant Box -->
+			<panel y="270" width="344" height="374" visible="1">
+
+				<panel  y="6" valign="center" height="-45" texture="/ui/elements/parchment.tga"/>
+
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg" color="#00000088" ></frame>
+				<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"></frame>
+				<frame texture="/ui/frames/rounded_header_bg_white.tga" height="28" style="lobby_window_bg"  bgcolor="#7C1A19" borderthickness="12"></frame>
+				<frame texture="/ui/frames/roundframe_header.tga" height="28" style="lobby_window" borderthickness="12"></frame>
+
+				<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="28" style="lobby_window_footer_bg" borderthickness="12"></frame>
+				<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="28" style="lobby_window_footer" borderthickness="12">		
+				</frame>
+
+				<label width="-20" height="28" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Activate Your Savage 2 Account Instantly!</label>
+
+				<panel height="-78" width="-4" align="center"  y="27" color="invisible" float="bottom" padding="14">
+
+					<panel y="11" width="-28" align="center" height="146">
+						<frame  texture="/ui/frames/rounded_bg_white.tga" color="#441100" borderthickness="8" ></frame>
+						<frame  texture="/ui/frames/roundframe.tga" color="orange" borderthickness="8"></frame>					
+
+						<label y="8" x="10" width="100%" textalign="left" valign="center" textvalign="top" align="center" font="chat_18" color="yellow" shadow="true">Support Independent Gaming!</label>
+						<label  y="40" x="85" align="left" height="100%" width="220" textalign="left" wrap="true" font="chat_14" shadow="true" color="white">Savage 2: A Tortured Soul sells for just $19.99 online. Support of independent game developers allows for more innovative games to play!</label>
+					</panel>
+
+
+					<panel  height="130" width="-28" align="center" color="invisible">
+						<frame  texture="/ui/frames/rounded_bg_white.tga" color="#00000066" borderthickness="12"></frame>
+						<frame  texture="/ui/frames/roundframe.tga" style="lobby_window"  borderthickness="12"></frame>
+
+						<panel y="14" x="10" float="bottom" padding="6" color="invisible">
+
+							<panel noclick="true" height="20" align="left" float="right" padding="10">
+								<image width="16" height="16" align="left" texture="/ui/elements/star.tga"  valign="center"  />
+								<label textalign="left" textvalign="top" font="chat_16" shadow="true" wrap="true" color="yellow" >Only $19.99!</label>
+							</panel> 
+
+							<panel noclick="true" height="20" align="left" float="right" padding="10">
+								<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"/>
+								<label textalign="left" textvalign="top" font="chat_16" shadow="true" wrap="true" color="yellow" >Activate Your Account Instantly</label>
+							</panel> 
+
+							<panel noclick="true" height="20" align="left" float="right" padding="10">
+								<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"/>
+								<label textalign="left" textvalign="top" font="chat_16" shadow="true" wrap="true" color="yellow" >No Monthly Fees, One Time Cost</label>
+							</panel> 
+
+							<panel noclick="true" height="20" align="left" float="right" padding="10">
+								<image width="16" height="16" align="left" texture="/ui/elements/star.tga" valign="center"  />
+								<label textalign="left" textvalign="top" font="chat_16" shadow="true" wrap="true" color="yellow" >Help Support Low Cost Gaming!</label>
+							</panel> 
+
+
+						</panel>
+
+					</panel>
+
+					<image y="50" x="0" width="100" height="100" texture="/ui/elements/star_price.tga"/>			
+				</panel>
+			</panel>
+
+			<!-- GamePlay Improvements -->
+			<panel x="350" width="672" height="644" visible="1">
+
+				<panel width="-28" align="center" color="invisible">
+					<frame  texture="/ui/frames/rounded_bg_white.tga" color="#00000080" borderthickness="12"></frame>
+					<frame  texture="/ui/frames/roundframe.tga" style="lobby_window"  borderthickness="12"></frame>
+
+					<image y="0" x="-14" width="420" height="210" texture="/ui/elements/logo.tga"/>
+
+					<label x="412" y="16" textalign="left" font="chat_16" shadow="true" color="white">Stronger Units...</label>
+					<image x="-20" y="38" align="right" width="210" height="158" texture="/ui/demo/ss_1.tga"/>
+					
+					<label x="412" y="240" textalign="left" font="chat_16" shadow="true" color="white">Take Command...</label>
+					<image x="-20" y="262" align="right" width="210" height="158" texture="/ui/demo/ss_2.tga" />
+					
+					
+					<label x="412" y="457" textalign="left" font="chat_16" shadow="true" color="white">Persistant Items...</label>
+					<image x="-2" y="480" align="right" width="228" height="228" texture="/ui/demo/ss_3.tga" />
+					
+					<label x="60" y="194" textalign="left" font="chat_28" shadow="true" color="white">Benefits of Activation</label>
+					
+					<panel y="236" x="14" float="bottom" color="invisible" padding="14">
+
+						<panel height="32" noclick="true" align="left">
+							<image width="20" height="20" y="1" align="left" texture="/ui/elements/star.tga" />
+							<label x="24" textalign="left" font="chat_18" shadow="true" color="yellow">Shorter Spawn Times</label>
+						</panel>				
+						<panel height="32" noclick="true" align="left">
+							<image width="20" height="20" y="1" align="left" texture="/ui/elements/star.tga" />
+							<label x="24" textalign="left" font="chat_18" shadow="true" color="yellow">Access to Powerful Hellbourne Units</label>
+						</panel>
+						<panel height="32" noclick="true" align="left">
+							<image width="20" height="20" y="1" align="left" texture="/ui/elements/star.tga" />
+							<label x="24" textalign="left" font="chat_18" shadow="true" color="yellow">Persistant Items To Take Into Battle</label>
+						</panel>
+						<panel height="32" noclick="true" align="left">
+							<image width="20" height="20" y="1" align="left" texture="/ui/elements/star.tga" />
+							<label x="24" textalign="left" font="chat_18" shadow="true" color="yellow">Level Up Your Unit With Attribute Points</label>
+						</panel>
+						<panel height="32" noclick="true" align="left">
+							<image width="20" height="20" y="1" align="left" texture="/ui/elements/star.tga" />
+							<label x="24" textalign="left" font="chat_18" shadow="true" color="yellow">Ability To Take The Commander Role</label>
+						</panel>				
+						<panel height="32" noclick="true" align="left">
+							<image width="20" height="20" y="1" align="left" texture="/ui/elements/star.tga" />
+							<label x="24" textalign="left" font="chat_18" shadow="true" color="yellow">Robust Persistant Stat Tracking</label>
+						</panel>
+						<panel height="32" noclick="true" align="left">
+							<image width="20" height="20" y="1" align="left" texture="/ui/elements/star.tga" />
+							<label x="24" textalign="left" font="chat_18" shadow="true" color="yellow">Access to a Powerful Clan System</label>
+						</panel>
+						<panel height="32" noclick="true" align="left">
+							<image width="20" height="20" y="1" align="left" texture="/ui/elements/star.tga" />
+							<label x="24" textalign="left" font="chat_18" shadow="true" color="yellow">Earn a Spot on the Player Ladder</label>
+						</panel>
+						<panel height="32" noclick="true" align="left">
+							<image width="20" height="20" y="1" align="left" texture="/ui/elements/star.tga" />
+							<label x="24" textalign="left" font="chat_18" shadow="true" color="yellow">Earn and Give Karma Points</label>
+						</panel>
+					</panel>
+					
+				</panel>
+
+			</panel>
+
+
+			<!-- Bottom Box -->
+			<panel y="656" height="100" visible="1">
+
+				<panel  y="6" valign="center" height="-45" color="#000000"/>
+
+				<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg" color="#00000088" ></frame>
+				<frame texture="/ui/frames/roundframe.tga" style="lobby_window" borderthickness="12"></frame>
+				<frame texture="/ui/frames/rounded_header_bg_white.tga" height="28" style="lobby_window_bg"  bgcolor="#7C1A19" borderthickness="12"></frame>
+				<frame texture="/ui/frames/roundframe_header.tga" height="28" style="lobby_window" borderthickness="12"></frame>
+
+				<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="28" style="lobby_window_footer_bg" borderthickness="12"></frame>
+				<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="28" style="lobby_window_footer" borderthickness="12">	
+
+					<panel align="center" color="invisible" width="480">
+					<label height="24" width="100%" textalign="left" valign="center" textvalign="center" align="center" font="chat_18" color="white" shadow="true">This window will close automatically in</label>
+					<label x="350" height="24" width="100%" textalign="left" valign="center" textvalign="center" align="center" font="chat_18" color="red" shadow="true">15 Seconds</label>
+					</panel>
+
+				</frame>
+				
+				<panel align="center" valign="center" name="purchase_button" width="300" height="24" visible="true">
+					<instance name="round_button2" width="300" height="24" align="center" valign="bottom" onclick="
+					HideWidget('demo_endgame');
+					Login();"  font="gametweener" label="Instantly Activate Your Account Now" />			
+				</panel>
+
+
+				<label x="240" height="28" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Experience The Way Savage 2: A Tortured Soul Should Be Played Right Now!</label>
+
+
+			</panel>
+
+			<image y="599" x="0" width="128" height="128" texture="/ui/elements/big_arrow.tga"/>
+		
+		</panel>		
+		
+
+
+	</panel>
+	
+	
+</include>

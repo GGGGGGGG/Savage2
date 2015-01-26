@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_update">
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+
+	<!-- Styles -->
+	<style name="horz_rule" width="1" color="white"/>
+	<style name="tab_player_attributes" width="350" height="34"/>
+	<style name="tab_score_text_attributes1" height="12" textalign="center" font="chat_9" bgcolor="#000000AA" color="white"/>
+	<style name="tab_score_text_attributes2" height="12" textalign="center" font="chat_9" bgcolor="#0000AAAA" color="white"/>
+
+	<style name="tab_score_text_attributes1_team2" height="12" textalign="center" font="chat_9" bgcolor="#000000AA" color="white"/>
+	<style name="tab_score_text_attributes2_team2" height="12" textalign="center" font="chat_9" bgcolor="#AA0000AA" color="white"/>	
+	<style name="icon" width="48" height="48" ontrigger="SetTexture(param);"/>
+	
+	<style name="vist_bg_1" bgcolor="#560001" color="#560001"/>
+	<style name="vist_frame_1" color="#662222"/>	
+	
+	<style name="vist_bg_green" bgcolor="#00CC00" color="#00CC00"/>
+	<style name="vist_frame_green" color="#00CC00"/>		
+	<style name="vist_bg_green_2" bgcolor="#007700" color="#007700"/>
+	<style name="vist_frame_green_2" color="#007700"/>		
+
+	<style name="vist_bg_2" color="#7C1A19" bgcolor="#7C1A19"/>
+	<style name="vist_frame_2" color="#863838"/>	
+
+	<style name="vist_bg_3" color="#FF4500" bgcolor="#FF4500"/>
+	<style name="vist_frame_3" color="#FF4500" bgcolor="#FF4500" />			
+	
+	<!--<style name="vist_tooltip_bg"  bgcolor="#FFCC00bb" color="#FFCC00bb"/>-->
+	<style name="vist_tooltip_bg"  bgcolor="#777777" color="#777777"/>	
+
+	<!-- Window styles -->
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F00AA"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>
+	
+	<include file="/ui/inc_button.xml"/>
+	
+	<panel name="update_black_backer" visible="true" width="100%" height="100%" color="black">
+		<panel name="update_panel" visible="true" height="240" width="300" align="center" valign="center" onshow="CheckForUpdates(); CreateBool('_updater_restart');" watch="UpdateRestartNeeded" ontrigger="_updater_restart = param;">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_header_bg"/>
+			<frame texture="/ui/frames/roundframe.tga" style="lobby_window_header" borderthickness="12"/>
+			<frame style="lobby_window_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="36" style="lobby_window_bg" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="36" style="lobby_window" borderthickness="12">
+				<!-- Cancel -->
+				<panel name="update_cancel" height="24" width="46%" x="-1%" align="right" valign="center" watch="UpdateNeeded" ontrigger="SetVisible(param);">
+					<instance name="round_button2" width="100%" height="100%" onclick="playsound('/shared/sounds/ui/button_click.mp3'); CancelUpdate(); SetHostInterface('main');"  font="chat_13" label="Cancel"/> 
+				</panel>
+
+				<!-- Continue -->
+				<panel name="update_continue" height="24" width="46%" x="-1%" align="right" valign="center" visible="false" watch="UpdateNeeded" ontrigger="SetVisible(!param);">
+					<instance name="round_button2" width="100%" height="100%" onclick="playsound('/shared/sounds/ui/button_click.mp3'); If(_updater_restart, Restart(), If(IsLoggedIn(), SetHostInterface('browser'), SetHostInterface('main')));"  font="chat_13" label="Continue"/> 
+				</panel>
+
+				<!-- Show/Hide change log -->
+				<panel height="24" width="46%" x="1%" align="left" valign="center" onload="CreateBool('_changelog_visible');">
+					<instance name="round_button2" width="100%" height="100%" onclick="playsound('/shared/sounds/ui/button_click.mp3'); _changelog_visible = !_changelog_visible; Call('changelog_panel', 'SetVisible(_changelog_visible);');"  font="chat_13" label="Change Log"/> 
+				</panel>
+			</frame>
+			<label x="10" y="1" height="20" textalign="left" textvalign="center" align="left" font="chat_12" color="white" shadow="true" ontrigger="settext(param);">Update Savage 2: A Tortured Soul</label>
+
+			<panel y="27" width="-4" height="-64" align="center" texture="/ui/elements/parchment_small.tga" >
+			<panel texture="/ui/elements/grad_diag.tga" color="#00000044"/>
+				<frame  y="-8" texture="/ui/frames/inset.tga" height="20" align="center" valign="bottom" width="280"  borderthickness="2">
+					<panel width="276"  align="center" valign="center" height="15" texture="/ui/elements/mana_neg.tga"/>
+
+					<panel x="2" width="0" align="left" valign="center" height="15" texture="/ui/elements/mana_pos.tga" watch="UpdateSizePercent" ontrigger="if(param == 2, SetWidth(0), SetWidth(param * 276));"/>
+					<panel x="0" width="2" align="left" valign="center" height="15" color="white" watch="UpdateSizePercent" ontrigger="if(param == 2, SetX(0), SetX(param * 276);"/>
+
+					<panel x="2" width="0" align="left" valign="center" height="15" texture="/ui/elements/health_pos.tga" watch="UpdatePercent" ontrigger="if(param == 2, SetWidth(0), SetWidth(param * 276));"/>
+					<panel x="0" width="2" align="left" valign="center" height="15" color="white" watch="UpdatePercent" ontrigger="if(param == 2, SetX(0), SetX(param * 276));"/>
+					
+					<panel x="2" width="0" align="left" valign="center" height="15" color="red" texture="/ui/elements/health_pos.tga" watch="UpdateExtraction" ontrigger="if(param == 2, SetWidth(0), SetWidth(param * 276));"/>
+					<panel x="0" width="2" align="left" valign="center" height="15" color="white" watch="UpdateExtraction" ontrigger="if(param == 2, SetX(0), SetX(param * 276));"/>
+
+					<label textalign="center" textvalign="center" color="#CC0000" font="gametweener" watch="UpdatePercent" ontrigger="if(param == 2, ClearText(), SetText(FtoP(param, 0) # '%'));"/>
+					<label textalign="center" textvalign="center" color="#CC0000" font="gametweener" watch="UpdateSizePercent" ontrigger="if(param == 2, ClearText(), SetText(FtoP(param, 0) # '%'));"/>
+					<label textalign="center" textvalign="center" color="#CC0000" font="gametweener" watch="UpdateExtraction" ontrigger="if(param == 2, ClearText(), SetText(FtoP(param, 0) # '%'));"/>
+				</frame>
+
+				<label y="6" align="center" valign="top" textalign="center" height="20" shadow="true"  color="white" font="chat_12" watch="UpdateDetail" ontrigger="SetText(param);">Waiting to check for updates...</label>
+
+				<label x="61" width="100%" y="25" align="center" valign="top" textalign="left" height="20" shadow="true" color="green" font="chat_12" watch="UpdateLocalVersion" ontrigger="SetText('^yYour Version: ^w' # param);">^yYour Version: ^wUnknown</label>
+				<label x="42" y="45" width="100%" align="center" valign="top" textalign="left" height="20" shadow="true" color="green" font="chat_12" watch="UpdateCurVersion" ontrigger="SetText('^yNewest Version: ^w' # param);">^yNewest Version: ^wUnknown</label>
+				<label x="50" y="65" width="100%" align="center" valign="top" textalign="left" height="20" shadow="true" color="green" font="chat_12" watch="UpdateSpeed" ontrigger="SetText('^yUpdate Speed: ^w' # param # 'KB^y/^wsec');">^yUpdate Speed: ^wUnknown</label>
+				<label x="41" y="85" width="100%" align="center" valign="top" textalign="left" height="20" shadow="true" color="green" font="chat_12" watch="UpdateTime" ontrigger="SetText('^yTime Remaining: ^w' # param);">^yTime Remaining: ^wUnknown</label>
+				<label x="44" y="105" width="100%" align="center" valign="top" textalign="left" height="20" shadow="true" color="green" font="chat_12" watch="UpdateFilesLeft" ontrigger="SetText('^yFiles Remaining: ^w' # param0 # '^y/^w ' # param1);">^yFiles Remaining: ^wUnknown</label>
+				<label x="35" y="125" width="100%" align="center" valign="top" textalign="left" height="20" shadow="true" color="green" font="chat_12" watch="UpdateProgress" ontrigger="SetText('^yUpdate Progress: ^w' # param0 # 'MB^y/^w' # param1 # 'MB');">^yUpdate Progress: ^wUnknown</label>
+			</panel>
+		</panel>	
+
+		<panel name="changelog_panel" visible="false" height="32%" width="600" align="center" valign="center" y="-32%">
+			<frame x="0" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" bgcolor="#00000088" color="#00000088"/>
+			<frame x="0" texture="/ui/frames/roundframe.tga" color="#662222" borderthickness="12"/>
+			<textbuffer name="changelog_buffer" file=":/change_log.txt" watch="UpdateChangelog" ontrigger="ReloadFile();" scrolltexture="/ui/elements/vist_scroll.tga" handleheight="64" width="-6" height="-6" align="right" valign="center" textalign="left" font="chat_12" wrap="true" anchorbottom="false" usesmileys="true" maxlines="10000" shadow="true" color="#00000088" textcolor="white"/>
+		</panel>
+	</panel>
+</interface>

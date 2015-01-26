@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	
+	<template name="ccwhisperbox">
+		<panel name="ccwhisperbox_{parentid}{id}_panel" x="{x}" y="{y}" width="{width}" height="{height}" align="{align}" valign="{valign}" visible="{visible=true}" enabled="{enabled=true}" color="invisible" onload="If(StringLength('{cvar}'),If(!StringLength(*('{cvar}')),CreateString('{cvar}')));" blockinput="false" noclick="true">
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="{color=#40404090}" blockinput="0" noclick="1"/>
+			<frame texture="/ui/frames/roundframe.tga" color="{bordercolor=#A0A0A077}" borderthickness="8" blockinput="0" noclick="1"/>
+			<textbox name="ccwhisperbox_{parentid}{id}_textbox" x="6" y="3" align="left" valign="center" width="-12" textvalign="center" taborder="{taborder}" font="{font=chat_12}" color="invisible" textcolor="{textcolor=white}" shadow="true" maxlength="{maxlength=30}" onload="If(StringLength('{cvar}'),If(StringLength({cvar}),SetInputLine({cvar})));" onshow="{onshow}" onhide="{onhide}" onchange="If(StringLength('{cvar}'),Set('{cvar}', this)); {onchange}" onenter="PlaySound('{sound=/shared/sounds/ui/button_click.mp3}'); SetFocus(1); {onenter}" onesc="SetFocus(1); {onesc}" onfocus="If(StringLength('{parentid}'),Split(Call('ccwidget_{parentid}','BringToFront();'),Call('ccbar', 'BringToFront();'),ShowWidget('ccwidget_{parentid}_focus')));" onlosefocus="If(StringLength('{parentid}'),HideWidget('ccwidget_{parentid}_focus'));"/>
+		</panel>
+	</template>
+	
+	<template name="ccwidget_whisper_display">
+		<!-- Header -->
+		<panel height="{headerheight=22}" y="-{headerheight=22}" align="center" blockinput="false" noclick="true">
+			<label x="6" align="left" valign="center" textvalign="center" font="{titlefont=chat_12}" color="{titlecolor=white}" shadow="true" blockinput="false" noclick="true">Send Message to ^y{nick}^*</label>
+			<button name="ccwidget_{id}_close2" parentid="{id}" x="-5" width="14" height="14" align="right" valign="center" color="#FFFFFF99" texture="/ui/elements/xbutton.tga" onclick="DestroyWidget('ccwidget_whisper{nick}');"/>
+		</panel>
+		<panel name="whisper_box_panel_{nick}" color="invisible" height="-8" width="-8" align="center" valign="center" blockinput="false" noclick="true" onshow="Call('message_listbox','If(!HasListItem(\'{nick}\'), Split(EraseListItemByValue(\'{nick}\'), ListBoxCmd(\'add {nick}\'), SortListBoxValue()));');">
+			<!--<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#000000DD" blockinput="false" noclick="true"/>-->
+			<frame texture="/ui/frames/roundframe.tga" color="{bordercolor=#A0A0A077}" borderthickness="6" blockinput="false" noclick="true"/>
+			<panel color="invisible" onshow="Set('ui_updatingChatBuffer',1); ChatUpdateWhispers('{nick}'); Set('ui_updatingChatBuffer',0); HideWidget();"/>
+			<textbuffer name="whisper_{nick}_textbuffer" height="-6" width="-6" align="center" valign="center" usesmilies="true" anchorbottom="true" font="chat_11" textcolor="white" shadow="true" color="invisible" scrolltexture="/ui/elements/vist_scroll.tga" rendermode="grayscale" handleheight="40"
+									watch="ChatWhisperUpdate" noclick="false"
+									ontrigger="
+										if(StringEquals(param0,'{nick}'), 
+											Split(
+												Call('message_listbox','EraseListItemByValue(\' {nick}\');'), 
+												If(SearchString(param1,' ^888',0) gt 0,
+													AddBufferText(SubString(param1,0,SearchString(param1,' ^888',0)) # '^888 ' # SubString(param1,(SearchString(param1,' ^888',0) + 5),StringLength(param1))),
+													AddBufferText(param1)
+												),
+												If(!ui_updatingChatBuffer and SubString(param1,1,1) != 7,
+													PlaySound('/shared/sounds/ui/msg_recv.mp3')
+												)
+											)
+										);
+									"
+			/>
+		</panel>
+		<!-- Footer -->
+		<panel height="{footerheight=28}" y="{footerheight=28}" width="-2" align="center" visible="{footer=1}" valign="bottom" blockinput="false" noclick="true">
+			<instance name="ccwhisperbox" parentid="{id}" id="whisper{nick}" maxlength="300" height="-8" x="6" width="-85" align="left" valign="center" bordercolor="{bordercolor=#A0A0A077}" cvar="_target_nick" 
+								onshow="SetFocus(true);" 
+								onenter="	If(StringLength(this) gt 0, ChatSendWhisper('{nick}',this)); 
+													EraseInputLine();" 
+								onesc="EraseInputLine();"
+			/>
+			<instance parentid="{id}" x="-5" width="70" height="20" align="right" valign="center" name="ccbutton" label="Send" onfocus="Call('whisper_box_panel_{nick}','BringToFront();'); Call('ccbar', 'BringToFront();');" onclick="Call('ccwhisperbox_{id}whisper{nick}_textbox', 'If(StringLength(this), ChatSendWhisper(\'{nick}\',this));'); Call('ccwhisperbox_{id}whisper{nick}_textbox', 'EraseInputLine(); SetFocus(1);');" bordercolor="{bordercolor=#A0A0A077}"/>
+		</panel>
+	</template>
+	
+	
+	<template name="ccwidget_whisperclan_display">
+		<!-- Header -->
+		<panel height="{headerheight=22}" y="-{headerheight=22}" align="center" blockinput="false" noclick="true">
+			<label x="6" align="left" valign="center" textvalign="center" font="{titlefont=chat_12}" color="{titlecolor=white}" shadow="true" blockinput="false" noclick="true">Send Message to Clan.</label>
+			<!--<button name="ccwidget_{id}_close2" parentid="{id}" x="-5" width="14" height="14" align="right" valign="center" color="#FFFFFF99" texture="/ui/elements/xbutton.tga" onclick="PlaySound('/ui/sounds/close.mp3'); HideWidget('ccwidget_whisperclan');"/>-->
+		</panel>
+		<panel name="whisper_clan_panel" color="invisible" height="-8" width="-8" align="center" valign="center" blockinput="false" noclick="true">
+			<!--<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="6" color="#000000DD" blockinput="false" noclick="true"/>-->
+			<frame texture="/ui/frames/roundframe.tga" color="{bordercolor=#A0A0A077}" borderthickness="6" blockinput="false" noclick="true"/>
+			<textbuffer name="whisper_clan_textbuffer" height="-6" width="-6" align="center" valign="center" usesmilies="true" anchorbottom="true" font="chat_11" textcolor="white" shadow="true" color="invisible" scrolltexture="/ui/elements/vist_scroll.tga" rendermode="grayscale" handleheight="40"
+									watch="ChatClanWhisperUpdate" noclick="false"
+									ontrigger="
+										If(SearchString(ChatClanWhisperUpdate,' ^888',0) gt 0,
+											AddBufferText(SubString(ChatClanWhisperUpdate,0,SearchString(ChatClanWhisperUpdate,' ^888',0)) # '^888 ' # SubString(ChatClanWhisperUpdate,(SearchString(ChatClanWhisperUpdate,' ^888',0) + 5),StringLength(ChatClanWhisperUpdate))),
+											AddBufferText(ChatClanWhisperUpdate)
+										);
+										If(!ui_updatingChatBuffer and SubString(param,1,1) != 4 and IsVisible(),PlaySound('/shared/sounds/ui/msg_recv.mp3'));
+									"
+			/>
+		</panel>
+		<!-- Footer -->
+		<panel height="{footerheight=28}" y="{footerheight=28}" width="-2" align="center" visible="{footer=1}" valign="bottom" blockinput="false" noclick="true">
+			<instance name="ccwhisperbox" parentid="{id}" id="whisperclan" maxlength="300" height="-8" x="6" width="-85" align="left" valign="center" bordercolor="{bordercolor=#A0A0A077}" cvar="_target_nick" 
+								onshow="SetFocus(true);" 
+								onenter="	If(StringLength(this) gt 0, ChatSendClanWhisper(this)); 
+													EraseInputLine();"
+			/>
+			<instance parentid="{id}" x="-5" width="70" height="20" align="right" valign="center" name="ccbutton" label="Send" onfocus="Call('whisper_clan_panel','BringToFront();'); Call('ccbar', 'BringToFront();');" onclick="Call('ccwhisperbox_{id}whisperclan_textbox', 'If(StringLength(this), ChatSendClanWhisper(this));'); Call('ccwhisperbox_{id}whisperclan_textbox', 'EraseInputLine(); SetFocus(1);');" bordercolor="{bordercolor=#A0A0A077}"/>
+		</panel>
+	</template>
+	
+	<instance name="ccwidget" id="whisperclan" height="250" width="500" bordercolor="#117E5577" keepfocus="ccwhisperbox_whisperclanwhisperclan_textbox"/>
+
+</include>

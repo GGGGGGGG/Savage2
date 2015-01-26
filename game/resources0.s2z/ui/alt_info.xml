@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="alt_info">
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+
+	<template name="state_icon">
+		<panel width="14" height="14" watch="AltInfo{type}Active{index}" ontrigger="SetVisible(param);">
+			<image watch="AltInfo{type}Icon{index}" ontrigger="SetTexture(param);"/>
+			<frame x="-2" y="-2" width="18" height="18" texture="/ui/frames/rounded_bg_white.tga" borderthickness="2" color="invisible" bordercolor="{color}"/>
+		</panel>
+	</template>
+	
+	<!-- just resize alt_panel width and everything resizes nicely-->
+	<panel name="alt_panel" x="-72" y="-46" width="150" height="42" watch="AltInfoUpkeep" ontrigger="If(param, SetWidth(176), SetWidth(150));" watch0="AltInfoBuildPercent" ontrigger0="If(param ge 0 and param lt 1, SetHeight(42), SetHeight(30));">
+		<frame style="vist_bg_1" texture="/ui/frames/tooltip_bg.tga" borderthickness="8" color="#CCCCCC" watch="AltInfoAlly" ontrigger="If(param, SetColor('#00CC00'), SetColor('#CC0000')); If(param, SetBorderColor('#00CC00'), SetBorderColor('#CC0000'));"/>
+		<frame style="vist_frame_1" texture="/ui/frames/roundframe.tga" color="#FFFFFF" borderthickness="8" watch="AltInfoAlly" ontrigger="If(param, SetBorderColor('#CCCCCC'), SetBorderColor('#CCCC00'));"/>
+		
+		<label
+			y="2"
+			width="148" height="22"
+			align="center"
+			textalign="center"
+			font="gametiny"
+			color="Yellow"
+			watch="AltInfoName AltInfoDistance"
+			ontrigger="If(AltInfoDistance == -1, SetText(AltInfoName), SetText(AltInfoName # ' (^w' # AltInfoDistance # 'm^*)'));"
+		/>
+		
+		<panel name="build_percent" x="8" y="-16" height="8" width="134" valign="bottom" color="invisible" visible="false" watch="AltInfoBuildPercent" ontrigger="SetVisible(param ge 0 and param lt 1);">
+			<frame texture="/ui/frames/inset.tga" borderthickness="1">
+				<panel x="1" y="1" width="-2" height="-2">
+					<image texture="/ui/elements/mana_neg.tga"/>
+					<panel width="0%" texture="/ui/elements/mana_pos.tga" watch="AltInfoBuildPercent" ontrigger="SetWidth(FtoP(param));"/>
+					<panel width="1" color="#CCCCFF" watch="AltInfoBuildPercent" ontrigger="SetX(FtoP(param));"/>
+				</panel>
+			</frame>
+		</panel>
+		
+		<panel name="health" x="8" y="-4" height="8" width="134" valign="bottom" color="invisible" watch="AltInfoHealthPercent" ontrigger="SetVisible(param ge 0);">
+			<frame texture="/ui/frames/inset.tga" borderthickness="1">
+				<panel x="1" y="1" width="-2" height="-2">
+					<image texture="/ui/elements/health_neg.tga"/>
+					<panel width="0%" texture="/ui/elements/health_pos_r.tga" watch="AltInfoHealthPercent" ontrigger="SetWidth(FtoP(param));"/>
+					<panel width="0%" texture="/ui/elements/health_pos_y.tga" watch="AltInfoHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, saturate((param * 2.5) - 0.25));"/>
+					<panel width="0%" texture="/ui/elements/health_pos.tga" watch="AltInfoHealthPercent" ontrigger="SetWidth(FtoP(param)); SetColor(1, 1, 1, saturate((param * 2) - 1));" />
+					
+					<panel width="1" color="#CCFFCCFF" watch="AltInfoHealthPercent" ontrigger="SetX(FtoP(param));"/>
+				</panel>
+			</frame>
+		</panel>
+		
+		<image x="146" y="4" width="22" height="22" texture="/shared/textures/icons/upkeep.tga" color="#FF0000" visible="false" watch="AltInfoUpkeep" ontrigger="SetVisible(param);"/>
+		
+		<panel x="-22" y="-18" height="16" color="invisible" float="right" padding="6">
+			<instance name="state_icon" type="Buff" color="#00ff00" index="0"/>
+			<instance name="state_icon" type="Buff" color="#00ff00" index="1"/>
+			<instance name="state_icon" type="Buff" color="#00ff00" index="2"/>
+			<instance name="state_icon" type="Buff" color="#00ff00" index="3"/>
+			<instance name="state_icon" type="Buff" color="#00ff00" index="4"/>
+
+			<instance name="state_icon" type="Debuff" color="#ff0000" index="0"/>
+			<instance name="state_icon" type="Debuff" color="#ff0000" index="1"/>
+			<instance name="state_icon" type="Debuff" color="#ff0000" index="2"/>
+			<instance name="state_icon" type="Debuff" color="#ff0000" index="3"/>
+			<instance name="state_icon" type="Debuff" color="#ff0000" index="4"/>
+		</panel>
+	</panel>
+</interface>

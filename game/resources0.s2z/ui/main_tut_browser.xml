@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+  
+  <template name="tut_button">
+		<panel width="136" name="tut_button_{count}" onwake="{command}">
+			<panel y="22" height="-46" color="black">
+        <panel width="120" height="120" align="center" valign="center" texture="{texture}"/>
+        <!-- Uncomment to show an emblem next to the tutorials that have been marked as completed:
+        <panel x="-6" y="-6" width="30" height="30" align="right" valign="bottom" texture="/ui/elements/tut_complete.tga" noclick="true" onshow="If({completed},SetColor(1,1,1,1),SetColor(1,1,1,0));"/> -->
+        <panel  name="tut_button_{count}_grey" color="#000000AA"/>
+     </panel>
+			<frame style="options_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" noclick="true"/>
+			<frame style="options_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"/>
+			<frame style="options_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="22" borderthickness="12"/>
+			<frame style="options_window_header" texture="/ui/frames/roundframe_header.tga" height="22" borderthickness="12">
+        <label name="tut_button_{count}_header" align="center" width="100%" height="22" textvalign="center" textalign="center" shadow="true" font="chat_11" color="#FFFFFF66" noclick="true">{header}</label>
+      </frame>
+			<frame style="options_window_footer_bg"  valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="24" borderthickness="12"/>
+			<frame style="options_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="24"  borderthickness="12">
+        <label name="tut_button_{count}_footer" align="center" width="100%" height="24" textvalign="center" textalign="center" shadow="true" font="chat_11" color="#FFFFFF66" noclick="true">{footer}</label>
+			</frame>
+      <button name="tut_button_{count}_button" 
+              color="invisible"
+              onshow="
+                If(_tutorial_selected == {count}, Set('_tutorial_summary','{summary}'));
+                Refresh();
+                "
+              onclick="
+                Set('_tutorial_selected',{count});
+                Call('tut_button_{count}_grey','SetColor(\'#00000000\');');
+                Call('tut_button_{count}_header','SetColor(\'#FFFFFFFF\');');
+                Call('tut_button_{count}_footer','SetColor(\'#FFFFFFFF\');');
+                Set('_tutorial_summary','{summary}');
+                Refresh(); 
+                ShowWidget('tut_button_{count}_double');
+                "
+              onmouseover="
+                  Call('tut_button_{count}_grey','If(_tutorial_selected != {count}, SetColor(\'#00000066\'));');
+                  Call('tut_button_{count}_header','If(_tutorial_selected != {count}, SetColor(\'#FFFFFFAA\'));');
+                  Call('tut_button_{count}_footer','If(_tutorial_selected != {count}, SetColor(\'#FFFFFFAA\'));');
+                "
+              onmouseout="
+                  Call('tut_button_{count}_grey','If(_tutorial_selected != {count}, SetColor(\'#000000AA\'));');
+                  Call('tut_button_{count}_header','If(_tutorial_selected != {count}, SetColor(\'#FFFFFF66\'));');
+                  Call('tut_button_{count}_footer','If(_tutorial_selected != {count}, SetColor(\'#FFFFFF66\'));');
+                "
+              onrefresh="
+                  Call('tut_button_{count}_grey','If(_tutorial_selected != {count}, SetColor(\'#000000AA\'));');
+                  Call('tut_button_{count}_header','If(_tutorial_selected != {count}, SetColor(\'#FFFFFF66\'));');
+                  Call('tut_button_{count}_footer','If(_tutorial_selected != {count}, SetColor(\'#FFFFFF66\'));');
+                "
+      />
+      <panel    name="tut_button_{count}_double"
+                color="invisible" visible="0"
+                onshow="SleepWidget(300);"
+                onwake="SetVisible(0);"
+      ><button  color="invisible" onclick="{command}" /> 
+      </panel>
+		</panel>
+  </template>
+  
+
+	<panel  name="tut_browser" width="302" height="360" align="center" valign="center" visible="0" blockinput="true"
+          onshow="
+            CreateString('_tutorial_summary','');
+            CreateInt('_tutorial_selected',If(_completedtutorial_0 and !_completedtutorial_1,1,0));
+            Call('tut_button_'#_tutorial_selected#'_grey','SetColor(\'#00000000\');');
+            Call('tut_button_'#_tutorial_selected#'_header','SetColor(\'#FFFFFFFF\');');
+            Call('tut_button_'#_tutorial_selected#'_footer','SetColor(\'#FFFFFFFF\');');
+            "
+  >
+    <panel y="16" height="-40" texture="/ui/elements/parchment.tga" noclick="true"/>
+    <frame  style="options_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" noclick="true"/>
+    <frame style="options_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12" noclick="true"/>
+    <frame  style="options_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" height="26" borderthickness="12" noclick="true"/>
+    <frame  style="options_window_header" texture="/ui/frames/roundframe_header.tga" height="26" borderthickness="12" noclick="true">
+      <label x="10" align="center" width="100%" height="26" textvalign="center" textalign="Left" shadow="true" font="chat_14" color="white" noclick="true">Tutorial Browser</label>
+    </frame>	
+    <frame style="options_window_footer_bg"  valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" borderthickness="12" noclick="true"/>
+    <frame style="options_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35"  borderthickness="12" float="right" padding="6" noclick="true" >
+      <instance name="round_button2" x="5%" width="42.5%" height="24" align="left" valign="center" onclick="Exec('/scripts/menu_in.cfg'); PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('tut_browser');"  font="gametweener" label="Cancel" />
+      <instance name="round_button2" x="-5%" width="42.5%" height="24" align="right" valign="center" onclick="PlaySound('/shared/sounds/ui/button_click.mp3');  Call('tut_button_'#_tutorial_selected,'SleepWidget(10);');" font="gametweener" label="Start" />
+    </frame>
+    
+    <button
+      x="-12" y="7"
+      width="14" height="14"
+      align="right"
+      color="#FFFFFF99"
+      onclick="Exec('/scripts/menu_in.cfg');  HideWidget('tut_browser'); PlaySound('/shared/sounds/ui/button_click.mp3');"
+      texture="/ui/elements/xbutton.tga"
+      hotkey="ESC"
+      onhotkey="Exec('/scripts/menu_in.cfg');  HideWidget('tut_browser'); PlaySound('/shared/sounds/ui/button_click.mp3');"
+    />
+      
+    <panel y="44" width="-20" height="182" align="center" valign="top" float="right" padding="10">
+      <instance name="tut_button" count="0" texture="/ui/elements/u_builder.tga" header="Interactive Tutorial" footer="Learn the Basics" command="HideWidget('tut_browser'); HideWidget('mott'); StartLocalGame('tutorial');" completed="_completedtutorial_0" summary="This tutorial is highly recommended for new players. You will learn about the game\'s basic controls and mechanics."/>
+      <instance name="tut_button" count="1" texture="/ui/elements/u_predator.tga" header="Video Tutorial" footer="Learn from the Pros" command="HideWidget('tut_browser'); HideWidget('mott'); StartReplay(':/game/replays/tutorial/tutorial_01/tutorial_01.s2r'); Exec (':/game/replays/tutorial/tutorial_01/tutorial_01.cfg');" completed="_completedtutorial_1" summary="Here you will follow other players during a replay example. You will learn about gameplay and teamwork."/>
+    </panel>
+    
+    <panel y="-54" valign="bottom" align="center" width="-20" height="-290" >
+      <frame color="#000000AA" borderthickness="12" texture="/ui/frames/inset_round.tga"/>
+      <frame style="options_window"  texture="/ui/frames/roundframe.tga"  borderthickness="12">
+        <label name="tut_summary" y="12" width="-30" height="-40" align="center" valign="top" textalign="center" textvalign="top" font="chat_11" color="white" shadow="true" wrap="true">%_tutorial_summary%</label>
+      </frame>
+    </panel>
+    
+  </panel>
+	
+</include>

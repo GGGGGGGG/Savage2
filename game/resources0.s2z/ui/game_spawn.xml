@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface name="game_spawn">	
+	<!-- Fonts -->
+	<include file="fonts.xml"/>
+
+	<include file="/ui/game_chat.xml"/>
+	<include file="/ui/inc_button.xml"/>
+	
+	<panel name="voicetip" color="invisible" blockinput="false" noclick="true" onshow="PlayVoiceTip('/ui/vtip/states/spawnscreen.mp3');"/>
+	
+	<instance name="round_button2" y="-360" align="center" valign="center" width="128" height="20" onclick="Cancel();" font="gamemicro" label="Return to Loadout"/>
+	
+	<frame x="0" valign="center" align="center" y="-70" width="550" height="550" borderthickness="32" texture="/ui/frames/standard.tga" bgcolor="invisible">
+		<minimap name="minimap" x="19" y="19" width="512" height="512" texture="!minimap_texture" watch="Minimap" noping="true"/>
+	</frame>
+	<label y="215" height="30" valign="center" font="gamelarge" textalign="center">Choose your spawn</label>
+	
+	<instance name="game_chat_window" interface="game_spawn" xoffset="75" bufferwidth="-150" entrywidth="-150" bufferheight="16%" yoffset="-30"/>
+	
+	<panel x="214" y="39"  noclick="true">
+		<include file="/ui/game_voicecommands.xml"/>
+	</panel>
+	
+	<!-- Voice Chat Panels -->
+	<panel x="10" y="10" width="210" height="700" sticky="true" stickytoinvis="false" float="bottom" noclick="true">
+		<instance name="voice_chat_panel" index="0"/>
+		<instance name="voice_chat_panel" index="1"/>
+		<instance name="voice_chat_panel" index="2"/>
+		<instance name="voice_chat_panel" index="3"/>
+		<instance name="voice_chat_panel" index="4"/>
+		<instance name="voice_chat_panel" index="5"/>
+		<instance name="voice_chat_panel" index="6"/>
+		<instance name="voice_chat_panel" index="7"/>
+		<instance name="voice_chat_panel" index="8"/>
+		<instance name="voice_chat_panel" index="9"/>
+		<instance name="voice_chat_panel" index="10"/>
+		<instance name="voice_chat_panel" index="11"/>
+		<instance name="voice_chat_panel" index="12"/>
+		<instance name="voice_chat_panel" index="13"/>
+		<instance name="voice_chat_panel" index="14"/>
+		<instance name="voice_chat_panel" index="15"/>
+		<instance name="voice_chat_panel" index="16"/>
+		<instance name="voice_chat_panel" index="17"/>
+		<instance name="voice_chat_panel" index="18"/>
+		<instance name="voice_chat_panel" index="19"/>
+		<instance name="voice_chat_panel" index="20"/>
+		<instance name="voice_chat_panel" index="21"/>
+		<instance name="voice_chat_panel" index="22"/>
+		<instance name="voice_chat_panel" index="23"/>
+		<instance name="voice_chat_panel" index="24"/>
+		<instance name="voice_chat_panel" index="25"/>
+		<instance name="voice_chat_panel" index="26"/>
+		<instance name="voice_chat_panel" index="27"/>
+		<instance name="voice_chat_panel" index="28"/>
+		<instance name="voice_chat_panel" index="29"/>
+		<instance name="voice_chat_panel" index="30"/>
+		<instance name="voice_chat_panel" index="31"/>
+	</panel>
+	
+</interface>

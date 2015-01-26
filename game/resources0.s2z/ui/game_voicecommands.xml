@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<panel name="voice_commands_main_panel" color="invisible" noclick="true" width="180" visible="true" watch="VoiceCommandMain" ontrigger="SetVisible(param);" float="bottom" padding="0" onload="exec('/ui/scripts/vclist.cfg');">
+		<panel height="20" sticky="true" align="center">
+			<frame color="#117700CC" texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="6"/>
+			<frame color="#CCFFCC" texture="/ui/frames/roundframe_header.tga"  borderthickness="6"/>
+			<label x="5" y="1" width="100%" height="16" textalign="left" textvalign="center" align="left" font="chat_12" color="white" shadow="true" >Voice Macros: </label>
+		</panel>
+		<table
+			width="-2"
+			align="center"
+			sticky="false"			
+			name="voice_categories"
+			expandable="true"
+			rows="0"
+			rowheight="2%"
+			cols="85%,15%"
+			font="chat_12"
+			textcolor="white"
+			bordercolor="invisible"
+			color="#005500"
+			datacolor="white"
+			shadow="true"
+			altrowcolor="#003300"
+			watch1="VoiceCommandCategories"
+			ontrigger1="Data(param0,param1,param2);"
+			textalign="left"
+			textvalign="center"
+			horizontalbordercolor="#FFFFFF55"
+			verticalbordercolor="#FFFFFF55"			
+		/>
+		<panel  height="16" sticky="true" align="center">
+			<frame color="#117700CC" texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="6"/>
+			<frame color="#CCFFCC" texture="/ui/frames/roundframe_footer.tga"  borderthickness="6"/>
+		</panel>
+	</panel>
+	
+	<panel name="voice_chat_sub_panel" x="10" y="20"  color="invisible" noclick="true" width="180" visible="false" watch="VoiceCommandSub" ontrigger="SetVisible(param);" float="bottom" padding="0">
+		<panel height="20" sticky="true" align="center">
+			<frame color="#117700CC" texture="/ui/frames/rounded_header_bg_white.tga" borderthickness="6"/>
+			<frame color="#CCFFCC" texture="/ui/frames/roundframe_header.tga"  borderthickness="6"/>
+			<label x="5" y="1" width="100%" height="16" textalign="left" textvalign="center" align="left" font="chat_12" color="white" shadow="true" watch="VoiceCommandSubTitle" ontrigger="SetText(param);"/>
+		</panel>		
+		<table
+			name="voice_sub"
+			width="-2"
+			align="center"
+			sticky="true"
+			expandable="true"
+			rows="0"
+			textcolor="white"
+			datacolor="white"
+			rowheight="2%"
+			cols="85%,15%"
+			font="chat_12"
+			shadow="true"
+			bordercolor="invisible"
+			color="#005500"
+			altrowcolor="#003300"
+			watch1="VoiceCommandSubItems"
+			ontrigger1="Data(param0,param1,param2);"
+			textalign="left"
+			textvalign="center"
+			horizontalbordercolor="#FFFFFF55"
+			verticalbordercolor="#FFFFFF55"
+		/>
+
+		<panel height="16" sticky="true" align="center">
+			<frame color="#117700CC" texture="/ui/frames/rounded_footer_bg_white.tga" borderthickness="6"/>
+			<frame color="#CCFFCC" texture="/ui/frames/roundframe_footer.tga"  borderthickness="6"/>
+		</panel>
+	</panel>
+</include>

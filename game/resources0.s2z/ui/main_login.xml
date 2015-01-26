@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<include>
+	<!-- Styles -->
+	<style name="horz_rule" width="1" color="white"/>
+	<style name="icon" width="48" height="48" ontrigger="SetTexture(param);"/>
+	
+	<style name="vist_bg_1" bgcolor="#560001" color="#560001"/>
+	<style name="vist_frame_1" color="#662222"/>	
+	
+	<style name="vist_bg_green" bgcolor="#00CC00" color="#00CC00"/>
+	<style name="vist_frame_green" color="#00CC00"/>		
+	<style name="vist_bg_green_2" bgcolor="#007700" color="#007700"/>
+	<style name="vist_frame_green_2" color="#007700"/>		
+
+	<style name="vist_bg_2" color="#7C1A19" bgcolor="#7C1A19"/>
+	<style name="vist_frame_2" color="#863838" />	
+
+	<style name="vist_bg_3" color="#FF4500" bgcolor="#FF4500"/>
+	<style name="vist_frame_3" color="#FF4500" bgcolor="#FF4500" />	
+
+	<style name="vist_bg_4" color="#7C1A19" bgcolor="#7C1A19"/>
+	<style name="vist_frame_4" color="#863838" />		
+	
+	<!--<style name="vist_tooltip_bg"  bgcolor="#FFCC00bb" color="#FFCC00bb"/>-->
+	<style name="vist_tooltip_bg"  bgcolor="#777777" color="#777777"/>	
+
+	<!-- Window styles -->
+	<style name="lobby_window_header_bg" texture="/ui/frames/rounded_header_bg_white.tga" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_header" texture="/ui/frames/roundframe_header.tga" height="26" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_header_label" width="-20" align="center" textvalign="center" font="chat_14" color="white" shadow="true"/>
+	<style name="lobby_window_bg" texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" color="#2E1F00"/>
+	<style name="lobby_window" texture="/ui/frames/roundframe.tga" color="#5E2D1F" borderthickness="12"/>
+	<style name="lobby_window_footer_bg" valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="35" color="#2E1F00" borderthickness="12"/>
+	<style name="lobby_window_footer" valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="35" color="#5E2D1F" borderthickness="12"/>	
+	<style name="selected_table" color="#994400"/>
+	
+	<include file="/ui/inc_button.xml"/>
+  
+	<panel name="account_login" blockinput="true" color="#00000099" visible="false">
+		<panel
+			name="account_main"
+			align="center"
+			y="200"
+			width="360"
+			height="192"
+			watch="LoginStatus"
+			ontrigger="
+				HideWidget('logging_in');
+				If(param0, ShowWidget('login_success'), HideWidget('login_success'));
+				If(param0, HideWidget('failure'), ShowWidget('failure'));
+				If(param0, SetFocusName('login_success_button'));
+				If(!param0, Call('failure_label_reason', 'SetText(\'' # param1 # '\');'));"
+		>
+			<panel width="-4" align="center" height="-40" valign="center" texture="/ui/elements/parchment_small.tga"/>
+			<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="12" style="lobby_window_bg"/>
+			<frame texture="/ui/frames/roundframe.tga"  color="#5E2D1F" borderthickness="12"/>
+			<frame texture="/ui/frames/rounded_header_bg_white.tga" height="26" style="lobby_window_header_bg" borderthickness="12"/>
+			<frame texture="/ui/frames/roundframe_header.tga" height="26" style="lobby_window_header" borderthickness="12"/>
+
+			<frame valign="bottom" texture="/ui/frames/rounded_footer_bg_white.tga" height="50" style="lobby_window_header_bg" borderthickness="12"/>
+			<frame valign="bottom" texture="/ui/frames/roundframe_footer.tga" height="50" style="lobby_window_header" borderthickness="12"/>
+
+			<!-- User name -->
+			<panel name="info_section" y="33" noclick="true">
+				<panel y="10" width="345" height="22" color="invisible" align="center">
+					<label x="-12" height="100%"  width="105" textalign="right" textvalign="center" font="chat_12" color="#FFDA00" >User name:</label>
+					<panel width="244" align="right">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="white"/>
+						<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="8"/>
+						<textbox
+							x="5"
+							y="4"
+							name="login_username_box"
+							valign="center"
+							taborder="1"
+							font="chat_12"
+							color="invisible"
+							textcolor="black"
+							maxlength="34"
+							onchange="SetUsername(this);"
+							onshow="If(login_rememberme, SetFocusName('passbox'), SetFocus('true'));"
+							onenter="SetFocusName('passbox');"
+						/>
+					</panel>				
+				</panel>
+
+				<!-- Password -->
+				<panel y="40" width="345" height="22" color="invisible" align="center">
+					<label x="-12" height="100%" width="105" textalign="right" textvalign="center" font="chat_12" color="#FFDA00">Password:</label> 
+					<panel width="244" align="right">
+						<frame  texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="white"/>
+						<frame  texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="8"/>
+						<textbox
+							x="5"
+							y="4"
+							name="passbox"
+							textvalign="center"
+							valign="center"
+							taborder="2"
+							font="chat_12"
+							color="invisible"
+							textcolor="black"
+							shadow="true"
+							maxlength="34"
+							passwordchar="*"
+							onshow="EraseInputLine();"
+							onchange="SetPassword(this);"
+							onenter="
+								PlaySound('/shared/sounds/ui/button_click.mp3');
+								SetFocus('false');
+								HideWidget('failure');
+								HideWidget('login_success');
+								ShowWidget('logging_in');
+								Login();"
+						/>
+					</panel>		
+				</panel>
+
+				<!-- "Remember me" -->
+				<panel
+					y="70"
+					width="345" height="22"
+					color="invisible"
+					align="center"
+					onshow="
+						If(login_rememberme, HideWidget('login_remember_nocheck'), ShowWidget('login_remember_nocheck'));
+						If(login_rememberme, ShowWidget('login_remember_check'), HideWidget('login_remember_check'));
+						If(login_rememberme, Call('login_username_box', 'SetInputLine(login_username);'));"
+				>
+					<label x="-12" y="-2" height="100%" width="105" textalign="right" textvalign="center" font="chat_10" color="#FFDA00">Remember Me:</label>
+					<panel y="-1" x="101" width="24" align="left">
+						<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" color="white"/>
+						<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="8"/>
+
+						<panel name="login_remember_nocheck" visible="true">
+							<button onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('login_remember_nocheck'); ShowWidget('login_remember_check'); Set('login_rememberme', 1); Call('login_username_box', 'Set(\'login_username\',this);'); SetFocusName('passbox');" color="invisible"/>
+						</panel>
+
+						<panel name="login_remember_check" visible="false">
+							<image x="-1" y="-1" width="16" height="16" align="center" valign="center" color="black" texture="/ui/elements/check.tga"/>	
+							<image width="16" height="16" align="center" valign="center" color="green" texture="/ui/elements/check.tga"/>			
+							<button onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); ShowWidget('login_remember_nocheck'); HideWidget('login_remember_check'); Set('login_rememberme', 0); SetFocusName('passbox');" color="invisible" />
+						</panel>									
+					</panel>		
+				</panel>			
+			</panel>		
+
+			<panel name="login_status_section" noclick="true">
+				<!-- Login button -->
+				<instance name="round_button2" x="-12" y="-12" width="90" height="30" align="right" valign="bottom" onclick="
+							PlaySound('/shared/sounds/ui/button_click.mp3');
+							HideWidget('failure');
+							HideWidget('login_success');
+							ShowWidget('logging_in');
+							Login();"  font="chat_13" label="Login" />
+			      <!-- Login failure -->
+				<panel name="failure" x="0" y="-6" width="-18" height="38" align="center" valign="bottom" visible="false">
+					<frame texture="/ui/frames/rounded_bg_white.tga" style="lobby_window_header_bg"/>
+					<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="8"/>
+					<label name="failure_label" align="center" valign="center" x="-45" y="-9" width="100%" height="18" textvalign="center" textalign="center" shadow="true" font="chat_16" color="red">Login Failed</label>
+					<label name="failure_label_reason" align="center" valign="center" x="-45" y="9" width="100%" height="12" textvalign="center" textalign="center" shadow="true" font="chat_10" color="yellow"/> 	
+
+					<panel name="retry_button"  x="-4" y="-4" width="90" height="30" align="right" valign="bottom">
+						<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+						<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+						<label width="100%" height="100" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="black" shadow="false">Retry</label>
+						<button color="invisible" onclick="PlaySound('/shared/sounds/ui/button_click.mp3'); HideWidget('failure'); HideWidget('login_success'); ShowWidget('logging_in'); Login();"/>
+					</panel>
+				</panel>		
+
+				<!-- Login progress -->
+				<panel name="logging_in" x="0" y="-6" width="-18" height="38" align="center" valign="bottom" visible="false">
+					<frame texture="/ui/frames/rounded_bg_white.tga" x="5" color="#2E1F00" borderthickness="18"/>
+					<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="8"/>
+					<label width="100%" height="100%" textvalign="center" textalign="center" shadow="true" font="chat_16" color="#FF9900">Logging In, Please Wait...</label>
+					<panel name="click_blocker" x="-8" y="-44" valign="bottom" width="358" height="116" noclick="false" blockinput="true" color="#000000AA" />
+				</panel>	
+
+				<panel name="login_success" x="0" y="-6" width="-18" height="38" align="center" valign="bottom" visible="false">			
+					<frame texture="/ui/frames/rounded_bg_white.tga" borderthickness="8" style="lobby_window_header_bg"/>
+					<frame texture="/ui/frames/roundframe.tga" color="#FFDA00" borderthickness="8"/>
+
+					<panel name="click_blocker" x="-8" y="-44" valign="bottom" width="358" height="116" noclick="false" blockinput="true" color="#000000AA" />
+
+					<panel visible="true">
+						<label align="center" x="-45" width="100%" height="100%" textvalign="center" textalign="center" shadow="true" font="chat_16" color="#00FF00">Login Complete</label>
+						<panel x="-4" y="-4" width="90" height="30" align="right" valign="bottom">
+							<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="white"/>
+							<frame texture="/ui/frames/roundframe.tga" color="gray" borderthickness="8"/>
+							<label width="100%" height="100" textvalign="center" textalign="center" valign="center" align="center" font="gametweener" color="black" shadow="false">Proceed</label>
+							<button
+								name="login_success_button"
+								color="invisible"
+								onclick="
+									PlaySound('/shared/sounds/ui/button_click.mp3');
+									Set(main_menu_active, 0);
+									If(login_rememberme, Call('login_username_box', 'Set(\'login_username\', this);'), Set('login_username', ''));
+									HideWidget('login_success');
+									HideWidget('failure');
+									HideWidget('account_login');
+									SetHostInterface('update');"
+								onenter="
+									Set(main_menu_active, 0);
+									If(login_rememberme, Call('login_username_box', 'Set(\'login_username\', this);'), Set('login_username', ''));
+									HideWidget('login_success');
+									HideWidget('account_login');
+									HideWidget('failure');
+									SetHostInterface('update');"
+							/>
+						</panel>
+					</panel>	
+				</panel>	
+			</panel>
+			
+			<!-- Title bar -->
+			<label width="-20" height="24" textvalign="center" align="center" font="chat_14" color="white" shadow="true">Savage 2 Account Login</label>
+			<button
+				name="close_login"
+				x="-12" y="7"
+				width="14" height="14"
+				align="right"
+				color="#FFFFFF99"
+				texture="/ui/elements/xbutton.tga"
+				onclick="
+					PlaySound('/shared/sounds/ui/button_close.mp3');
+					HideWidget('failure');
+					HideWidget('login_success');
+					HideWidget('account_login');"
+			/>
+		</panel>
+	</panel>
+</include>

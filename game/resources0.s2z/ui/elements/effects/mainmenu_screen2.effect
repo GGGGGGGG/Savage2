@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="main2">
+	<definitions>
+		<particlesystem name="system0" space="world">
+
+			<light
+				bone="Bip01"
+				color="1 0.5 0.2"
+				position="0 60 100"
+				falloffstart="150"
+				falloffend="220"
+				
+			/>
+
+		
+
+			<simpleemitter
+			bone="Bip01 Spine1"
+				spawnrate="150"
+				minparticlelife="0"
+				maxparticlelife="3500"
+				gravity="-1.0"
+				speed="35"
+				drag="0.04"
+				angle="90"		
+				material="/shared/effects/materials/spark.material"
+				offsetsphere="35 35 65"		
+				position="0 0 30"
+			>
+				<particle 
+					minangle="0" 
+					maxangle="360" 
+					minanglespeed="-30" 
+					color="0.8 0.3 0.15" 
+					maxanglespeed="60" 
+					minstartsize="2"
+					maxstartsize="3" 
+					endsize="0" 
+					startalpha="0" 
+					midalpha="1" 
+					endalpha="0" 
+					midalphapos=".2"
+					minheightdistort="0"
+					maxheightdistort="0.06"
+					startanchor="1.0" 
+					endanchor="0.4"
+				/>
+			</simpleemitter>
+			
+			
+		<simpleemitter
+			bone="pent"
+			spawnrate="1"
+			particlelife="3500"
+			gravity="-10"
+			speed="20"
+			drag="0.4"
+			offsetsphere="80 0 0"
+			acceleration="0.0"
+			position="-20 -200 -20"
+			material="/shared/effects/materials/fireball_3d.material"
+		>
+			<particle 
+				minngle="180"
+				maxangle="-180"
+				startframe="0"
+				endframe="1"
+				size="200"
+			/>
+		</simpleemitter>
+		
+		
+		
+			
+
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->
+
