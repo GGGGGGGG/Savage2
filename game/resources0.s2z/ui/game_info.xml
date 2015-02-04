@@ -1677,8 +1677,8 @@
 								Set(report_reason, StripChar('&amp;', report_reason)); 
 								Set(report_reason, StripChar('&amp;', report_reason)); 
 								Set(report_reason, StripChar('/', report_reason));  
-								HTTPGetFile('http://188.40.92.72/brogor/report_match.php?action=reportGame&amp;matchid='#Entity_NpcController_Description#'&amp;time='#cg_gameTime#'&amp;reporter='#Name#'&amp;reason=('#report_player_name#')'#report_reason#'&amp;spamtest=nospamplease&amp;name='#report_player_name#'', '~/webcache/reported'); 
-								HTTPGetFile('http://188.40.92.72/brogor/report_match.php?action=reportGame&amp;matchid='#Entity_NpcController_Description#'&amp;time='#cg_gameTime#'&amp;reporter='#Name#'&amp;reason=('#report_player_name#')'#report_reason#'&amp;spamtest=nospamplease&amp;name='#report_player_name#'', '~/webcache/reported'); 
+								HTTPGetFile('http://www.talesofnewerth.com/reports/report_match.php?action=reportGame&amp;matchid='#Entity_NpcController_Description#'&amp;time='#cg_gameTime#'&amp;reporter='#Name#'&amp;reason=('#report_player_name#')'#report_reason#'&amp;spamtest=nospamplease&amp;name='#report_player_name#'', '~/webcache/reported'); 
+								HTTPGetFile('http://www.talesofnewerth.com/reports/report_match.php?action=reportGame&amp;matchid='#Entity_NpcController_Description#'&amp;time='#cg_gameTime#'&amp;reporter='#Name#'&amp;reason=('#report_player_name#')'#report_reason#'&amp;spamtest=nospamplease&amp;name='#report_player_name#'', '~/webcache/reported'); 
 								Call('report_reason_textinput', 'ClearBufferText();');
 								Call('report_buffer', 'SetVisible(false);');
 								SetVisible(false);

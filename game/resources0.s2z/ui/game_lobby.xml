@@ -577,7 +577,7 @@
 						color="invisible"
 						textcolor="white"
 						watch1="GameChatTrigger"
-						ontrigger1="If(!chatnick, CreateString('chatnick', '')); If(!'Ignore_' # chatnick, CreateInt('Ignore_' # chatnick, 0)); Set('chatnick', SubString(param, SearchString(param, '] ', 0) + 4, SearchString(param, ':', 0) - SearchString(param, '] ', 0) - 4)); If(IsVisible(), If(!*('Ignore_' # chatnick), TextBufferCmd(param)));"
+						ontrigger1="If(!game_chat_nick, CreateString('game_chat_nick', '')); Set('game_chat_nick', SubString(param, SearchString(param, '] ', 0) + 4, SearchString(param, ':', 0) - SearchString(param, '] ', 0) - 4)); If(!StringEquals(game_chat_nick, 'Server Message'), If(!*('Ignore_' # game_chat_nick), Cmd('Set Ignore_' # game_chat_nick # ' false'))); If(IsVisible(), If(!*('Ignore_' # game_chat_nick), TextBufferCmd(param)));"
 						watch2="IRCChatTrigger"
 						ontrigger2="If(IsVisible(), TextBufferCmd(param));"
 						onload="CreateInt(name # 'LastUpdate', 0);"
