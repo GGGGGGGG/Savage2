@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="quills">
+	<definitions>
+		<particlesystem name="system0" space="entity">
+			
+		<model
+			bone="Bip01 Neck"
+			life="350"
+			model="/npcs/boar/effects/quill_strike.mdf"
+			anim="boar_range"
+			directionalspace="global"
+			yaw="180"
+			scale=".85"
+			startalpha="1"
+			midalpha="1"
+			midalphapos=".9"
+			endalpha="0"
+	
+		/>
+
+<model
+			bone="Bip01 Neck"
+			life="350"
+			model="/npcs/boar/effects/quill_strike.mdf"
+			anim="boar_range"
+			directionalspace="global"
+			yaw="150"
+			scale="1"
+			startalpha="1"
+			midalpha="1"
+			midalphapos=".9"
+			endalpha="0"
+	
+			
+			
+	
+		/>
+
+		<model
+			bone="Bip01 Neck"
+			life="350"
+			model="/npcs/boar/effects/quill_strike.mdf"
+			anim="boar_range"
+			directionalspace="global"
+			yaw="210"
+			scale=".85"
+			startalpha="1"
+			midalpha="1"
+			midalphapos=".9"
+			endalpha="0"
+	
+	
+		/>
+		
+				<model
+			bone="Bip01 Neck"
+			life="350"
+			model="/npcs/boar/effects/quill_strike.mdf"
+			anim="boar_range"
+			
+			scale="1.2"
+			directionalspace="global"
+			yaw="240"
+			position= "0 0 -1.5"
+			startalpha="1"
+			midalpha="1"
+			midalphapos=".9"
+			endalpha="0"
+	
+	
+		/>
+		
+		<model
+			bone="Bip01 Neck"
+			life="350"
+			model="/npcs/boar/effects/quill_strike.mdf"
+			anim="boar_range"
+			directionalspace="global"
+			scale=".55"
+			yaw="270"
+			startalpha="1"
+			midalpha="1"
+			midalphapos=".9"
+			endalpha="0"
+	
+	
+		/>
+		
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

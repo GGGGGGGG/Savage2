@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="ice_bolt_state">
+	<definitions>
+		<modifier
+			life="2000"
+			startcolor="1 2 4"
+			midcolor="1.0 2 4"
+			endcolor="1.0 1.0 1.0"
+			startalpha="1.0"
+			endalpha="1.0"
+		/>
+	</definitions>
+	<thread>
+		
+		<spawnmodifier instance="instance0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

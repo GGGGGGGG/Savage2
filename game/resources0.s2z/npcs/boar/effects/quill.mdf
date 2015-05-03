@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="boar_spine01.max" file="boar_projectile.model" type="K2" >
+<anim name="boar_projectile" clip="boar_projectile.clip" loop="true"  >
+	<frameevent frame="1" cmd="StartEffect /npcs/boar/effects/quill_trail.effect" />
+</anim>
+</model>

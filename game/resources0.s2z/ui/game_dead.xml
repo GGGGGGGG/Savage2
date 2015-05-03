@@ -234,7 +234,8 @@
 		float="bottom"
 		padding="1"
 		watch="KillNotification"
-		ontrigger="If(IsVisible(),Instantiate('death_msg_dead', 'message', param, 'time', GetTime()));"/>
+    ontrigger="SleepWidget(1);"
+		onwake="If(IsVisible(),Instantiate('death_msg_dead', 'message', KillNotification, 'time', GetTime()));"/>
 
 
 	

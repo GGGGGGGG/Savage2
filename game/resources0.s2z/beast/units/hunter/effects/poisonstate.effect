@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<effect name="">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<twopointemitter
+				bone_a="Bip01 L Hand" 
+				bone_b="_bone_wingTipsL" 
+				spawnrate="150"
+				particlelife="400"
+				offsetsphere="10"
+				material="/shared/effects/materials/spore_07.material"
+			>
+				<particle
+					startcolor="1 1 1"
+					midcolor="1 1 1"
+					endcolor="0"
+					minangle="0"
+					minanglespeed="-100"
+					maxanglespeed="300"
+					maxangle="360"
+					size="12"
+					startscale="1"
+					minendscale="1"
+					maxendscale="3"
+					anchor="1"
+				/>
+			</twopointemitter>
+		
+			<orbiteremitter
+				bone="Bip01 L Hand" 
+				spawnrate="65"
+				particlelife="600"
+				drag="0.1"
+				speed="1.00"
+				origin="0 0 5" 
+				orbit="5 5 15" 
+				direction="0 1 1" 
+				offset="3 3 3"
+				cylindrical="0" 
+				material="/shared/effects/materials/spore_06.material"
+			>
+				<particle
+					startcolor=".1 .5 .1"
+					endcolor="0 0 0"
+					startalpha="1"
+					midalpha="1"
+					endalpha="0"
+					midalphapos="0.2" 
+					size="13.0"
+					maxangle="360"
+					anchor="1"
+				/>
+
+			</orbiteremitter>
+
+			<twopointemitter
+				bone_a="Bip01 R Hand" 
+				bone_b="_bone_wingTipsR" 
+				spawnrate="150"
+				particlelife="400"
+				offsetsphere="10"
+				material="/shared/effects/materials/spore_07.material"
+			>
+				<particle
+					startcolor="1 1 1"
+					midcolor="1 1 1"
+					endcolor="0"
+					minangle="0"
+					minanglespeed="-100"
+					maxanglespeed="300"
+					maxangle="360"
+					size="12"
+					startscale="1"
+					minendscale="1"
+					maxendscale="3"
+					anchor="1"
+				/>
+			</twopointemitter>
+		
+			<orbiteremitter
+				bone="Bip01 R Hand" 
+				spawnrate="65"
+				particlelife="600"
+				drag="0.1"
+				speed="1.00"
+				origin="0 0 5" 
+				orbit="5 5 15" 
+				direction="0 1 1" 
+				offset="3 3 3"
+				cylindrical="0" 
+				material="/shared/effects/materials/spore_06.material"
+			>
+				<particle
+					startcolor=".1 .5 .1"
+					endcolor="0 0 0"
+					startalpha="1"
+					midalpha="1"
+					endalpha="0"
+					midalphapos="0.2" 
+					size="13.0"
+					maxangle="360"
+					anchor="1"
+				/>
+
+			</orbiteremitter>
+
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->

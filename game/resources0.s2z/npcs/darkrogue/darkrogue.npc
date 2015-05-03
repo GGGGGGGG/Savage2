@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc
+	type="Dark Rogue" 
+	description="A powerful mage-fighter leuitenant in the Hellbourne army, the Dark Rogue has been charged with guarding Scars throughout Newerth."
+	model="character.mdf"
+	scale="1.0"
+	width="45"
+	height="100" 
+	maxhealth="850" 
+	speed="350" 
+	experiencereward="100" 
+	goldreward="175" 
+	aggroradius="700" 
+	multiaggroproc="0.50" 
+	multiaggroradius="600" 
+	initialjob="guardpos"
+	hitbyrangedeffectpath="/shared/effects/ranged_impact_npc.effect" 
+	hitbymeleeeffectpath="/shared/effects/melee_impact_npc.effect"
+	iconpath="icon.tga"
+	itemdrop="0.5"
+	soul="1"
+	commanderscale="1.8"
+	commanderportrait="darkrogue_portrait.tga"
+>
+	<!-- Abilities -->
+	
+	<ability
+		name="Ring of Fire"
+		type="impulse"
+		attack="snap"
+		activation="2200"
+		impact="2200"
+		cooldown="25000"
+		range="350"
+		anim="ringoffire"
+		weight="8"
+	>
+		<effect
+			mindamage="100"
+			maxdamage="135"
+			duration="3000"
+			effect="/shared/effects/burn.effect"
+		/>
+		
+	</ability>
+	
+	<ability
+		name="Hell Fire"
+		type="impulse"
+		attack="snap"
+		activation="2200"
+		impact="2200"
+		cooldown="3000"
+		range="600"
+		anim="fireRoot"
+		weight="8"
+	>
+		<effect
+			mindamage="125"
+			maxdamage="150"
+			duration="1500"
+			effect="/shared/effects/burn.effect"
+		/>
+				
+	</ability>
+
+	<!-- Melee -->
+	<ability
+		name="Quick Attack"
+		type="impulse"
+		attack="snap"
+		impact="700"
+		activation="1000"
+		cooldown="1500"
+		attackheightmin="20"
+		attackheightmax="50"
+		attackwidthmin="-10"
+		attackwidthmax="10"
+		attackyawmin="-10"
+		attackyawmax="10"
+		range="100"
+		weight="20"
+		anim="quick_attack0"
+	>
+		<effect
+			mindamage="35"
+			maxdamage="49"
+			meleeimpact="true"
+		/>
+	</ability>
+	
+	<ability
+		name="Strong Attack"
+		type="impulse"
+		attack="snap"
+		impact="850"
+		activation="900"
+		cooldown="3000"
+		attackheightmin="10"
+		attackheightmax="80"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-25"
+		attackyawmax="25"
+		range="100"
+		weight="2"
+		anim="strong_attack0"
+	>
+		<effect
+			mindamage="85"
+			maxdamage="103"
+		/>
+	</ability>
+</npc>

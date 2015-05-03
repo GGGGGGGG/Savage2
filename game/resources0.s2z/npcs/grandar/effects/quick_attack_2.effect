@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="grandar_quick_attack_2">
+
+<definitions>
+	<particlesystem name="system0" space="entity">
+		<!-- Swoosh -->
+		<twopointtrailemitter
+		 life="130"
+		 bone_a="_bone_swoosh_a_r"
+		 bone_b="_bone_swoosh_b_r"
+		 spawnrate="500"
+		 particlelife="350"
+		 texpostime="130"
+		 texposscale="1.0"
+		 texstretchscale="0.0"
+		 material="/shared/effects/materials/swoosh.material"
+		 subframepose="true"
+		>
+            		<particle startalpha="1.0" midalpha="1.0" midalphapos="0.215" endalpha="0.0" color="1 1 1" endcolor="0 0 0"/>
+		</twopointtrailemitter>
+	</particlesystem>
+</definitions>
+<thread>
+	<spawnparticlesystem instance="instance0" particlesystem="system0" />
+	<waitfordeath instance="instance0" />
+	<!-- <die /> -->
+</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

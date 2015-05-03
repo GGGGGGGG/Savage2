@@ -20,7 +20,7 @@
 			align="right" valign="center"
 			onclick="
 				PlaySound('/shared/sounds/ui/button_click.mp3');
-				If(_replay_selected != -1, StartReplay(*('_replay_' # _replay_selected)));
+				If(_replay_selected != -1, Split(StartReplay(*('_replay_' # _replay_selected)), Exec('scripts/replaystart.cfg') ));
 				Call('replay_list', 'ListBoxCmd(\'clear\')');
 				Set(_replay_selected, -1);
 				HideWidget('replay_browser');

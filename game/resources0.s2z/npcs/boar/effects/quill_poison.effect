@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="modifier">
+	<definitions>
+		<modifier
+			life="1000"
+			startcolor="1.0 4.0 1.0"
+			midcolor="1.0 3.0 1.0"
+			endcolor="1.0 1.0 1.0"
+			startalpha="1.0"
+			endalpha="1.0"
+		/>
+	</definitions>
+	<thread>
+		<overlay startalpha="1" endalpha="0" duration="1000" material="/shared/effects/textures/poison_screen.tga"/>
+		<spawnmodifier instance="instance0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

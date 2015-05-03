@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="glide">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+			
+			<twopointtrailemitter
+				bone_a="Bip01 L Clavicle"
+				bone_b="Bip01 L Finger01"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>
+	
+			<twopointtrailemitter
+				bone_a="Bip01 R Clavicle"
+				bone_b="Bip01 R Finger01"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>
+	
+			<twopointtrailemitter
+				bone_a="Bip01 R Foot"
+				bone_b="Bip01 R Thigh"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>	
+
+			<twopointtrailemitter
+				bone_a="Bip01 L Foot"
+				bone_b="Bip01 L Thigh"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>		
+		
+			<twopointtrailemitter
+				bone_a="Bip01 Pelvis"
+				bone_b="Bip01 Head"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>			
+		
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="ranged1st_predburn">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<light
+				bone="Bip01 R Hand"
+				life="200"
+				startcolor="2 .6.0"
+				endcolor="1 .6 0"
+				position="0 00 10"
+				falloffend="100"
+				loop="true"
+			/>
+
+			<simpleemitter
+				bone="Bip01 R Hand"
+				spawnrate="10"
+				minparticlelife="600"
+				maxparticlelife="1800"
+				gravity="-0.8"
+				minspeed="0"
+				maxspeed="5"
+				drag=".07"
+				position="0 7 0"
+				angle="360"
+				material="/shared/effects/materials/fireball_3d.material"
+				offsetsphere="5 10 0"
+			>
+				<particle
+					minangle="0"
+					maxangle="45" 
+					minanglespeed="-45"
+					maxanglespeed="5"
+					startsize="15"
+					endsize="20"
+					startcolor="1 1 1"
+					midcolor="1 0.4 0.2"
+					endcolor="1 0.2 0.2"
+					midcolorpos=".1"
+					anchor="1"
+					startalpha="1"
+					endalpha="0"
+				/>
+				<particle
+					minangle="-45"
+					maxangle="0" 
+					minanglespeed="-45"
+					maxanglespeed="45"
+					startsize="10"
+					endsize="30"
+					startcolor="0.6 0.3 0.1"
+					midcolor="0.4 0.1 0.1"
+					endcolor="-1 -1 -1"
+					anchor="1"
+					startalpha="1"
+					endalpha="0"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 R Hand"
+				spawnrate="50"
+				minparticlelife="130"
+				maxparticlelife="700"
+				speed="15"
+				position="-3 6 2"
+				angle="360"
+				material="/shared/effects/materials/flame4_add.material"
+				offsetsphere="0 3 0"
+			>
+				<particle
+					minangle="-35"
+					maxangle="35" 
+					maxanglespeed="45"
+					startsize="8"
+					endsize="15"
+					startcolor="1 .6 .5"
+					endcolor="0 0 0"
+					anchor="1"
+				/>
+
+				<particle
+					minangle="-35"
+					maxangle="35" 
+					maxanglespeed="45"
+					startsize="5"
+					endsize="13"
+					startcolor=".8 .6 .4"
+					endcolor="0 0 0"
+					anchor="1"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 R Hand"
+				spawnrate="20"
+				minparticlelife="130"
+				maxparticlelife="700"
+				speed="5"
+				position="0 6 2"
+				angle="360"
+				material="/shared/effects/materials/spark.material"
+				offsetsphere="0 3 0"
+			>
+				<particle
+					minangle="-35"
+					maxangle="35" 
+					maxanglespeed="45"
+					startsize="15"
+					endsize="25"
+					startcolor="0.6 0.3 0.2"
+					endcolor="0 0 0"
+					anchor="1"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 R Hand"
+				spawnrate="10"
+				minparticlelife="130"
+				maxparticlelife="700"
+				speed="5"
+				position="0 8 -4"
+				angle="0"
+				material="/shared/effects/materials/flare1.material"
+				>
+				<particle
+					minangle="-35"
+					maxangle="35" 
+					maxanglespeed="45"
+					startsize="20"
+					endsize="25"
+					startcolor="0.6 0.4 0.2"
+					endcolor="0 0 0"
+					anchor="1"
+				/>
+			</simpleemitter>
+			
+			<simpleemitter
+			life="300"
+			loop="true"
+			spawnrate="10"
+			bone="Bip01 R Hand"
+			particlelife="400"	
+			delay="0"
+			gravity="-2"
+			minspeed="0"
+			maxspeed="20"
+			drag="0"
+			acceleration="1"
+			position="0 0 0"
+			minangle="0"
+			maxangle="0"
+			direction="0 0 0"
+			material="/shared/effects/materials/refract_wave.material"
+			offsetsphere="2 2 2"
+		>
+			<particle
+				startparam=".08"
+				endparam="0.0"
+				startcolor="1 1 1"
+				endcolor="1 1 1"
+				midcolorpos=".35"
+				minangle="-180"
+				maxangle="180"
+				minanglespeed="0"
+				maxanglespeed="50"
+				startalpha="0"
+				midalpha="1"
+				endalpha="0"
+				startsize="35"
+				endsize="20"
+				color=".8 .8 .8"
+				startanchor="1"
+				endanchor="0.5"
+			/>
+		</simpleemitter>
+
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->

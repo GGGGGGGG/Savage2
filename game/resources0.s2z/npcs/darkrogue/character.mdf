@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="Dark_Rogue_Rig_Final.max" file="character.model" type="K2" loddistance="1000">
+
+	<spawnevent cmd="starteffect /npcs/DarkRogue/effects/rogue.effect 0"/>
+
+	<anim name="block" clip="clips/block.clip"/>
+
+	<anim name="idle" clip="clips/idle.clip" fps="30" loop="true">
+		<startevent cmd="PlaySoundLooping /npcs/DarkRogue/sounds/idle.mp3 50 0.7 0 100 100"/>
+	</anim>
+	
+	<anim name="die" clip="clips/death.clip" loop="true" loopbackframe="27">
+		<frameevent frame="1" cmd="PlaySound /npcs/DarkRogue/sounds/death.mp3 120"/>
+		<startevent cmd="StopEffect 0"/>
+		<startevent cmd="StopSound 0"/>
+	</anim>
+	
+	<anim name="run_back" clip="clips/run_back.clip"  loop="true"/>
+	
+		<anim name="jump" clip="clips/jump.clip" fps="30" loop="true" numframes="30" loopbackframe="7"/>
+
+		<anim name="land" clip="clips/idle.clip" blendtime="100" fps="30">
+		<frameevent frame="1" cmd="StartEffect /shared/effects/land.effect"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 50 0.6"/>
+		<frameevent frame="2" cmd="PlaySound /human/units/scout/sounds/move_%.mp3 50 0.5"/>
+	</anim>
+		
+	<anim name="stunned" clip="clips/stunned.clip" blendtime="0" numframes="96" loop="true" loopbackframe="18">
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/impacts/block_2.mp3 120"/>
+		<frameevent frame="1" cmd="StartEffect /npcs/DarkRogue/effects/block_stunned.effect"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/stars.effect"/>				
+	</anim>
+
+	<anim name="quick_attack0" clip="clips/light_attack.clip" fps="100">
+		<frameevent frame="100" cmd="StartEffect /npcs/DarkRogue/effects/quick_attack_1.effect"/>
+		<frameevent frame="4" cmd="PlaySound /npcs/DarkRogue/sounds/attack_1.mp3 120"/>
+	</anim>
+	
+	<anim name="strong_attack0" clip="clips/str_atk.clip" fps="100">
+		<frameevent frame="77" cmd="StartEffect /npcs/DarkRogue/effects/strong_attack_1.effect"/>
+		<frameevent frame="30" cmd="PlaySound /npcs/DarkRogue/sounds/attack_2.mp3 120"/>
+	</anim>
+	
+	<anim name="fireRoot" clip="clips/range.clip">
+		<frameevent frame="11" cmd="StartEffect /npcs/DarkRogue/effects/fist.effect"/>
+		<frameevent frame="1" cmd="PlaySound /npcs/DarkRogue/sounds/fireroot.mp3 120"/>
+	</anim>
+	
+	<anim name="run_fwd" clip="clips/run_fwd.clip"  fps="30" loop="true"/>
+
+	<anim name="ringoffire" clip="clips/special.clip" fps="30">
+		<frameevent frame="1" cmd="StartEffect /npcs/DarkRogue/effects/sword.effect "/>
+		<frameevent frame="43" cmd="StartEffect /npcs/DarkRogue/effects/ringoffire.effect"/>
+		<frameevent frame="0" cmd="PlaySound /npcs/DarkRogue/sounds/ringoffire.mp3 150"/>
+	</anim>
+
+</model>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc
+	type="Grandar" 
+	description="A strong melee unit that has a stun ability."
+	model="character.mdf"
+	scale="1.0"
+	width="40"
+	height="80" 
+	maxhealth="450" 
+	speed="300"
+	armor="5"
+	experiencereward="50" 
+	goldreward="115" 
+	aggroradius="800" 
+	multiaggroproc="0.2" 
+	multiaggroradius="300" 
+	initialjob="guardpos"
+	hitbyrangedeffectpath="/shared/effects/ranged_impact_npc.effect" 
+	hitbymeleeeffectpath="/shared/effects/melee_impact_npc.effect" 
+	iconpath="icon.tga"
+	itemdrop="0.4"
+	commanderscale="1.8"
+	commanderportrait="grandar_portrait.tga"
+>
+	<!-- Abilities -->
+	
+	<ability
+		name="Shield Bash"
+		type="impulse"
+		attack="snap"
+		activation="1150"
+		impact="400"
+		cooldown="20000"
+		range="80"
+		anim="shieldbash"
+		attackheightmin="1"
+		attackheightmax="60"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-30"
+		attackyawmax="30"
+		weight="2"
+	>
+		<effect
+			mindamage="35"
+			maxdamage="47"
+			duration="1500"
+			anim="stunned"
+			stun="true"
+			icon="shield_bash_icon.tga"
+		/>
+	</ability>
+
+	<!-- Melee -->
+	<ability
+		name="Quick Attack"
+		type="impulse"
+		attack="snap"
+		impact="150"
+		activation="400"
+		cooldown="1750"
+		attackheightmin="1"
+		attackheightmax="80"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-10"
+		attackyawmax="50"
+		range="150"
+		weight="20"
+		anim="quick_attack0"
+	>
+		<effect
+			mindamage="35"
+			maxdamage="43"
+			meleeimpact="true"
+		/>
+	</ability>
+	
+	<ability
+		name="Strong Attack"
+		type="impulse"
+		attack="snap"
+		impact="800"
+		activation="1200"
+		cooldown="4500"
+		attackheightmin="1"
+		attackheightmax="120"
+		attackwidthmin="-10"
+		attackwidthmax="10"
+		attackyawmin="-20"
+		attackyawmax="20"
+		range="80"
+		weight="8"
+		anim="strong_attack0"
+	>
+		<effect
+			mindamage="65"
+			maxdamage="80"
+			meleeimpact="true"
+		/>
+	</ability>
+</npc>

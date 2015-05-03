@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="ghostface">
+	<definitions>
+		<particlesystem name="system0" space="world">
+
+		
+		
+	
+		
+		<simpleemitter
+			
+			count="4"
+			life="1000"
+			spawnrate="20"
+			particlelife="1500"
+			
+			
+			gravity="0"
+			speed="800"
+			drag="0"
+			acceleration="0.0"
+			position="0 0 50"
+			minangle="0"
+			maxangle="0"
+			direction="0 0 0"
+			material="/shared/effects/materials/smokey_skull.material"
+			offsetsphere="0 0 0"
+			
+			
+		>
+			<particle
+				minangle="0"
+				maxangle="0"
+				minanglespeed="0"
+				startcolor="0 0 0"
+				midcolor=".2 0 0"
+				endcolor="0 0 0"
+				maxanglespeed="0"
+				startframe="0"
+				endframe="1"
+				size="5"
+				startscale="20"
+				endscale="60"
+				midcolorpos=".5"
+				startalpha="0"
+				
+				midalpha=".5"
+				endalpha="0"
+
+				
+				
+			/>
+		</simpleemitter>
+		
+		<simpleemitter
+			
+			count="20"
+			life="1000"
+			spawnrate="100"
+			particlelife="1500"
+			
+			
+			gravity="0"
+			speed="300"
+			drag=".01"
+			acceleration="0.0"
+			position="0 0 50"
+			angle="360"
+			
+			direction="0 0 0"
+			material="/shared/effects/materials/dust.material"
+			offsetsphere="0 0 150"
+			
+			
+		>
+			<particle
+				minangle="0"
+				maxangle="180"
+				minanglespeed="0"
+				startcolor="0 0 0"
+				midcolor="0 0 0"
+				endcolor="0 0 0"
+				maxanglespeed="50"
+				startframe="0"
+				endframe="1"
+				size="8"
+				startscale="20"
+				endscale="40"
+				midcolorpos=".5"
+				startalpha="0"
+				
+				midalpha=".4"
+				endalpha="0"
+
+				
+				
+			/>
+		</simpleemitter>
+
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+        
+      </particlesystem>
+   </definitions>
+   <thread>
+      <spawnparticlesystem instance="instance0" particlesystem="system0" />
+      <waitfordeath instance="instance0" />
+      <!-- <die /> -->
+   </thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->
+
+
+	

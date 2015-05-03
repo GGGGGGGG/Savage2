@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="icebolt">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<light
+				life="3000"
+				startcolor="0 0 0"
+				midcolor="2 2.3 3"
+				endcolor="0 0 0"
+				midcolorpos=".5"			
+				fall="60"
+				position="20 20 40"						
+				timenudge="-1500"
+			/>		
+
+			<simpleemitter
+				bone="Bip01 R Finger0"
+				spawnrate="200"
+				particlelife="500"
+				count="80"
+				timenudge="-1200"
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="1 1.0 1.0"
+					endcolor="0.0 0.0 0.0"
+					midcolor="0 .4 1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="0"
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="20.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 L Finger0"
+				spawnrate="200"
+				particlelife="500"
+				count="80"
+				timenudge="-1200"
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="1 1.0 1.0"
+					endcolor="0.0 0.0 0.0"
+					midcolor="0 .4 1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="0"
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="20.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 L Finger0"
+				spawnrate="100"
+				particlelife="500"
+				count="50"
+				timenudge="-1500"
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="1 1.0 1.0"
+					endcolor="0.0 0.0 0.0"
+					midcolor="0 .4 1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="100.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 R Finger0"
+				particlelife="200"
+				spawnrate="22"
+				life="1400"
+				offsetsphere="5 5 5"
+				material="/shared/effects/materials/flare1.material"
+			>
+				<particle
+					startcolor="0 .4 1"
+					endcolor=".2 .5 2"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+					startsize="4"
+					endsize="85"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 R Finger0"
+				particlelife="1200"
+				spawnrate="12"
+				life="1000"
+				offsetsphere="5 5 5"
+				material="/shared/effects/materials/whitedot.material"
+			>
+				<particle
+					startcolor="0 .4 1"
+					endcolor=".2 .5 2"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+					startsize="0"
+					endsize="55"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 L Finger0"
+				particlelife="200"
+				spawnrate="22"
+				life="1400"
+				offsetsphere="5 5 5"
+				material="/shared/effects/materials/flare1.material"
+			>
+				<particle
+					startcolor="0 .4 1"
+					endcolor=".2 .5 2"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+					startsize="4"
+					endsize="85"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 L Finger0"
+				particlelife="1200"
+				spawnrate="12"
+				life="1000"
+				offsetsphere="5 5 5"
+				material="/shared/effects/materials/whitedot.material"
+			>
+				<particle
+					startcolor="0 .4 1"
+					endcolor=".2 .5 2"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+					startsize="0"
+					endsize="55"
+				/>
+			</simpleemitter>
+
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="ranged3d_predburn">
+	<definitions>
+		<particlesystem name="system0" space="world">
+
+
+<light
+life="200"
+startcolor="2 .8.0"
+endcolor=".5 .2 0"
+position="0 30 50"
+falloffend="200"
+loop="false"
+
+/>
+
+	
+
+
+		
+
+		<simpleemitter
+			life="400"
+			bone="Bip01 R Hand"
+			spawnrate="80"
+			particlelife="700"
+			
+			
+			gravity="-2"
+			minspeed="0"
+			maxspeed="30"
+			drag=".01"
+			acceleration="0"
+			position="0 7 0"
+			minangle="0"
+			maxangle="90"
+			direction="0 -1 5"
+			material="/shared/effects/materials/flame.material"
+			offsetsphere="5 5 5 "
+		>
+			<particle
+				minangle="0"
+				maxangle="180" 
+				minanglespeed="-10"
+				maxanglespeed="10"
+				startframe="0"
+				endframe="1"
+				startsize="82"
+				endsize="1"
+				startcolor="0 0 0"
+				midcolor=".6 .4 .3"
+				endcolor=".3 0 0"
+				midcolorpos=".1"
+				startanchor="1"
+				endanchor="0.0"
+			/>
+		</simpleemitter>
+		
+		
+		
+	
+		
+		
+
+        
+      </particlesystem>
+   </definitions>
+   <thread>
+      <spawnparticlesystem instance="instance0" particlesystem="system0" />
+      <waitfordeath instance="instance0" />
+      <!-- <die /> -->
+   </thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->

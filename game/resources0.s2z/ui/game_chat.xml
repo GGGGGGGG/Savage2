@@ -3,12 +3,22 @@
 	<!-- Chat -->
 	<template name="game_chat_window">
 		<panel name="{interface}_chatwindow" noclick="true" blockinput="false" x="{xoffset}" y="{yoffset}" width="{bufferwidth=800}" valign="bottom" height="{bufferheight=345}" borderthickness="8" texture="/ui/elements/stoneborder.tga" color="invisible" onshow="If(!StringEquals(GetCurrentChatMessage(), ''), SetFocusName('{interface}_chat_' # GetCurrentChatType() # '_input'), SetFocusName('NULL'));">
-			<textbuffer name="{interface}_chat_box" y="3%" height="94%" align="center"  textalign="left" font="chat_12" noclick="true" blockinput="false" fadecolor="white" color="invisible" textcolor="white" shadow="true" shadowcolor="black" width="96%" wrap="true" anchorbottom="true" usesmileys="true" fadetime="15000" usescrollbar="false" watch1="GameChatTrigger" ontrigger1="If(!game_chat_nick, CreateString('game_chat_nick', '')); Set('game_chat_nick', SubString(param, SearchString(param, '] ', 0) + 4, SearchString(param, ':', 0) - SearchString(param, '] ', 0) - 4)); If(!StringEquals(game_chat_nick, 'Server Message'), If(!*('Ignore_' # game_chat_nick), Cmd('Set Ignore_' # game_chat_nick # ' false'))); If(IsVisible(), If(!*('Ignore_' # game_chat_nick), TextBufferCmd(param)));" watch2="IRCChatTrigger" ontrigger2="If(IsVisible(), TextBufferCmd(param));" onload="CreateInt(name # 'LastUpdate', 0);" onshow="TriggerChatEvents(*(name # 'LastUpdate'));" onhide="Set(name # 'LastUpdate', GetTime());"/>
+			<textbuffer name="{interface}_chat_box" y="3%" height="94%" align="center"  textalign="left" font="chat_12" noclick="true" blockinput="false" fadecolor="white" color="invisible" textcolor="white" shadow="true" shadowcolor="black" width="96%" wrap="true" anchorbottom="true" usesmileys="true" fadetime="15000" usescrollbar="false" watch1="GameChatTrigger" ontrigger1="
+Set('game_chat_nick', SubString(param, SearchString(param, '] ', 0) + 4, SearchString(param, ':', 0) - SearchString(param, '] ', 0) - 4));
+If(SearchString(game_chat_ignore_list, game_chat_nick # ',', 0) lt 0, 
+  If(IsVisible(), TextBufferCmd(param))
+);
+" watch2="IRCChatTrigger" ontrigger2="If(IsVisible(), TextBufferCmd(param));" onload="CreateInt(name # 'LastUpdate', 0);" onshow="TriggerChatEvents(*(name # 'LastUpdate'));" onhide="Set(name # 'LastUpdate', GetTime());"/>
 			
 			<panel name="{interface}_chat_box_popup" noclick="true" blockinput="false" visible="false">
 				<panel color="#00000099" y="3%" x="-1%" height="96%" align="center" width="98%"/>
 				<frame name="{interface}_popup_frame" borderthickness="4" y="3%" x="-1%" height="96%" align="center" width="98%" texture="/ui/elements/stoneborder.tga" color="red"/>
-				<textbuffer name="{interface}_chat_box_popup_text" y="3%" height="94%" align="center" width="96%" textalign="left" font="chat_12" fadecolor="white" color="invisible" textcolor="white" shadow="true" shadowcolor="black" wrap="true" anchorbottom="true" usesmileys="true" usescrollbar="false" watch1="GameChatTrigger" ontrigger1="If(!game_chat_nick, CreateString('game_chat_nick', '')); Set('game_chat_nick', SubString(param, SearchString(param, '] ', 0) + 4, SearchString(param, ':', 0) - SearchString(param, '] ', 0) - 4)); If(!StringEquals(game_chat_nick, 'Server Message'), If(!*('Ignore_' # game_chat_nick), Cmd('Set Ignore_' # game_chat_nick # ' false'))); If(!*('Ignore_' # game_chat_nick), TextBufferCmd(param));" watch2="IRCChatTrigger" ontrigger2="TextBufferCmd(param);"/>
+				<textbuffer name="{interface}_chat_box_popup_text" y="3%" height="94%" align="center" width="96%" textalign="left" font="chat_12" fadecolor="white" color="invisible" textcolor="white" shadow="true" shadowcolor="black" wrap="true" anchorbottom="true" usesmileys="true" usescrollbar="false" watch1="GameChatTrigger" ontrigger1="
+Set('game_chat_nick', SubString(param, SearchString(param, '] ', 0) + 4, SearchString(param, ':', 0) - SearchString(param, '] ', 0) - 4));
+If(SearchString(game_chat_ignore_list, game_chat_nick # ',', 0) lt 0, 
+  TextBufferCmd(param)
+);
+" watch2="IRCChatTrigger" ontrigger2="TextBufferCmd(param);"/>
 			</panel>
 			
 			<frame name="{interface}_textbox_frame"  visible="false" y="26" x="2%" width="{entrywidth=512}" valign="bottom" align="left" height="26" borderthickness="8" texture="/ui/elements/stoneborder.tga" color="red">
@@ -19,9 +29,81 @@
 
 				<image name="{interface}_chat_seperator" y="0" x="11%" width="8" height="100%" texture="/ui/elements/stoneborder_r.tga"/>
 
-				<textbox name="{interface}_chat_team_input" y="5" x="13%" height="50%" align="left" color="invisible" font="chat_10" textcolor="white" shadow="true" shadowcolor="black" width="86%" visible="false" onshow="SetInputLine(GetCurrentChatMessage());" onfocus="ShowWidget(); ShowWidget(name # '_label'); ShowWidget('{interface}_textbox_frame'); SetCurrentChatType('team');" onlosefocus="HideWidget(); HideWidget(name # '_label'); HideWidget('{interface}_textbox_frame'); ClearCurrentChatMessage();" onenter="TeamChat(this); SetFocus(false); ClearCurrentChatMessage();" onesc="SetFocus(false);" onchange="SetCurrentChatMessage(this);"/>
-				<textbox name="{interface}_chat_all_input" y="5" x="13%" height="50%" align="left" color="invisible" font="chat_10" textcolor="white" shadow="true" shadowcolor="black" width="86%" visible="false" onshow="Set('param', GetCurrentChatMessage()); SetInputLine(GetCurrentChatMessage());" onfocus="ShowWidget(); ShowWidget(name # '_label'); ShowWidget('{interface}_textbox_frame'); SetCurrentChatType('all');" onlosefocus="HideWidget(); HideWidget(name # '_label'); HideWidget('{interface}_textbox_frame'); ClearCurrentChatMessage();" onenter="AllChat(this); SetFocus(false); ClearCurrentChatMessage();" onesc="SetFocus(false);" onchange="SetCurrentChatMessage(this);"/>
-				<textbox name="{interface}_chat_squad_input" y="5" x="13%" height="50%" align="left" color="invisible" font="chat_10" textcolor="white" shadow="true" shadowcolor="black" width="86%" visible="false" onshow="SetInputLine(GetCurrentChatMessage());" onfocus="ShowWidget(); ShowWidget(name # '_label'); ShowWidget('{interface}_textbox_frame'); SetCurrentChatType('squad');" onlosefocus="HideWidget(); HideWidget(name # '_label'); HideWidget('{interface}_textbox_frame'); ClearCurrentChatMessage();" onenter="SquadChat(this); SetFocus(false); ClearCurrentChatMessage();" onesc="SetFocus(false);" onchange="SetCurrentChatMessage(this);"/>
+				<textbox name="{interface}_chat_team_input" y="5" x="13%" height="50%" align="left" color="invisible" font="chat_10" textcolor="white" shadow="true" shadowcolor="black" width="86%" visible="false" onshow="SetInputLine(GetCurrentChatMessage());" onfocus="ShowWidget(); ShowWidget(name # '_label'); ShowWidget('{interface}_textbox_frame'); SetCurrentChatType('team');" onlosefocus="HideWidget(); HideWidget(name # '_label'); HideWidget('{interface}_textbox_frame'); ClearCurrentChatMessage();" onenter="
+Cmd('set isIgnoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 6),'ignore', 0) gt -1, Cmd('set isIgnoreCmd true'));
+
+If(isIgnoreCmd, Set('ignore_nick', SubString(GetCurrentChatMessage(), 7, -1)));
+If(isIgnoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) lt 0,
+    Set('game_chat_ignore_list', game_chat_ignore_list # ',' # ignore_nick # ',')
+  )
+);
+
+Cmd('set isUnignoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 8),'unignore', 0) gt -1, Cmd('set isUnignoreCmd true'));
+
+If(isUnignoreCmd, Set(ignore_nick, SubString(GetCurrentChatMessage(), 9, -1)));
+If(isUnignoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) gt -1,
+    Set(game_chat_ignore_list, 
+      SubString(game_chat_ignore_list, 0, SearchString(game_chat_ignore_list, ignore_nick # ',', 0) - 1) # 
+      SubString(game_chat_ignore_list, SearchString(game_chat_ignore_list, ',', SearchString(game_chat_ignore_list, ignore_nick # ',', 0)), -1)
+    )
+  )
+); 
+
+TeamChat(this); SetFocus(false); ClearCurrentChatMessage();" onesc="SetFocus(false);" onchange="SetCurrentChatMessage(this);"/>
+				<textbox name="{interface}_chat_all_input" y="5" x="13%" height="50%" align="left" color="invisible" font="chat_10" textcolor="white" shadow="true" shadowcolor="black" width="86%" visible="false" onshow="Set('param', GetCurrentChatMessage()); SetInputLine(GetCurrentChatMessage());" onfocus="ShowWidget(); ShowWidget(name # '_label'); ShowWidget('{interface}_textbox_frame'); SetCurrentChatType('all');" onlosefocus="HideWidget(); HideWidget(name # '_label'); HideWidget('{interface}_textbox_frame'); ClearCurrentChatMessage();" onenter="
+Cmd('set isIgnoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 6),'ignore', 0) gt -1, Cmd('set isIgnoreCmd true'));
+
+If(isIgnoreCmd, Set('ignore_nick', SubString(GetCurrentChatMessage(), 7, -1)));
+If(isIgnoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) lt 0,
+    Set('game_chat_ignore_list', game_chat_ignore_list # ',' # ignore_nick # ',')
+  )
+);
+
+Cmd('set isUnignoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 8),'unignore', 0) gt -1, Cmd('set isUnignoreCmd true'));
+
+If(isUnignoreCmd, Set(ignore_nick, SubString(GetCurrentChatMessage(), 9, -1)));
+If(isUnignoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) gt -1,
+    Set(game_chat_ignore_list, 
+      SubString(game_chat_ignore_list, 0, SearchString(game_chat_ignore_list, ignore_nick # ',', 0) - 1) # 
+      SubString(game_chat_ignore_list, SearchString(game_chat_ignore_list, ',', SearchString(game_chat_ignore_list, ignore_nick # ',', 0)), -1)
+    )
+  )
+); 
+
+AllChat(this); SetFocus(false); ClearCurrentChatMessage();" onesc="SetFocus(false);" onchange="SetCurrentChatMessage(this);"/>
+				<textbox name="{interface}_chat_squad_input" y="5" x="13%" height="50%" align="left" color="invisible" font="chat_10" textcolor="white" shadow="true" shadowcolor="black" width="86%" visible="false" onshow="SetInputLine(GetCurrentChatMessage());" onfocus="ShowWidget(); ShowWidget(name # '_label'); ShowWidget('{interface}_textbox_frame'); SetCurrentChatType('squad');" onlosefocus="HideWidget(); HideWidget(name # '_label'); HideWidget('{interface}_textbox_frame'); ClearCurrentChatMessage();" onenter="
+Cmd('set isIgnoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 6),'ignore', 0) gt -1, Cmd('set isIgnoreCmd true'));
+
+If(isIgnoreCmd, Set('ignore_nick', SubString(GetCurrentChatMessage(), 7, -1)));
+If(isIgnoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) lt 0,
+    Set('game_chat_ignore_list', game_chat_ignore_list # ',' # ignore_nick # ',')
+  )
+);
+
+Cmd('set isUnignoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 8),'unignore', 0) gt -1, Cmd('set isUnignoreCmd true'));
+
+If(isUnignoreCmd, Set(ignore_nick, SubString(GetCurrentChatMessage(), 9, -1)));
+If(isUnignoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) gt -1,
+    Set(game_chat_ignore_list, 
+      SubString(game_chat_ignore_list, 0, SearchString(game_chat_ignore_list, ignore_nick # ',', 0) - 1) # 
+      SubString(game_chat_ignore_list, SearchString(game_chat_ignore_list, ',', SearchString(game_chat_ignore_list, ignore_nick # ',', 0)), -1)
+    )
+  )
+); 
+
+SquadChat(this); SetFocus(false); ClearCurrentChatMessage();" onesc="SetFocus(false);" onchange="SetCurrentChatMessage(this);"/>
 			</frame>
 		</panel>		
 	</template>

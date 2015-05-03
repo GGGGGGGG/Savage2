@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="bat.max" file="hunterBat.model" type="K2">
+
+	<anim name="idle" clip="hunterBat.clip" loopbackframe="26" startframe="1" loop="true" numframes="36" fps="17">
+		<startevent cmd="PlaySound /beast/units/hunter/sounds/bat_summon.mp3 100 1"/>
+		<startevent  cmd="StartEffect /beast/units/shapeshifter/weapons/sentry_idle.effect"/>
+		<frameevent frame="1" cmd="PlaySoundLooping /beast/units/hunter/sounds/bat_wingflap.mp3 50 0.8 0"/>
+	</anim>
+	<anim name="death" clip="hunterBat.clip" startframe="38" loopbackframe="80" loop="true" numframes="42">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/hunter/sounds/bat_death.mp3 50 1"/>
+	</anim>
+	<anim name="die" clip="hunterBat.clip" startframe="38" loopbackframe="80" loop="true" numframes="42">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/hunter/sounds/bat_death.mp3 50 1"/>
+	</anim>
+</model>

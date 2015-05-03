@@ -495,6 +495,10 @@ If(cc_{id}{nick}_Y+20 gt vid_height-90,Split(Set('cc_{id}{nick}_X',{x=36}+1),Set
 	</panel>
 	<!-- END BG Blocker -->
 
+	<!-- Delayed Widget Commands -->
+  <panel name="dwc" width="0" height="0" onwake="Cmd(_widgetdo);"/>
+	<!-- END Delayed Widget Commands -->
+
 	<!-- Messages -->
 	<panel x="-50" y="-50" width="400" height="22" name="cc_msg" watch="ChatNotificationVisibility" ontrigger="SetVisible(param != 0);" color="invisible" align="right" valign="bottom" noclick="true">
 		<frame texture="/ui/frames/rounded_bg_white.tga" watch="ChatNotificationVisibility" ontrigger="SetColor(0, 0, 0.8, param); SetBorderColor(0, 0, 0.8,param);" borderthickness="6" noclick="true"/>
@@ -502,5 +506,5 @@ If(cc_{id}{nick}_Y+20 gt vid_height-90,Split(Set('cc_{id}{nick}_X',{x=36}+1),Set
 		<label width="96%" align="center" textalign="center" textvalign="center" wrap="1" font="chat_10" watch="ChatNotificationVisibility ChatNotificationMessage" onload="CreateString('_last');" ontrigger="SetColor(0.854,0.878,0.890,ChatNotificationVisibility); SetText(SubString(ChatNotificationMessage,0,70)#If(StringLength(ChatNotificationMessage) gt 70, '...', ''));" shadow="true" noclick="true" />
 	</panel>
 	<!-- END Messages -->
-
+  
 </interface>

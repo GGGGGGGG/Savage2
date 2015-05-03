@@ -34,14 +34,14 @@
 				<instance name="connect_step" watch="HostConnectAuthenticate" label="Waiting for authorization"/>
 			</frame>
 			
-			<!--instance
+			<instance
 				name="round_button2"
 				y="-4%"
 				width="30%" height="15%"
 				align="center" valign="bottom"
 				font="dyn_12" label="Cancel"
-				onclick="StopClient(); If(IsLoggedIn(), SetHostInterface('browser'), SetHostInterface('main'));;"
-			/-->
+				onclick="Cmd('disconnect');"
+			/>
 		</panel>
 		
 		<!-- Progress bar -->

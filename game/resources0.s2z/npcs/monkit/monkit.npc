@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc
+	type="Monkit" 
+	description="A primitive create, the monkit relies on his rudimentary spear to damage those who threaten his tribe."
+	model="character.mdf"
+	scale="2.0"
+	width="25"
+	height="40" 
+	maxhealth="250" 
+	speed="190" 
+	experiencereward="35" 
+	goldreward="60" 
+	aggroradius="125" 
+	multiaggroproc="0.7" 
+	multiaggroradius="200" 
+	initialjob="guardpos"
+	hitbyrangedeffectpath="/shared/effects/ranged_impact_npc.effect" 
+	hitbymeleeeffectpath="/shared/effects/melee_impact_npc.effect"
+	iconpath="icon.tga"
+	itemdrop="0.2"
+	commanderscale="1.8"
+	commanderportrait="chiprell_portrait.tga"
+>
+	<!-- Abilities -->
+
+  <!-- Melee -->
+  <ability
+		name="Quick Attack"
+		type="impulse"
+		attack="snap"
+		impact="150"
+		activation="400"
+		cooldown="1750"
+		attackheightmin="1"
+		attackheightmax="80"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-10"
+		attackyawmax="50"
+		range="150"
+		weight="20"
+		anim="melee"
+	>
+    <effect
+			mindamage="35"
+			maxdamage="43"
+			meleeimpact="true"
+		/>
+  </ability>
+	
+</npc>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="sound">
+	<definitions>
+		<particlesystem name="system0" space="world">
+
+			<sound
+				bone="_bone_swoosh_b_l"
+				falloff="100.0" 
+				volume="1" 
+				sample="/beast/units/hunter/sounds/attack_2.mp3"
+			/>
+
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

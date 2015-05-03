@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc
+	type="Eyebolt" 
+	description="Often seen floating around numerous underground cave systems, Eyebolts are considered to be mysterious creatures absorbing energie from various sources where ever they go."
+	model="character.mdf"
+	scale="0.5"
+	width="30"
+	height="40" 
+	maxhealth="220" 
+	speed="260" 
+	experiencereward="20" 
+	goldreward="25" 
+	aggroradius="100" 
+	multiaggroproc="0.70" 
+	multiaggroradius="700" 
+	initialjob="guardpos"
+	hitbyrangedeffectpath="/shared/effects/ranged_impact_npc.effect" 
+	hitbymeleeeffectpath="/shared/effects/melee_impact_npc.effect"
+	iconpath="icon_new.tga"
+	itemdrop="0.5"
+	soul="0"
+	commanderscale="1.6"
+	commanderportrait="icon_new.tga"
+>
+	<!-- Abilities -->
+	
+	<!-- Ice Bolt -->
+	<ability
+		name="zap bolt"
+		type="impulse"
+		attack="projectile"
+		activation="1700"
+		impact="1500"
+		cooldown="950"
+		range="1200"
+		weight="25"
+		anim="range"
+	>
+		<projectile
+			speed="5000" 
+			life="800" 
+			model="effects/ice_bolt.mdf"
+			traileffect="effects/ice_bolt_trail.effect"
+			deatheffect="effects/ice_bolt_impact.effect"
+		/>
+		<effect
+			mindamage="15"
+			maxdamage="22"
+			duration="2000"
+			speedmult="0.75"
+			effect="effects/ice_bolt_state.effect"
+			icon="icon.tga"
+		/>
+	</ability>
+	
+	<ability
+		name="pause"
+		type="impulse"
+		attack="snap"
+		impact="850"
+		activation="400"
+		cooldown="19000"
+		attackheightmin="10"
+		attackheightmax="80"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-25"
+		attackyawmax="25"
+		range="900"
+		weight="2"
+		anim="strong_attack0"
+	>
+		<effect
+			mindamage="0"
+			maxdamage="0"
+		/>
+	</ability>
+</npc>

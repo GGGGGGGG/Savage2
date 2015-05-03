@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="ranged1_trail_pred" deferred="true">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<light
+				minlife="50"
+				maxlife="500"
+				loop="true"
+				startcolor="1 0.55 0"
+				endcolor="0 0 0"
+				position="0 0 0"
+				falloffend="350"
+			/>
+
+
+			<simpleemitter
+				spawnrate="270"
+				particlelife="400"
+				gravity="1"
+				speed="10"
+				drag="0"
+				acceleration="0.0"
+				position="0 0 0"
+				inheritvelocity="0"	
+				material="/shared/effects/materials/spark.material"
+				offsetsphere="0 0 0"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					minanglespeed="-30"
+					startcolor="1 .4 .3"
+					midcolor=".6 .3 .2"
+					endcolor="0 0 0"
+					maxanglespeed="80"
+					startframe=".5"
+					endframe="1"
+					startsize="25"
+					endsize="1"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					midalphapos=".2"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				spawnrate="160"
+				particlelife="400"
+				gravity="0"
+				speed="50"
+				drag="0"
+				acceleration="0.0"
+				position="0 0 0"
+				inheritvelocity="0"	
+				material="/shared/effects/materials/flame4_add.material"
+				offsetsphere="0 0 0"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					minanglespeed="-30"
+					startcolor=".7 .4 .1"
+					endcolor="0 0 0"
+					maxanglespeed="30"
+					startframe=".5"
+					endframe="1"
+					startsize="15"
+					endsize="35"
+					startalpha="0"
+					midalpha=".7"
+					endalpha="0"
+					midalphapos=".1"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				spawnrate="20"
+				particlelife="600"
+				material="/shared/effects/materials/spark.material"
+				offsetsphere="15 9 5"
+				speed="180"
+			>
+				<particle 
+					minangle="-180"
+					maxangle="180"
+					startcolor="1 0.6 0.6"
+					midcolor="0.8 0.5 0.45"
+					endcolor="1 0.5 -0.3"
+					minanglespeed="-30"
+					maxanglespeed="30"
+					startsize="20"
+					endsize="10"
+					minscale="0.5"
+					maxscale="1.1"
+					startalpha="1"
+					endalpha="0"
+					anchor="1"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				spawnrate="15"
+				minparticlelife="200"
+				maxparticlelife="400"
+				speed="0"
+				material="/shared/effects/materials/spark.material"
+				offsetsphere="6 12 2"
+			>
+				<particle 
+					minangle="-180"
+					maxangle="180"
+					startcolor="1 0.95 0.90"
+					endcolor="0.60 0.50 0.20"
+					midcolorpos=".3"
+					maxanglespeed="30"
+					startsize="20"
+					endsize="25"
+					minscale="1.3"
+					maxscale="2"
+					startalpha="0.2"
+					endalpha="0.1"
+					anchor="1"
+				/>
+			</simpleemitter>
+
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->

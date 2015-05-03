@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc
+	type="Demon Boar" 
+	description="He will mess you up big time with his tusks."
+	model="character.mdf"
+	scale="1.0"
+	width="60"
+	height="40" 
+	maxhealth="300" 
+	speed="350" 
+	experiencereward="25" 
+	goldreward="40" 
+	armor="3"
+	aggroradius="150" 
+	multiaggroproc="0.20" 
+	multiaggroradius="500" 
+	initialjob="guardpos"
+	hitbyrangedeffectpath="/shared/effects/ranged_impact_npc.effect" 
+	hitbymeleeeffectpath="/shared/effects/melee_impact_npc.effect"
+	iconpath="icon.tga"
+	itemdrop="0.3"
+	commanderscale="1.9"
+	commanderportrait="boar_portrait.tga"
+>
+	<!-- Abilities -->
+	
+	<ability
+		name="Quill Penetration"
+		type="impulse"
+		attack="snap"
+		activation="1000"
+		impact="800"
+		cooldown="17500"
+		range="300"
+		anim="radius"
+		weight="8"
+	>		
+		<effect
+			mindamage="15"
+			maxdamage="27"
+			duration="8000"
+			armoradd="-4"
+			effect="human/units/chaplain/effects/willofgod.effect"
+			icon="quil_penetration_icon.tga"
+		/>
+		
+	</ability>
+
+	<!-- Melee -->
+	<ability
+		name="Quick Attack"
+		type="impulse"
+		attack="snap"
+		impact="150"
+		activation="350"
+		cooldown="1500"
+		attackheightmin="1"
+		attackheightmax="50"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-20"
+		attackyawmax="50"
+		range="70"
+		weight="20"
+		anim="strong_attack0"
+	>
+		<effect
+			mindamage="25"
+			maxdamage="43"
+			meleeimpact="true"
+		/>
+	</ability>
+	
+	<ability
+		name="Quill Spray"
+		type="impulse"
+		attack="projectile"
+		activation="500"
+		impact="1000"
+		cooldown="3500"
+		range="800"
+		anim="quick_attack0"
+	>
+		<projectile
+			speed="2500" 
+			life="1000" 
+			model="effects/quill.mdf"
+			traileffect="effects/quill_trail.effect"
+			deatheffect="effects/quill_impact.effect"
+		/>
+		<effect
+			mindamage="25"
+			maxdamage="33"
+			duration="2500"
+			speedmult="0.70"
+			effect="effects/quill_poison.effect"
+			icon="/beast/units/predator/icons/venomous.tga"
+		/>
+	</ability>
+</npc>

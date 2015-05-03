@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="ghostface">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+		
+		
+		
+			<simpleemitter
+				bone="Bip01 Spine2"	
+				spawnrate="600"
+				particlelife="600"
+				count="50"
+				material="/shared/effects/materials/dirt_debris.material"
+			>
+				<particle
+					color=".8 1 .1"
+	
+					midcolorpos="0.5"
+					startalpha="1.0"
+					
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					startwidth="19.0"
+					endwidth="33"
+					startheight="0.0"
+					endheight="140.0"
+					flare="true"
+					turn="true"
+          scale="3"
+				/>
+			</simpleemitter>		
+		
+		
+		
+		
+		
+		
+		
+		
+			<simpleemitter				
+				bone="Bip01 Spine2"							
+				speed="20"
+				spawnrate="15"
+				particlelife="1600"				
+				
+				gravity="1"							
+				material="/shared/effects/materials/dirt_debris.material"
+				loop="true"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					minanglespeed="-55"
+					maxanglespeed="65"
+					color=".8 1 .1"
+					startsize="20"
+					endsize="50"
+					midcolorpos=".5"
+					startalpha="0"
+					midalpha="1"
+					midalphapos="0.1"
+					endalpha="0"
+          scale="2"
+				/>				
+			</simpleemitter>
+			<simpleemitter				
+				bone="Bip01 Spine2"							
+				speed="20"
+				spawnrate="30"
+				particlelife="900"				
+				
+				gravity="1"							
+				material="/shared/effects/materials/whitedot.material"
+        offsetsphere="5 5 15"
+				loop="true"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					minanglespeed="-55"
+					maxanglespeed="65"
+					color=".1 .3 0"
+					startsize="1"
+					endsize="4"
+					midcolorpos=".5"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					midalphapos="0.1"
+				/>				
+			</simpleemitter>
+			
+<!--
+		<simpleemitter
+			bone="Bip01 Spine2"
+			spawnrate="2000"
+			count="70"
+			particlelife="700"
+			gravity="1"
+			speed="100" 		
+			offsetsphere="5 5 5"
+          	material="/shared/effects/materials/venom2.material"
+         	>
+  		
+			<particle 
+				angle="180"			
+				color="1 1 1"
+
+				startsize="1"
+				midsize="20"
+				minendsize="20"			
+				maxendsize="50"			
+
+				startalpha="1"
+				midalpha=".3"
+				endalpha="0"
+				startanchor="1"
+				endanchor="0.0"  
+			/>
+         	</simpleemitter>		
+
+-->
+      
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<overlay startalpha="1" endalpha="0" duration="3000" material="/shared/effects/textures/poison_screen.tga"/>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->	

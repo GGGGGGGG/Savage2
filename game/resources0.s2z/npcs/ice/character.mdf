@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="cickle.idle01.max" file="character.model" type="K2" loddistance="1000">
+
+	<anim name="idle" clip="clips/idle2.clip" fps="30" loop="true">
+		<frameevent frame="45" cmd="PlaySound /npcs/ice/sounds/icecrack_%.mp3 50 0.3"/>
+		<frameevent frame="52" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 1"/>
+		<frameevent frame="51" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+		<frameevent frame="193" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 0.5"/>
+		<frameevent frame="190" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+	</anim>
+
+	<anim name="static" clip="clips/idle.clip" fps="30" numframes="1" loop="true"/>
+
+	<anim name="die" clip="clips/death.clip" loop="true" loopbackframe="29">
+		<frameevent frame="1" cmd="StartEffect /npcs/ice/sounds/death.effect"/>
+		<frameevent frame="2" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 1"/>
+		<frameevent frame="10" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 0.3"/>
+		<frameevent frame="13" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+		<frameevent frame="3" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+		<frameevent frame="19" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 1"/>
+		<frameevent frame="20" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+	</anim>
+
+	<anim name="iceroot" clip="clips/root.clip">
+		<frameevent frame="1" cmd="StartEffect /npcs/ice/effects/iceroot.effect"/>
+		<frameevent frame="3" cmd="PlaySound /npcs/ice/sounds/iceroot.mp3 100"/>
+		<frameevent frame="1" cmd="StartEffect /npcs/ice/sounds/attack_1.effect"/>		
+	</anim>
+ 
+	<anim name="icebolt" clip="clips/icebolt.clip" fps="23">
+		<frameevent frame="1" cmd="StartEffect /npcs/ice/effects/icebolt.effect"/>
+		<frameevent frame="23" cmd="StartEffect /npcs/ice/sounds/icebolt.effect"/>
+		<frameevent frame="1" cmd="StartEffect /npcs/ice/sounds/attack_2.effect"/>
+		<frameevent frame="2" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 1"/>
+		<frameevent frame="3" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>	
+		<frameevent frame="34" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 1"/>
+		<frameevent frame="36" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+		<frameevent frame="56" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 1"/>
+		<frameevent frame="57" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+	</anim>
+
+	<anim name="run_fwd" clip="clips/run_fwd.clip"  fps="24" loop="true">
+		<frameevent frame="22" cmd="StartEffect /shared/effects/footstep_l_small.effect"/>
+		<frameevent frame="22" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 50 0.5"/>	
+		<frameevent frame="22" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75"/>	
+		<frameevent frame="22" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 0.3"/>	
+		<frameevent frame="20" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+		<frameevent frame="10" cmd="StartEffect /shared/effects/footstep_r_small.effect"/>
+		<frameevent frame="10" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 50 0.5"/>
+		<frameevent frame="10" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75"/>	
+		<frameevent frame="11" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 0.3"/>
+		<frameevent frame="11" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>	
+	</anim>
+	
+	<anim name="stunned" clip="clips/stunned.clip" blendtime="0" loop="true" loopbackframe="16">
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/impacts/block_2.mp3 150"/>
+		<frameevent frame="1" cmd="StartEffect /human/units/savage/effects/block_stunned.effect"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/stars.effect"/>	
+	</anim>
+	
+	<anim name="run_back" clip="clips/run_back.clip" fps="60" loop="true">
+		<frameevent frame="14" cmd="StartEffect /shared/effects/footstep_l_small.effect"/>
+		<frameevent frame="14" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="14" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 0.1"/>
+		<frameevent frame="13" cmd="PlaySound /npcs/ice/sounds/icecrack_%.mp3 50 0.4"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/footstep_r_small.effect"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="1" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 0.1"/>
+		<frameevent frame="2" cmd="PlaySound /npcs/ice/sounds/icecrack_%.mp3 50 0.4"/>
+	</anim>
+
+ 	<anim name="jump" clip="clips/jump.clip" fps="30" loop="true" numframes="50" loopbackframe="15">
+		<frameevent frame="1" cmd="StartEffect /npcs/ice/sounds/jump.effect"/>
+		<frameevent frame="7" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 1"/>
+		<frameevent frame="5" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+	</anim>
+
+	<anim name="land" clip="clips/idle.clip" blendtime="100" fps="30">
+		<frameevent frame="1" cmd="StartEffect /shared/effects/land.effect"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 80 1"/>
+		<frameevent frame="2" cmd="PlaySound /npcs/ice/sounds/move_%.mp3 50 1"/>
+		<frameevent frame="2" cmd="StartEffect /npcs/ice/sounds/ice_cracks.effect"/>
+	</anim>
+
+</model>

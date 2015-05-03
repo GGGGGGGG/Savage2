@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="armor.max" file="tier1.model" type="K2">
+<skin name="red">
+		<reference mesh="armor" material="hunter_armor_red.material" />
+	</skin>
+	
+	</model>

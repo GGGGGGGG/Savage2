@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="ghostface">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+			<light
+				startcolor="1 0.7 0"
+				endcolor="0 0 0"
+				falloffend="320"
+				life="200"
+				delay="400"
+				position="0 100 50"
+			/>3
+			
+			
+		<twopointtrailemitter
+				 
+			 bone_a="Bip01 R Clavicle"
+			 bone_b="Bip01 R Hand"
+			 spawnrate="150"
+			 particlelife="200"
+			 texpostime="200"
+			 texposscale="0.0"
+			 texstretchscale="1.0"
+			 life="1000"
+		
+				material="/shared/effects/materials/swoosh_add.material"
+				 subframepose="true"
+			>
+			<particle endalpha="0.0" startcolor=".7 .5 .1"  endcolor=".4 0 0" />
+		</twopointtrailemitter>
+			
+			
+
+		<simpleemitter		
+			bone="Bip01 R Hand"
+			count="150"
+			spawnrate="220"			
+			particlelife="500"
+			gravity="-0.1"
+			speed="10"
+			drag="0"
+			acceleration="0.0"
+			position="0 0 0"				
+			material="/shared/effects/materials/fireball_3d.material"
+			offsetsphere="0 0 0"
+		>
+			<particle minangle="0"
+				maxangle="360"
+				minanglespeed="-30"
+				startcolor="0 0 0"
+				midcolor="1 1 1"
+				endcolor="0 0 0"
+				midcolorpos=".3"
+				maxanglespeed="30"
+				startframe=".5"
+				endframe="1"
+				startsize="25"
+				endsize="1"
+				
+			/>
+		</simpleemitter>
+			
+
+
+
+			<simpleemitter
+				delay="200"
+				life="300"
+				bone="Bip01 R Finger1"
+				spawnrate="50"
+				particlelife="200"
+				speed="30"
+				angle="15"
+				offsetsphere="6 6 6"		
+				material="/shared/effects/materials/whitedot.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					startcolor="1 0.4 0.1"
+					endcolor="0 0 0"
+					startsize="30"
+					endsize="80"
+					startalpha="1"				
+					midalpha="1"
+					endalpha="0"
+					anchor="1"
+				/>
+			</simpleemitter>
+
+
+      
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->	

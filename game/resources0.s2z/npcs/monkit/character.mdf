@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="Monkit_idle.max" file="monkit.model" type="K2" >
+
+	<anim name="idle" clip="clips/idle.clip" loop="true">
+		<frameevent frame="10" cmd="PlaySound /npcs/monkit/sounds/idle_1.mp3 80 1 0"/>
+		<frameevent frame="202" cmd="PlaySound /npcs/monkit/sounds/idle_2.mp3 80 1 1"/>
+	</anim>
+	
+	<anim name="range" clip="clips/range.clip">
+		<startevent cmd="StopSound 0"/>
+		startevent cmd="StopSound 1"/>
+		<frameevent frame="1" cmd="PlaySound /npcs/monkit/sounds/attack_1.mp3 80 1"/>
+		<frameevent frame="5" cmd="PlaySound /human/units/scout/sounds/attack_1.mp3 80 1"/>
+	</anim>
+
+	<anim name="melee" clip="clips/melee.clip">
+		<startevent cmd="StopSound 0"/>
+		<startevent cmd="StopSound 1"/>
+		<frameevent frame="1" cmd="PlaySound /npcs/monkit/sounds/attack_2.mp3 80 1"/>
+		<frameevent frame="8" cmd="PlaySound /human/units/scout/sounds/attack_2.mp3 80 0.5"/>
+	</anim>
+
+	<anim name="die" clip="clips/die.clip" loop="true" loopbackframe="35">
+		<startevent cmd="StopSound 0"/>
+		<startevent cmd="StopSound 1"/>
+		<frameevent frame="1" cmd="StartEffect /npcs/monkit/sounds/death.effect"/>
+	</anim>
+
+	<anim name="run_fwd" clip="clips/run_fwd.clip" loop="true" fps="30">
+		<startevent cmd="StopSound 0"/>
+		<startevent cmd="StopSound 1"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 30 0.6 0"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/footstep_l_small.effect"/>
+		<frameevent frame="9" cmd="StartEffect /shared/effects/footstep_r_small.effect"/>
+		<frameevent frame="9" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 30 0.6 0"/>
+	</anim>
+
+	<anim name="stunned" clip="clips/stunned.clip" loop="true">
+		<startevent cmd="StopSound 0"/>
+		<startevent cmd="StopSound 1"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/impacts/block_2.mp3 150"/>
+		<frameevent frame="1" cmd="StartEffect /human/units/savage/effects/block_stunned.effect"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/stars.effect"/>	
+	</anim>
+
+</model>

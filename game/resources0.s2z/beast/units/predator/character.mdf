@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="Predator" file="character.model" type="K2" pose="character" loddistance="1000">
+
+  	<skin name="red">
+    		<reference mesh="low" material="pred_red.material"/>
+   	</skin>
+  
+	<anim name="idle" clip="clips/idle.clip" fps="30" numframes="100" loop="true"/>
+
+	<anim name="die" clip="clips/death.clip" loop="true" loopbackframe="30">
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/death.effect"/>	
+	</anim>
+
+	<anim name="die_soul" clip="clips/death.clip" loop="true" loopbackframe="30">
+		<frameevent frame="1" cmd="StartEffect /shared/effects/soul_release.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/death.effect"/>			
+	</anim>
+
+	<anim name="block_smooth" clip="clips/block_smooth.clip" blendtime="300" startframe="1" numframes="25" loopbackframe="25" loop="true" fps="100">
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3 2"/>
+	</anim>
+	<anim name="stunned" clip="clips/dazed.clip" blendtime="0">
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/impacts/block_2.mp3"/>
+		<frameevent frame="1" cmd="StartEffect /human/units/savage/effects/block_stunned.effect"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/stars.effect"/>			
+	</anim>
+
+	<anim name="resurrected" clip="clips/res.clip" >
+		<frameevent frame="1" cmd="StartEffect /shared/effects/reincarnated.effect"/>	
+	</anim>
+	
+	<anim name="fear" clip="clips/fear.clip">
+		<frameevent frame="7" cmd="StartEffect /beast/units/predator/effects/fear.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/fear.effect"/>
+	</anim>
+
+	<anim name="carnivore" clip="clips/carnivore.clip">
+		<frameevent frame="7" cmd="StartEffect /beast/units/predator/effects/carnivorous.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/carnivorous.effect"/>
+		<frameevent frame="12" cmd="PlaySound /beast/units/predator/sounds/carnivorous_swoosh.mp3 90"/>
+	</anim>
+
+	<anim name="fiery" clip="clips/enraged_blow.clip" fps="100">
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/effects/fireblow.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/fireblow.effect"/>
+	</anim>
+
+	<anim name="venom" clip="clips/venom2.clip" fps="30">
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/effects/venom.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/venom.effect"/>
+	</anim>
+	
+	<anim name="enrage" clip="clips/rage.clip">
+		<frameevent frame="15" cmd="StartEffect /beast/units/predator/sounds/enrage.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/effects/enrage.effect"/>
+	</anim>
+
+	<anim name="quick_attacknew0" clip="clips/attack_0.clip" blendtime="150" fps="85">
+		<frameevent frame="21" cmd="StartEffect /shared/effects/attack_swoosh_left.effect"/>
+		<frameevent frame="1" cmd="StartEffect /human/units/legionnaire/sounds/quick_attack_1.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3 2"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/attack_grunt_1.effect"/>			
+	</anim>
+
+	<anim name="quick_attacknew1" clip="clips/attack_1.clip" blendtime="150" fps="85">
+		<frameevent frame="21" cmd="StartEffect /shared/effects/attack_swoosh.effect"/>
+		<frameevent frame="7" cmd="StartEffect /human/units/legionnaire/sounds/quick_attack_2.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3 2"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/attack_grunt_2.effect"/>			
+	</anim>
+
+	<anim name="quick_attacknew2" clip="clips/attack_2.clip" blendtime="150" fps="115">
+		<frameevent frame="29" cmd="StartEffect /shared/effects/attack_swoosh_left_last.effect"/>
+		<frameevent frame="7" cmd="StartEffect /human/units/legionnaire/sounds/quick_attack_3.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3 2"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/attack_grunt_3.effect"/>		
+	</anim>
+	
+	<anim name="jump_attack0" clip="clips/jump_attack.clip" blendtime="20" fps="115">	
+		<frameevent frame="78" cmd="StartEffect /shared/effects/attack_swoosh.effect"/>
+		<frameevent frame="78" cmd="StartEffect /shared/effects/attack_swoosh_left.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/attack_grunt_4.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3"/>
+		<frameevent frame="75" cmd="PlaySound /beast/units/predator/sounds/attack_1.mp3 60"/>
+	</anim>
+
+	<anim name="strong_attack0" clip="clips/interrupt.clip" blendtime="150" fps="50">	
+		<frameevent frame="1" cmd="StartEffect /human/units/savage/effects/interupt.effect"/>
+		<frameevent frame="12" cmd="StartEffect /human/units/savage/effects/interupt_end.effect"/>
+	</anim>
+
+	<anim name="attackfwd0" clip="clips/attack_fwd.clip" blendtime="150" fps="115">
+		<frameevent frame="21" cmd="StartEffect /beast/units/predator/effects/attack_swoosh_left.effect"/>
+		<frameevent frame="1" cmd="StartEffect /human/units/legionnaire/sounds/quick_attack_1.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3 2"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/attack_grunt_1.effect"/>		
+	</anim>
+
+	<anim name="attackfwd1" clip="clips/attack_1.clip" blendtime="150" fps="115">
+		<frameevent frame="21" cmd="StartEffect /beast/units/predator/effects/attack_swoosh.effect"/>
+		<frameevent frame="7" cmd="StartEffect /human/units/legionnaire/sounds/quick_attack_2.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3 2"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/attack_grunt_2.effect"/>			
+	</anim>
+
+	<anim name="attackfwd2" clip="clips/attack_2.clip" blendtime="150" fps="115">
+		<frameevent frame="29" cmd="StartEffect /beast/units/predator/effects/attack_swoosh_left_last.effect"/>
+		<frameevent frame="7" cmd="StartEffect /human/units/legionnaire/sounds/quick_attack_3.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3 2"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/attack_grunt_3.effect"/>		
+	</anim>
+	
+	<anim name="exhausted" clip="clips/tired.clip" fps="26" loop="true">
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/sounds/tired.effect"/>
+		<frameevent frame="50" cmd="StartEffect /beast/units/predator/sounds/tired.effect"/>
+	</anim>
+
+	<anim name="run_fwd" clip="clips/run_fwd_tweaked.clip" fps="25" loop="true" loopbackframe="1">
+		<frameevent frame="10" cmd="StartEffect /shared/effects/footstep_l_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="10" cmd="PlaySound /shared/sounds/footsteps/heavy_%.mp3 60 0.2"/>
+		<frameevent frame="10" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="10" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3"/>		
+		<frameevent frame="22" cmd="StartEffect /shared/effects/footstep_r_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="22" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="22" cmd="PlaySound /shared/sounds/footsteps/heavy_%.mp3 60 0.2"/>	
+		<frameevent frame="22" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3"/>
+	</anim>
+
+	<anim name="run_back" clip="clips/run_back.clip" fps="60" loop="true" loopbackframe="1">
+		<frameevent frame="7" cmd="StartEffect /shared/effects/footstep_l_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="7" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="7" cmd="PlaySound /shared/sounds/footsteps/heavy_%.mp3 60 0.35"/>
+		<frameevent frame="7" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3"/>
+		<frameevent frame="18" cmd="StartEffect /shared/effects/footstep_r_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="18" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="18" cmd="PlaySound /shared/sounds/footsteps/heavy_%.mp3 60 0.35"/>
+		<frameevent frame="20" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3"/>	
+	</anim>
+
+	<anim name="sprint_fwd" clip="clips/sprint_fwd.clip" loop="true" loopbackframe="1">
+		<frameevent frame="23" cmd="StartEffect /shared/effects/footstep_l_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="13" cmd="StartEffect /shared/effects/footstep_r_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="23" cmd="StartEffect /shared/effects/handstep_l_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="23" cmd="StartEffect /shared/effects/handstep_r_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 1"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3 0"/>
+		<frameevent frame="3" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 1"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/heavy_%.mp3 60 0.55"/>
+		<frameevent frame="3" cmd="PlaySound /shared/sounds/footsteps/heavy_%.mp3 60 0.55"/>		
+		<frameevent frame="10" cmd="PlaySound /beast/units/predator/sounds/run_%.mp3 90"/>
+		<frameevent frame="11" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3"/>
+	</anim>
+
+	<anim name="jump" clip="clips/jump.clip" fps="30" loop="true" numframes="50" loopbackframe="15">
+		<startevent cmd="PlaySound /beast/units/predator/sounds/jump.mp3"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.3"/>
+	</anim>
+
+	<anim name="land" clip="clips/land.clip" blendtime="100" fps="30">
+		<frameevent frame="1" cmd="StartEffect /shared/effects/land_#GetTerrainType()#.effect"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/heavy_%.mp3 60 1"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 60 0.5"/>
+	</anim>
+
+	<anim name="gun_fire" clip="clips/gun_fire.clip" fps="40" loop="false" lock="false">
+		<frameevent frame="1" cmd="StartEffect /beast/units/predator/effects/fire2_3rd.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/range_attack_%.ogg 50 0.5"/>	
+	</anim>
+	<anim name="turn_left" clip="clips/turn_left.clip"/>
+	<anim name="turn_right" clip="clips/turn_right.clip"/>
+	<anim name="melee_draw" clip="clips/idle.clip" numframes="1" fps="30"/>
+	<anim name="gun_draw" clip="clips/gun_arm_new.clip" blendtime="110" fps="22" >
+		<frameevent frame="2" cmd="StartEffect /beast/units/predator/effects/firey_pred.effect"/>
+		<frameevent frame="2" cmd="PlaySound /beast/units/predator/sounds/arm_1.ogg 70 0.8"/>
+	</anim>
+	<anim name="portrait_idle" clip="clips/portrait_idle.clip" fps="20" loop="true"/>
+	<anim name="static" clip="clips/idle.clip" fps="30" numframes="1" loop="true"/>
+	<anim name="gun_idle" clip="clips/idle.clip" loop="true" lock="false"/>
+	<anim name="victory" clip="clips/taunt.clip" loop="true" loopbackframe="32"/>
+	<anim name="defeat" clip="clips/defeat.clip" startframe="0" numframes="58" loopbackframe="23" loop="true"/>
+	<anim name="taunt" clip="clips/taunt.clip" startframe="0" numframes="49" loop="true" loopbackframe="32"/>
+
+	<submodel name="armor_tier_1" file="armor/tier1.mdf"/>
+	<submodel name="armor_tier_2" file="armor/tier2.mdf"/>
+	<submodel name="armor_tier_3" file="armor/tier3.mdf"/>
+
+	<anim name="dodge_right" clip="clips/dodge_right.clip" fps="50" />
+	<anim name="dodge_left" clip="clips/dodge_left.clip" fps="50" />
+	<anim name="dodge_back" clip="clips/dodge_back.clip" fps="50" />
+</model>
+

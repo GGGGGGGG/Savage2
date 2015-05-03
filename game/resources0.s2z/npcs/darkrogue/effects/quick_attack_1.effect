@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="dark_rogue_swoosh">
+
+<definitions>
+	<particlesystem name="system0" space="entity">
+		<!-- Swoosh -->
+		<twopointtrailemitter
+		 life="180"
+		 bone_a="_bone_swooshA"
+		 bone_b="_bone_swooshB"
+		 spawnrate="500"
+		 particlelife="350"
+		 texpostime="75"
+		 texposscale="1.0"
+		 texstretchscale="0.0"
+		 material="/shared/effects/materials/swoosh.material"
+		>
+            		<particle startalpha="1.0" midalpha="1.0" midalphapos="0.4" endalpha="0.0" color="1 1 1" />
+		</twopointtrailemitter>
+	</particlesystem>
+</definitions>
+<thread>
+	<spawnparticlesystem instance="instance0" particlesystem="system0" />
+	<waitfordeath instance="instance0" />
+	<!-- <die /> -->
+</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

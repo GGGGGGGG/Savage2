@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="ghost trail">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<model
+		 		name="ghost1_path"
+				model="/beast/units/predator/effects/ghost_path.mdf"
+				anim="idle"
+				position="0 0 -5"
+			/>
+
+			<orbiteremitter
+				bone="Bip01 Spine"
+				spawnrate="100"
+				particlelife="1200"
+				origin="0 110 20" 
+				orbit="80 20 20" 
+				direction="0 0 1" 
+				material="/shared/effects/materials/smoke2.material"
+			>
+				<particle
+					maxangle="120"
+					startcolor="0 0 0"
+					midcolor=".2 0 1"
+					endcolor="0 0 0"
+					midcolorpos="0.5"
+					startsize="25.0"
+					endsize="20.0"
+					startalpha="0"
+					midalpha=".5"
+					endalpha="0"
+				/>
+
+			</orbiteremitter>
+
+			<simpleemitter
+				owner="ghost1_path"
+				bone="_bone_ghost01"
+				spawnrate="30"
+				particlelife="1600"
+				minangle="0"
+				maxangle="5"
+				material="/shared/effects/materials/smoke2.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					startcolor="1 0 1"
+					midcolor=".2  0 1"
+					midcolorpos=".5"
+					endcolor="0 0 0"
+					startsize="20"
+					endsize="15"
+					startalpha="0"
+					midalpha=".5"
+					endalpha="0"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				owner="ghost1_path"
+				bone="_bone_ghost02"
+				spawnrate="30"
+				particlelife="1600"
+				minangle="0"
+				maxangle="5"
+				material="/shared/effects/materials/smoke2.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					startcolor="1 0 1"
+					midcolor=".2  0 1"
+					midcolorpos=".5"
+					endcolor="0 0 0"
+					startsize="20"
+					endsize="15"
+					startalpha="0"
+					midalpha=".5"
+					endalpha="0"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				owner="ghost1_path"
+				bone="_bone_ghost03"
+				spawnrate="30"
+				particlelife="1600"
+				minangle="0"
+				maxangle="5"
+				material="/shared/effects/materials/smoke2.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					startcolor="1 0 1"
+					midcolor=".2  0 1"
+					midcolorpos=".5"
+					endcolor="0 0 0"
+					startsize="20"
+					endsize="15"
+					startalpha="0"
+					midalpha=".5"
+					endalpha="0"
+				/>
+			</simpleemitter>		
+
+			<simpleemitter
+				owner="ghost1_path"
+				bone="_bone_ghost01"
+				spawnrate="30"
+				particlelife="200"
+				material="/shared/effects/materials/glow.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="10"
+					startcolor="0 0 0"
+					midcolor=".3  0 1"
+					midcolorpos=".5"
+					endcolor="0 0 0"
+					startsize="4"
+					endsize="10"
+					startalpha="0"
+					midalpha=".5"
+					endalpha="0"
+					endheight="20"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				owner="ghost1_path"
+				bone="_bone_ghost02"
+				spawnrate="30"
+				particlelife="200"
+				material="/shared/effects/materials/glow.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="10"
+					startcolor="0 0 0"
+					midcolor=".3  0 1"
+					midcolorpos=".5"
+					endcolor="0 0 0"
+					startsize="4"
+					endsize="10"
+					startalpha="0"
+					midalpha=".5"
+					endalpha="0"
+					endheight="20"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				owner="ghost1_path"
+				bone="_bone_ghost03"
+				spawnrate="30"
+				particlelife="200"
+				material="/shared/effects/materials/glow.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="10"
+					startcolor="0 0 0"
+					midcolor=".3  0 1"
+					midcolorpos=".5"
+					endcolor="0 0 0"
+					startsize="4"
+					endsize="10"
+					startalpha="0"
+					midalpha=".5"
+					endalpha="0"
+					endheight="20"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				owner="ghost1_path"
+				bone="_bone_ghost01"
+				spawnrate="10"
+				particlelife="200"
+				angle="0"
+				material="/shared/effects/materials/starlight.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					startcolor="0.5 0 1"
+					endcolor="0 0 0"
+					startsize="12"
+					endsize="24"
+					startalpha="1"
+					endalpha="0"
+					anchor="1"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				owner="ghost1_path"
+				bone="_bone_ghost02"
+				spawnrate="10"
+				particlelife="200"
+				angle="0"
+				material="/shared/effects/materials/starlight.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					startcolor="0.5 0 1"
+					endcolor="0 0 0"
+					startsize="12"
+					endsize="24"
+					startalpha="1"
+					endalpha="0"
+					anchor="1"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				owner="ghost1_path"
+				bone="_bone_ghost03"
+				spawnrate="10"
+				particlelife="200"
+				angle="0"
+				material="/shared/effects/materials/starlight.material"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					startcolor="0.5 0 1"
+					endcolor="0 0 0"
+					startsize="12"
+					endsize="24"
+					startalpha="1"
+					endalpha="0"
+					anchor="1"
+				/>
+			</simpleemitter>	
+
+      		</particlesystem>
+
+		<modifier
+			life="1250"
+			loop="true"
+			startcolor="1 1 1"
+			midcolor="1.2 1 2"
+			endcolor="1 1 1"
+		/>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance1" particlesystem="system0"/>
+		<spawnmodifier instance="instance0"/>
+		<waitfordeath instance="instance0"/>
+		<waitfordeath instance="instance1"/>
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->	

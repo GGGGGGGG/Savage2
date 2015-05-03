@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="idle.max" file="character.model" pose="character" type="K2">
+
+	<skin name="red">
+		<reference mesh="bat" material="hunter_red.material" />
+	</skin>
+
+	<skin name="stone">
+		<reference mesh="bat" material="hunter_stone.material" />
+	</skin>
+	
+	<anim name="idle" clip="clips/idle.clip" numframes="99" loop="true">
+		<startevent cmd="StopSound 0"/>
+	</anim>
+
+	<anim name="exhausted" clip="clips/tired.clip" loop="true" fps="120">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/hunter/sounds/tired.mp3 70"/>
+	</anim>
+
+	<anim name="stunned" clip="clips/stunned.clip">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/impacts/block_2.mp3"/>
+		<frameevent frame="1" cmd="StartEffect /human/units/savage/effects/block_stunned.effect"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/stars.effect"/>	
+	</anim>
+
+	<anim name="die" clip="clips/die.clip" loop="true" loopbackframe="45">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/sounds/death.effect"/>
+	</anim>
+
+	<anim name="resurrected" clip="clips/reincarnate.clip">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="45" cmd="PlaySound /beast/units/hunter/sounds/resurrected.mp3 100"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/reincarnated.effect"/>	
+	</anim>
+
+	<anim name="taunt" clip="clips/taunt.clip" loop="true" loopbackframe="15">
+		<startevent cmd="StopSound 0"/>
+	</anim>
+
+	<anim name="defeat" clip="clips/defeat.clip" loop="true" loopbackframe="13">
+		<startevent cmd="StopSound 0"/>
+	</anim>
+
+	<anim name="run_fwd" clip="clips/run_fwd.clip" loop="true" fps="30">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="7" cmd="StartEffect /shared/effects/footstep_l_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="7" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="7" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 50 0.2"/>
+		<frameevent frame="18" cmd="StartEffect /shared/effects/footstep_r_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="18" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>	
+		<frameevent frame="18" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 50 0.2"/>
+	</anim>
+
+	<anim name="sprint_fwd" clip="clips/sprint.clip" loop="true" fps="30">
+		<startevent cmd="PlaySoundLooping /beast/units/hunter/sounds/wings.mp3 100 1 0 200 500"/>
+	</anim>
+
+	<anim name="run_back" clip="clips/run_back.clip" loop="true" fps="65">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.45"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/footstep_l_small_#GetTerrainType()#.effect"/>
+		<frameevent frame="16" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.45"/>
+		<frameevent frame="16" cmd="StartEffect /shared/effects/footstep_r_small_#GetTerrainType()#.effect"/>
+	</anim>
+
+	<anim name="turn_left" clip="clips/turnLeft.clip"/>
+	<anim name="turn_right" clip="clips/turnRight.clip"/>
+
+	<anim name="jump" clip="clips/jump.clip" loop="true" loopbackframe="23">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/sounds/jump.effect"/>
+	</anim>
+
+	<anim name="land" clip="clips/land.clip">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/sounds/land.effect"/>
+		<frameevent frame="3" cmd="StartEffect /shared/effects/land_#GetTerrainType()#.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 50 1"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.7"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/heavy_%.mp3 50 1"/>
+	</anim>
+
+	<anim name="block_smooth" clip="clips/block.clip" loop="true" loopbackframe="25" fps="150" blendtime="300">
+		<startevent cmd="StopSound 0"/>
+	</anim>
+
+	<anim name="strong_attack0" clip="clips/interupt.clip" blendtime="150" fps="50">
+		<startevent cmd="StopSound 0"/>	
+		<frameevent frame="1" cmd="StartEffect /human/units/savage/effects/interupt.effect"/>
+		<frameevent frame="12" cmd="StartEffect /human/units/savage/effects/interupt_end.effect"/>
+	</anim>
+
+	<anim name="quick_attacknew0" clip="clips/atk0.clip" fps="100">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="12" cmd="StartEffect /shared/effects/attack_swoosh.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/sounds/quick_attack_1.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/sounds/attack_grunt_1.effect"/>			
+	</anim>
+
+	<anim name="quick_attacknew1" clip="clips/atk1.clip" fps="115">
+		<startevent cmd="StopSound 0"/>		
+		<frameevent frame="13" cmd="StartEffect /shared/effects/attack_swoosh_left.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/sounds/quick_attack_2.effect"/>
+		<frameevent frame="11" cmd="StartEffect /beast/units/hunter/sounds/attack_grunt_2.effect"/>			
+	</anim>	
+
+	<anim name="quick_attacknew2" clip="clips/atk2.clip" fps="115">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="20" cmd="StartEffect /shared/effects/attack_swoosh_last.effect"/>
+		<frameevent frame="20" cmd="StartEffect /shared/effects/attack_swoosh_last.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/sounds/quick_attack_3.effect"/>
+		<frameevent frame="11" cmd="StartEffect /beast/units/hunter/sounds/attack_grunt_3.effect"/>			
+	</anim>
+
+	<anim name="jump_attack0" clip="clips/jump_atk.clip" fps="130">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="78" cmd="StartEffect /shared/effects/attack_swoosh.effect"/>
+		<frameevent frame="78" cmd="StartEffect /shared/effects/attack_swoosh_left.effect"/>
+		<frameevent frame="70" cmd="StartEffect /beast/units/hunter/sounds/quick_attack_2.effect"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/sounds/attack_grunt_4.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/hunter/sounds/wingflap.mp3 100"/>			
+	</anim>
+	
+	<anim name="frenzy" clip="clips/frenzy.clip">
+		<startevent cmd="StopSound 0"/>
+		<startevent cmd="PlaySound /beast/units/hunter/sounds/frenzy.mp3 100"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/effects/frenzycast.effect"/>
+	</anim>
+
+	<anim name="glide" clip="clips/glide.clip" loop="true">
+		<startevent cmd="StopSound 0"/>
+		<startevent cmd="Starteffect /beast/units/hunter/effects/glide.effect"/>
+	</anim>
+	
+	<anim name="glidecast" clip="clips/glide_cast.clip" loop="true">
+		<startevent cmd="StopSound 0"/>
+		<startevent cmd="PlaySound /beast/units/hunter/sounds/glide.mp3 100"/>
+		<startevent cmd="Starteffect /beast/units/hunter/effects/glide.effect"/>
+	</anim>
+
+	<anim name="poison" clip="clips/poison.clip">
+		<startevent cmd="StopSound 0"/>
+		<startevent cmd="PlaySound /beast/units/hunter/sounds/poison.mp3 100"/>
+		<frameevent frame="8" cmd="Starteffect /beast/units/hunter/effects/poisoncast.effect"/>
+		<frameevent frame="25" cmd="PlaySound /beast/units/hunter/sounds/wingflap.mp3 100"/>
+	</anim>
+
+	<anim name="summonbat" clip="clips/summon.clip" numframes="30">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="15" cmd="PlaySound /beast/units/hunter/sounds/wingflap.mp3 100"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/hunter/sounds/summon.mp3 60"/>
+	</anim>
+
+	<anim name="spin" clip="clips/spin.clip" fps="100" loop="true" loopbackframe="54">
+		<startevent cmd="StopSound 0"/>
+		<frameevent frame="1" cmd="StartEffect /beast/units/hunter/sounds/attack_grunt_4.effect"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/hunter/sounds/wingflap.mp3 100"/>
+		<frameevent frame="5" cmd="PlaySound /beast/units/hunter/sounds/wings.mp3 100"/>
+		<frameevent frame="1" cmd="PlaySound /beast/units/hunter/sounds/spin.mp3 80"/>
+		<frameevent frame="50" cmd="Starteffect /beast/units/hunter/effects/spin.effect"/>
+	</anim>
+
+	<anim name="sleep" clip="clips/sleep.clip" loop="true" numframes="100" loopbackframe="99" blendtime="40">
+		<frameevent frame="1" cmd="PlaySound /beast/units/hunter/sounds/sleep.wav 80"/>
+		<frameevent frame="15" cmd="Starteffect /beast/units/hunter/effects/sleep.effect"/>
+		<startevent cmd="StopSound 0"/>
+	</anim>
+	
+	<submodel name="armor_tier_1" file="armor/tier1.mdf"/>
+	<submodel name="armor_tier_2" file="armor/tier2.mdf"/>
+	<submodel name="armor_tier_3" file="armor/tier3.mdf"/>
+	
+	<anim name="dodge_right" clip="clips/dodge_right.clip" fps="52" />
+	<anim name="dodge_left" clip="clips/dodge_left.clip" fps="55" />
+	<anim name="dodge_back" clip="clips/dodge_back.clip" fps="50" />
+	
+</model>

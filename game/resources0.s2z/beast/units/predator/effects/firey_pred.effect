@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="fire">
+	<definitions>
+		<particlesystem name="system0" space="bone">
+
+
+	<simpleemitter
+
+         		life="750"
+			bone="Bip01 R Finger1"
+			spawnrate="18"
+
+			particlelife="800"			
+			gravity="-.5"
+			speed="5"
+			drag="0"
+			acceleration="0"
+
+			position="0 0 1"
+			
+			offsetsphere="2 2 2"
+
+			minangle="0"
+			maxangle="360"
+			direction="0 0 1"	
+
+          		material="/shared/effects/materials/fireball_3d.material"
+         	>
+
+			<particle 
+				minangle="15"
+				maxangle="-15"
+
+				minanglespeed="0"
+				maxanglespeed="0"
+
+				startcolor="0 0 0 "
+				midcolor="1 .6 0"
+				endcolor="0.5 0.4 0"
+				midcolorpos=".1"
+
+				
+				startframe="0"
+				endframe="1"
+
+				startsize="5"
+				midsize="12"
+				endsize="15"
+				midsizepos=".4"
+
+				startalpha="0"
+				midalpha="1"
+				endalpha="0"
+				midalphapos=".1"
+
+				startstickiness=".8"
+				endstickiness=".6"
+			
+				
+				
+		/>
+
+         </simpleemitter>
+
+			<simpleemitter
+
+         		life="750"
+			bone="Bip01 R Finger1"
+			spawnrate="20"
+
+			particlelife="800"
+				material="/shared/effects/materials/spark.material"
+				offsetsphere="0 0 0"
+				speed="60"
+			>
+				<particle 
+					minangle="-180"
+					maxangle="180"
+					startcolor="1 0.6 0.6"
+					midcolor="1 0.5 0.45"
+					endcolor="1 0.5 -0.3"
+					minanglespeed="-30"
+					maxanglespeed="30"
+					startsize="3"
+					endsize="5"
+					minscale="0.5"
+					maxscale="0.7"
+					startalpha="1"
+					endalpha="0"
+					anchor="1"
+				/>
+			</simpleemitter>
+
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->

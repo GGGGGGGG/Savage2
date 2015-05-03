@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="boar.max" file="character.model" type="K2" loddistance="1000">
+
+	<anim name="idle" clip="clips/idle01.clip" fps="30" loop="true"/>
+	<anim name="idle02" clip="clips/idle02.clip" fps="30" loop="true"/>
+	<anim name="die" clip="clips/death.clip" loop="true" loopbackframe="33"/>
+
+	<anim name="block" clip="clips/block.clip" blendtime="0" loop="true" fps="150" loopbackframe="20"/>
+
+	<anim name="stunned" clip="clips/stunned.clip" blendtime="0" numframes="40" loop="true" loopbackframe="3">
+		<frameevent frame="1" cmd="StartEffect /npcs/boar/effects/block_stunned.effect"/>
+		<frameevent frame="1" cmd="StartEffect /npcs/boar/effects/stars.effect"/>	
+	</anim>
+
+	<anim name="quick_attack0" clip="clips/atk01.clip" fps="100">
+		<frameevent frame="15" cmd="StartEffect /npcs/boar/effects/quill_strike.effect"/>
+	</anim>
+	
+	<anim name="strong_attack0" clip="clips/atk02.clip" fps="100">
+		<frameevent frame="30" cmd="StartEffect /npcs/boar/effects/swoosh.effect"/>
+	</anim>
+	
+	<anim name="dodge" clip="clips/dodge.clip"/>
+	
+	<anim name="flinch" clip="clips/flinch.clip"/>
+	
+		<anim name="jump" clip="clips/jump.clip" fps="30" loop="true" numframes="51" loopbackframe="8">
+		<startevent cmd="PlaySound /human/units/legionnaire/sounds/attack_grunt_1.mp3 95"/>
+		<frameevent frame="5" cmd="PlaySound /human/units/legionnaire/sounds/move_%.mp3 50 0.5 1"/>
+	</anim>
+
+	<anim name="land" clip="clips/idle01.clip" blendtime="100" fps="30">
+		<frameevent frame="1" cmd="StartEffect /shared/effects/land.effect"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 50 0.6"/>
+		<frameevent frame="2" cmd="PlaySound /human/units/scout/sounds/move_%.mp3 50 0.5"/>
+	</anim>
+	
+	
+	<anim name="radius" clip="clips/radius.clip">
+		<frameevent frame="28" cmd="StartEffect /npcs/boar/effects/boarRadius.effect"/>
+	</anim>
+	
+	<anim name="run_fwd" clip="clips/run_fwd.clip"  fps="30" loop="true">
+		<frameevent frame="19" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>		
+		<frameevent frame="9" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>
+		<frameevent frame="5" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>
+	</anim>
+
+	<anim name="run_back" clip="clips/run_back.clip" fps="60" loop="true"/>
+
+</model>
+
+

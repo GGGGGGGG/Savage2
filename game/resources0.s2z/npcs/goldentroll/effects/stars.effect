@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="stars">
+	<definitions>
+		<particlesystem name="system0" space="world">
+			
+		<model
+			life="1800"
+			name="stars"
+			model="/shared/effects/models/stars.mdf"
+			anim="idle"
+			clip="/shared/effects/models/stars.clip"
+			size="50"
+			bone="Bip01 Head"
+			color=".8 .8 .2"	
+			startalpha="1"
+			endalpha="1"
+			position="0 0 0"
+			yaw="90"
+			pitch="90"
+
+				
+		/>
+		
+		<!--
+		<trailemitter
+			owner="stars"
+			bone="Star06"
+			spawnrate="100"
+			particlelife="200"
+			texpostime="100"
+		 	texposscale="1.0"
+		 	texstretchscale="0.0"
+			material="/shared/effects/materials/swoosh.material"
+		>
+			<particle startalpha="1.0" endalpha="0.0" color="1 1 .8" startsize="2" endsize="0" />
+		</trailemitter>	
+		
+		-->	
+		
+		
+
+
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

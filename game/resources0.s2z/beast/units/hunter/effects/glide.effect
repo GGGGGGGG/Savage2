@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="glide">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+			
+			<simpleemitter
+				life="500"
+				spawnrate="45"
+				minparticlelife="550"
+				maxparticlelife="750"
+				angle="5"
+				position="40 60 10"
+				speed="125"
+				direction="0.1 -1 .2"
+				material="/shared/effects/materials/dust.material"
+			>
+				<particle 
+					maxangle="180"			
+					startcolor="0.8 0.75 0.8"
+					endcolor="1 1 1"
+					startsize="25"
+					endsize="85"
+					startalpha="1"
+					endalpha="0"
+					startanchor="1"
+					endanchorpos="0.1"
+					endanchor="0"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				life="500"
+				spawnrate="45"
+				minparticlelife="550"
+				maxparticlelife="750"
+				angle="5"
+				position="-40 60 10"
+				speed="125"
+				direction="0.1 -1 .2"
+				material="/shared/effects/materials/dust.material"
+			>
+				<particle 
+					maxangle="180"			
+					startcolor="0.8 0.75 0.8"
+					endcolor="1 1 1"
+					startsize="25"
+					endsize="85"
+					startalpha="1"
+					endalpha="0"
+					startanchor="1"
+					endanchorpos="0.1"
+					endanchor="0"
+				/>
+			</simpleemitter>
+
+			<twopointtrailemitter
+				bone_a="Bip01 L Clavicle"
+				bone_b="Bip01 L Hand"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>
+	
+			<twopointtrailemitter
+				bone_a="Bip01 R Clavicle"
+				bone_b="Bip01 R Hand"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>
+	
+			<twopointtrailemitter
+				bone_a="Bip01 R Foot"
+				bone_b="Bip01 R Thigh"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>	
+
+			<twopointtrailemitter
+				bone_a="Bip01 L Foot"
+				bone_b="Bip01 L Thigh"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>		
+		
+			<twopointtrailemitter
+				bone_a="Bip01 Pelvis"
+				bone_b="Bip01 Head"
+		 		spawnrate="200"
+				particlelife="500"
+		 		texpostime="500"
+		 		texposscale="0.0"
+		 		texstretchscale="1.0"
+		 		life="800"
+				material="/shared/effects/materials/swoosh_add.material"
+			>
+            			<particle 
+					endalpha="0.0" 
+					startcolor="1 .2 0"  
+					endcolor="0 0 0"
+				/>
+			</twopointtrailemitter>			
+			
+			<simpleemitter
+			life="700"
+			loop="0"
+			spawnrate="30"
+			bone="Bip01 Spine"
+			particlelife="680"	
+			delay="0"
+			gravity="1"
+			minspeed="0"
+			maxspeed="500"
+			drag="0.08"
+			acceleration="0"
+			position="0 0 0"
+			minangle="0"
+			maxangle="0"
+			direction="0 0 0"
+			material="/shared/effects/materials/refract_wave.material"
+			offsetsphere="0 0 0"
+		>
+			<particle
+				startparam=".09"
+				endparam="0.0"
+				startcolor="1 1 1"
+				endcolor="1 1 1"
+				midcolorpos=".35"
+				minangle="0"
+				maxangle="50"
+				minanglespeed="0"
+				maxanglespeed="20"
+				startalpha="1"
+				midalpha="1"
+				endalpha="0"
+				midalphapos=".2"
+				startframe="-5"
+				endframe="1"
+				startsize="80"
+				endsize="200"
+				color=".8 .8 .8"
+				startanchor="1"
+				endanchor="0.5"
+				lockup="true"
+				pitch="01`"
+			/>
+	</simpleemitter>  
+	
+	<simpleemitter
+			life="700"
+			loop="0"
+			spawnrate="20"
+			bone="_bone_wingTipsL"
+			particlelife="680"	
+			delay="0"
+			gravity="1"
+			minspeed="0"
+			maxspeed="500"
+			drag="0.08"
+			acceleration="0"
+			position="0 0 0"
+			minangle="0"
+			maxangle="0"
+			direction="0 0 0"
+			material="/shared/effects/materials/refract_wave.material"
+			offsetsphere="0 0 0"
+		>
+			<particle
+				startparam=".09"
+				endparam="0.0"
+				startcolor="1 1 1"
+				endcolor="1 1 1"
+				midcolorpos=".35"
+				minangle="0"
+				maxangle="90"
+				minanglespeed="0"
+				maxanglespeed="20"
+				startalpha="1"
+				midalpha="1"
+				endalpha="0"
+				midalphapos=".2"
+				startframe="-5"
+				endframe="1"
+				startsize="20"
+				endsize="40"
+				color=".8 .8 .8"
+				startanchor="0"
+				endanchor="0.5"
+			/>
+	</simpleemitter>  
+	
+	<simpleemitter
+			life="700"
+			loop="0"
+			spawnrate="20"
+			bone="_bone_wingTipsR"
+			particlelife="680"	
+			delay="0"
+			gravity="1"
+			minspeed="0"
+			maxspeed="500"
+			drag="0.08"
+			acceleration="0"
+			position="0 0 0"
+			minangle="0"
+			maxangle="0"
+			direction="0 0 0"
+			material="/shared/effects/materials/refract_wave.material"
+			offsetsphere="0 0 0"
+		>
+			<particle
+				startparam=".09"
+				endparam="0.0"
+				startcolor="1 1 1"
+				endcolor="1 1 1"
+				midcolorpos=".35"
+				minangle="0"
+				maxangle="90"
+				minanglespeed="0"
+				maxanglespeed="20"
+				startalpha="1"
+				midalpha="1"
+				endalpha="0"
+				midalphapos=".2"
+				startframe="-5"
+				endframe="1"
+				startsize="20"
+				endsize="40"
+				color=".8 .8 .8"
+				startanchor="0"
+				endanchor="0.5"
+			/>
+	</simpleemitter>  
+	
+	<billboard			
+				delay="100"
+				life="400"
+				loop="0"				
+				color="1 1 1"
+				startalpha="1.0"
+				midalpha="1.0"
+				endalpha="1.0"
+				startparam="1.0"
+				midparam="15"
+				endparam="1"
+				size="200"
+				material="/shared/effects/materials/blur_thing.material"
+			/>				
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->

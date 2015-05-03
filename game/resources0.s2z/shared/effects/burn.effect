@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="burn">
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<sound
+				bone="Bip01 Spine"
+				falloff="65.0" 
+				volume="0.5" 
+				sample="/shared/sounds/effects/burn_flesh.mp3"
+				soundloop="true"
+				fadein="100"
+				fadeout="300"
+			/>
+
+			<twopointemitter
+				bone_a="Bip01 R Foot"
+				bone_b="Bip01 R Calf"
+				spawnrate="10"
+				particlelife="500"
+				gravity="1"
+				drag="1"
+				material="/shared/effects/materials/flame4.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.4 .4"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+				<particle
+					startsize="15"
+					endsize="35"
+					startcolor="0 0 0"
+					midcolor="1 0.5 0.5"
+					endcolor="1 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 R Foot"
+				bone_b="Bip01 R Calf"
+				spawnrate="10"
+				particlelife="400"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle
+					startsize="15"
+					endsize="20"
+					startcolor="0 0 0"
+					midcolor="1 0.7 0.7"
+					endcolor="0 0 0"
+					startalpha="0"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 R Calf"
+				bone_b="Bip01 R Thigh"
+				spawnrate="10"
+				particlelife="500"
+				gravity="1"
+				drag="1"
+				material="/shared/effects/materials/flame4.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.4 .4"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+				<particle
+					startsize="25"
+					endsize="35"
+					startcolor="0 0 0"
+					midcolor="1 0.5 .5"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 R Calf"
+				bone_b="Bip01 R Thigh"
+				spawnrate="10"
+				particlelife="600"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.7 0.7"
+					endcolor="0 0 0"
+					startalpha="0"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 Pelvis"
+				bone_b="Bip01 Neck"
+				spawnrate="30"
+				particlelife="500"
+				offsetsphere="5 5 5"
+				material="/shared/effects/materials/flame4.material"
+			>
+				<particle
+					startsize="20"
+					endsize="40"
+					startcolor="0 0 0"
+					midcolor="1 0.4 .4"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+				<particle
+					startsize="25"
+					endsize="35"
+					startcolor="0 0 0"
+					midcolor="1 0.5 .5"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 Pelvis"
+				bone_b="Bip01 Neck"
+				spawnrate="30"
+				particlelife="500"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle
+					startsize="25"
+					endsize="30"
+					startcolor="0 0 0"
+					midcolor="1 0.7 0.7"
+					endcolor="0 0 0"
+					startalpha="0"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 R Hand"
+				bone_b="Bip01 R Forearm"
+				spawnrate="10"
+				particlelife="500"
+				gravity="1"
+				drag="1"
+				material="/shared/effects/materials/flame4.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.4 .4"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+				<particle
+					startsize="15"
+					endsize="35"
+					startcolor="0 0 0"
+					midcolor="1 0.5 .5"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 R Hand"
+				bone_b="Bip01 R Forearm"
+				spawnrate="10"
+				particlelife="400"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle
+					startsize="15"
+					endsize="20"
+					startcolor="0 0 0"
+					midcolor="1 0.7 0.7"
+					endcolor="0 0 0"
+					startalpha="0"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+
+			<twopointemitter
+				bone_a="Bip01 R Hand"
+				bone_b="Bip01 R Forearm"
+				spawnrate="10"
+				particlelife="500"
+				gravity="1"
+				drag="1"
+				material="/shared/effects/materials/flame4.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.4 .4"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+				<particle
+					startsize="15"
+					endsize="35"
+					startcolor="0 0 0"
+					midcolor="1 0.5 .5"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 R Forearm"
+				bone_b="Bip01 R UpperArm"
+				spawnrate="10"
+				particlelife="400"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle
+					startsize="15"
+					endsize="20"
+					startcolor="0 0 0"
+					midcolor="1 0.7 0.7"
+					endcolor="0 0 0"
+					startalpha="0"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+
+			<twopointemitter
+				bone_a="Bip01 L Foot"
+				bone_b="Bip01 L Calf"
+				spawnrate="10"
+				particlelife="500"
+				gravity="1"
+				drag="1"
+				material="/shared/effects/materials/flame4.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.4 .4"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+				<particle
+					startsize="15"
+					endsize="35"
+					startcolor="0 0 0"
+					midcolor="1 0.5 .5"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 L Foot"
+				bone_b="Bip01 L Calf"
+				spawnrate="10"
+				particlelife="400"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle
+					startsize="15"
+					endsize="20"
+					startcolor="0 0 0"
+					midcolor="1 0.7 0.7"
+					endcolor="0 0 0"
+					startalpha="0"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 L Calf"
+				bone_b="Bip01 L Thigh"
+				spawnrate="10"
+				particlelife="500"
+				gravity="1"
+				drag="1"
+				material="/shared/effects/materials/flame4.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.4 .4"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+				<particle
+					startsize="25"
+					endsize="35"
+					startcolor="0 0 0"
+					midcolor="1 0.5 .5"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 L Calf"
+				bone_b="Bip01 L Thigh"
+				spawnrate="10"
+				particlelife="600"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.7 0.7"
+					endcolor="0 0 0"
+					startalpha="0"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 L Hand"
+				bone_b="Bip01 L Forearm"
+				spawnrate="10"
+				particlelife="500"
+				gravity="1"
+				drag="1"
+				material="/shared/effects/materials/flame4.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.4 .4"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+				<particle
+					startsize="15"
+					endsize="35"
+					startcolor="0 0 0"
+					midcolor="1 0.5 .5"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 L Hand"
+				bone_b="Bip01 L Forearm"
+				spawnrate="10"
+				particlelife="300"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle
+					startsize="15"
+					endsize="20"
+					startcolor="0 0 0"
+					midcolor="1 0.7 0.7"
+					endcolor="0 0 0"
+					startalpha="0"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 L Hand"
+				bone_b="Bip01 L Forearm"
+				spawnrate="10"
+				particlelife="500"
+				gravity="1"
+				drag="1"
+				material="/shared/effects/materials/flame4.material"
+			>
+				<particle
+					startsize="15"
+					endsize="25"
+					startcolor="0 0 0"
+					midcolor="1 0.4 .4"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+				<particle
+					startsize="15"
+					endsize="35"
+					startcolor="0 0 0"
+					midcolor="1 0.5 .5"
+					endcolor="0 0 0"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anglespeed="20"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				bone_a="Bip01 L Forearm"
+				bone_b="Bip01 L UpperArm"
+				spawnrate="10"
+				particlelife="300"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle
+					startsize="15"
+					endsize="20"
+					startcolor="0 0 0"
+					midcolor="1 0.7 0.7"
+					endcolor="0 0 0"
+					startalpha="0"
+					endalpha="0"
+					minangle="0"
+					maxangle="360"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+		</particlesystem>
+
+		<modifier
+			life="150"
+			loop="true"
+			startcolor="2 .7 0.2"
+			midcolor="1.1 1.0 1.0"
+			endcolor="2 .7 0.2"
+		/>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance1" particlesystem="system0"/>
+		<spawnmodifier instance="instance0"/>
+		<waitfordeath instance="instance0"/>
+		<waitfordeath instance="instance1"/>
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->

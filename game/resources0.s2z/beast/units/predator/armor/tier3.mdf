@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="Again.max" file="tier3.model" type="K2" >
+
+<skin name="red">
+		<reference mesh="Object01" material="predArmor_red.material" />
+	</skin>
+	
+	</model>

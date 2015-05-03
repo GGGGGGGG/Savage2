@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc
+	type="Savage" 
+	description="Big tough ice monster."
+	model="/human/units/savage/character_npc.mdf"
+	scale="1.0"
+	width="40"
+	height="80" 
+	maxhealth="500" 
+	speed="300" 
+	experiencereward="75" 
+	goldreward="150" 
+	aggroradius="600" 
+	multiaggroproc="0.3" 
+	multiaggroradius="300" 
+	initialjob="guardpos"
+>
+	<!-- Abilities -->
+	
+	<ability
+		name="Double Attack"
+		type="impulse"
+		attack="snap"
+		activation="1150"
+		impact="400"
+		cooldown="20000"
+		range="100"
+		anim="double_attack"
+		attackheightmin="1"
+		attackheightmax="70"
+		attackwidthmin="-30"
+		attackwidthmax="30"
+		attackyawmin="-40"
+		attackyawmax="40"
+		weight="20"
+	>
+		<effect
+			mindamage="100"
+			maxdamage="123"
+			duration="750"
+			stun="true"
+		/>
+		
+	</ability>
+	
+	<ability
+		name="Rage"
+		type="impulse"
+		attack="self"
+		activation="2500"
+		impact="0"
+		cooldown="45000"
+		weight="150"
+		anim="rage"
+	>
+		<effect
+			speedmult="1.30"
+			attackspeedmult="2.0"
+			armormult="0.60"
+			duration="10000"
+			stun="true"
+			effect="/human/units/savage/effects/rage.effect"
+		/>
+	
+	</ability>
+	
+	<ability
+		name="Critical Strike"
+		type="impulse"
+		attack="snap"
+		activation="700"
+		impact="0"
+		cooldown="30000"
+		weight="50"
+		anim="critical_strike"
+	>
+		<effect
+			mindamage="90"
+			maxdamage="110"
+		/>
+		
+	</ability>
+
+	<ability
+		name="Morale"
+		type="impulse"
+		attack="self"
+		activation="1500"
+		impact="1"
+		cooldown="45000"
+		weight="100"
+		anim="morale"
+	>
+		<effect
+			healthregenmult="1.30"
+			damagemult="1.30"
+			duration="30000"
+			effect="/human/units/savage/effects/morale.effect"
+		/>
+		
+	</ability>
+
+	<!-- Melee -->
+	<ability
+		name="Quick Attack"
+		type="impulse"
+		attack="snap"
+		impact="80"
+		activation="250"
+		cooldown="0"
+		attackheightmin="1"
+		attackheightmax="70"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-10"
+		attackyawmax="50"
+		range="150"
+		weight="20"
+		anim="quick_attack0"
+	>
+		<effect
+			mindamage="35"
+			maxdamage="49"
+			meleeimpact="true"
+		/>
+	</ability>
+	
+	<ability
+		name="Strong Attack"
+		type="impulse"
+		attack="snap"
+		impact="900"
+		activation="1200"
+		cooldown="1500"
+		attackheightmin="1"
+		attackheightmax="60"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-30"
+		attackyawmax="30"
+		range="80"
+		weight="10"
+		anim="strong_attack0"
+	>
+		<effect
+			mindamage="85"
+			maxdamage="103"
+			meleeimpact="true"
+		/>
+	</ability>
+</npc>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="fire_eyebolt">
+	<definitions>
+	
+	<!--    ===========================electricity===================================        -->
+		<particlesystem name="system0" space="world">
+
+			<simpleemitter
+				bone="_bone_FX02"
+				life="820"
+				spawnrate="100"
+				particlelife="200"
+				gravity="-5"
+				speed="0"
+				drag="0"
+				minangle="85"
+				maxangle="90"
+				acceleration="0.0"
+				offsetsphere="0 0 0"
+				material="/shared/effects/materials/lightning_02.material"
+				inheritvelocity="0"
+			>
+				<particle
+					startcolor=".2 .2 .2"
+					midcolor=".4 .6 .8"
+					endcolor="0 0 0"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="1.0"
+					
+					minangle="-180"
+					maxangle="180"
+					angle="0"
+					anglespeed="100"
+					size="5"
+					startscale="7"
+					endscale="0.5"
+					
+					lockup="false"
+					lockright="false"
+					pitch="0"
+					yaw="0"
+				/>
+			</simpleemitter>
+			
+			<simpleemitter
+				bone="_bone_FX1"
+				life="100"
+				spawnrate="200"
+				particlelife="35"
+				gravity="-5"
+				speed="0"
+				drag="0"
+				minangle="85"
+				maxangle="90"
+				acceleration="0.0"
+				offsetsphere="0 0 0"
+				material="/shared/effects/materials/lightning_02.material"
+				inheritvelocity="0"
+			>
+				<particle
+					startcolor=".2 .2 .2"
+					midcolor=".4 .6 .8"
+					endcolor="0 0 0"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="1.0"
+					
+					minangle="-180"
+					maxangle="180"
+					angle="0"
+					anglespeed="100"
+					size="5"
+					startscale="7"
+					endscale="0.5"
+					
+					lockup="false"
+					lockright="false"
+					pitch="0"
+					yaw="0"
+				/>
+			</simpleemitter>
+			
+			<simpleemitter
+				bone="_bone_FX03"
+				life="100"
+				spawnrate="200"
+				particlelife="35"
+				gravity="-5"
+				speed="0"
+				drag="0"
+				minangle="85"
+				maxangle="90"
+				acceleration="0.0"
+				offsetsphere="0 0 0"
+				material="/shared/effects/materials/lightning_02.material"
+				inheritvelocity="0"
+			>
+				<particle
+					startcolor=".2 .2 .2"
+					midcolor=".4 .6 .8"
+					endcolor="0 0 0"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="1.0"
+					
+					minangle="-180"
+					maxangle="180"
+					angle="0"
+					anglespeed="100"
+					size="5"
+					startscale="7"
+					endscale="0.5"
+					
+					lockup="false"
+					lockright="false"
+					pitch="0"
+					yaw="0"
+				/>
+			</simpleemitter>
+			
+	<simpleemitter
+				bone="_bone_FX04"
+				life="100"
+				spawnrate="200"
+				particlelife="35"
+				gravity="-5"
+				speed="0"
+				drag="0"
+				minangle="85"
+				maxangle="90"
+				acceleration="0.0"
+				offsetsphere="0 0 0"
+				material="/shared/effects/materials/lightning_02.material"
+				inheritvelocity="0"
+			>
+				<particle
+					startcolor=".2 .2 .2"
+					midcolor=".4 .6 .8"
+					endcolor="0 0 0"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="1.0"
+					
+					minangle="-180"
+					maxangle="180"
+					angle="0"
+					anglespeed="100"
+					size="5"
+					startscale="7"
+					endscale="0.5"
+					
+					lockup="false"
+					lockright="false"
+					pitch="0"
+					yaw="0"
+				/>
+			</simpleemitter>
+
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

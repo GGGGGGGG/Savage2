@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="EyeBolt_rig_delivery.max" file="character.model" type="K2" loddistance="1000">
+
+	<spawnevent cmd="starteffect /npcs/EyeBolt/Effects/electric.effect 0" />
+	
+<anim name="idle" clip="clips/idle.clip" fps="45" loop="true">
+
+		<frameevent frame="1" cmd="PlaySound /npcs/eyebolt/electricity.mp3 80 1 1 100 100"/></anim>
+
+<anim name="die" clip="clips/death.clip" loop="true" loopbackframe="60">
+	<frameevent frame="0" cmd="StopEffect  0" />
+</anim>im>
+
+<anim name="run_fwd" clip="clips/run_fwd.clip" loop="true"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 50 0.6"/>
+
+<anim name="run_back" clip="clips/run_back.clip" loop="true"/>
+
+
+<anim name="stunned" clip="clips/stunned.clip" blendtime="0" numframes="66" loop="true" loopbackframe="15">
+		<frameevent frame="1" cmd="StartEffect /npcs/EyeBolt/effects/block_stunned.effect"/>
+		<frameevent frame="1" cmd="StartEffect /npcs/EyeBolt/effects/stars.effect" />				
+</anim>
+
+<anim name="block" clip="clips/block.clip" blendtime="0" loop="true" fps="150" loopbackframe="1"/>
+
+<anim name="quick_attack0" clip="clips/lt_atk.clip" />
+	
+	<anim name="jump" clip="clips/jump.clip" fps="30" loop="true" numframes="50" loopbackframe="15"/>
+
+		<anim name="land" clip="clips/idle.clip" blendtime="100" fps="30">
+		<frameevent frame="1" cmd="StartEffect /shared/effects/land.effect"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 50 0.6"/>
+		<frameevent frame="2" cmd="PlaySound /npcs/eyebolt/eyeboltatt0.mp3 20 0.1"/>
+	</anim>
+	
+
+<anim name="strong_attack0" clip="clips/str_atk.clip"/>
+
+<anim name="range" clip="clips/range.clip" blendtime="100" fps="20" >
+		<frameevent frame="5" cmd="StartEffect /npcs/EyeBolt/effects/fire.effect"/>
+		<frameevent frame="5" cmd="PlaySound /npcs/eyebolt/eyeboltatt0.mp3"/>
+
+		</anim>
+
+
+
+
+
+
+
+</model>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<effect name="">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<simpleemitter
+				bone="Bip01 Head"
+				spawnrate="40"
+				minparticlelife="1000"
+				maxparticlelife="2500"
+				offsetsphere="15 10 5"
+				speed="7"
+				gravity="-1"
+				startangle="0"
+				endangle="180"
+				material="sleep.material"
+			>
+				<particle
+					color="1"
+					endalpha="0"
+					maxangle="5"
+					maxanglespeed="30"
+					size="6"
+					startscale="0"
+					maxendscale="1"
+				/>
+			</simpleemitter>
+
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->

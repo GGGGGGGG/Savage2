@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc
+	type="Golden Troll" 
+	description="Really mean melee dude."
+	model="character.mdf"
+	scale="1.5"
+	width="45"
+	height="90" 
+	maxhealth="675" 
+	speed="320" 
+	armor="8"
+	experiencereward="70" 
+	goldreward="150" 
+	aggroradius="650" 
+	multiaggroproc="0.25" 
+	multiaggroradius="500" 
+	initialjob="guardpos"
+	hitbyrangedeffectpath="/shared/effects/ranged_impact_npc.effect" 
+	hitbymeleeeffectpath="/shared/effects/melee_impact_npc.effect"
+	iconpath="icon.tga"
+	itemdrop="0.5"
+	soul="1"
+	commanderscale="1.9"
+	commanderportrait="goldentroll_portrait.tga"
+>
+	<!-- Abilities -->
+	
+	<ability
+		name="Shout"
+		type="impulse"
+		attack="snap"
+		activation="1150"
+		impact="1000"
+		cooldown="30000"
+		range="120"
+		anim="shout"
+		attackheightmin="1"
+		attackheightmax="90"
+		attackwidthmin="-30"
+		attackwidthmax="30"
+		attackyawmin="-40"
+		attackyawmax="40"
+		weight="5"
+	>
+		<effect
+			mindamage="15"
+			maxdamage="27"
+			duration="2000"
+			anim="stunned"
+			stun="true"
+			icon="shout_icon.tga"
+		/>
+		
+		<effect
+			duration="6500"
+			speedmult="0.85"
+			attackspeedmult="0.75"
+			damagemult="0.80"
+			armoradd="-3"
+		/>
+		
+	</ability>
+
+	<!-- Melee -->
+	<ability
+		name="Quick Attack"
+		type="impulse"
+		attack="snap"
+		impact="200"
+		activation="250"
+		cooldown="1500"
+		attackheightmin="1"
+		attackheightmax="80"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-10"
+		attackyawmax="50"
+		range="90"
+		weight="20"
+		anim="quick_attack0"
+	>
+		<effect
+			mindamage="35"
+			maxdamage="49"
+			meleeimpact="true"
+		/>
+	</ability>
+	
+	<ability
+		name="Strong Attack"
+		type="impulse"
+		attack="snap"
+		impact="425"
+		activation="1200"
+		cooldown="3500"
+		attackheightmin="1"
+		attackheightmax="120"
+		attackwidthmin="-10"
+		attackwidthmax="10"
+		attackyawmin="-20"
+		attackyawmax="20"
+		range="80"
+		weight="5"
+		anim="strong_attack0"
+	>
+		<effect
+			mindamage="65"
+			maxdamage="83"
+			meleeimpact="true"
+		/>
+	</ability>
+</npc>

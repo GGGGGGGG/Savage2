@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc
+	type="Cikle" 
+	description="Big tough ice monster."
+	model="character.mdf"
+	scale="1.0"
+	width="40"
+	height="80" 
+	maxhealth="500" 
+	speed="300" 
+	experiencereward="50" 
+	goldreward="80" 
+	armor="7"
+	aggroradius="600" 
+	multiaggroproc="0.4" 
+	multiaggroradius="400" 
+	initialjob="guardpos"
+	hitbyrangedeffectpath="/shared/effects/ranged_impact_npc.effect" 
+	hitbymeleeeffectpath="/shared/effects/melee_impact_npc.effect"
+	iconpath="icon.tga"
+	itemdrop="0.35"
+	soul="0"
+	commanderscale="1.8"
+	commanderportrait="cikle_portrait.tga"
+>
+	<!-- Abilities -->
+	
+	<!-- Ice Bolt -->
+	<ability
+		name="Ice Bolt"
+		type="impulse"
+		attack="projectile"
+		activation="2000"
+		impact="1500"
+		cooldown="1250"
+		range="900"
+		weight="25"
+		anim="icebolt"
+	>
+		<projectile
+			speed="4000" 
+			life="700" 
+			model="effects/ice_bolt.mdf"
+			traileffect="effects/ice_bolt_trail.effect"
+			deatheffect="effects/ice_bolt_impact.effect"
+		/>
+		<effect
+			mindamage="65"
+			maxdamage="82"
+			duration="2000"
+			speedmult="0.75"
+			effect="effects/ice_bolt_state.effect"
+			icon="icon.tga"
+		/>
+	</ability>
+
+	<!-- Ice Stun -->
+	<ability
+		name="Ice Stun"
+		type="impulse"
+		attack="snap"
+		activation="1500"
+		impact="1250"
+		cooldown="25000"
+		range="500"
+		weight="5"
+		anim="iceroot"
+	>
+		<effect
+			duration="2500"
+			stun="true"
+			effect="/shared/effects/frozen.effect"
+			anim="frozen"
+			icon="ice_prison_icon.tga"
+		/>
+	</ability>
+</npc>

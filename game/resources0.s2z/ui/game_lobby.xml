@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface name="game_lobby" onshow="PlayMusic('/music/lobby.ogg',true);">
+<interface name="game_lobby" onshow="PlayMusic('/music/lobby.ogg',true); Exec('/ui/scripts/gamechatignore.cfg');">
 	<!-- Fonts -->
 	<include file="fonts.xml"/>
 	<include file="inc_button.xml"/>
@@ -550,10 +550,33 @@
 							color="invisible"
 							onshow="SetFocus(false); SetInputLine(GetCurrentChatMessage());"
 							onenter="
+Cmd('set isIgnoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 6),'ignore', 0) gt -1, Cmd('set isIgnoreCmd true'));
+
+If(isIgnoreCmd, Set('ignore_nick', SubString(GetCurrentChatMessage(), 7, -1)));
+If(isIgnoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) lt 0,
+    Set('game_chat_ignore_list', game_chat_ignore_list # ',' # ignore_nick # ',')
+  )
+);
+
+Cmd('set isUnignoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 8),'unignore', 0) gt -1, Cmd('set isUnignoreCmd true'));
+
+If(isUnignoreCmd, Set(ignore_nick, SubString(GetCurrentChatMessage(), 9, -1)));
+If(isUnignoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) gt -1,
+    Set(game_chat_ignore_list, 
+      SubString(game_chat_ignore_list, 0, SearchString(game_chat_ignore_list, ignore_nick # ',', 0) - 1) # 
+      SubString(game_chat_ignore_list, SearchString(game_chat_ignore_list, ',', SearchString(game_chat_ignore_list, ignore_nick # ',', 0)), -1)
+    )
+  )
+); 
 								PlaySound('/shared/sounds/ui/chat_send.mp3');
 								(*_lobby_chat_type)(this);
 								EraseInputLine();
-								ClearCurrentChatMessage();"
+								ClearCurrentChatMessage();
+"
 							onesc="EraseInputLine(); SetFocus(true); ClearCurrentChatMessage();"
 							onchange="SetCurrentChatMessage(this);"
             />
@@ -577,7 +600,12 @@
 						color="invisible"
 						textcolor="white"
 						watch1="GameChatTrigger"
-						ontrigger1="If(!game_chat_nick, CreateString('game_chat_nick', '')); Set('game_chat_nick', SubString(param, SearchString(param, '] ', 0) + 4, SearchString(param, ':', 0) - SearchString(param, '] ', 0) - 4)); If(!StringEquals(game_chat_nick, 'Server Message'), If(!*('Ignore_' # game_chat_nick), Cmd('Set Ignore_' # game_chat_nick # ' false'))); If(IsVisible(), If(!*('Ignore_' # game_chat_nick), TextBufferCmd(param)));"
+						ontrigger1="
+Set('game_chat_nick', SubString(param, SearchString(param, '] ', 0) + 4, SearchString(param, ':', 0) - SearchString(param, '] ', 0) - 4));
+If(SearchString(game_chat_ignore_list, game_chat_nick # ',', 0) lt 0, 
+  If(IsVisible(), TextBufferCmd(param))
+);
+"
 						watch2="IRCChatTrigger"
 						ontrigger2="If(IsVisible(), TextBufferCmd(param));"
 						onload="CreateInt(name # 'LastUpdate', 0);"

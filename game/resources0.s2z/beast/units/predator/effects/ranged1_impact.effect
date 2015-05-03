@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="ranged1_impactl_pred">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<sound
+				falloff="80.0" 
+				volume="1.0" 
+				sample="/beast/units/predator/sounds/impact_%.ogg"
+			/>
+
+			<simpleemitter
+				spawnrate="20"
+				life="400"
+				minparticlelife="300"
+				maxparticlelife="550"
+				speed="30"
+				angle="35"
+				gravity="-5"
+				material="/shared/effects/materials/flame4_add.material"
+				offsetsphere="10 5 5"
+				position="0 0 30"
+			>
+				<particle 
+					minangle="-120"
+					maxangle="120"
+					minanglespeed="-30"
+					maxanglespeed="30"
+					startcolor="1 0.7 0.2"
+					endcolor="0 0 0"
+					startsize="100"
+					endsize="150"
+					startalpha="0"
+					midalpha="1"
+					endalpha="0"
+					midalphapos=".1"
+					scale="0.6"
+
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				spawnrate="25"
+				life="150"
+				minparticlelife="50"
+				maxparticlelife="150"
+				speed="30"
+				angle="25"
+				gravity="-5"
+				material="/shared/effects/materials/spark.material"
+				offsetsphere="5 5 3"
+				position="0 0 10"
+			>
+				<particle
+					minangle="0"
+					maxangle="360"
+					startcolor="1 0.4 0.4"
+					endcolor="0 0 0"
+					startsize="40"
+					endsize="20"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				spawnrate="255"
+				count="6"
+				life="300"
+				particlelife="600"
+				material="/shared/effects/materials/flare3.material"
+				position="0 0 5"
+			>
+				<particle
+					maxangle="360"
+					startcolor="1 0.4 0.4"
+					endcolor="0 0 0"
+					startsize="60"
+					endsize="140"
+					startalpha="1"
+					endalpha="0"
+				/>
+			</simpleemitter>
+
+			<light
+				startcolor="2 1.5 1"
+				midcolor="1 0.6 0.5"
+				midcolorpos="0.4"
+				endcolor="0 0 0"
+				position="0 0 20"
+				startfalloffend="120"
+				endfalloffend="320"
+				life="300"
+			/>
+			
+			<simpleemitter
+			life="200"
+			loop="0"
+			spawnrate="55"
+			
+			particlelife="800"	
+			delay="0"
+			gravity="-10"
+			minspeed="0"
+			maxspeed="20"
+			drag="0.05"
+			acceleration="1"
+			position="0 0 0"
+			minangle="0"
+			maxangle="0"
+			direction="0 0 0"
+			material="/shared/effects/materials/refract_wave.material"
+			offsetsphere="2 2 2"
+		>
+			<particle
+				startparam=".1"
+				endparam="0.0"
+				startcolor="1 1 1"
+				endcolor="1 1 1"
+				midcolorpos=".35"
+				minangle="-180"
+				maxangle="180"
+				minanglespeed="0"
+				maxanglespeed="50"
+				startalpha="0"
+				midalpha="1"
+				endalpha="0"
+				startsize="50"
+				endsize="120"
+				color=".8 .8 .8"
+				startanchor="1"
+				endanchor="0.5"
+			/>
+		</simpleemitter>
+	
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->

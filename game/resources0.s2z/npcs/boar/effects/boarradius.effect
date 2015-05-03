@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="simple">
+	<definitions>
+		<particlesystem name="system0" space="world">
+			<simpleemitter
+				count="1200"
+				particlelife="2000"
+				gravity="1.0"
+				speed="100.0"
+				drag="0.4" 
+				acceleration="0.1"
+				minangle="0" 
+				maxangle="85" 
+				material="/shared/effects/materials/whitedot.material"
+				position="0 0 30"
+				offsetsphere="100 100 100"
+
+			>
+				<particle
+					startcolor="1 .8 0"
+					midcolor=".8 .2 0"
+					endcolor=".5 0 0"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					angle="0"
+					width="1.0"
+					height="1.0"
+					heightdistort="0.1" 
+					turn="true"
+					flare="true"
+				/>
+			</simpleemitter>
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="PREDAT~07.MAX" file="ranged1.model" type="K2">
+
+	<anim name="idle"  clip="fps_idle.clip" fps="30" loop="true" startframe="0" numframes="120" blendtime="300" >
+		<startevent cmd="starteffect /beast/units/predator/effects/ranged1_idle_1st.effect 0"/>
+		<startevent cmd="PlaySoundLooping /shared/sounds/effects/torch.mp3 250 0.4 0 200 250"/>
+	</anim>
+	
+	<anim name="fire" clip="Range_4.clip" fps="35" blendtime="240">
+		<frameevent frame="1" cmd="StopSound 0"/>
+		<startevent cmd="starteffect /beast/units/predator/effects/ranged1_idle_1st.effect 0"/> 
+		<frameevent frame="2" cmd="starteffect /beast/units/predator/effects/ranged1fire_1st.effect 1"/>
+		<frameevent frame="1" cmd="PlaySoundLooping /shared/sounds/effects/fire_2.mp3 250 0.4 0 200 50"/>
+	</anim>	
+
+</model>
+
+

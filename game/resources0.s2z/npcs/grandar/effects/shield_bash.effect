@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="shieldbash">
+
+<definitions>
+	<particlesystem name="system0" space="world">
+	
+			
+			<model
+				life="350"
+				model="/npcs/grandar/effects/shield/shield.mdf"
+				bone="Bip01 L Hand05"
+				startcolor="2 2 .4"
+				endcolor="0.0 0.0 0.0"
+				material="/npcs/grandar/effects/shield/shell2.material"
+				startalpha="0"
+				endalpha="15"				
+			/>
+			
+		<model
+				life="110"
+				model="/npcs/grandar/effects/shield/shield.mdf"
+				bone="Bip01 L Hand05"
+				startcolor="8.8 8.8 8"
+				endcolor="0.0 0.0 0.0"
+				material="/npcs/grandar/effects/shield/shell2.material"
+				startalpha="0"
+				endalpha="15"
+				delay="100"				
+			/>
+			
+			
+			
+			
+			
+			
+			
+			<simpleemitter
+				bone="Bip01 L Hand05"
+				life="150"
+				spawnrate="100"
+				particlelife="800"
+				gravity="-5"
+				speed="80"
+				drag="0.0"
+				angle="90"
+				acceleration="1"
+				material="/shared/effects/materials/dust_additive.material"
+				offsetsphere="0 0 0"
+				
+			>
+				<particle
+					minangle="0"
+					maxangle="0"
+					anglespeed="60"	
+					startcolor="0 0 0"
+					midcolor=".7 .7 .8"
+					endcolor="0.0 0.0 0.0"
+					midcolorpos="0.5"
+					startalpha=".2"
+					endalpha="0"
+					minsize="40"
+					maxsize="80"
+					
+					
+					
+				/>
+			</simpleemitter>
+			
+			
+		
+	</particlesystem>
+</definitions>
+<thread>
+	<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+	<!-- <die /> -->
+</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+

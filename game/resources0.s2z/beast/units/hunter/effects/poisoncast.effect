@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<effect name="">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<twopointemitter
+				life="375"
+				bone_a="_bone_swoosh_b_l" 
+				bone_b="_bone_swoosh_a_l" 
+				spawnrate="100"
+				particlelife="500"
+				position="-30 20 10"
+				offsetsphere="15 10 5"
+				gravity="10"
+				timenudge="250"
+				material="/shared/effects/materials/spore_07.material"
+			>
+				<particle
+					startcolor="0 0 0"
+					midcolor="0 1 0"
+					endcolor="0 0 0"
+					minangle="0"
+					minanglespeed="-100"
+					maxanglespeed="300"
+					maxangle="360"
+					size="14"
+					startscale="0"
+					minendscale="1"
+					maxendscale="5"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<twopointemitter
+				life="375"
+				bone_a="_bone_swoosh_b_r" 
+				bone_b="_bone_swoosh_a_r" 
+				spawnrate="100"
+				particlelife="500"
+				position="-30 20 10"
+				offsetsphere="15 10 5"
+				gravity="10"
+				timenudge="250"
+				material="/shared/effects/materials/spore_07.material"
+			>
+				<particle
+					startcolor="0 0 0"
+					midcolor="0 1 0"
+					endcolor="0 0 0"
+					minangle="0"
+					minanglespeed="-100"
+					maxanglespeed="300"
+					maxangle="360"
+					size="14"
+					startscale="0"
+					minendscale="1"
+					maxendscale="5"
+					anchor="1"
+				/>
+			</twopointemitter>
+
+			<orbiteremitter
+				spawnrate="300"
+				particlelife="600"
+				life="300"
+				drag="0.1"
+				speed="5.00"
+				origin="0 0 5" 
+				orbit="0 140 32" 
+				direction="0 0 1" 
+				offset="3 13 3"
+				cylindrical="true" 
+				position="0 0 70"
+				material="/shared/effects/materials/flare1.material"
+			>
+				<particle
+					startcolor="0.3 1 .3"
+					endcolor="0 0 0"
+					startalpha="1"
+					midalpha="1"
+					endalpha="0"
+					midalphapos="0.2" 
+					size="45.0"
+					maxangle="360"
+					anchor="1"
+				/>
+
+			</orbiteremitter>
+
+			<simpleemitter
+				spawnrate="20"
+				particlelife="400"
+				bone="Bip01 Spine"
+				speed="15"
+				timenudge="-100"
+				life="300"
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor=".1 1 .2"
+					endcolor="0.0 0.0 0"
+					startalpha="1.0"
+					endalpha="0.0"
+					width="45.0"
+					startheight="0.0"
+					endheight="350.0"
+					lockup="true"
+				/>
+			</simpleemitter>
+
+			<model
+				life="1000"
+				parentmodel="true"
+				parentskeleton="true"
+				startcolor="0"
+				midcolor=".1 1 .2"
+				endcolor="0"
+				material="/shared/effects/materials/shell3.material"
+				startalpha="0"
+				midalpha="1"
+				endalpha="0"
+			/>
+
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->

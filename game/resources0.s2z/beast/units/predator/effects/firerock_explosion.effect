@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="fire_explosion">
+	<definitions>
+		<particlesystem name="system0" space="world">
+
+			<sound
+				falloff="450.0" 
+				volume="1.0" 
+				sample="/human/units/steambuchet/sounds/fire_explosion_%.mp3"
+				soundloop="false"
+			/>
+
+			<light
+				life="1000"
+				falloff="300"
+				color="1.5 1.9 2"
+				endcolor="0 0 0"
+				position="0 0 100"
+			/>
+			
+			<simpleemitter			
+				spawnrate="2500"
+				count="20"
+				minparticlelife="1200"
+				maxparticlelife="2000"
+				gravity="-2"
+				maxspeed="80"
+				position="0 0 60"
+				drag="0.03"
+				material="/shared/effects/materials/explosion.material"
+				offsetsphere="50 70 65"
+				timenudge="600"
+			>
+				<particle
+					minangle="0"
+					maxangle="45"
+					minanglespeed="0"
+					startcolor="0 .2 2"
+					endcolor="0 .1 1"
+					
+					maxanglespeed="10"
+					endanglespeed="0"
+					endanglespeedpos="0.1"
+					startsize="0"
+					midsize="100"
+					endsize="500"
+					startalpha="1"
+					midalpha="1"
+					midalphapos="0.1"
+					endalpha="0"
+				/>
+			</simpleemitter>
+
+			<simpleemitter			
+				spawnrate="2225"
+				count="10"
+				minparticlelife="0"
+				maxparticlelife="1500"
+				gravity="-1"
+				speed="20"
+				offsetsphere="0 0 50"
+				position="0 0 40"
+				material="/shared/effects/materials/flame3.material"
+			>
+				<particle 
+					minangle="0"
+					maxangle="360"
+					minanglespeed="-30"
+					startcolor="0 .5 1"
+					endcolor="0 0 0"
+					maxanglespeed="30"
+					startsize="200"
+					endsize="650"
+					startalpha="1"
+					endalpha="0"
+				/>
+			</simpleemitter>
+
+			<simpleemitter			
+				spawnrate="2225"
+				count="13"
+				minparticlelife="500"
+				maxparticlelife="900"
+				gravity="-2"
+				speed="30"
+				
+				position="0 0 -20"
+				offsetsphere="50 50 50"
+				material="/shared/effects/materials/flame2.material"
+			>
+				<particle 
+					scale="1.0"
+					startcolor="1 .5 .2"
+					midcolor="0 0.5 1"
+					endcolor="0 0 0"
+					maxanglespeed="30"
+					startsize="100"
+					endsize="350"
+					startalpha="1"
+					endalpha="0"
+					maxangle="360"
+				/>
+			</simpleemitter>
+
+			<simpleemitter			
+				spawnrate="2225"
+				count="13"
+				minparticlelife="700"
+				maxparticlelife="1000"
+				gravity="-2"
+				speed="40"
+				
+				position="0 0 0"
+				offsetsphere="60 20 50"
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle 
+					scale="1.0"
+					startcolor="1 1 1"
+					midcolor="0 0.5 1"
+					endcolor="0 0 0"
+					maxanglespeed="30"
+					startsize="50"
+					endsize="250"
+					startalpha="1"
+					endalpha="0"
+					maxangle="20"
+				/>
+			</simpleemitter>
+
+			<simpleemitter			
+				spawnrate="2225"
+				count="3"
+				minparticlelife="500"
+				maxparticlelife="900"
+				gravity="-2"
+				speed="30"
+				
+				position="0 0 0"
+				offsetsphere="50 50 50"
+				material="/shared/effects/materials/flare1.material"
+			>
+				<particle 
+					scale="1.0"
+					startcolor="1 .5 .2"
+					midcolor="0 0.5 1"
+					endcolor="0 0 0"
+					maxanglespeed="30"
+					startsize="100"
+					endsize="850"
+					startalpha="1"
+					endalpha="0"
+					maxangle="360"
+				/>
+			</simpleemitter>
+
+			<groundsprite
+				life="9000" 
+				material="/shared/effects/materials/scorch_1.material"
+				size="200"
+				color="0 .5 1"
+				startalpha="0.3"
+				midalpha="0.8"
+				midalphapos="0.8" 
+				endalpha="0.0" 
+			/>
+
+			<groundsprite
+				life="3000" 
+				material="/shared/effects/materials/plume_shadow.material"
+				startsize="0"
+				midsize="350"
+				midsizepos="0.3"
+				endsize="350"
+				color="1 1 1"
+				startalpha="0.5"
+			
+				endalpha="0" 
+			/>
+
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->
+
+
+
+
+

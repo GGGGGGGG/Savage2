@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="carnivore">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<light
+				startcolor="2 2 2"
+				midcolor="3 1.5 1"
+				midcolorpos="0.4"
+				endcolor="0 0 0"
+				position="0 0 60"
+				falloffend="220"
+				life="500"
+				delay="500"
+			/>
+
+			<billboard 
+				bone="Bip01 Spine"
+				delay="500"
+				position="0 0 0"
+				material="/shared/effects/materials/flare2.material" 
+				startheight="100"	
+				endheight="700"			
+				endwidth="150"
+				life="400"
+				startcolor="2 0.8 0.2"
+				endcolor="0 0 0"
+			/>
+
+			<billboard 
+				bone="Bip01 Spine"
+				delay="500"
+				position="0 1 0"
+				material="/shared/effects/materials/glow.material" 
+				startheight="0"	
+				endheight="800"			
+				startwidth="0"
+				endwidth="70"
+				life="200"
+				startcolor="1 1 1"
+				endcolor="0 0 0.3"
+			/>
+
+			<simpleemitter
+				bone="Bip01 Spine"
+				delay="500"
+				life="1800"
+				startspawnrate="100"
+				endspawnrate="0"
+				particlelife="300"
+				material="/shared/effects/materials/lightning_02.material"
+				offsetsphere="15 15 45"
+			>
+				<particle
+					startcolor=".5 .3 .2"
+					midcolor="1 .4 .2"
+					endcolor="0 0 0"
+					midcolorpos="0.5"
+					startsize="10"
+					endsize="55"
+					maxangle="360"
+					maxanglespeed="35"
+					anchor="1"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				bone="Bip01 Spine"
+				delay="500"
+				life="1000"
+				spawnrate="40"
+				particlelife="400"
+				material="/shared/effects/materials/flare1.material"
+				speed="15"
+				offsetsphere="10 10 20"
+			>
+				<particle
+					startcolor="1 1 1"
+					midcolor="1 .4 .2"
+					endcolor="0 0 0"
+					midcolorpos="0.5"
+					startsize="0"
+					endsize="115"
+					turn="true"
+					heightdistort="12"
+					anchor="1"
+				/>
+			</simpleemitter>
+   
+		</particlesystem>
+
+		<modifier
+
+			life="3000"
+			startcolor="1 1 1"
+			midcolor="4 1.5 1.2"
+			endcolor="1 1 1"
+		/>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance1" particlesystem="system0"/>
+		<spawnmodifier instance="instance0"/>
+		<waitfordeath instance="instance0"/>
+		<waitfordeath instance="instance1"/>
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->

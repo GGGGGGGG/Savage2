@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface name="game_lobby" onshow="PlayMusic('/music/lobby.ogg',true);">
+<interface name="game_lobby" onshow="PlayMusic('/music/lobby.ogg',true); Exec('/ui/scripts/gamechatignore.cfg');">
 	<!-- Fonts -->
 	<include file="fonts.xml"/>
 	<include file="inc_button.xml"/>
@@ -323,13 +323,44 @@
 					<panel x="-2" width="-58" height="24" align="right" valign="center">
 						<frame texture="/ui/frames/rounded_button_bg_white.tga" borderthickness="8" color="black"/>
 						<frame texture="/ui/frames/roundframe.tga" color="orange" borderthickness="8"/>
-						<textbox name="lobby_chat_box" x="5" y="3" width="-5" maxlength="250" textalign="left" font="gametiny" textcolor="orange" shadow="false" color="invisible" onshow="SetFocus(true); SetInputLine(GetCurrentChatMessage());" onenter="         PlaySound('/shared/sounds/ui/chat_send.mp3');         (*_lobby_chat_type)(this);         EraseInputLine();         ClearCurrentChatMessage();" onesc="EraseInputLine(); SetFocus(true); ClearCurrentChatMessage();"/>
+						<textbox name="lobby_chat_box" x="5" y="3" width="-5" maxlength="250" textalign="left" font="gametiny" textcolor="orange" shadow="false" color="invisible" onshow="SetFocus(true); SetInputLine(GetCurrentChatMessage());" onenter="
+Cmd('set isIgnoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 6),'ignore', 0) gt -1, Cmd('set isIgnoreCmd true'));
+
+If(isIgnoreCmd, Set('ignore_nick', SubString(GetCurrentChatMessage(), 7, -1)));
+If(isIgnoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) lt 0,
+    Set('game_chat_ignore_list', game_chat_ignore_list # ',' # ignore_nick # ',')
+  )
+);
+
+Cmd('set isUnignoreCmd false');
+If(SearchString(SubString(GetCurrentChatMessage(), 0, 8),'unignore', 0) gt -1, Cmd('set isUnignoreCmd true'));
+
+If(isUnignoreCmd, Set(ignore_nick, SubString(GetCurrentChatMessage(), 9, -1)));
+If(isUnignoreCmd, 
+  If(SearchString(game_chat_ignore_list, ignore_nick # ',', 0) gt -1,
+    Set(game_chat_ignore_list, 
+      SubString(game_chat_ignore_list, 0, SearchString(game_chat_ignore_list, ignore_nick # ',', 0) - 1) # 
+      SubString(game_chat_ignore_list, SearchString(game_chat_ignore_list, ',', SearchString(game_chat_ignore_list, ignore_nick # ',', 0)), -1)
+    )
+  )
+);         
+
+PlaySound('/shared/sounds/ui/chat_send.mp3');         (*_lobby_chat_type)(this);         EraseInputLine();         ClearCurrentChatMessage();
+
+" onesc="EraseInputLine(); SetFocus(true); ClearCurrentChatMessage();"/>
 							onchange="SetCurrentChatMessage(this);"
 					</panel>
 				</frame>
 
 				<panel name="lobby_chat_buffer" y="27" height="-63" width="-4" align="center" color="#00000055">
-					<textbuffer name="lobby_chat_buffer" scrolltexture="/ui/elements/vist_scroll.tga" handleheight="32" width="-5" height="100%" align="right" valign="center" textalign="left" font="gametiny" wrap="true" anchorbottom="true" usesmileys="true" maxlines="1000" shadow="true" color="invisible" textcolor="white" watch1="GameChatTrigger" ontrigger1="If(IsVisible(), TextBufferCmd(param));" watch2="IRCChatTrigger" ontrigger2="If(IsVisible(), TextBufferCmd(param));" onload="CreateInt(name # 'LastUpdate', 0);" onshow="TriggerChatEvents(*(name # 'LastUpdate'));" onhide="Set(name # 'LastUpdate', GetTime());"/>
+					<textbuffer name="lobby_chat_buffer" scrolltexture="/ui/elements/vist_scroll.tga" handleheight="32" width="-5" height="100%" align="right" valign="center" textalign="left" font="gametiny" wrap="true" anchorbottom="true" usesmileys="true" maxlines="1000" shadow="true" color="invisible" textcolor="white" watch1="GameChatTrigger" ontrigger1="
+Set('game_chat_nick', SubString(param, SearchString(param, '] ', 0) + 4, SearchString(param, ':', 0) - SearchString(param, '] ', 0) - 4));
+If(SearchString(game_chat_ignore_list, game_chat_nick # ',', 0) lt 0, 
+  If(IsVisible(), TextBufferCmd(param))
+);
+" watch2="IRCChatTrigger" ontrigger2="If(IsVisible(), TextBufferCmd(param));" onload="CreateInt(name # 'LastUpdate', 0);" onshow="TriggerChatEvents(*(name # 'LastUpdate'));" onhide="Set(name # 'LastUpdate', GetTime());"/>
 				</panel>
 			</panel>
 

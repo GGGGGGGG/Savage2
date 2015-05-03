@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="cast heal">
+
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<light			
+				life="500"
+				startcolor="2 4 6"
+				endcolor="0 0 0"	
+				position="0 0 80"			
+				falloffend="200"				
+				delay="400"
+			/>
+		
+			<simpleemitter
+				bone="Bip01 Spine1"
+				life="400"
+				spawnrate="60"
+				particlelife="550"				
+				speed="10"
+				material="/shared/effects/materials/flare3.material"	
+			>
+				<particle
+					startcolor="1 1 1"
+					endcolor="0 0 0"
+					minangle="0"
+					maxangle="360"
+					startsize="15"
+					endsize="-30"
+					flare="true"
+					heightdistort="22"
+					
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				delay="400"
+				life="500"
+				count="50"
+				position="0 0 50"
+				spawnrate="1260"
+				minparticlelife="1200"
+				maxparticlelife="2400"
+				speed="210"
+				drag="0.15"
+				offsetsphere="35 35 35"
+				material="/shared/effects/materials/dust5.material"
+			>	
+				<particle
+					startcolor="1 1 1"
+					endcolor="0 0 0"
+					startalpha="1"
+					endalpha="0"
+					minangle="-180"
+					maxangle="180"
+					minanglespeed="-50"
+					maxanglespeed="50"
+					startsize="50"
+					minendsize="90"
+					maxendsize="135"
+					startanchor="1"
+					endanchor="0"
+				/>
+			</simpleemitter>
+
+			<orbiteremitter
+				delay="400"
+				spawnrate="1500"
+				particlelife="600"
+				life="300"
+				drag="0.1"
+				speed="5.00"
+				origin="0 0 34" 
+				orbit="75 140 32" 
+				direction="0 0 1" 
+				offset="3 13 3"
+				cylindrical="true" 
+				position="0 0 10"
+				material="/shared/effects/materials/flare3.material"
+			>
+				<particle
+					startcolor="1 1 1"
+					endcolor="0 0 0"
+					startalpha="1"
+					midalpha="1"
+					endalpha="0"
+					midalphapos="0.2" 
+					size="45.0"
+					maxangle="360"
+					anchor="1"
+				/>
+
+			</orbiteremitter>
+
+		</particlesystem>
+
+	</definitions>
+
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+		<waitfordeath instance="instance0"/>
+		<!-- <die /> -->
+	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->

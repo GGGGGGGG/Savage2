@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="goldentroll_idle01.max" file="character.model" type="K2" loddistance="1000">
+
+	<anim name="idle" clip="clips/idle01.clip" fps="30" loop="true"/>
+	<anim name="idle02" clip="clips/idle02.clip" fps="30" loop="true"/>
+	
+	<anim name="die" clip="clips/death.clip" loop="true" loopbackframe="150">
+		<frameevent frame="10" cmd="PlaySound /npcs/goldentroll/sounds/death.mp3"/>
+		<frameevent frame="8" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>
+		<frameevent frame="8" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3"/>
+		<frameevent frame="33" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>
+	</anim>
+
+	<anim name="block" clip="clips/block.clip"/> 
+
+	<anim name="stunned" clip="clips/stunned.clip" blendtime="0" numframes="73" loop="true" loopbackframe="10">
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/impacts/block_2.mp3"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/block_stunned.effect"/>
+		<frameevent frame="1" cmd="StartEffect /shared/effects/stars.effect" />				
+	</anim>
+
+	<anim name="quick_attack0" clip="clips/atk01.clip" fps="100">
+		<frameevent frame="71" cmd="StartEffect /npcs/goldentroll/effects/quick_attack_1.effect"/>
+		<frameevent frame="45" cmd="PlaySound /npcs/goldentroll/sounds/attack_grunt_1.mp3"/>
+		<frameevent frame="35" cmd="PlaySound /npcs/goldentroll/sounds/attack_1.mp3"/>
+	</anim>
+	<anim name="strong_attack0" clip="clips/atk02.clip" fps="100">
+		<frameevent frame="88" cmd="StartEffect /npcs/goldentroll/effects/quick_attack_1.effect"/>
+		<frameevent frame="1" cmd="PlaySound /npcs/goldentroll/sounds/attack_grunt_2.mp3"/>
+		<frameevent frame="2" cmd="PlaySound /npcs/goldentroll/sounds/twirl.mp3"/>
+		<frameevent frame="62" cmd="PlaySound /npcs/goldentroll/sounds/attack_2.mp3"/>
+	</anim>
+	
+	<anim name="dodge" clip="clips/dodge.clip">
+		<frameevent frame="10" cmd="PlaySound /npcs/goldentroll/sounds/dodge.mp3"/>
+		<frameevent frame="9" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>
+		<frameevent frame="9" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3"/>
+	</anim>
+
+	<anim name="jump" clip="clips/jump.clip" fps="30" loop="true" numframes="50" loopbackframe="15">
+		<startevent cmd="PlaySound /human/units/scout/sounds/jump.mp3 75"/>
+		<frameevent frame="8" cmd="PlaySound /human/units/scout/sounds/move_%.mp3 50 0.5"/>
+	</anim>
+	
+			<anim name="land" clip="clips/idle.clip" blendtime="100" fps="30">
+		<frameevent frame="1" cmd="StartEffect /shared/effects/land.effect"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3 75 0.6"/>
+		<frameevent frame="1" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3 50 0.6"/>
+		<frameevent frame="2" cmd="PlaySound /human/units/scout/sounds/move_%.mp3 50 0.5"/>
+	</anim>
+	
+	
+	<anim name="flinch" clip="clips/flinch.clip">
+		<frameevent frame="1" cmd="PlaySound /npcs/goldentroll/sounds/flinch.mp3"/>
+	</anim>
+	
+	<anim name="shout" clip="clips/shout.clip">
+		<frameevent frame="12"  cmd="StartEffect /npcs/goldentroll/effects/shout.effect"/>
+	</anim>
+	
+	<anim name="run_fwd" clip="clips/run_fwd.clip"  fps="30" loop="true">
+
+		<frameevent frame="20" cmd="StartEffect /shared/effects/footstep_l_small.effect"/>
+		<frameevent frame="20" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>	
+		<frameevent frame="20" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3"/>	
+
+		<frameevent frame="10" cmd="StartEffect /shared/effects/footstep_r_small.effect"/>
+		<frameevent frame="10" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>
+		<frameevent frame="10" cmd="PlaySound /shared/sounds/footsteps/medium_%.mp3"/>
+				
+	</anim>
+
+	<anim name="run_back" clip="clips/run_back.clip" fps="30" loop="true"/>
+
+</model>
+
+

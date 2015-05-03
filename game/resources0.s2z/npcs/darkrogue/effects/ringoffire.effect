@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="engulf">
+	<definitions>
+		<particlesystem name="system0" space="world">
+
+		<light
+			life="1050"
+			
+			startcolor="0 0 0"
+			midcolor="5 2 0"
+			endcolor="0 0 0"
+			falloffstart="30"
+			falloffend="365"
+			position="0 0 20"
+			
+
+			/>
+
+		
+
+			
+
+
+		<simpleemitter
+		
+			spawnrate="1200"
+			
+			count="80"
+			particlelife="1400"			
+			gravity="-2"
+			speed="350"
+			drag=".0517"
+			acceleration="150"
+			position="0 0 0 "
+			material="/shared/effects/materials/fireball_3d.material"
+			offsetsphere="1 1 1"
+			minangle="-90"
+			maxangle="-90"
+			direction="0 0 -1"
+			offsetdirection="0 0 0"
+			offsetradial="0 0 0"
+		>
+
+
+			<particle
+					color=".2 .2 .2"
+
+			
+
+
+					startframe="0"
+					endframe="1"
+					
+
+					minangle="45"
+					maxangle="120"
+
+					minanglespeed="45"
+					maxanglespeed="120"
+
+					startsize="25"
+					midsize="65"
+					endsize="155"
+					midsizepos=".2"
+
+					lockup="false"
+					lockright="false"
+
+					pitch="0"
+					turn="false"
+			/>
+
+		</simpleemitter>
+
+
+			
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->
+

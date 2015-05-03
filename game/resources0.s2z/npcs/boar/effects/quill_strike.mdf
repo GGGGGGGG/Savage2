@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="boar_spine01.max" file="boar_spine.model" type="K2" >
+<anim name="boar_range" clip="boar_spine.clip" fps="25"  />
+</model>

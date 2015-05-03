@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc
+	type="Insect Warrior" 
+	description="Buzz Buzz Buzz - he will p0wn all over you."
+	model="character.mdf"
+	scale="1.0"
+	width="35"
+	height="80" 
+	maxhealth="425" 
+	speed="400" 
+	experiencereward="75" 
+	goldreward="125" 
+	aggroradius="500" 
+	multiaggroproc="0.25" 
+	multiaggroradius="700" 
+	initialjob="guardpos"
+	hitbyrangedeffectpath="/shared/effects/ranged_impact_npc.effect" 
+	hitbymeleeeffectpath="/shared/effects/melee_impact_npc.effect"
+	iconpath="icon.tga"
+	itemdrop="0.0"
+	commanderscale="2.5"
+	commanderportrait="insectwarrior_portrait.tga"
+>
+	<!-- Abilities -->
+	
+	<ability
+		name="Poison Sting"
+		type="impulse"
+		attack="snap"
+		activation="1200"
+		impact="1100"
+		cooldown="25000"
+		range="110"
+		anim="insect_poison"
+		attackheightmin="1"
+		attackheightmax="60"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-30"
+		attackyawmax="30"
+		weight="8"
+	>
+		<effect
+			mindamage="75"
+			maxdamage="87"
+			duration="3500"
+			speedmult="0.75"
+			attackspeedmult="0.65"
+		/>
+	</ability>
+
+	<!-- Melee -->
+	<ability
+		name="Quick Attack"
+		type="impulse"
+		attack="snap"
+		impact="80"
+		activation="250"
+		cooldown="1500"
+		attackheightmin="1"
+		attackheightmax="80"
+		attackwidthmin="-20"
+		attackwidthmax="20"
+		attackyawmin="-10"
+		attackyawmax="50"
+		range="150"
+		weight="20"
+		anim="quick_attack0"
+	>
+		<effect
+			mindamage="35"
+			maxdamage="48"
+			meleeimpact="true"
+		/>
+	</ability>
+	
+	<ability
+		name="Strong Attack"
+		type="impulse"
+		attack="snap"
+		impact="900"
+		activation="1200"
+		cooldown="2500"
+		attackheightmin="1"
+		attackheightmax="120"
+		attackwidthmin="-10"
+		attackwidthmax="10"
+		attackyawmin="-20"
+		attackyawmax="20"
+		range="80"
+		weight="2"
+		anim="strong_attack0"
+	>
+		<effect
+			mindamage="65"
+			maxdamage="82"
+			meleeimpact="true"
+		/>
+	</ability>
+</npc>

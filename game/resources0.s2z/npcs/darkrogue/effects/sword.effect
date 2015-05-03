@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="dark_rogue_sword">
+	<definitions>
+		<particlesystem name="system0" space="world">
+
+		<light
+			bone="_bone_swooshA"
+			color="0.75 0.35 0"
+			position="0 0 50"
+			falloffend="200"
+			life="2000"
+		/>
+
+
+		<twopointemitter
+			bone_a="_bone_swooshA"
+			bone_b="_bone_swooshB"
+			spawnrate="80"
+			life="2000"
+			particlelife="1200"
+			gravity="-1"
+			material="/shared/effects/materials/fireball_3d.material"
+		>
+			<particle 
+			 minangle="0"
+			 maxangle="360"
+			 color=".5 .3 .6"
+			 minanglespeed="-30"			 
+			 maxanglespeed="30"
+			 startframe="0"
+			 endframe="1"
+			 startsize="15"
+			 endsize="25"
+			 startalpha="0"
+			 midalpha="1"
+			 endalpha="0"
+			 midalphapos=".2"	
+			startanchor="1"	
+			endanchor="0" 				 		
+		 />
+		</twopointemitter>
+
+
+		<skeletonemitter
+			spawnrate="150"
+			particlelife="3500"
+			life="2000"
+			gravity="-1.0"
+			speed="20"
+			drag="0.04"
+			acceleration="0.0"		
+	
+			material="/shared/effects/materials/fireball_3d.material"
+			offsetsphere="5 5 5"
+		>
+			<particle minangle="0" maxangle="360" minanglespeed="-30" color="1 1 1" maxanglespeed="30" frame=".5" startsize="2" endsize="0" startalpha="0" midalpha="1" endalpha="0" midalphapos=".2" />
+		</skeletonemitter>
+
+
+		<simpleemitter
+			bone="Bip01 R Foot"
+			spawnrate="300"
+			particlelife="1000"
+			life="2000"
+			gravity="0.0"
+			speed="0"
+			drag="0"
+			acceleration="0.0"
+			position="0 0 0"
+			offsetsphere="10 10 10"
+	
+			material="/shared/effects/materials/fireball_3d.material"
+		>
+			<particle angle="180"   color=".3 .3 .3"  frame=".5" startsize="10" endsize="0" startanchor="0.5" endanchor="0"  />
+		</simpleemitter>
+
+		<simpleemitter
+			bone="Bip01 L Foot"
+			spawnrate="300"
+			particlelife="1000"
+			life="2000"
+			gravity="0.0"
+			speed="0"
+			drag="0"
+			acceleration="0.0"
+			position="0 0 0"
+			offsetsphere="10 10 10"
+
+			material="/shared/effects//materials/fireball_3d.material"
+		>
+			<particle angle="180"   color=".3 .3 .3"  frame=".5" startsize="10" endsize="0" startanchor="0.5" endanchor="0"  />
+		</simpleemitter>
+
+		<simpleemitter
+			bone="Bip01 R Hand"
+			spawnrate="300"
+			particlelife="1000"
+			life="2000"
+			gravity="0.0"
+			speed="0"
+			drag="0"
+			acceleration="0.0"
+			position="0 0 0"
+			offsetsphere="10 10 10"
+
+			material="/shared/effects/materials/fireball_3d.material"
+		>
+			<particle angle="180"   color=".3 .3 .3"  frame=".5" startsize="10" endsize="0" startanchor="0.5" endanchor="0"  />
+		</simpleemitter>
+
+		<simpleemitter
+			bone="Bip01 L Hand"
+			spawnrate="300"
+			life="2000"
+			particlelife="1000"
+			gravity="0.0"
+			speed="0"
+			drag="0"
+			acceleration="0.0"
+			position="0 0 0"
+			offsetsphere="10 10 10"
+
+			material="/shared/effects/materials/fireball_3d.material"
+		>
+			<particle angle="180"   color=".3 .3 .3"  frame=".5" startsize="10" endsize="0" startanchor="0.5" endanchor="0"  />
+		</simpleemitter>
+
+
+			
+		
+		
+		
+		</particlesystem>
+	</definitions>
+	<thread>
+		<spawnparticlesystem instance="instance0" particlesystem="system0" />
+		<waitfordeath instance="instance0" />
+		<!-- <die /> -->
+	</thread>
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->
+

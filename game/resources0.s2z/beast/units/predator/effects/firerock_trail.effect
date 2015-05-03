@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="siege1launch" deferred="true">
+	<definitions>
+
+		<particlesystem name="system0" space="world">
+
+			<sound
+				falloff="150.0" 
+				volume="1.0" 
+				sample="/human/units/steambuchet/sounds/fire_flyby.mp3"
+				soundloop="true"
+				fadein="500"
+				fadeout="100"
+			/>
+
+			<light
+				falloffstart="0"
+				falloffend="550"
+				color="0.5 0.5 2"
+			/>
+
+			<simpleemitter
+				spawnrate="85"
+				minparticlelife="500"
+				maxparticlelife="1200"
+					
+				material="/shared/effects/materials/glow.material"
+				offsetsphere="15 15 5"
+			>
+				<particle 
+					minangle="0"
+					maxangle="360"
+					minanglespeed="-30"
+					startcolor="0 0.1 1"
+					midcolor="0 0 0"
+					endcolor="-1 -1 -1"
+					endcolorpos="2"
+					maxanglespeed="110"
+					startsize="40"
+					minendsize="60"
+					maxendsize="80"
+					startalpha="1"
+					endalpha="0"
+				/>
+
+			</simpleemitter>
+
+			<simpleemitter
+				spawnrate="20"
+				minparticlelife="500"			
+				maxparticlelife="1500"
+				inheritvelocity="0"	
+				material="/shared/effects/materials/flame3.material"
+			>
+				<particle 
+					minangle="0"
+					maxangle="90"
+					maxanglespeed="25"
+					startcolor="0 0.1 1"
+					endcolor="0 0 0"
+					startsize="90"
+					maxendsize="380"
+					startalpha="1"
+					endalpha="0"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				spawnrate="20"
+				minparticlelife="500"			
+				maxparticlelife="1500"
+				inheritvelocity="0"	
+				material="/shared/effects/materials/flame4_add.material"
+			>
+				<particle 
+					minangle="0"
+					maxangle="90"
+					maxanglespeed="25"
+					startcolor="0 0.1 1"
+					endcolor="0 0 0"
+					startsize="90"
+					maxendsize="380"
+					startalpha="1"
+					endalpha="0"
+				/>
+			</simpleemitter>
+
+			<simpleemitter
+				spawnrate="20"
+				particlelife="350"
+				material="/shared/effects/materials/explosion_additive.material"
+				offsetsphere="5 5 5"
+			>
+				<particle 
+					color="0.2 0.2 1"
+					endcolor="0 0 0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					minstartsize="75"
+					maxstartsize="150"
+					maxendsize="50"
+					startalpha="1"
+					endalpha="0"
+				/>
+			</simpleemitter>
+			
+        </particlesystem>
+		
+	</definitions>
+
+	<thread>
+        	<spawnparticlesystem instance="instance0" particlesystem="system0"/>
+      		<waitfordeath instance="instance0"/>
+      		<!-- <die /> -->
+   	</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][position] -->
+
+
+
+
+

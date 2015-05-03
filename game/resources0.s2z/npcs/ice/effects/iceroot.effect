@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effect name="iceroot">
+
+<definitions>
+	<particlesystem name="system0" space="world">
+
+		<light
+			bone="_bone_swoosh_b_r"
+			life="3000"
+			startcolor="0 0 0"
+			midcolor="4 4 4"
+			endcolor="0 0 0"
+			midcolorpos=".5"			
+			falloffend="300"
+			position="20 20 40"						
+			timenudge="-1600"
+		/>		
+
+
+
+<!-- big impact -->
+			<simpleemitter
+				bone="Bip01 R Finger0"
+				spawnrate="200"
+				particlelife="500"
+				count="80"
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"
+				timenudge="-800"
+				position="0 0 0"
+				offsetsphere="0 0 0"			
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="1 1.0 1.0"
+					endcolor="0.0 0.0 0.0"
+					midcolor="0 .4 1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="0"
+
+
+				
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="20.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+
+
+
+			<simpleemitter
+				bone="Bip01 L Finger0"
+				spawnrate="200"
+				particlelife="500"
+				count="80"
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"
+				timenudge="-800"
+				position="0 0 0"
+				offsetsphere="0 0 0"			
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="1 1.0 1.0"
+					endcolor="0.0 0.0 0.0"
+					midcolor="0 .4 1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="0"
+				
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="20.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+
+
+
+			<simpleemitter
+				bone="Bip01 L Finger0"
+				spawnrate="100"
+				particlelife="500"
+				count="50"
+				gravity="0.0"
+				speed="0"
+				acceleration="0.0"
+				timenudge="-800"
+				position="0 0 0"
+				offsetsphere="0 0 0"			
+				material="/shared/effects/materials/flare2.material"
+			>
+				<particle
+					startcolor="1 1.0 1.0"
+					endcolor="0.0 0.0 0.0"
+					midcolor="0 .4 1"
+					midcolorpos="0.5"
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+				
+					startwidth="19.0"
+					endwidth="0"
+					startheight="0.0"
+					endheight="100.0"
+					flare="true"
+					turn="true"
+				/>
+			</simpleemitter>
+
+
+			<simpleemitter
+				bone="Bip01 R Finger0"
+			
+				particlelife="1400"
+				count="2"
+				gravity="0.0"
+				speed="0.0"
+				acceleration="0.0"
+				timenudge="0"
+				position="0 0 0"						
+				material="/shared/effects/materials/flare1.material"
+			>
+				<particle
+					startcolor="0 .4 1"
+					endcolor=".2 .5 2"
+				
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+					startsize="4"
+					endsize="85"
+
+				/>
+			</simpleemitter>
+
+
+
+			<simpleemitter
+				bone="Bip01 L Finger0"
+			
+				particlelife="1400"
+				count="2"
+				gravity="0.0"
+				speed="0.0"
+				acceleration="0.0"
+				timenudge="0"
+				position="0 0 0"						
+				material="/shared/effects/materials/flare1.material"
+			>
+				<particle
+					startcolor="0 .4 1"
+					endcolor=".2 .5 2"
+				
+					startalpha="1.0"
+					endalpha="0.0"
+					minangle="0"
+					maxangle="360"
+					minanglespeed="0"
+					maxanglespeed="0"
+					anchor="1"
+					startsize="4"
+					endsize="85"
+
+				/>
+			</simpleemitter>
+
+	</particlesystem>
+</definitions>
+<thread>
+	<spawnparticlesystem instance="instance0" particlesystem="system0" />
+	<!-- <playsound sound="/human/units/chaplain/sounds/"/> -->
+
+	<waitfordeath instance="instance0" />
+	<!-- <die /> -->
+</thread>
+
+</effect>
+
+<!-- [min|max][start|mid|end]property[speed][pos] -->
+
