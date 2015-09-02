@@ -5,18 +5,18 @@
 	<anim name="idle02" clip="clips/idle02.clip" fps="30" loop="true"/>
 	<anim name="die" clip="clips/death.clip" loop="true" loopbackframe="33"/>
 
-	<anim name="block" clip="clips/block.clip" blendtime="0" loop="true" fps="150" loopbackframe="20"/>
+	<anim name="block_smooth" clip="clips/block.clip" blendtime="0" loop="true" fps="150" loopbackframe="20"/>
 
 	<anim name="stunned" clip="clips/stunned.clip" blendtime="0" numframes="40" loop="true" loopbackframe="3">
 		<frameevent frame="1" cmd="StartEffect /npcs/boar/effects/block_stunned.effect"/>
 		<frameevent frame="1" cmd="StartEffect /npcs/boar/effects/stars.effect"/>	
 	</anim>
 
-	<anim name="quick_attack0" clip="clips/atk01.clip" fps="100">
+	<anim name="quick_attacknew0" clip="clips/atk01.clip" fps="100">
 		<frameevent frame="15" cmd="StartEffect /npcs/boar/effects/quill_strike.effect"/>
 	</anim>
 	
-	<anim name="strong_attack0" clip="clips/atk02.clip" fps="100">
+	<anim name="quick_attacknew1" clip="clips/atk02.clip" fps="100">
 		<frameevent frame="30" cmd="StartEffect /npcs/boar/effects/swoosh.effect"/>
 	</anim>
 	

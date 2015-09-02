@@ -22,9 +22,9 @@
 		<frameevent frame="1" cmd="StartEffect /npcs/EyeBolt/effects/stars.effect" />				
 </anim>
 
-<anim name="block" clip="clips/block.clip" blendtime="0" loop="true" fps="150" loopbackframe="1"/>
+<anim name="block_smooth" clip="clips/block.clip" blendtime="0" loop="true" fps="150" loopbackframe="1"/>
 
-<anim name="quick_attack0" clip="clips/lt_atk.clip" />
+<anim name="quick_attacknew0" clip="clips/lt_atk.clip" />
 	
 	<anim name="jump" clip="clips/jump.clip" fps="30" loop="true" numframes="50" loopbackframe="15"/>
 

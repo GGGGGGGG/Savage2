@@ -22,14 +22,14 @@
 		<frameevent frame="1" cmd="StartEffect /npcs/grandar/effects/stars.effect"/>				
 	</anim>
 
-	<anim name="quick_attack0" clip="clips/melee_quick_1.clip" fps="100">
+	<anim name="quick_attacknew0" clip="clips/melee_quick_1.clip" fps="100">
 		<frameevent frame="18" cmd="StartEffect /npcs/grandar/effects/quick_attack_1.effect"/>
 		<frameevent frame="1" cmd="PlaySound /npcs/grandar/sounds/attack_1.mp3 120"/>
 		<frameevent frame="10" cmd="PlaySound /npcs/grandar/sounds/quick_attack_%.mp3 120"/>
 		<frameevent frame="3" cmd="PlaySound /beast/units/predator/sounds/move_%.mp3 75 1 1"/>
 	</anim>
 
-	<anim name="strong_attack0" clip="clips/melee_strong_1.clip" fps="100">
+	<anim name="quick_attacknew1" clip="clips/melee_strong_1.clip" fps="100">
 		<frameevent frame="78" cmd="StartEffect /npcs/grandar/effects/quick_attack_1.effect"/>
 		<frameevent frame="65" cmd="PlaySound /npcs/grandar/sounds/attack_2.mp3 120"/>
 		<frameevent frame="2" cmd="PlaySound /npcs/grandar/sounds/strong_attack.mp3 120"/>

@@ -32,12 +32,12 @@
 		<frameevent frame="1" cmd="StartEffect /shared/effects/stars.effect"/>				
 	</anim>
 
-	<anim name="quick_attack0" clip="clips/light_attack.clip" fps="100">
+	<anim name="quick_attacknew0" clip="clips/light_attack.clip" fps="100">
 		<frameevent frame="100" cmd="StartEffect /npcs/DarkRogue/effects/quick_attack_1.effect"/>
 		<frameevent frame="4" cmd="PlaySound /npcs/DarkRogue/sounds/attack_1.mp3 120"/>
 	</anim>
 	
-	<anim name="strong_attack0" clip="clips/str_atk.clip" fps="100">
+	<anim name="quick_attacknew1" clip="clips/str_atk.clip" fps="100">
 		<frameevent frame="77" cmd="StartEffect /npcs/DarkRogue/effects/strong_attack_1.effect"/>
 		<frameevent frame="30" cmd="PlaySound /npcs/DarkRogue/sounds/attack_2.mp3 120"/>
 	</anim>

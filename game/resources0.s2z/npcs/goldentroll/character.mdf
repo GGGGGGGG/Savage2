@@ -11,7 +11,7 @@
 		<frameevent frame="33" cmd="PlaySound /shared/sounds/footsteps/#GetTerrainType()#_%.mp3"/>
 	</anim>
 
-	<anim name="block" clip="clips/block.clip"/> 
+	<anim name="block_smooth" clip="clips/block.clip"/> 
 
 	<anim name="stunned" clip="clips/stunned.clip" blendtime="0" numframes="73" loop="true" loopbackframe="10">
 		<frameevent frame="1" cmd="PlaySound /shared/sounds/impacts/block_2.mp3"/>
@@ -19,12 +19,12 @@
 		<frameevent frame="1" cmd="StartEffect /shared/effects/stars.effect" />				
 	</anim>
 
-	<anim name="quick_attack0" clip="clips/atk01.clip" fps="100">
+	<anim name="quick_attacknew0" clip="clips/atk01.clip" fps="100">
 		<frameevent frame="71" cmd="StartEffect /npcs/goldentroll/effects/quick_attack_1.effect"/>
 		<frameevent frame="45" cmd="PlaySound /npcs/goldentroll/sounds/attack_grunt_1.mp3"/>
 		<frameevent frame="35" cmd="PlaySound /npcs/goldentroll/sounds/attack_1.mp3"/>
 	</anim>
-	<anim name="strong_attack0" clip="clips/atk02.clip" fps="100">
+	<anim name="quick_attacknew1" clip="clips/atk02.clip" fps="100">
 		<frameevent frame="88" cmd="StartEffect /npcs/goldentroll/effects/quick_attack_1.effect"/>
 		<frameevent frame="1" cmd="PlaySound /npcs/goldentroll/sounds/attack_grunt_2.mp3"/>
 		<frameevent frame="2" cmd="PlaySound /npcs/goldentroll/sounds/twirl.mp3"/>

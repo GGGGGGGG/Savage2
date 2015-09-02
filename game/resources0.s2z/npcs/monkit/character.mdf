@@ -13,7 +13,7 @@
 		<frameevent frame="5" cmd="PlaySound /human/units/scout/sounds/attack_1.mp3 80 1"/>
 	</anim>
 
-	<anim name="melee" clip="clips/melee.clip">
+	<anim name="quick_attacknew0" clip="clips/melee.clip">
 		<startevent cmd="StopSound 0"/>
 		<startevent cmd="StopSound 1"/>
 		<frameevent frame="1" cmd="PlaySound /npcs/monkit/sounds/attack_2.mp3 80 1"/>
