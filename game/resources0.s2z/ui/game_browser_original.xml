@@ -1237,7 +1237,7 @@
 					<label x="1.0h" height="3.0h" textvalign="center" font="dyn_14" color="white" shadow="true">Chat</label>
 					
 					<panel height="9.5h" width="-22h" align="right" x="-1h" color="invisible">
-						<label textalign="right" height="3h" textvalign="center" font="dyn_12" color="white" shadow="true">Visit our website! - ^yhttp://www.savage2.com</label>
+						<label textalign="right" height="3h" textvalign="center" font="dyn_12" color="white" shadow="true">Visit our website! - ^yhttp://www.savage2.net</label>
 					</panel>
 					
 					
@@ -1846,7 +1846,7 @@
             </panel>	
             <panel width="-120" height="-26" align="right" valign="bottom" color="invisible">
               <label y="20" height="20" font="chat_16" wrap="true" color="white" shadow="true" onshow="SetText('You have %pitem_unclaimed% unclaimed ticket'#If(pitem_unclaimed gt 1,'s!','!'));"/>
-              <label y="46" height="20" font="chat_12" wrap="true" color="white" shadow="true">Login at www.savage2.com to claim</label>
+              <label y="46" height="20" font="chat_12" wrap="true" color="white" shadow="true">Login at www.savage2.net to claim</label>
               <label y="60" height="20" font="chat_12" wrap="true" color="white" shadow="true">persistant items for your vault!</label>
             </panel>	
             <image x="-8" y="5"  width="15" height="15" align="right" texture="/ui/elements/tip_button.tga" color="#FFFFFF99" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('browser_unclaimed_notification'); HideWidget('browser_unclaimed');"/>
@@ -1863,7 +1863,7 @@
             </panel>	
             <panel width="-120" height="-26" align="right" valign="bottom" color="invisible">
               <label y="20" height="20" font="chat_16" wrap="true" color="white" shadow="true" onshow="SetText('You have %pitem_unclaimed% unclaimed ticket'#If(pitem_unclaimed gt 1,'s!','!'));"/>
-              <label y="46" height="20" font="chat_12" wrap="true" color="white" shadow="true">Login at www.savage2.com to claim</label>
+              <label y="46" height="20" font="chat_12" wrap="true" color="white" shadow="true">Login at www.savage2.net to claim</label>
               <label y="60" height="20" font="chat_12" wrap="true" color="white" shadow="true">persistant items for your vault!</label>
             </panel>	
             <image x="-8" y="5"  width="15" height="15" align="right" texture="/ui/elements/tip_button.tga" color="#FFFFFF99" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('browser_unclaimed_notification'); HideWidget('browser_unclaimed');"/>
@@ -1880,7 +1880,7 @@
             </panel>	
             <panel width="-120" height="-26" align="right" valign="bottom" color="invisible">
               <label y="20" height="20" font="chat_16" wrap="true" color="white" shadow="true" onshow="SetText('You have %pitem_unclaimed% unclaimed ticket'#If(pitem_unclaimed gt 1,'s!','!'));"/>
-              <label y="46" height="20" font="chat_12" wrap="true" color="white" shadow="true">Login at www.savage2.com to claim</label>
+              <label y="46" height="20" font="chat_12" wrap="true" color="white" shadow="true">Login at www.savage2.net to claim</label>
               <label y="60" height="20" font="chat_12" wrap="true" color="white" shadow="true">persistant items for your vault!</label>
             </panel>	
             <image x="-8" y="5"  width="15" height="15" align="right" texture="/ui/elements/tip_button.tga" color="#FFFFFF99" onclick="PlaySound('/shared/sounds/ui/button_close.mp3'); HideWidget('browser_unclaimed_notification'); HideWidget('browser_unclaimed');"/>
