@@ -325,7 +325,7 @@
 				<frame style="vist_frame_2"  texture="/ui/frames/roundframe.tga" borderthickness="8"/>
 
 				<label y="3"  height="20"  width="100%" textalign="center" textvalign="center" align="center" font="chat_12" color="yellow" shadow="true">See how you match up with the rest of the Savage community!</label>
-				<label y="-5"  height="20"  width="100%" textalign="center" textvalign="center" valign="bottom" align="center" font="chat_12" color="white" shadow="true">Visit ^090savage2.s2games.com/player_ladder.php^* for player ladder.</label>
+				<label y="-5"  height="20"  width="100%" textalign="center" textvalign="center" valign="bottom" align="center" font="chat_12" color="white" shadow="true">Visit ^090savage2.net^* for player ladder.</label>
 			</panel>
 
 			<!-- Timer -->
@@ -342,7 +342,7 @@
 				<frame style="vist_frame_2"  texture="/ui/frames/roundframe.tga" borderthickness="8"/>		
 
 				<label y="3"  height="20"  width="100%" textalign="center" textvalign="center" align="center" font="chat_12" color="yellow" shadow="true">Check out the replay from every game EVER played!</label>
-				<label y="-5"  height="20"  width="100%" textalign="center" textvalign="center" valign="bottom" align="center" font="chat_12" color="white" shadow="true">Visit ^090savage2replays.com^* to download this or any other replays.</label>
+				<label y="-5"  height="20"  width="100%" textalign="center" textvalign="center" valign="bottom" align="center" font="chat_12" color="white" shadow="true">Visit ^090savage2.net^* to download this or any other replays.</label>
 			</panel>	
 		</frame>
 
