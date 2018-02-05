@@ -24,3 +24,4 @@ masterserver1.talesofnewerth.com/friend_info.php
 /client/
 cgame.dll : change clan string (http://www.savage2clans.com/pubsite/clan_img/)
 savage2.exe : change execution level (test)
+game.dll : masterserver.savage2.s2games.com
